@@ -1,0 +1,85 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Project specific
+*.log
+output.txt
+*.tmp
+*.temp
+
+# Data files (keep structure but ignore large files)
+*.tsv
+!tests/fixtures/*.tsv
+*.csv
+!tests/fixtures/*.csv
+*.ser
+
+# Output files
+clause_mates_*.csv
+clause_mates_*.json
+clause_mates_*.md
+
+# Screenshots
+*.png
+*.jpg
+*.jpeg
+
+# Archive directories  
+old/
+phase1_archive/
+backup/
+
+# Test coverage
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+
+# Documentation builds
+docs/_build/
