@@ -7,8 +7,14 @@ operations, ensuring consistent behavior and easy extensibility.
 
 from abc import ABC, abstractmethod
 from typing import List, Dict, Iterator, Optional, Set, Any
-from ..data.models import (
-    Token, SentenceContext, CoreferenceChain, 
+import sys
+from pathlib import Path
+
+# Add the parent directory to the path to import from root
+sys.path.append(str(Path(__file__).parent.parent.parent))
+
+from src.data.models import (
+    Token, SentenceContext, CoreferenceChain, CoreferencePhrase,
     ClauseMateRelationship, ExtractionResult
 )
 
@@ -239,5 +245,107 @@ class BaseFeatureExtractor(BaseExtractor):
         
         Returns:
             Set of feature names this extractor supports
+        """
+        pass
+
+
+class BasePhraseExtractor(BaseExtractor):
+    """
+    Abstract base class for phrase extraction.
+    
+    Handles grouping of tokens into coreference phrases
+    based on entity IDs and linguistic patterns.
+    """
+    
+    @abstractmethod
+    def extract_phrases(self, context: SentenceContext) -> List[CoreferencePhrase]:
+        """
+        Extract all coreference phrases from a sentence context.
+        
+        Args:
+            context: The sentence context to analyze
+            
+        Returns:
+            List of identified coreference phrases
+        """
+        pass
+    
+    @abstractmethod
+    def group_tokens_by_entity(self, tokens: List[Token]) -> Dict[str, List[Token]]:
+        """
+        Group tokens by their entity ID.
+        
+        Args:
+            tokens: List of tokens to group
+            
+        Returns:
+            Dictionary mapping entity IDs to token lists
+        """
+        pass
+    
+    @abstractmethod
+    def is_phrase_boundary(self, token1: Token, token2: Token) -> bool:
+        """
+        Check if there's a phrase boundary between two tokens.
+        
+        Args:
+            token1: First token
+            token2: Second token
+            
+        Returns:
+            True if there's a boundary between the tokens
+        """
+        pass
+
+
+class BaseRelationshipExtractor(BaseExtractor):
+    """
+    Abstract base class for relationship extraction.
+    
+    Handles identification of clause mate relationships between
+    critical pronouns and their clause mates within sentences.
+    """
+    
+    @abstractmethod
+    def extract_relationships(self, context: SentenceContext) -> List[ClauseMateRelationship]:
+        """
+        Extract all clause mate relationships from a sentence context.
+        
+        Args:
+            context: The sentence context to analyze
+            
+        Returns:
+            List of clause mate relationships
+        """
+        pass
+    
+    @abstractmethod
+    def find_clause_mates(
+        self, 
+        pronoun: Token, 
+        context: SentenceContext
+    ) -> List[CoreferencePhrase]:
+        """
+        Find all clause mates for a given pronoun in a sentence.
+        
+        Args:
+            pronoun: The pronoun to find clause mates for
+            context: The sentence context
+            
+        Returns:
+            List of clause mate phrases
+        """
+        pass
+    
+    @abstractmethod
+    def validate_relationship(self, relationship: ClauseMateRelationship) -> bool:
+        """
+        Validate that a relationship is well-formed.
+        
+        Args:
+            relationship: The relationship to validate
+            
+        Returns:
+            True if the relationship is valid
         """
         pass

@@ -8,16 +8,17 @@ from parsed linguistic data, following the patterns established in the original 
 import re
 from typing import List, Set, Optional, Dict
 from collections import defaultdict
+import sys
+from pathlib import Path
 
-from .base import BaseCoreferenceExtractor
-from ..data.models import (
+# Add the parent directory to the path to import from root
+sys.path.append(str(Path(__file__).parent.parent.parent))
+
+from src.extractors.base import BaseCoreferenceExtractor
+from src.data.models import (
     Token, SentenceContext, CoreferenceChain, 
     ExtractionResult, AnimacyType
 )
-
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).parent.parent.parent))
 from config import PronounSets
 
 

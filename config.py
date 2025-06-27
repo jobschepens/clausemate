@@ -19,6 +19,10 @@ class TSVColumns:
     INANIMATE_COREFERENCE_TYPE = 13
 
 
+# Alias for backwards compatibility
+ColumnIndices = TSVColumns
+
+
 class Constants:
     """Application constants."""
     MISSING_VALUE = '_'

@@ -7,7 +7,13 @@ between different parts of the parsing system.
 
 from abc import ABC, abstractmethod
 from typing import Iterator, Dict, List, Any
-from ..data.models import Token, SentenceContext
+import sys
+from pathlib import Path
+
+# Add the parent directory to the path to import from root
+sys.path.append(str(Path(__file__).parent.parent.parent))
+
+from src.data.models import Token, SentenceContext
 
 
 class BaseParser(ABC):

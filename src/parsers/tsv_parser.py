@@ -8,15 +8,13 @@ specifically for parsing TSV files with linguistic annotations.
 import csv
 from typing import Dict, List, Iterator
 from pathlib import Path
-
-from .base import BaseParser, BaseTokenProcessor
-from ..data.models import Token, SentenceContext
 import sys
-from pathlib import Path
 
 # Add the parent directory to the path to import from root
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
+from src.parsers.base import BaseParser, BaseTokenProcessor
+from src.data.models import Token, SentenceContext
 from exceptions import FileProcessingError, ParseError
 
 
@@ -39,7 +37,6 @@ class TSVParser(BaseParser):
         self._expected_columns = 14  # Updated based on actual TSV structure
         
         # Import column mappings from config
-        sys.path.append(str(Path(__file__).parent.parent.parent))
         from config import TSVColumns
         self.columns = TSVColumns()
     
@@ -88,7 +85,6 @@ class TSVParser(BaseParser):
         """
         current_tokens = []
         current_sentence_id = None
-        current_sentence_num = None
         
         try:
             with open(file_path, 'r', encoding='utf-8') as file:
@@ -107,14 +103,12 @@ class TSVParser(BaseParser):
                             if current_tokens and current_sentence_id:
                                 yield self._create_sentence_context(
                                     current_sentence_id, 
-                                    current_sentence_num or 1, 
                                     current_tokens
                                 )
                             
                             # Start new sentence
                             current_tokens = []
                             current_sentence_id = self._extract_sentence_id(line_text)
-                            current_sentence_num = self._extract_sentence_num(line_text)
                             continue
                         
                         # Parse token line
@@ -141,7 +135,6 @@ class TSVParser(BaseParser):
                 if current_tokens and current_sentence_id:
                     yield self._create_sentence_context(
                         current_sentence_id, 
-                        current_sentence_num or 1, 
                         current_tokens
                     )
                     
@@ -174,7 +167,17 @@ class TSVParser(BaseParser):
                 raise ParseError(f"Insufficient columns: expected {self._expected_columns}, got {len(parts)}")
             
             # Extract token information using correct column indices
-            idx = int(parts[self.columns.TOKEN_ID])
+            token_id_str = parts[self.columns.TOKEN_ID]
+            # Parse token ID format "sentence-token" (e.g., "1-1", "2-5")
+            if '-' in token_id_str:
+                sentence_part, token_part = token_id_str.split('-', 1)
+                idx = int(token_part)
+                sentence_from_id = int(sentence_part)
+            else:
+                # Fallback for simple numeric IDs
+                idx = int(token_id_str)
+                sentence_from_id = 1
+                
             text = parts[self.columns.TOKEN_TEXT]
             grammatical_role = parts[self.columns.GRAMMATICAL_ROLE] if len(parts) > self.columns.GRAMMATICAL_ROLE else ""
             thematic_role = parts[self.columns.THEMATIC_ROLE] if len(parts) > self.columns.THEMATIC_ROLE else ""
@@ -200,7 +203,7 @@ class TSVParser(BaseParser):
             return Token(
                 idx=idx,
                 text=text,
-                sentence_num=1,  # Temporary value, will be updated in context
+                sentence_num=sentence_from_id,  # Use actual sentence number from token ID
                 grammatical_role=grammatical_role,
                 thematic_role=thematic_role,
                 coreference_link=coreference_link,
@@ -226,6 +229,7 @@ class TSVParser(BaseParser):
         
         # Check for sentence markers (from original script patterns)
         return bool(
+            line.startswith('#Text=') or
             line.startswith('#') or
             line.startswith('# sent_id') or
             'sent_id' in line or
@@ -236,6 +240,14 @@ class TSVParser(BaseParser):
         """Extract sentence ID from a sentence boundary line."""
         line = line.strip()
         
+        # Handle #Text= format
+        if line.startswith('#Text='):
+            # Use the text content as sentence ID, but clean it up
+            text_content = line[6:].strip()  # Remove "#Text="
+            # Create a simple ID from the content (first few words)
+            words = text_content.split()[:3]  # First 3 words
+            return '_'.join(words).replace(',', '').replace('.', '')
+        
         # Handle different sentence ID formats
         if 'sent_id' in line:
             parts = line.split('=')
@@ -243,10 +255,14 @@ class TSVParser(BaseParser):
                 return parts[1].strip()
         
         # Fallback: use the entire line as ID (cleaned)
-        return line.replace('#', '').strip()
+        return line.replace('#', '').strip()[:50]  # Limit length
     
     def _extract_sentence_num(self, line: str) -> int:
         """Extract sentence number from sentence ID."""
+        # For this format, we'll track sentences sequentially
+        # This is a simple approach - we could make it more sophisticated
+        
+        # Try to extract from the sentence content or use a counter
         sentence_id = self._extract_sentence_id(line)
         
         # Try to extract number from various formats
@@ -255,17 +271,19 @@ class TSVParser(BaseParser):
         if match:
             return int(match.group(1))
         
-        # Fallback: return 1 if no number found
-        return 1
+        # Fallback: use a hash-based approach for consistency
+        return hash(sentence_id) % 10000  # Keep it reasonable
     
     def _create_sentence_context(
         self, 
         sentence_id: str, 
-        sentence_num: int, 
         tokens: List[Token]
     ) -> SentenceContext:
         """Create a SentenceContext with enriched tokens."""
-        # Update sentence numbers in tokens
+        # The sentence number is determined by the first token.
+        sentence_num = tokens[0].sentence_num if tokens else 1
+        
+        # Update sentence numbers in all tokens to be consistent.
         for token in tokens:
             token.sentence_num = sentence_num
         

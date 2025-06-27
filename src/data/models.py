@@ -6,7 +6,7 @@ replacing dictionaries with typed dataclasses for better maintainability and saf
 """
 
 from dataclasses import dataclass
-from typing import Optional, List, Set, Dict, Any
+from typing import Optional, List, Set, Dict, Any, Union
 from enum import Enum
 
 
@@ -35,6 +35,11 @@ class Token:
     inanimate_coreference_type: Optional[str] = None
     is_critical_pronoun: bool = False
     
+    # Additional fields for phrase extraction
+    entity_id: Optional[str] = None
+    token_position: int = 0
+    columns: Optional[List[str]] = None
+    
     def __post_init__(self) -> None:
         """Validate token data after initialization."""
         if self.idx < 1:
@@ -43,6 +48,10 @@ class Token:
             raise ValueError("Sentence number cannot be negative")
         if not self.text.strip():
             raise ValueError("Token text cannot be empty")
+        
+        # Initialize columns if not provided
+        if self.columns is None:
+            self.columns = []
 
 
 @dataclass
@@ -97,6 +106,54 @@ class Phrase:
     def length(self) -> int:
         """Return the length of the phrase in tokens."""
         return self.end_idx - self.start_idx + 1
+
+
+@dataclass
+class CoreferencePhrase:
+    """
+    Represents a coreference phrase extracted from tokens with the same entity ID.
+    
+    This class groups tokens that belong to the same coreference entity,
+    supporting the phrase extraction pipeline.
+    """
+    entity_id: str
+    tokens: List[Token]
+    phrase_text: str
+    start_position: int
+    end_position: int
+    sentence_id: str
+    
+    def __post_init__(self) -> None:
+        """Validate phrase data."""
+        if not self.entity_id:
+            raise ValueError("Entity ID cannot be empty")
+        if not self.tokens:
+            raise ValueError("Phrase must have at least one token")
+        if self.start_position > self.end_position:
+            raise ValueError("Start position cannot be greater than end position")
+        if not self.sentence_id:
+            raise ValueError("Sentence ID cannot be empty")
+    
+    @property
+    def length(self) -> int:
+        """Return the number of tokens in this phrase."""
+        return len(self.tokens)
+    
+    @property
+    def is_multi_token(self) -> bool:
+        """Check if this phrase contains multiple tokens."""
+        return len(self.tokens) > 1
+    
+    def get_head_token(self) -> Token:
+        """
+        Get the head token of the phrase.
+        
+        For now, returns the first token. This could be enhanced
+        with linguistic analysis to find the actual head.
+        """
+        if not self.tokens:
+            raise ValueError("Cannot get head of empty phrase")
+        return self.tokens[0]
 
 
 @dataclass
@@ -209,7 +266,7 @@ class SentenceContext:
     sentence_num: int
     tokens: List[Token]
     critical_pronouns: List[Token]
-    coreference_phrases: List[Phrase]
+    coreference_phrases: List[CoreferencePhrase]
     
     def __post_init__(self) -> None:
         """Validate sentence context."""
@@ -268,7 +325,7 @@ class ExtractionResult:
     Provides a structured way to return multiple types of extracted information.
     """
     pronouns: List[Token]
-    phrases: List[Phrase]
+    phrases: Union[List[Phrase], List[CoreferencePhrase]]
     relationships: List[ClauseMateRelationship]
     coreference_chains: List[CoreferenceChain]
     features: Dict[str, Any]

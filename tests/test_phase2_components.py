@@ -32,10 +32,10 @@ class TestModularComponents(unittest.TestCase):
         
         # Create a simple test TSV content
         self.test_tsv_content = """# sent_id = test-sentence-1
-1	Er	_	_	_	_	_	_	_	_	PersPron[1]	_	_	_	_
-2	sieht	_	_	_	_	_	_	_	_	_	_	_	_	_
-3	das	_	_	_	_	_	_	_	_	D-Pron[2]	_	_	_	_
-4	Auto	_	_	_	_	_	_	_	_	_	_	_	_	_
+1	_	Er	_	SUBJ	AGENT	_	_	_	_	*->1-1	PersPron[1]	_	_	_
+2	_	sieht	_	_	_	_	_	_	_	_	_	_	_	_
+3	_	das	_	_	_	_	_	_	_	*->2-1	D-Pron[2]	_	_	_
+4	_	Auto	_	_	_	_	_	_	_	_	_	_	_	_
 
 # sent_id = test-sentence-2
 1	Es	_	_	_	_	_	_	_	_	PersPron[2]	_	_	_	_
@@ -71,16 +71,15 @@ class TestModularComponents(unittest.TestCase):
         
         self.assertTrue(self.token_processor.validate_token(valid_token))
         
-        # Invalid token (empty text)
-        invalid_token = Token(
-            idx=1,
-            text="",
-            sentence_num=1,
-            grammatical_role="SUBJ",
-            thematic_role="AGENT"
-        )
-        
-        self.assertFalse(self.token_processor.validate_token(invalid_token))
+        # Invalid token (empty text) - should raise ValueError during creation
+        with self.assertRaises(ValueError):
+            invalid_token = Token(
+                idx=1,
+                text="",
+                sentence_num=1,
+                grammatical_role="SUBJ",
+                thematic_role="AGENT"
+            )
     
     def test_sentence_boundary_detection(self):
         """Test sentence boundary detection."""

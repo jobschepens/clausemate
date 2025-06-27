@@ -10,9 +10,26 @@ from pathlib import Path
 from typing import List, Dict, Any, Optional
 
 # Import from the modular components
-from .parsers.tsv_parser import TSVParser, DefaultTokenProcessor
-from .extractors.coreference_extractor import CoreferenceExtractor
-from .data.models import ClauseMateRelationship, SentenceContext
+try:
+    # Try relative imports first (when run as module)
+    from .parsers.tsv_parser import TSVParser, DefaultTokenProcessor
+    from .extractors.coreference_extractor import CoreferenceExtractor
+    from .extractors.pronoun_extractor import PronounExtractor
+    from .extractors.phrase_extractor import PhraseExtractor
+    from .extractors.relationship_extractor import RelationshipExtractor
+    from .data.models import ClauseMateRelationship, SentenceContext
+except ImportError:
+    # Fall back to absolute imports (when run directly)
+    import sys
+    from pathlib import Path
+    sys.path.append(str(Path(__file__).parent.parent))
+    
+    from src.parsers.tsv_parser import TSVParser, DefaultTokenProcessor
+    from src.extractors.coreference_extractor import CoreferenceExtractor
+    from src.extractors.pronoun_extractor import PronounExtractor
+    from src.extractors.phrase_extractor import PhraseExtractor
+    from src.extractors.relationship_extractor import RelationshipExtractor
+    from src.data.models import ClauseMateRelationship, SentenceContext
 
 # Import from root directory modules
 import sys
@@ -49,6 +66,9 @@ class ClauseMateAnalyzer:
         self.token_processor = DefaultTokenProcessor()
         self.parser = TSVParser(self.token_processor)
         self.coreference_extractor = CoreferenceExtractor()
+        self.pronoun_extractor = PronounExtractor()
+        self.phrase_extractor = PhraseExtractor()
+        self.relationship_extractor = RelationshipExtractor()
         
         self.enable_streaming = enable_streaming
         
@@ -57,7 +77,9 @@ class ClauseMateAnalyzer:
             'sentences_processed': 0,
             'tokens_processed': 0,
             'relationships_found': 0,
-            'coreference_chains_found': 0
+            'coreference_chains_found': 0,
+            'critical_pronouns_found': 0,
+            'phrases_found': 0
         }
     
     def analyze_file(self, file_path: str) -> List[ClauseMateRelationship]:
@@ -117,9 +139,31 @@ class ClauseMateAnalyzer:
         all_chains = self.coreference_extractor.extract_coreference_chains(contexts)
         self.stats['coreference_chains_found'] = len(all_chains)
         
-        # For now, return empty relationships (will be implemented in next components)
-        relationships = []
-        self.stats['relationships_found'] = len(relationships)
+        # Extract pronouns and phrases for each context
+        total_pronouns = 0
+        total_phrases = 0
+        all_relationships = []
+        
+        for context in contexts:
+            # Extract pronouns
+            pronoun_result = self.pronoun_extractor.extract(context)
+            total_pronouns += len(pronoun_result.pronouns)
+            
+            # Extract phrases
+            phrase_result = self.phrase_extractor.extract(context)
+            total_phrases += len(phrase_result.phrases)
+            
+            # Extract relationships
+            if context.has_critical_pronouns and context.has_coreference_phrases:
+                relationship_result = self.relationship_extractor.extract(context)
+                all_relationships.extend(relationship_result.relationships)
+            
+        self.stats['critical_pronouns_found'] = total_pronouns
+        self.stats['phrases_found'] = total_phrases
+        self.stats['relationships_found'] = len(all_relationships)
+        
+        # Return the relationships we found
+        relationships = all_relationships
         
         self.logger.info(f"Analysis complete. Statistics: {self.stats}")
         return relationships
