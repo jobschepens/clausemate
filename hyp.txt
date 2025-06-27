@@ -1,0 +1,21 @@
+preliminary hypothesis thematic role:
+personal pronouns and demonstrative pronouns might be affected by thematic role prominence relations inside the clause, but in different ways. Since personal pronouns usually signal rather high prominence, personal pronouns might appear more often in clauses with referential competitors in less prominent thematic roles, whereas it is the other way around for the less prominent demonstratives.
+
+predictions:
+- personal pronouns might appear more often in clauses with clause mates having the thematic roles of patient and recipient than in clauses with clause mates having the thematic role of agents
+- demonstrative pronouns might appear more often in clauses with clause mates having the thematic role of an agent than in clauses with clause mates having the thematic roles of patients and recipients
+
+preliminary hypothesis grammatical role:
+personal pronouns and demonstrative pronouns might be affected by grammatical prominence relations inside the clause, but in different ways. Since personal pronouns usually signal rather high prominence, personal pronouns might appear more often in clauses with referential competitors in less prominent grammatical roles, whereas it is the other way around for the less prominent demonstratives.
+
+predictions:
+- personal pronouns might appear more often in clauses with clause mates having the grammatical role of direct or indirect objects than in clauses with clause mates functioning as subjects
+- demonstrative pronouns might appear more often in clauses with clause mates having the grammatical role of subjects than in clauses with clause mates functioning as direct or indirect objects
+
+preliminary hypothesis linguistic form:
+The form of referential expressions can signal the relative prominence relations between the referential expressions inside the sentences and it can be used for disambiguation and text structuring. Thus, we expect the linguistic form of the clause mates to have an effect on the referential form of personal and demonstrative pronouns in terms of prominence management and disambiguation.
+
+predictions:
+- in sentences containing demonstrative pronouns as clause mates, it is more likely that the critical pronoun will be a personal pronoun than another demonstrative pronoun
+- in sentences containing personal pronouns as clause mates, it is more likely that the critical pronoun will be a demonstrative pronoun than another personal pronoun
+- in sentences containing referential expressions with a lower form prominence like full DPs, personal pronouns might appear more often than demonstrative pronouns 

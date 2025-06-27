@@ -1,0 +1,31 @@
+notes:
+
+# 1 double rows??
+
+sentence_id,pronoun_text,pronoun_token_idx,pronoun_grammatical_role,pronoun_thematic_role,pronoun_coref_ids,clause_mate_text,clause_mate_coref_id,clause_mate_start_idx,clause_mate_end_idx,clause_mate_grammatical_role,clause_mate_thematic_role,clause_mate_coreference_type,pronoun_coreference_link,pronoun_coreference_type,pronoun_inanimate_coreference_link,pronoun_inanimate_coreference_type
+sent_11,er,2,Subj,Proto-Ag,['127-9'],Amerikaner,110-2,23,23,dirObj[8]|Oblique[10],Proto-Pat[8]|[10],defNP[110],->127-9,PersPron[127],,
+sent_11,er,2,Subj,Proto-Ag,['127-9'],Amerikaner,172-1,23,23,dirObj[8]|Oblique[10],Proto-Pat[8]|[10],defNP[172],->127-9,PersPron[127],,
+
+comes from
+
+11-23 845-855 Amerikaner _ dirObj[8]|Oblique[10] Proto-Pat[8]|*[10] _ _ _ *[263] *->110-2 defNP[110] *->172-1 defNP[172] _
+
+## explanation of why there are two rows in the export
+
+The token "Amerikaner" (at position 11-23) has two different coreference annotations:
+
+Animate coreference: *->110-2 with type defNP[110] (column 10-11)
+Inanimate coreference: *->172-1 with type defNP[172] (column 12-13)
+This means "Amerikaner" is part of two different coreference chains simultaneously:
+
+Chain 110-2 (animate)
+Chain 172-1 (inanimate)
+The script processes each coreference annotation separately, so it creates one relationship for each coreference chain that "Amerikaner" participates in. That's why you see:
+
+Row 1: Pronoun "er" (127-9) → Clause mate "Amerikaner" (110-2) Row 2: Pronoun "er" (127-9) → Clause mate "Amerikaner" (172-1)
+
+This is actually correct behavior because "Amerikaner" could be referring to different entities or concepts in these two chains:
+
+One chain might refer to the Americans as people (animate - chain 110)
+Another chain might refer to the Americans as a concept or group (inanimate - chain 172)
+Both are valid clause mate relationships for the pronoun "er", which is why both appear in the export. Each row represents a distinct coreference relationship between the pronoun and the clause mate.
