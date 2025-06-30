@@ -116,25 +116,17 @@ class ClauseMateAnalyzer:
         self.logger.info("Using complete file analysis (prioritizing maintainability)")
         
         # Parse all sentences
-        sentences = self.parser.parse_file(file_path)
-        self.stats['sentences_processed'] = len(sentences)
+        contexts = list(self.parser.parse_sentence_streaming(file_path))
+        self.stats['sentences_processed'] = len(contexts)
+        self.stats['tokens_processed'] = sum(len(ctx.tokens) for ctx in contexts)
         
         # Create sentence contexts
-        contexts = []
-        for sentence_id, tokens in sentences.items():
+        for context in contexts:
             # Extract sentence number from ID
-            sentence_num = self._extract_sentence_number(sentence_id)
+            sentence_num = self._extract_sentence_number(context.sentence_id)
             
-            context = SentenceContext(
-                sentence_id=sentence_id,
-                sentence_num=sentence_num,
-                tokens=tokens,
-                critical_pronouns=[],  # Will be populated
-                coreference_phrases=[]  # Will be populated
-            )
-            contexts.append(context)
-            self.stats['tokens_processed'] += len(tokens)
-        
+            context.sentence_num = sentence_num
+            
         # Extract coreference information
         all_chains = self.coreference_extractor.extract_coreference_chains(contexts)
         self.stats['coreference_chains_found'] = len(all_chains)

@@ -119,7 +119,8 @@ class RelationshipExtractor(BaseRelationshipExtractor):
                     pronoun=pronoun,
                     clause_mate=phrase,
                     num_clause_mates=num_clause_mates,
-                    antecedent_info=antecedent_info
+                    antecedent_info=antecedent_info,
+                    first_words=getattr(context, 'first_words', "")
                 )
                 
                 relationships.append(relationship)

@@ -84,60 +84,81 @@ class TSVParser(BaseParser):
             ParseError: If file format is invalid
         """
         current_tokens = []
+        current_first_words = None
+        current_sentence_num = None
         current_sentence_id = None
+        pending_first_words = None
+        seen_first_text = False  # Track if we've seen a #Text= line yet
+        first_token_texts = []  # Collect first three token texts if needed
         
         try:
             with open(file_path, 'r', encoding='utf-8') as file:
                 reader = csv.reader(file, delimiter='\t')
-                
                 for line_num, row in enumerate(reader, 1):
                     try:
-                        # Skip empty lines and comments
                         if not row or (len(row) == 1 and not row[0].strip()):
                             continue
-                        
-                        # Check for sentence boundary
                         line_text = '\t'.join(row)
+                        # Detect sentence boundary and extract first words for the NEXT sentence
                         if self.is_sentence_boundary(line_text):
-                            # Yield previous sentence if we have tokens
-                            if current_tokens and current_sentence_id:
+                            # If we have tokens, yield the previous sentence with its first_words
+                            if current_tokens and current_sentence_id is not None:
+                                if not current_first_words and first_token_texts:
+                                    current_first_words = '_'.join(first_token_texts)
+
                                 yield self._create_sentence_context(
-                                    current_sentence_id, 
-                                    current_tokens
+                                    sentence_id=str(current_sentence_num) if current_sentence_num is not None else "1",
+                                    sentence_num=current_sentence_num if current_sentence_num is not None else 1,
+                                    tokens=current_tokens,
+                                    first_words=current_first_words or ""
                                 )
-                            
-                            # Start new sentence
+                            # Prepare for next sentence
                             current_tokens = []
-                            current_sentence_id = self._extract_sentence_id(line_text)
+                            current_sentence_num = None
+                            current_sentence_id = None
+                            pending_first_words = self._extract_first_words(line_text)
+                            current_first_words = None
+                            seen_first_text = True
+                            first_token_texts = []
                             continue
-                        
-                        # Parse token line
+                        if line_text.startswith('#'):
+                            continue
                         if len(row) < self._expected_columns:
                             raise ParseError(
                                 f"Line {line_num}: Expected {self._expected_columns} columns, "
                                 f"got {len(row)}"
                             )
-                        
                         token = self.parse_token_line(line_text)
-                        
-                        # Validate and enrich token if we have a sentence context
-                        if current_sentence_id:
-                            if self.processor.validate_token(token):
-                                # Note: enrichment will be done when we have full context
-                                current_tokens.append(token)
-                        
+                        # On first token, set sentence_num and sentence_id and first_words
+                        if current_sentence_num is None:
+                            current_sentence_num = token.sentence_num
+                            current_sentence_id = str(token.sentence_num)
+                            if pending_first_words is not None:
+                                current_first_words = pending_first_words
+                                pending_first_words = None
+                                # Only reset first_token_texts if not using pending_first_words
+                            else:
+                                # Start collecting first three token texts
+                                first_token_texts = []
+                        # Collect first three token texts if needed
+                        if current_first_words is None and len(first_token_texts) < 3:
+                            first_token_texts.append(token.text)
+                        if self.processor.validate_token(token):
+                            current_tokens.append(token)
                     except ParseError:
-                        raise  # Re-raise parse errors
+                        raise
                     except Exception as e:
                         raise ParseError(f"Line {line_num}: {str(e)}")
-                
-                # Yield final sentence if we have tokens
-                if current_tokens and current_sentence_id:
+                # Yield last sentence
+                if current_tokens and current_sentence_id is not None:
+                    if not current_first_words and first_token_texts:
+                        current_first_words = '_'.join(first_token_texts)
                     yield self._create_sentence_context(
-                        current_sentence_id, 
-                        current_tokens
+                        sentence_id=str(current_sentence_num) if current_sentence_num is not None else "1",
+                        sentence_num=current_sentence_num if current_sentence_num is not None else 1,
+                        tokens=current_tokens,
+                        first_words=current_first_words or ""
                     )
-                    
         except FileNotFoundError:
             raise FileProcessingError(f"File not found: {file_path}")
         except PermissionError:
@@ -225,16 +246,9 @@ class TSVParser(BaseParser):
         Returns:
             True if line is a sentence boundary
         """
-        line = line.strip()
-        
-        # Check for sentence markers (from original script patterns)
-        return bool(
-            line.startswith('#Text=') or
-            line.startswith('#') or
-            line.startswith('# sent_id') or
-            'sent_id' in line or
-            (line and not line[0].isdigit() and '\t' not in line)
-        )
+        # The primary indicator of a new sentence is the '#Text=' marker.
+        # This is the only reliable way to identify the start of a new sentence.
+        return line.strip().startswith('#Text=')
     
     def _extract_sentence_id(self, line: str) -> str:
         """Extract sentence ID from a sentence boundary line."""
@@ -274,16 +288,30 @@ class TSVParser(BaseParser):
         # Fallback: use a hash-based approach for consistency
         return hash(sentence_id) % 10000  # Keep it reasonable
     
+    def _extract_first_words(self, line: str) -> str:
+        """
+        Extract the first three words from the sentence boundary line.
+        
+        Args:
+            line: Line to extract words from
+            
+        Returns:
+            String with the first three words joined by underscores
+        """
+        if line.startswith('#Text='):
+            text_content = line[6:].strip()
+            words = text_content.split()[:3]
+            return '_'.join(words).replace(',', '').replace('.', '')
+        return ''
+    
     def _create_sentence_context(
         self, 
         sentence_id: str, 
-        tokens: List[Token]
+        sentence_num: int, 
+        tokens: List[Token], 
+        first_words: str
     ) -> SentenceContext:
         """Create a SentenceContext with enriched tokens."""
-        # The sentence number is determined by the first token.
-        sentence_num = tokens[0].sentence_num if tokens else 1
-        
-        # Update sentence numbers in all tokens to be consistent.
         for token in tokens:
             token.sentence_num = sentence_num
         
@@ -293,7 +321,8 @@ class TSVParser(BaseParser):
             sentence_num=sentence_num,
             tokens=tokens,
             critical_pronouns=[],  # Will be populated by pronoun extractor
-            coreference_phrases=[]  # Will be populated by phrase extractor
+            coreference_phrases=[],  # Will be populated by phrase extractor
+            first_words=first_words
         )
         
         # Enrich tokens with context

@@ -170,6 +170,7 @@ class ClauseMateRelationship:
     clause_mate: Phrase
     num_clause_mates: int
     antecedent_info: AntecedentInfo
+    first_words: str = ""
     
     # Derived numeric fields for analysis
     pronoun_coref_base_num: Optional[int] = None
@@ -201,6 +202,7 @@ class ClauseMateRelationship:
             # Sentence information
             'sentence_id': self.sentence_id,
             'sentence_num': self.sentence_num,
+            'first_words': self.first_words,
             
             # Pronoun information
             'pronoun_text': self.pronoun.text,
@@ -267,6 +269,7 @@ class SentenceContext:
     tokens: List[Token]
     critical_pronouns: List[Token]
     coreference_phrases: List[CoreferencePhrase]
+    first_words: str = ""
     
     def __post_init__(self) -> None:
         """Validate sentence context."""
