@@ -200,9 +200,7 @@ class TSVParser(BaseParser):
 
             if len(parts) < self._expected_columns:
                 raise ParseError(
-                    f"Insufficient columns: expected {self._expected_columns}, got {
-                        len(parts)
-                    }"
+                    f"Insufficient columns: expected {self._expected_columns}, got {len(parts)}"
                 )
 
             # Extract token information using correct column indices
