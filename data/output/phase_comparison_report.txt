@@ -5,17 +5,17 @@ CLAUSE MATES PHASE COMPARISON REPORT
 📋 PHASE 1 RESULTS
 ----------------------------------------
 ✅ Status: SUCCESS
-⏱️  Execution Time: 1.55 seconds
-📁 Output File: phase1/clause_mates_phase1_export.csv
-💾 File Size: 106,702 bytes
+⏱️  Execution Time: 1.47 seconds
+📁 Output File: data/output/clause_mates_phase1_export.csv
+💾 File Size: 102,655 bytes
 📊 Statistics:
 
 📋 PHASE 2 RESULTS
 ----------------------------------------
 ✅ Status: SUCCESS
-⏱️  Execution Time: 0.93 seconds
-📁 Output File: clause_mates_chap2_export.csv
-💾 File Size: 81,408 bytes
+⏱️  Execution Time: 1.22 seconds
+📁 Output File: data/output/clause_mates_phase2_export.csv
+💾 File Size: 94,311 bytes
 📊 Statistics:
    sentences_processed: 222
    tokens_processed: 3,665
@@ -26,16 +26,16 @@ CLAUSE MATES PHASE COMPARISON REPORT
 
 ⚡ PERFORMANCE COMPARISON
 ----------------------------------------
-Phase 1 Time: 1.55s
-Phase 2 Time: 0.93s
-Difference: -0.62s (Phase 2 is 0.62s faster)
-File Size Difference: -25,294 bytes (-0.02 MB)
+Phase 1 Time: 1.47s
+Phase 2 Time: 1.22s
+Difference: -0.25s (Phase 2 is 0.25s faster)
+File Size Difference: -8,344 bytes (-0.01 MB)
 
 📊 OUTPUT COMPARISON
 ----------------------------------------
-Phase 1: 463 rows, 38 columns
+Phase 1: 448 rows, 38 columns
 Phase 2: 448 rows, 38 columns
-Row Difference: -15
+Row Difference: +0
 Column Difference: +0
 
 📋 COLUMN ANALYSIS
@@ -44,6 +44,6 @@ Common Columns: 38
 🎯 SUMMARY
 ----------------------------------------
 ✅ Both phases executed successfully
-🚀 Phase 2 is 40.0% faster
+🚀 Phase 2 is 16.8% faster
 
 ================================================================================

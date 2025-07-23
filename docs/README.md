@@ -7,7 +7,7 @@ This directory contains comprehensive documentation for the Clause Mates Analyze
 ### [Phase 2 Complete Implementation Report](PHASE2_COMPLETE_IMPLEMENTATION_REPORT.md)
 **The definitive guide to Phase 2 achievements and capabilities**
 - ✅ Complete modular architecture implementation
-- ✅ Cross-sentence antecedent detection (94.4% success rate)  
+- ✅ Cross-sentence antecedent detection (94.4% success rate)
 - ✅ Analysis tools and professional reporting
 - ✅ Comprehensive testing and verification
 - 📊 Full technical specifications and usage instructions
@@ -40,7 +40,7 @@ See [`tools/README.md`](../tools/README.md) for documentation on analysis script
 
 ---
 
-*Documentation maintained for the Clause Mates Analyzer project*  
+*Documentation maintained for the Clause Mates Analyzer project*
 *Last updated: July 23, 2025*
 - 📋 **Phase 3 Planned**: Advanced features and configuration system
 
@@ -50,7 +50,7 @@ This tool analyzes German pronouns and their clause mates in annotated linguisti
 
 ### Critical Pronouns Analyzed
 - **Third person personal**: er, sie, es, ihm, ihr, ihn, ihnen
-- **D-pronouns (pronominal)**: der, die, das, dem, den, deren, dessen, derer  
+- **D-pronouns (pronominal)**: der, die, das, dem, den, deren, dessen, derer
 - **Demonstrative**: dieser, diese, dieses, diesem, diesen
 
 ## Features
@@ -69,7 +69,7 @@ This tool analyzes German pronouns and their clause mates in annotated linguisti
 │   ├── phase1/                     # Phase 1 - Self-contained monolithic version
 │   │   ├── clause_mates_complete.py    # Main analysis script
 │   │   ├── config.py                   # Phase 1 configuration and constants
-│   │   ├── utils.py                    # Phase 1 utility functions  
+│   │   ├── utils.py                    # Phase 1 utility functions
 │   │   ├── pronoun_classifier.py       # Phase 1 pronoun classification logic
 │   │   ├── exceptions.py               # Phase 1 custom exception classes
 │   │   └── README.md                   # Phase 1 documentation
@@ -133,7 +133,7 @@ Output: `archive/phase1/clause_mates_phase1_export.csv` (463 relationships, 35 c
 # Method 1: Direct execution
 python src/run_phase2.py
 
-# Method 2: Module execution  
+# Method 2: Module execution
 python -m src.main
 ```
 Output: `clause_mates_chap2_export.csv` (448 relationships, 34 columns)
@@ -156,7 +156,7 @@ Edit `archive/phase1/config.py` to customize Phase 1 settings:
 - Input/output file paths for Phase 1
 - Column mappings and constants
 
-#### Phase 2 Configuration  
+#### Phase 2 Configuration
 Edit `src/config.py` to customize Phase 2 settings:
 - Input/output file paths for Phase 2
 - Processing parameters and column mappings
@@ -213,7 +213,13 @@ This is a research project. For contributions:
 
 ## Code Quality
 
-This project uses pylint for code quality checking with a custom configuration tailored for experimental research code. See [PYLINT_README.md](PYLINT_README.md) for details on the "vibe coding" approach and quality standards.
+This project uses **ruff** for fast, comprehensive code quality checking and formatting. Ruff consolidates linting, formatting, and import sorting in a single ultra-fast tool. The project follows modern Python best practices with pre-commit hooks for automatic code quality validation.
+
+### Development Tools
+- **ruff**: Fast linting and formatting (replaces black, isort, flake8)
+- **mypy**: Type checking
+- **pytest**: Testing framework
+- **pre-commit**: Git hooks for quality assurance
 
 ## License
 

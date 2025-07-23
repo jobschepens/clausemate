@@ -78,7 +78,7 @@ clause_mates_*.md
 *.jpg
 *.jpeg
 
-# Archive directories  
+# Archive directories
 old/
 phase1_archive/
 backup/

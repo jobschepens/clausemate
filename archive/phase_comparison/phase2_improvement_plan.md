@@ -155,7 +155,7 @@ def parse_file_completely(file_path: str) -> Dict[str, List[Token]]:
     all_sentences = {}
     current_sentence = []
     current_sentence_id = None
-    
+
     with open(file_path, 'r', encoding='utf-8') as f:
         for line in f:
             # Clear, straightforward parsing logic
@@ -168,7 +168,7 @@ def parse_file_completely(file_path: str) -> Dict[str, List[Token]]:
                 token = parse_token_line(line)
                 if token:
                     current_sentence.append(token)
-    
+
     return all_sentences
 ```
 
@@ -181,32 +181,32 @@ Currently, coreference ID extraction logic appears 6+ times. Create single sourc
 # src/extractors/coreference_extractor.py
 class CoreferenceExtractor:
     """Single source of truth for all coreference ID extraction."""
-    
+
     def extract_all_ids(self, token: Token) -> Set[str]:
         """Extract all coreference IDs from a token."""
         ids = set()
-        
+
         # Animate layer
         if animate_id := self._extract_from_link(token.coreference_link):
             ids.add(animate_id)
         elif animate_id := self._extract_from_type(token.coreference_type):
             ids.add(animate_id)
-        
-        # Inanimate layer  
+
+        # Inanimate layer
         if inanimate_id := self._extract_from_link(token.inanimate_coreference_link):
             ids.add(inanimate_id)
         elif inanimate_id := self._extract_from_type(token.inanimate_coreference_type):
             ids.add(inanimate_id)
-            
+
         return ids
-    
+
     def _extract_from_link(self, link: Optional[str]) -> Optional[str]:
         """Extract ID from coreference link format."""
         # Centralized implementation
         pass
-    
+
     def _extract_from_type(self, type_str: Optional[str]) -> Optional[str]:
-        """Extract ID from coreference type format.""" 
+        """Extract ID from coreference type format."""
         # Centralized implementation
         pass
 ```
@@ -216,15 +216,15 @@ class CoreferenceExtractor:
 # src/analyzers/token_analyzer.py
 class TokenAnalyzer:
     """Reusable token processing patterns."""
-    
+
     def group_by_coreference(self, tokens: List[Token]) -> Dict[str, List[Token]]:
         """Group tokens by coreference ID."""
         pass
-    
+
     def filter_critical_pronouns(self, tokens: List[Token]) -> List[Token]:
         """Filter tokens to only critical pronouns."""
         pass
-    
+
     def build_sentence_context(self, tokens: List[Token]) -> SentenceContext:
         """Build rich context object for sentence."""
         pass
@@ -245,22 +245,22 @@ class TestTSVParser:
         parser = TSVParser()
         line = "1-1\ter\t...\t..."  # Sample TSV line
         token = parser.parse_token_line(line)
-        
+
         assert token.text == "er"
         assert token.idx == 1
         assert token.sentence_num == 1
-    
+
     def test_parse_malformed_line(self):
         """Test handling of malformed input."""
         parser = TSVParser()
         with pytest.raises(ParseError):
             parser.parse_token_line("invalid\tline")
-    
+
     def test_streaming_parsing(self):
         """Test memory-efficient streaming parsing."""
         parser = TSVParser()
         sentences = list(parser.parse_sentences_streaming("test_file.tsv"))
-        
+
         assert len(sentences) > 0
         assert all(isinstance(s, list) for s in sentences)
 ```
@@ -272,10 +272,10 @@ class TestEndToEnd:
     def test_complete_pipeline(self):
         """Test complete processing pipeline."""
         from src.main import ClauseMateAnalyzer
-        
+
         analyzer = ClauseMateAnalyzer()
         relationships = analyzer.analyze_file("tests/fixtures/sample.tsv")
-        
+
         assert len(relationships) > 0
         assert all(r.pronoun.text in CRITICAL_PRONOUNS for r in relationships)
 ```
@@ -287,18 +287,18 @@ class TestFunctionality:
     def test_output_consistency(self):
         """Ensure refactored code produces identical results."""
         from src.main import ClauseMateAnalyzer
-        
+
         analyzer = ClauseMateAnalyzer()
         relationships = analyzer.analyze_file("tests/fixtures/sample.tsv")
-        
+
         # Verify relationships match expected format and content
         assert len(relationships) > 0
         assert all(r.pronoun.text in CRITICAL_PRONOUNS for r in relationships)
-        
+
         # Compare with known good output
         expected_df = pd.read_csv("tests/fixtures/expected_output.csv")
         actual_df = pd.DataFrame([r.to_dict() for r in relationships])
-        
+
         pd.testing.assert_frame_equal(actual_df, expected_df)
 ```
 
@@ -309,23 +309,23 @@ class TestFunctionality:
 # src/main.py
 class ClauseMateAnalyzer:
     """Clean, straightforward analyzer focusing on maintainability."""
-    
+
     def __init__(self):
         self.parser = TSVParser()
         self.extractor = RelationshipExtractor()
         self.pronoun_classifier = PronounClassifier()
-    
+
     def analyze_file(self, file_path: str) -> List[ClauseMateRelationship]:
         """Simple, clear analysis pipeline."""
         # Parse all sentences
         sentences = self.parser.parse_file_completely(file_path)
-        
+
         # Extract relationships
         all_relationships = []
         for sentence_id, tokens in sentences.items():
             relationships = self.extractor.extract_from_sentence(tokens, sentences)
             all_relationships.extend(relationships)
-        
+
         return all_relationships
 ```
 
@@ -334,12 +334,12 @@ class ClauseMateAnalyzer:
 # src/config_manager.py
 class ConfigurationManager:
     """Centralized configuration without complex optimization."""
-    
+
     def __init__(self):
         self.tsv_columns = TSVColumns()
         self.file_paths = FilePaths()
         self.constants = Constants()
-    
+
     def get_column_mapping(self) -> Dict[str, int]:
         """Return clear column mappings."""
         return {
@@ -368,16 +368,16 @@ import logging
 def main():
     """Main entry point - orchestrates the analysis pipeline."""
     logging.basicConfig(level=logging.INFO)
-    
+
     analyzer = ClauseMateAnalyzer()
-    
+
     try:
         # Simple, clean main function
         relationships = analyzer.analyze_file(FilePaths.INPUT_FILE)
         analyzer.export_results(relationships, FilePaths.OUTPUT_FILE)
-        
+
         logging.info(f"Successfully processed {len(relationships)} relationships")
-        
+
     except Exception as e:
         logging.error(f"Analysis failed: {e}")
         raise
@@ -395,14 +395,14 @@ from pathlib import Path
 def create_parser() -> argparse.ArgumentParser:
     """Create command-line argument parser."""
     parser = argparse.ArgumentParser(description="Clause Mate Analyzer")
-    
+
     parser.add_argument("input_file", help="Input TSV file path")
     parser.add_argument("-o", "--output", help="Output CSV file path")
-    parser.add_argument("--streaming", action="store_true", 
+    parser.add_argument("--streaming", action="store_true",
                        help="Use streaming processing for large files")
     parser.add_argument("--verbose", "-v", action="store_true",
                        help="Enable verbose logging")
-    
+
     return parser
 ```
 

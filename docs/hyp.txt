@@ -18,4 +18,4 @@ The form of referential expressions can signal the relative prominence relations
 predictions:
 - in sentences containing demonstrative pronouns as clause mates, it is more likely that the critical pronoun will be a personal pronoun than another demonstrative pronoun
 - in sentences containing personal pronouns as clause mates, it is more likely that the critical pronoun will be a demonstrative pronoun than another personal pronoun
-- in sentences containing referential expressions with a lower form prominence like full DPs, personal pronouns might appear more often than demonstrative pronouns 
+- in sentences containing referential expressions with a lower form prominence like full DPs, personal pronouns might appear more often than demonstrative pronouns

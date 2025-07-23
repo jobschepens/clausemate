@@ -5,14 +5,18 @@
 
 ### Current Project Structure ✅
 ```
-├── phase1/                    # Self-contained Phase 1 (463 relationships, 35 cols)
-├── src/                       # Complete Phase 2 package (448 relationships, 34 cols)  
-├── phase_comparison/          # Phase comparison analysis and planning
-│   ├── compare_phases.py      # Main comparison script
-│   ├── phase2_completion_plan.md  # Implementation roadmap
-│   ├── phase_difference_analysis.md  # Analysis documentation
-│   └── [other comparison files]  # Reports, results, and analysis
-├── exportscript.py            # Independent legacy script
+├── src/                       # Complete Phase 2 package (448 relationships, 38 cols)
+├── archive/                   # Historical code and analysis
+│   ├── phase1/                # Self-contained Phase 1 (448 relationships, 38 cols)
+│   ├── phase_comparison/      # Phase comparison analysis and planning
+│   │   ├── compare_phases.py  # Main comparison script
+│   │   ├── phase2_completion_plan.md  # Implementation roadmap
+│   │   ├── phase_difference_analysis.md  # Analysis documentation
+│   │   └── [other comparison files]  # Reports, results, and analysis
+│   └── planning_docs/         # Project planning and completion reports
+├── data/                      # Input and output data
+│   ├── input/                 # Source data files
+│   └── output/                # Generated exports and analysis results
 └── tests/                     # Project-wide testing
 ```
 
@@ -21,22 +25,123 @@
 # Phase 1
 python phase1/clause_mates_complete.py
 
-# Phase 2  
+# Phase 2
 python src/run_phase2.py
 
 # Phase 2 Testing
 python src/verify_phase2.py
 
 # Phase Comparison Analysis
-python phase_comparison/compare_phases.py
+python archive/phase_comparison/compare_phases.py
 ```
 
 ### Phase Comparison Organization 📊
-All phase comparison work has been organized in the `phase_comparison/` folder:
+All phase comparison work has been organized in the `archive/phase_comparison/` folder:
 - **Analysis scripts**: `compare_phases.py`, `run_analysis_with_output.py`
 - **Planning documents**: `phase2_completion_plan.md`, `phase2_improvement_plan.md`
 - **Results & reports**: Analysis outputs, comparison results, and documentation
 - **This organization keeps the main directory clean while preserving all comparison work**
+
+---
+
+## Computational Reproducibility Status 🔄
+
+### ✅ **Current Implementation (v2.0)**
+- **Modular Architecture**: Clean separation of concerns with `src/` package structure
+- **Testing Suite**: Comprehensive unit tests with 6/6 tests passing
+- **Code Quality**: Ruff integration with GitHub Actions for fast, comprehensive linting
+- **File Organization**: Structured archive and output management
+- **Cross-platform Compatibility**: Relative path handling and platform-independent code
+
+### 🚀 **Modern Development Standards (v2.1)**
+
+#### **Dependency Management**
+- ✅ `pyproject.toml`: Modern Python packaging with version constraints
+- ✅ `environment.yml`: Conda environment specification for reproducibility
+- ✅ Optional dependencies: Development, future features, and benchmarking tools
+
+#### **Continuous Integration & Testing**
+- ✅ **Multi-OS Testing**: Ubuntu, Windows, macOS across Python 3.8-3.11
+- ✅ **Code Quality Pipeline**: Type checking (mypy), linting and formatting (ruff)
+- ✅ **Test Coverage**: Automated coverage reporting with Codecov integration
+- ✅ **Reproducibility Validation**: Automated checks for identical outputs across runs
+- ✅ **Performance Benchmarking**: Execution time and memory usage monitoring
+
+#### **Development Workflow**
+- ✅ **Pre-commit Hooks**: Automated code quality checks before commits
+- ✅ **Docker Support**: Containerized environment for consistent execution
+- ✅ **Makefile**: Development task automation (test, lint, format, benchmark)
+- ✅ **Type Safety**: MyPy configuration with strict type checking
+
+#### **Data Management & Versioning**
+- ✅ **Data Provenance**: SHA-256 hashing and metadata tracking
+- ✅ **Processing Metadata**: Comprehensive logging of runs with environment info
+- ✅ **Reproducibility Validation**: Automated hash comparison for output verification
+- ✅ **Performance Tracking**: Historical benchmarking data
+
+### 📋 **Setup Instructions**
+
+```bash
+# 1. Clone and set up environment
+git clone https://github.com/jobschepens/clausemate.git
+cd clausemate
+
+# 2. Using Conda (Recommended)
+conda env create -f environment.yml
+conda activate clausemate
+
+# 3. Or using pip
+pip install -e ".[dev]"
+
+# 4. Set up development tools
+make dev-setup  # Installs pre-commit hooks
+
+# 5. Validate setup
+make validate-setup
+
+# 6. Run tests
+make test
+
+# 7. Run analysis
+make test-integration
+```
+
+### 🐳 **Docker Usage**
+
+```bash
+# Build image
+docker build -t clausemate:latest .
+
+# Run analysis
+docker run --rm -v $(pwd)/data:/app/data clausemate:latest
+
+# Run tests in container
+docker run --rm clausemate:latest python -m pytest tests/ -v
+```
+
+### 📊 **Quality Assurance**
+
+#### **Automated Checks**
+- **Code Coverage**: Minimum 80% test coverage requirement
+- **Type Safety**: 100% type annotation coverage in `src/`
+- **Code Style**: Ruff formatting and linting (replaces black, isort, flake8)
+- **Security**: Bandit security scanning + safety dependency checks
+- **Performance**: Execution time < 30s, memory usage monitoring
+
+#### **Manual Validation**
+```bash
+# Run all quality checks
+make ci-test
+
+# Performance benchmarking
+make benchmark
+
+# Memory profiling
+make memory-profile
+
+# Pre-release validation
+make release-check
+```
 
 ---
 
@@ -45,13 +150,13 @@ All phase comparison work has been organized in the `phase_comparison/` folder:
 ## Current Status (v2.0) ✅
 
 ### Phase 1 Complete ✅
-- **Self-contained monolithic version** 
+- **Self-contained monolithic version**
 - **463 relationships** extracted with **35 columns**
 - **Complete phrase-level antecedent detection**
 - **Method 1 antecedent choice** (animacy-based)
 - **Full documentation** and metadata
 
-### Phase 2 Complete ✅  
+### Phase 2 Complete ✅
 - **Modular architecture** with streaming support
 - **448 relationships** extracted with **34 columns**
 - **Complete separation of concerns**
@@ -133,7 +238,7 @@ def calculate_antecedent_choice_combined(pronoun, candidates):
 ## Phase 3: Advanced Linguistic Features 🔮
 
 ### 3.1 Enhanced Givenness Detection
-**Current**: Binary new/given based on occurrence number  
+**Current**: Binary new/given based on occurrence number
 **Proposed**: Multi-level information status
 
 - **Brand-new**: First mention in discourse
@@ -213,7 +318,7 @@ def process_full_corpus(chapter_files):
 ```python
 MODELING_FEATURES = {
     'pronoun_features': [
-        'pronoun_token_idx', 'pronoun_grammatical_role', 
+        'pronoun_token_idx', 'pronoun_grammatical_role',
         'pronoun_most_recent_antecedent_distance'
     ],
     'clause_mate_features': [
@@ -273,7 +378,7 @@ MODELING_FEATURES = {
 ## Phase 7: Performance & Scalability 🚀
 
 ### 7.1 Code Optimization
-**Current**: Sequential sentence processing  
+**Current**: Sequential sentence processing
 **Proposed**: Parallel processing
 
 ```python
@@ -402,5 +507,5 @@ dask>=2021.0.0  # For larger datasets
 
 *This roadmap is a living document. Priorities may shift based on research findings and user feedback.*
 
-**Next milestone**: Method 2 implementation with spaCy morphological analysis  
+**Next milestone**: Method 2 implementation with spaCy morphological analysis
 **Contact**: See main project documentation for contributor information

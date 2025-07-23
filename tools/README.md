@@ -19,11 +19,11 @@ This directory contains analysis scripts for examining the Phase 2 cross-sentenc
 python tools/analyze_results.py
 ```
 
-**Output**: 
+**Output**:
 - Console display with formatted results
 - `docs/CROSS_SENTENCE_ANALYSIS_REPORT.md` - Comprehensive markdown report
 
-**Dependencies**: 
+**Dependencies**:
 - `phase2_cross_sentence_test.csv` (Phase 2 results)
 - `data/input/gotofiles/2.tsv` (TSV source for sentence text)
 

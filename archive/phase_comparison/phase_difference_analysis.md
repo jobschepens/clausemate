@@ -1,6 +1,6 @@
 # Comprehensive Phase Difference Analysis
 
-**Generated:** 2025-07-23 15:15:18
+**Generated:** 2025-07-23 23:15:49
 
 ##  COMPREHENSIVE DIFFERENCE ANALYSIS
 
@@ -135,14 +135,14 @@ First 3 relationships in Phase 2:
 
 ###  FILE SIZE ANALYSIS:
 Phase 1: 102,655 bytes (0.10 MB)
-Phase 2: 81,408 bytes (0.08 MB)
-Size difference: -21,247 bytes (-0.02 MB)
-Size change: -20.7%
+Phase 2: 94,311 bytes (0.09 MB)
+Size difference: -8,344 bytes (-0.01 MB)
+Size change: -8.1%
 
 ###  EFFICIENCY METRICS:
 Phase 1: 4.5 relationships per KB
-Phase 2: 5.6 relationships per KB
-Efficiency change: +26.1%
+Phase 2: 4.9 relationships per KB
+Efficiency change: +8.8%
 
 ###  KEY FINDINGS SUMMARY:
 
@@ -151,9 +151,9 @@ Efficiency change: +26.1%
 1. Row difference: +0 relationships
 2. Column compatibility: ✓ Perfect
 3. Sentence ID format: Phase 1 uses prefixed, Phase 2 uses numeric
-4. Performance: Phase 2 is 1.3x more efficient
+4. Performance: Phase 2 is 1.1x more efficient
 5. Missing sentences: 0 sentences have different relationship counts
 
 
 ---
-*Analysis completed at 2025-07-23 15:15:18*
+*Analysis completed at 2025-07-23 23:15:49*

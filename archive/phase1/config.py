@@ -28,16 +28,16 @@ class Constants:
     MISSING_VALUE = '_'
     SENTENCE_PREFIX = 'sent_'
     MIN_COLUMNS_REQUIRED = 15
-    
+
     # Coreference types
     PERSONAL_PRONOUN_TYPE = 'PersPron'
     D_PRONOUN_TYPE = 'D-Pron'
     DEMONSTRATIVE_PRONOUN_TYPE = 'DemPron'
-    
+
     # Givenness values
     NEW_MENTION = 'neu'
     GIVEN_MENTION = 'bekannt'
-    
+
     # Animacy layers
     ANIMATE_LAYER = 'anim'
     INANIMATE_LAYER = 'inanim'
@@ -48,20 +48,20 @@ class PronounSets:
     THIRD_PERSON_PRONOUNS: Set[str] = {
         'er', 'sie', 'es', 'ihm', 'ihr', 'ihn', 'ihnen'
     }
-    
+
     D_PRONOUNS: Set[str] = {
         'der', 'die', 'das', 'dem', 'den', 'deren', 'dessen', 'derer'
     }
-    
+
     DEMONSTRATIVE_PRONOUNS: Set[str] = {
         'dieser', 'diese', 'dieses', 'diesem', 'diesen'
     }
 
 
 class FilePaths:
-    """Default file paths."""
-    INPUT_FILE = r'C:\Users\jobsc\sciebo\INF_Schepens\ind\robert\gotofiles\2.tsv'
-    OUTPUT_FILE = r'C:\Users\jobsc\sciebo\INF_Schepens\ind\robert\phase1\clause_mates_phase1_export.csv'
+    """Default file paths - using relative paths for portability."""
+    INPUT_FILE = r'../../data/input/gotofiles/2.tsv'
+    OUTPUT_FILE = r'../../data/output/clause_mates_phase1_export.csv'
 
 
 class RegexPatterns:

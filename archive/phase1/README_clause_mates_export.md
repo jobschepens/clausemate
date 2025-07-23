@@ -78,11 +78,11 @@ animacy_analysis = df.groupby(['pronoun_text', 'clause_mate_animacy']).size()
 
 ## Data Quality Highlights
 
-✅ **Validated Critical Pronouns**: Both annotation type and token text checked  
-✅ **Phrase-Level Antecedents**: Multi-token expressions treated as units  
-✅ **Complete Chain Tracking**: Both most recent and first antecedents included  
-✅ **Numeric Conversions**: String variables converted for statistical analysis  
-✅ **Cross-Sentence Distances**: Accurate token counting across sentence boundaries  
+✅ **Validated Critical Pronouns**: Both annotation type and token text checked
+✅ **Phrase-Level Antecedents**: Multi-token expressions treated as units
+✅ **Complete Chain Tracking**: Both most recent and first antecedents included
+✅ **Numeric Conversions**: String variables converted for statistical analysis
+✅ **Cross-Sentence Distances**: Accurate token counting across sentence boundaries
 
 ## Key Features
 
@@ -109,7 +109,7 @@ This dataset enables investigation of:
    - Which pronouns co-occur with specific clause mate types?
    - How does clause mate animacy affect pronoun selection?
 
-2. **Distance Effects**  
+2. **Distance Effects**
    - Do clause mates affect pronoun-antecedent distance?
    - Is distance more consistent when clause mates are present?
 
@@ -129,6 +129,6 @@ When using this dataset, please reference:
 
 ---
 
-*For technical questions, consult the metadata.json file.*  
-*For detailed column descriptions, see the data documentation.*  
+*For technical questions, consult the metadata.json file.*
+*For detailed column descriptions, see the data documentation.*
 *For implementation details, refer to the source code.*

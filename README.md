@@ -18,7 +18,7 @@ This tool analyzes German pronouns and their clause mates in annotated linguisti
 
 ### Critical Pronouns Analyzed
 - **Third person personal**: er, sie, es, ihm, ihr, ihn, ihnen
-- **D-pronouns (pronominal)**: der, die, das, dem, den, deren, dessen, derer  
+- **D-pronouns (pronominal)**: der, die, das, dem, den, deren, dessen, derer
 - **Demonstrative**: dieser, diese, dieses, diesem, diesen
 
 ## Features
@@ -37,7 +37,7 @@ This tool analyzes German pronouns and their clause mates in annotated linguisti
 ├── phase1/                     # Phase 1 - Self-contained monolithic version
 │   ├── clause_mates_complete.py    # Main analysis script
 │   ├── config.py                   # Phase 1 configuration and constants
-│   ├── utils.py                    # Phase 1 utility functions  
+│   ├── utils.py                    # Phase 1 utility functions
 │   ├── pronoun_classifier.py       # Phase 1 pronoun classification logic
 │   ├── exceptions.py               # Phase 1 custom exception classes
 │   └── README.md                   # Phase 1 documentation
@@ -83,7 +83,7 @@ Output: `phase1/clause_mates_phase1_export.csv` (463 relationships, 35 columns)
 # Method 1: Direct execution
 python src/run_phase2.py
 
-# Method 2: Module execution  
+# Method 2: Module execution
 python -m src.main
 ```
 Output: `clause_mates_chap2_export.csv` (448 relationships, 34 columns)
@@ -126,7 +126,7 @@ Edit `phase1/config.py` to customize Phase 1 settings:
 - Input/output file paths for Phase 1
 - Column mappings and constants
 
-#### Phase 2 Configuration  
+#### Phase 2 Configuration
 Edit `src/config.py` to customize Phase 2 settings:
 - Input/output file paths for Phase 2
 - Processing parameters and column mappings
@@ -138,7 +138,7 @@ Edit `src/config.py` to customize Phase 2 settings:
 - **463 relationships** across 222 sentences
 - **35 columns** with complete linguistic features
 
-### Phase 2 Output  
+### Phase 2 Output
 - **File**: `clause_mates_chap2_export.csv`
 - **448 relationships** across 222 sentences
 - **34 columns** with streamlined feature set
@@ -181,9 +181,66 @@ This is a research project. For contributions:
 - pandas
 - Standard library modules (re, logging, collections, typing)
 
+## Development Setup
+
+### Quick Start
+For detailed setup instructions, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+### Dependency Management
+
+This project supports both pip and conda-based development workflows:
+
+#### Recommended: pip-based development
+```bash
+# Create and activate virtual environment
+python -m venv .venv
+
+# Windows
+.venv\Scripts\activate
+
+# macOS/Linux
+source .venv/bin/activate
+
+# Install with development dependencies
+pip install -e .[dev,benchmark]
+```
+
+#### Alternative: conda-based development
+```bash
+# Create conda environment from file
+conda env create -f environment.yml
+
+# Activate environment
+conda activate clausemate
+```
+
+### Development Workflow
+```bash
+# Install dependencies (after environment setup)
+pip install -e .[dev,benchmark]
+
+# Run development tasks with nox (cross-platform)
+nox                      # Run default sessions (lint, test)
+nox -s lint              # Fast ruff linting
+nox -s format            # Code formatting
+nox -s test              # Run tests on current Python
+nox -s test-3.9          # Run tests on Python 3.9
+nox -s ci                # Full CI pipeline
+nox -s install_dev       # Set up development environment
+
+# Run tests directly
+pytest
+```
+
 ## Code Quality
 
-This project uses pylint for code quality checking with a custom configuration tailored for experimental research code. See [PYLINT_README.md](PYLINT_README.md) for details on the "vibe coding" approach and quality standards.
+This project uses **ruff** for fast, comprehensive code quality checking and formatting. Ruff consolidates linting, formatting, and import sorting in a single ultra-fast tool. The project follows modern Python best practices with pre-commit hooks for automatic code quality validation.
+
+### Development Tools
+- **ruff**: Fast linting and formatting (replaces black, isort, flake8)
+- **mypy**: Type checking
+- **pytest**: Testing framework
+- **pre-commit**: Git hooks for quality assurance
 
 ## License
 

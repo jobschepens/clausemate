@@ -173,4 +173,3 @@
 
 - **Antecedent choices available**: 28
 - **Coreference links**: animate: *->127-29, inanimate: nan
-

@@ -14,7 +14,7 @@ This folder contains the Phase 1 implementation of the clause mates analyzer, wh
 
 - ✅ Constants extracted to config.py
 - ✅ Type hints added throughout
-- ✅ Proper error handling with custom exceptions  
+- ✅ Proper error handling with custom exceptions
 - ✅ Functions broken down and modularized
 - ✅ Utility functions separated
 
