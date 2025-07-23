@@ -1,5 +1,7 @@
 # Clause Mates Analyzer
 
+> **⚠️ Disclaimer**: This repository contains experimental research code developed through iterative "vibe coding" sessions. While the functionality is complete and tested, the codebase reflects rapid prototyping, multiple refactoring attempts, and exploratory development. Code quality and organization may vary across different phases of development. Use with appropriate expectations for research/experimental software.
+
 A Python tool for extracting and analyzing clause mate relationships from German pronoun data for linguistic research.
 
 ## Project Status
