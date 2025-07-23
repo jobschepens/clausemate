@@ -109,12 +109,13 @@ In inception, clause mates are always annotated with the "coreference" or the "c
 
 To identify the antecedent of a pronoun, check the annotation in the "coreference" or "coreference (inanimate)" layer. The pronoun will have a pointer (e.g., "*->20-4") indicating which referential expression it refers to. The target of this pointer is the antecedent.
 
-how do i determine the antecedent of "sie" in: 
+For example, how do i determine the antecedent of "sie" in: 
 
-the answer should be the most recent one
-most recent one is: 33-5
-"middle": 33-1
-1st mention: 33-11
+"the answer should be the most recent one" ?
+
+most recent antecedent is: 33-5
+"middle" antecedent is: 33-1
+1st antecedent is: 33-11
 
 ## chains antecedents:
 

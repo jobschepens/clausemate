@@ -28,17 +28,18 @@ class RelationshipExtractor(BaseRelationshipExtractor):
     their clause mates within the same sentence.
     """
     
-    def extract(self, context: SentenceContext) -> ExtractionResult:
+    def extract(self, context: SentenceContext, all_contexts: Optional[List[SentenceContext]] = None) -> ExtractionResult:
         """
         Extract relationship features from a sentence context.
         
         Args:
             context: The sentence context to analyze
+            all_contexts: Optional list of all sentence contexts for cross-sentence antecedent analysis
             
         Returns:
             ExtractionResult containing relationship information
         """
-        relationships = self.extract_relationships(context)
+        relationships = self.extract_relationships(context, all_contexts)
         
         return ExtractionResult(
             pronouns=context.critical_pronouns,
@@ -67,7 +68,7 @@ class RelationshipExtractor(BaseRelationshipExtractor):
             len(context.coreference_phrases) > 0
         )
     
-    def extract_relationships(self, context: SentenceContext) -> List[ClauseMateRelationship]:
+    def extract_relationships(self, context: SentenceContext, all_contexts: Optional[List[SentenceContext]] = None) -> List[ClauseMateRelationship]:
         """
         Extract all clause mate relationships from a sentence context.
         
@@ -99,15 +100,10 @@ class RelationshipExtractor(BaseRelationshipExtractor):
                 # Convert CoreferencePhrase to Phrase for compatibility
                 phrase = self._convert_to_phrase(clause_mate)
                 
-                # Create antecedent info (placeholder for now)
-                antecedent_info = AntecedentInfo(
-                    most_recent_text='_',
-                    most_recent_distance='_',
-                    first_text='_',
-                    first_distance='_',
-                    sentence_id='_',
-                    choice_count=0
-                )
+                # Create antecedent info with cross-sentence analysis
+                antecedent_info = self._analyze_antecedents(pronoun, context, all_contexts)
+                # Debug
+                # print(f"DEBUG: Got antecedent info: {antecedent_info}")
                 
                 relationship = ClauseMateRelationship(
                     sentence_id=str(context.sentence_num),
@@ -263,3 +259,149 @@ class RelationshipExtractor(BaseRelationshipExtractor):
         
         # Default to animate if uncertain
         return AnimacyType.ANIMATE
+    
+    def _analyze_antecedents(self, pronoun: Token, context: SentenceContext, all_contexts: Optional[List[SentenceContext]] = None) -> AntecedentInfo:
+        """
+        Analyze antecedents for a given pronoun with cross-sentence context.
+        
+        Args:
+            pronoun: The pronoun to analyze
+            context: The current sentence context
+            all_contexts: All sentence contexts for cross-sentence analysis
+            
+        Returns:
+            AntecedentInfo with the analysis results
+        """
+        # Get pronoun's coreference IDs
+        pronoun_coref_ids = self._get_pronoun_coreference_ids(pronoun)
+        
+        if not pronoun_coref_ids:
+            return AntecedentInfo(
+                most_recent_text='_',
+                most_recent_distance='_', 
+                first_text='_',
+                first_distance='_',
+                sentence_id='_',
+                choice_count=0
+            )
+        
+        # Get base chain numbers for pronoun
+        pronoun_chain_numbers = set()
+        for coref_id in pronoun_coref_ids:
+            if '-' in str(coref_id):
+                base_num = str(coref_id).split('-')[0]
+                pronoun_chain_numbers.add(base_num)
+            else:
+                pronoun_chain_numbers.add(str(coref_id))
+        
+        if not pronoun_chain_numbers:
+            return AntecedentInfo(
+                most_recent_text='_',
+                most_recent_distance='_',
+                first_text='_', 
+                first_distance='_',
+                sentence_id='_',
+                choice_count=0
+            )
+        
+        # Calculate absolute position of pronoun
+        current_sentence_num = context.sentence_num
+        pronoun_absolute_pos = 0
+        
+        # If we have cross-sentence context, calculate absolute position
+        if all_contexts:
+            # Count tokens in all sentences before current sentence
+            for ctx in all_contexts:
+                if ctx.sentence_num < current_sentence_num:
+                    pronoun_absolute_pos += len(ctx.tokens)
+                elif ctx.sentence_num == current_sentence_num:
+                    # Add tokens before pronoun in current sentence
+                    pronoun_absolute_pos += pronoun.idx - 1  # idx is 1-based
+                    break
+        else:
+            # Fallback: just use position within sentence
+            pronoun_absolute_pos = pronoun.idx - 1
+        
+        # Find all potential antecedent phrases
+        potential_antecedent_phrases = []
+        
+        # Search through all sentences (or just current if no cross-sentence context)
+        contexts_to_search = all_contexts if all_contexts else [context]
+        
+        for search_ctx in contexts_to_search:
+            # Skip sentences after current sentence
+            if search_ctx.sentence_num > current_sentence_num:
+                continue
+                
+            # For current sentence, only look at phrases before pronoun
+            phrases_to_check = search_ctx.coreference_phrases
+            if search_ctx.sentence_num == current_sentence_num:
+                phrases_to_check = [p for p in phrases_to_check if p.start_position < pronoun.idx]
+            
+            for phrase in phrases_to_check:
+                # Check if phrase shares base coreference chain with pronoun
+                phrase_base = phrase.entity_id.split('-')[0] if '-' in phrase.entity_id else phrase.entity_id
+                
+                if phrase_base in pronoun_chain_numbers:
+                    # Calculate absolute position of phrase
+                    phrase_absolute_pos = 0
+                    
+                    if all_contexts:
+                        # Count tokens in sentences before phrase's sentence
+                        for ctx in all_contexts:
+                            if ctx.sentence_num < search_ctx.sentence_num:
+                                phrase_absolute_pos += len(ctx.tokens)
+                            elif ctx.sentence_num == search_ctx.sentence_num:
+                                phrase_absolute_pos += phrase.start_position - 1  # start_position is 1-based
+                                break
+                    else:
+                        # Fallback for single sentence
+                        phrase_absolute_pos = phrase.start_position - 1
+                    
+                    distance = pronoun_absolute_pos - phrase_absolute_pos
+                    
+                    # Only include antecedents that appear before pronoun
+                    if distance > 0:
+                        occurrence_num = self._extract_occurrence_number(phrase.entity_id)
+                        
+                        potential_antecedent_phrases.append({
+                            'phrase': phrase,
+                            'absolute_pos': phrase_absolute_pos,
+                            'distance': distance,
+                            'sentence_id': search_ctx.sentence_num,
+                            'occurrence_num': occurrence_num
+                        })
+        
+        if not potential_antecedent_phrases:
+            return AntecedentInfo(
+                most_recent_text='_',
+                most_recent_distance='_',
+                first_text='_', 
+                first_distance='_',
+                sentence_id='_',
+                choice_count=0
+            )
+        
+        # Find most recent antecedent (highest absolute position = most recent)
+        most_recent = max(potential_antecedent_phrases, key=lambda x: x['absolute_pos'])
+        
+        # Find first antecedent (lowest occurrence number = first mention)
+        first_antecedent = min(potential_antecedent_phrases, key=lambda x: x['occurrence_num'])
+        
+        return AntecedentInfo(
+            most_recent_text=most_recent['phrase'].phrase_text,
+            most_recent_distance=str(most_recent['distance']),
+            first_text=first_antecedent['phrase'].phrase_text,
+            first_distance=str(first_antecedent['distance']),
+            sentence_id=str(most_recent['sentence_id']),
+            choice_count=len(potential_antecedent_phrases)
+        )
+    
+    def _extract_occurrence_number(self, entity_id: str) -> int:
+        """Extract occurrence number from entity ID like '127-3'."""
+        if '-' in entity_id:
+            try:
+                return int(entity_id.split('-')[1])
+            except (IndexError, ValueError):
+                return 999  # Default high number
+        return 999

@@ -255,8 +255,44 @@ class ClauseMateRelationship:
     
     def _determine_pronoun_givenness(self) -> str:
         """Determine pronoun givenness from its coreference information."""
-        # This logic will be implemented based on the existing givenness determination
-        # For now, return a placeholder
+        from ..utils import determine_givenness
+        
+        # Try to determine givenness from coreference links
+        # First try animate coreference link
+        if self.pronoun.coreference_link and self.pronoun.coreference_link != '_':
+            # Extract the full coreference ID from the link
+            if '->' in self.pronoun.coreference_link:
+                coref_id = self.pronoun.coreference_link.split('->')[-1]
+                givenness = determine_givenness(coref_id)
+                if givenness != '_':
+                    return givenness
+        
+        # Try inanimate coreference link if animate didn't work
+        if self.pronoun.inanimate_coreference_link and self.pronoun.inanimate_coreference_link != '_':
+            if '->' in self.pronoun.inanimate_coreference_link:
+                coref_id = self.pronoun.inanimate_coreference_link.split('->')[-1]
+                givenness = determine_givenness(coref_id)
+                if givenness != '_':
+                    return givenness
+        
+        # Fallback: try to extract from type fields
+        if self.pronoun.coreference_type and self.pronoun.coreference_type != '_':
+            # Extract ID from type field like "PersPron[127]"
+            import re
+            match = re.search(r'\[(\d+)\]', self.pronoun.coreference_type)
+            if match:
+                # This is the base ID, we don't know the occurrence, so assume it's given
+                return "bekannt"
+        
+        if self.pronoun.inanimate_coreference_type and self.pronoun.inanimate_coreference_type != '_':
+            # Extract ID from type field like "defNP[192]"
+            import re
+            match = re.search(r'\[(\d+)\]', self.pronoun.inanimate_coreference_type)
+            if match:
+                # This is the base ID, we don't know the occurrence, so assume it's given
+                return "bekannt"
+        
+        # If no coreference information available, return missing
         return "_"
 
 

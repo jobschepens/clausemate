@@ -34,8 +34,8 @@ except ImportError:
 # Import from root directory modules
 import sys
 sys.path.append(str(Path(__file__).parent.parent))
-from .config import FilePaths
-from .exceptions import ClauseMateExtractionError
+from config import FilePaths
+from exceptions import ClauseMateExtractionError
 
 
 class ClauseMateAnalyzer:
@@ -145,9 +145,9 @@ class ClauseMateAnalyzer:
             phrase_result = self.phrase_extractor.extract(context)
             total_phrases += len(phrase_result.phrases)
             
-            # Extract relationships
+            # Extract relationships (with cross-sentence context)
             if context.has_critical_pronouns and context.has_coreference_phrases:
-                relationship_result = self.relationship_extractor.extract(context)
+                relationship_result = self.relationship_extractor.extract(context, all_contexts=contexts)
                 all_relationships.extend(relationship_result.relationships)
             
         self.stats['critical_pronouns_found'] = total_pronouns
