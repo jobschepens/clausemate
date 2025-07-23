@@ -57,15 +57,15 @@ jobs:
 
     - name: Test reproducibility
       run: |
-        # Run Phase 2 twice and compare outputs
-        python src/main.py
-        cp data/output/clause_mates_phase2_export.csv run1.csv
-        python src/main.py
-        cp data/output/clause_mates_phase2_export.csv run2.csv
+        # Run Phase 2 twice and compare outputs using test data
+        python src/main.py data/input/test_sample.tsv -o run1.csv
+        python src/main.py data/input/test_sample.tsv -o run2.csv
 
         # Check if outputs are identical
         if ! diff -q run1.csv run2.csv > /dev/null; then
           echo "ERROR: Phase 2 outputs are not reproducible"
+          echo "Differences found:"
+          diff run1.csv run2.csv || true
           exit 1
         else
           echo "SUCCESS: Phase 2 outputs are reproducible"
