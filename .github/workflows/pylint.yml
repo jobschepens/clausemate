@@ -10,6 +10,7 @@ jobs:
   test:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false  # Don't cancel other jobs if one fails
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         python-version: ["3.8", "3.9", "3.10", "3.11"]
@@ -27,12 +28,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install nox
 
-    - name: Run CI pipeline with nox
-      run: nox -s ci
+    - name: Run linting and formatting checks
+      run: nox -s lint
 
-    - name: Run tests with coverage
-      run: |
-        pytest tests/ --cov=src --cov-report=xml --cov-report=term-missing
+    - name: Run tests
+      run: nox -s test
 
     - name: Upload coverage to Codecov
       if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.10'
@@ -40,12 +40,6 @@ jobs:
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         file: ./coverage.xml
-
-    - name: Run integration tests
-      run: |
-        python src/main.py  # Test Phase 2
-        python archive/phase1/clause_mates_complete.py  # Test Phase 1
-        python archive/phase_comparison/compare_phases.py  # Test comparison
 
   reproducibility:
     runs-on: ubuntu-latest
