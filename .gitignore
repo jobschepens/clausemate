@@ -28,6 +28,14 @@ MANIFEST
 env/
 venv/
 ENV/
+
+# Data outputs (generated files - don't track results)
+data/output/*.csv
+data/output/*.log
+data/output/log/
+
+# Archive outputs (preserve but don't track changes)
+archive/*/output/
 env.bak/
 venv.bak/
 

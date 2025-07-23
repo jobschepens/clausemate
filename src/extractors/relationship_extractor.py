@@ -28,10 +28,6 @@ class RelationshipExtractor(BaseRelationshipExtractor):
     their clause mates within the same sentence.
     """
     
-    def __init__(self):
-        """Initialize the relationship extractor."""
-        pass
-    
     def extract(self, context: SentenceContext) -> ExtractionResult:
         """
         Extract relationship features from a sentence context.

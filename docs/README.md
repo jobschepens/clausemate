@@ -31,14 +31,33 @@ This tool analyzes German pronouns and their clause mates in annotated linguisti
 ## Project Structure
 
 ```
-├── phase1/                     # Phase 1 - Self-contained monolithic version
-│   ├── clause_mates_complete.py    # Main analysis script
-│   ├── config.py                   # Phase 1 configuration and constants
-│   ├── utils.py                    # Phase 1 utility functions  
-│   ├── pronoun_classifier.py       # Phase 1 pronoun classification logic
-│   ├── exceptions.py               # Phase 1 custom exception classes
-│   └── README.md                   # Phase 1 documentation
-├── src/                        # Phase 2 - Complete modular architecture
+├── archive/                    # Historical versions and deprecated code
+│   ├── phase1/                     # Phase 1 - Self-contained monolithic version
+│   │   ├── clause_mates_complete.py    # Main analysis script
+│   │   ├── config.py                   # Phase 1 configuration and constants
+│   │   ├── utils.py                    # Phase 1 utility functions  
+│   │   ├── pronoun_classifier.py       # Phase 1 pronoun classification logic
+│   │   ├── exceptions.py               # Phase 1 custom exception classes
+│   │   └── README.md                   # Phase 1 documentation
+│   └── *.json                      # Old project exports
+├── data/                       # All data files organized by purpose
+│   ├── input/                      # Source data and annotations
+│   │   ├── annotation/                 # Annotation files by chapter
+│   │   ├── source/                     # Original text files
+│   │   ├── gotofiles/                  # Navigation/reference files
+│   │   ├── annotation_ser/             # Serialized annotation data
+│   │   ├── curation/                   # Curated datasets
+│   │   └── curation_ser/               # Serialized curation data
+│   └── output/                     # Generated files and results
+│       ├── *.csv                       # Analysis results
+│       ├── *.log                       # Processing logs
+│       └── log/                        # Log directories
+├── docs/                       # Documentation and references
+│   ├── README.md                   # Main documentation (this file)
+│   ├── task.md                     # Project task description
+│   ├── hyp.txt                     # Hypothesis file
+│   └── *.png                       # Screenshots and diagrams
+├── src/                        # Phase 2 - Complete modular architecture (CURRENT)
 │   ├── main.py                     # Main orchestrator
 │   ├── config.py                   # Phase 2 configuration
 │   ├── exceptions.py               # Phase 2 exception handling
@@ -50,8 +69,8 @@ This tool analyzes German pronouns and their clause mates in annotated linguisti
 │   ├── extractors/                 # Feature extraction components
 │   ├── analyzers/                  # Analysis components
 │   └── data/                       # Data models and structures
-├── exportscript.py             # Independent legacy analysis script
-└── gotofiles/                  # Input data files
+└── tools/                      # Analysis scripts and utilities
+    └── *.py                        # Python analysis tools
 ```
 
 ## Installation
@@ -69,11 +88,11 @@ pip install pandas
 
 ## Usage
 
-### Phase 1 - Self-Contained Version
+### Phase 1 - Self-Contained Version (Legacy - in archive/)
 ```bash
-python phase1/clause_mates_complete.py
+python archive/phase1/clause_mates_complete.py
 ```
-Output: `phase1/clause_mates_phase1_export.csv` (463 relationships, 35 columns)
+Output: `archive/phase1/clause_mates_phase1_export.csv` (463 relationships, 35 columns)
 
 ### Phase 2 - Modular Architecture
 ```bash
@@ -98,8 +117,8 @@ python src/verify_phase2.py
 
 ### Configuration
 
-#### Phase 1 Configuration
-Edit `phase1/config.py` to customize Phase 1 settings:
+#### Phase 1 Configuration (Legacy)
+Edit `archive/phase1/config.py` to customize Phase 1 settings:
 - Input/output file paths for Phase 1
 - Column mappings and constants
 
@@ -110,13 +129,13 @@ Edit `src/config.py` to customize Phase 2 settings:
 
 ## Output Format
 
-### Phase 1 Output
-- **File**: `phase1/clause_mates_phase1_export.csv`
+### Phase 1 Output (Legacy)
+- **File**: `archive/phase1/clause_mates_phase1_export.csv`
 - **463 relationships** across 222 sentences
 - **35 columns** with complete linguistic features
 
-### Phase 2 Output  
-- **File**: `clause_mates_chap2_export.csv`
+### Phase 2 Output (Current)
+- **File**: `data/output/clause_mates_phase2_export.csv`
 - **448 relationships** across 222 sentences
 - **34 columns** with streamlined feature set
 - **Clause mate features**: text, coreference ID, animacy, givenness
@@ -157,6 +176,10 @@ This is a research project. For contributions:
 - Python 3.8+
 - pandas
 - Standard library modules (re, logging, collections, typing)
+
+## Code Quality
+
+This project uses pylint for code quality checking with a custom configuration tailored for experimental research code. See [PYLINT_README.md](PYLINT_README.md) for details on the "vibe coding" approach and quality standards.
 
 ## License
 

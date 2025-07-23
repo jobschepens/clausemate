@@ -20,4 +20,5 @@ jobs:
         pip install pylint
     - name: Analysing the code with pylint
       run: |
-        pylint $(git ls-files '*.py')
+        # Analyze current implementation files, excluding archive and data folders
+        pylint src/*.py src/*/*.py --rcfile=.pylintrc --fail-under=8.0

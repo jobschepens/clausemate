@@ -668,7 +668,7 @@ def find_antecedent_and_distance(pronoun_token: Dict[str, Any], all_sentence_tok
     chain_numbers = set()
     for coref_id in pronoun_coref_ids:
         if '-' in str(coref_id):
-            base_num = str(coref_id).split('-')[0]
+            base_num = str(coref_id).split('-', maxsplit=1)[0]
             chain_numbers.add(base_num)
         else:
             chain_numbers.add(str(coref_id))
@@ -770,9 +770,9 @@ def find_antecedent_and_distance(pronoun_token: Dict[str, Any], all_sentence_tok
             
             # Extract chain number from phrase coreference ID
             if '-' in str(phrase['coreference_id']):
-                base_num = str(phrase['coreference_id']).split('-')[0]
+                base_num = str(phrase['coreference_id']).split('-', maxsplit=1)[0]
                 phrase_chain_nums.add(base_num)
-                occurrence_num = int(str(phrase['coreference_id']).split('-')[1])
+                occurrence_num = int(str(phrase['coreference_id']).split('-', maxsplit=1)[1])
             else:
                 phrase_chain_nums.add(str(phrase['coreference_id']))
                 occurrence_num = 999  # Default high number if no occurrence
