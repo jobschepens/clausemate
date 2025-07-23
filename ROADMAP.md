@@ -7,6 +7,11 @@
 ```
 ├── phase1/                    # Self-contained Phase 1 (463 relationships, 35 cols)
 ├── src/                       # Complete Phase 2 package (448 relationships, 34 cols)  
+├── phase_comparison/          # Phase comparison analysis and planning
+│   ├── compare_phases.py      # Main comparison script
+│   ├── phase2_completion_plan.md  # Implementation roadmap
+│   ├── phase_difference_analysis.md  # Analysis documentation
+│   └── [other comparison files]  # Reports, results, and analysis
 ├── exportscript.py            # Independent legacy script
 └── tests/                     # Project-wide testing
 ```
@@ -21,7 +26,17 @@ python src/run_phase2.py
 
 # Phase 2 Testing
 python src/verify_phase2.py
+
+# Phase Comparison Analysis
+python phase_comparison/compare_phases.py
 ```
+
+### Phase Comparison Organization 📊
+All phase comparison work has been organized in the `phase_comparison/` folder:
+- **Analysis scripts**: `compare_phases.py`, `run_analysis_with_output.py`
+- **Planning documents**: `phase2_completion_plan.md`, `phase2_improvement_plan.md`
+- **Results & reports**: Analysis outputs, comparison results, and documentation
+- **This organization keeps the main directory clean while preserving all comparison work**
 
 ---
 
@@ -43,6 +58,8 @@ python src/verify_phase2.py
 - **Comprehensive testing suite** (6/6 tests passing)
 - **Organized in dedicated `src/` package**
 - **Entry point and verification scripts**
+- **Phase comparison analysis completed** with organized documentation
+- **Completion roadmap created** for remaining Phase 2 enhancements
 
 ---
 
@@ -293,6 +310,8 @@ def cached_antecedent_search(pronoun_id, sentence_range):
 ## Implementation Timeline 📅
 
 ### **Q3 2025**: Method 2 Implementation
+- [x] **Phase comparison organization**: All comparison work organized in dedicated folder
+- [x] **Phase 2 completion roadmap**: Comprehensive implementation plan created
 - [ ] Set up spaCy German pipeline
 - [ ] Implement morphological feature extraction
 - [ ] Add gender/number compatibility scoring
