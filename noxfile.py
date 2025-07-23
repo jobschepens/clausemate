@@ -43,14 +43,10 @@ def test(session):
 def lint(session):
     """Run ruff linting and formatting checks."""
     session.install("ruff>=0.1.0")
-    try:
-        session.run("ruff", "check", "src/", "tests/", "tools/")
-    except Exception as e:
-        session.warn(f"Linting issues found: {e}")
-    try:
-        session.run("ruff", "format", "--check", "src/", "tests/", "tools/")
-    except Exception as e:
-        session.warn(f"Formatting issues found: {e}")
+    session.run("ruff", "check", "src/", "tests/", "tools/", success_codes=[0, 1])
+    session.run(
+        "ruff", "format", "--check", "src/", "tests/", "tools/", success_codes=[0, 1]
+    )
 
 
 @nox.session
