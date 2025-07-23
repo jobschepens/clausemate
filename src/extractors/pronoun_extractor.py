@@ -15,8 +15,8 @@ sys.path.append(str(Path(__file__).parent.parent.parent))
 
 from src.extractors.base import BasePronounExtractor
 from src.data.models import Token, SentenceContext, ExtractionResult
-from config import PronounSets
-from pronoun_classifier import is_critical_pronoun
+from ..config import PronounSets
+from ..pronoun_classifier import is_critical_pronoun
 
 
 class PronounExtractor(BasePronounExtractor):

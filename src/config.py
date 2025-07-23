@@ -61,7 +61,7 @@ class PronounSets:
 class FilePaths:
     """Default file paths."""
     INPUT_FILE = r'C:\Users\jobsc\sciebo\INF_Schepens\ind\robert\gotofiles\2.tsv'
-    OUTPUT_FILE = r'C:\Users\jobsc\sciebo\INF_Schepens\ind\robert\clause_mates_chap2_export.csv'
+    OUTPUT_FILE = r'C:\Users\jobsc\sciebo\INF_Schepens\ind\robert\clause_mates_phase2_export.csv'
 
 
 class RegexPatterns:

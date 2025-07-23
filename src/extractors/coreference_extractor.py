@@ -19,7 +19,7 @@ from src.data.models import (
     Token, SentenceContext, CoreferenceChain, 
     ExtractionResult, AnimacyType
 )
-from config import PronounSets
+from ..config import PronounSets
 
 
 class CoreferenceExtractor(BaseCoreferenceExtractor):

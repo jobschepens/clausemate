@@ -67,7 +67,8 @@ def is_critical_pronoun_legacy(coreference_type: str, inanimate_coreference_type
 
 def group_tokens_into_phrases(tokens_data: List[Tuple[str, str, int, str, str, str, str]]) -> List[Dict[str, Any]]:
     """
-    Group consecutive tokens that belong to the same coreference chain into phrases.
+    Group tokens that belong to the same coreference entity into phrases.
+    Uses Phase 2 logic: groups by entity ID rather than consecutive positioning.
     
     Args:
         tokens_data: List of tuples (token_text, coreference_id, token_index, grammatical_role, thematic_role, coreference_type, animacy)
@@ -78,44 +79,61 @@ def group_tokens_into_phrases(tokens_data: List[Tuple[str, str, int, str, str, s
     if not tokens_data:
         return []
     
-    phrases = []
-    current_phrase = None
+    # Group tokens by entity ID (Phase 2 approach)
+    entity_groups: Dict[str, List[Tuple[str, str, int, str, str, str, str]]] = {}
     
-    for token_text, coreference_id, token_idx, grammatical_role, thematic_role, coreference_type, animacy in tokens_data:
+    for token_data in tokens_data:
+        token_text, coreference_id, token_idx, grammatical_role, thematic_role, coreference_type, animacy = token_data
         if coreference_id is not None:
-            if current_phrase is None or current_phrase['coreference_id'] != coreference_id:
-                # Start new phrase
-                if current_phrase is not None:
-                    phrases.append(current_phrase)
-                
-                current_phrase = {
-                    'text': token_text,
-                    'coreference_id': coreference_id,
-                    'start_idx': token_idx,
-                    'end_idx': token_idx,
-                    'grammatical_role': grammatical_role,
-                    'thematic_role': thematic_role,
-                    'coreference_type': coreference_type,
-                    'animacy': animacy,
-                    'givenness': determine_givenness(coreference_id)
-                }
-            else:
-                # Continue current phrase
-                current_phrase['text'] += ' ' + token_text
-                current_phrase['end_idx'] = token_idx
-                # For multi-token phrases, keep the grammatical/thematic role of the first token
-                # (they should be the same for all tokens in a phrase anyway)
-        else:
-            # No coreference annotation, finalize current phrase if any
-            if current_phrase is not None:
-                phrases.append(current_phrase)
-                current_phrase = None
+            if coreference_id not in entity_groups:
+                entity_groups[coreference_id] = []
+            entity_groups[coreference_id].append(token_data)
     
-    # Don't forget the last phrase
-    if current_phrase is not None:
-        phrases.append(current_phrase)
+    # Convert groups to phrases
+    phrases = []
+    for entity_id, tokens in entity_groups.items():
+        if tokens:  # Only create phrases for non-empty groups
+            # Sort tokens by position to maintain order
+            sorted_tokens = sorted(tokens, key=lambda x: x[2])  # Sort by token_idx
+            
+            # Build phrase text from sorted tokens
+            phrase_text = ' '.join(token[0] for token in sorted_tokens)  # token_text is at index 0
+            
+            # Use first token's linguistic properties (they should be consistent within entity)
+            first_token = sorted_tokens[0]
+            token_text, coreference_id, token_idx, grammatical_role, thematic_role, coreference_type, animacy = first_token
+            
+            phrase = {
+                'text': phrase_text,
+                'coreference_id': entity_id,
+                'start_idx': min(token[2] for token in sorted_tokens),  # token_idx is at index 2
+                'end_idx': max(token[2] for token in sorted_tokens),
+                'grammatical_role': grammatical_role,
+                'thematic_role': thematic_role,
+                'coreference_type': coreference_type,
+                'animacy': animacy,
+                'givenness': determine_givenness(entity_id)
+            }
+            phrases.append(phrase)
     
     return phrases
+
+def extract_first_words(line: str) -> str:
+    """
+    Extract the first three words from a sentence text line.
+    
+    Args:
+        line: The #Text= line from TSV file
+        
+    Returns:
+        String with first three words joined by underscores
+    """
+    if line.startswith('#Text='):
+        text_content = line[6:].strip()
+        words = text_content.split()[:3]
+        return '_'.join(words).replace(',', '').replace('.', '')
+    return ''
+
 
 def extract_clause_mates(file_path: str) -> List[Dict[str, Any]]:
     """
@@ -145,28 +163,38 @@ def extract_clause_mates(file_path: str) -> List[Dict[str, Any]]:
     logger.info(f"Read {len(lines)} lines from file")
     
     # First pass: collect all sentence tokens
-    all_sentence_tokens: Dict[str, List[Dict[str, Any]]] = {}
+    all_sentence_tokens: Dict[int, List[Dict[str, Any]]] = {}
+    sentence_first_words: Dict[int, str] = {}  # Store first words for each sentence
     current_sentence_tokens: List[Dict[str, Any]] = []
-    current_sentence_id: Optional[str] = None
+    current_sentence_id: Optional[int] = None
+    current_first_words: Optional[str] = None
     
     logger.info("First pass: collecting all tokens...")
     
     processed_rows = 0
     
     for idx, row in enumerate(lines):
-        # Skip header lines
+        # Handle #Text= lines to extract first words
+        if len(row) == 1 and row[0].startswith('#Text='):
+            current_first_words = extract_first_words(row[0])
+            continue
+            
+        # Skip other header lines
         if str(row[0]).startswith('#'):
             continue
             
         # Check for empty lines or lines with just whitespace (sentence boundaries)
         if len(row) <= 1 or not row[0].strip():
-            # Store the completed sentence
+            # Store the completed sentence with its first words
             if current_sentence_tokens and current_sentence_id:
                 all_sentence_tokens[current_sentence_id] = current_sentence_tokens[:]
+                if current_first_words:
+                    sentence_first_words[current_sentence_id] = current_first_words
             
             # Reset for next sentence
             current_sentence_tokens = []
             current_sentence_id = None
+            current_first_words = None
             continue
         
         # Skip rows that don't have enough columns
@@ -193,8 +221,8 @@ def extract_clause_mates(file_path: str) -> List[Dict[str, Any]]:
             # Extract sentence and token numbers
             sentence_num, token_num = parse_token_info(token_info)
             
-            # Set sentence ID based on actual sentence number
-            current_sentence_id = f"{Constants.SENTENCE_PREFIX}{sentence_num}"
+            # Set sentence ID based on actual sentence number (use numeric ID)
+            current_sentence_id = sentence_num
             
             # Add token to current sentence
             current_sentence_tokens.append({
@@ -217,6 +245,8 @@ def extract_clause_mates(file_path: str) -> List[Dict[str, Any]]:
     # Don't forget the last sentence
     if current_sentence_tokens and current_sentence_id:
         all_sentence_tokens[current_sentence_id] = current_sentence_tokens[:]
+        if current_first_words:
+            sentence_first_words[current_sentence_id] = current_first_words
     
     logger.info(f"Collected tokens from {len(all_sentence_tokens)} sentences")
     
@@ -228,7 +258,8 @@ def extract_clause_mates(file_path: str) -> List[Dict[str, Any]]:
     for sentence_id in sorted(all_sentence_tokens.keys()):
         sentence_tokens = all_sentence_tokens[sentence_id]
         sentence_count += 1
-        sentence_relationships = process_sentence(sentence_tokens, sentence_id, all_sentence_tokens)
+        first_words = sentence_first_words.get(sentence_id, "")
+        sentence_relationships = process_sentence(sentence_tokens, sentence_id, all_sentence_tokens, first_words)
         relationships.extend(sentence_relationships)
         
         if sentence_count <= 3:
@@ -239,14 +270,15 @@ def extract_clause_mates(file_path: str) -> List[Dict[str, Any]]:
     
     return relationships
 
-def process_sentence(sentence_tokens: List[Dict[str, Any]], sentence_id: str, all_sentence_tokens: Optional[Dict[str, List[Dict[str, Any]]]] = None) -> List[Dict[str, Any]]:
+def process_sentence(sentence_tokens: List[Dict[str, Any]], sentence_id: int, all_sentence_tokens: Optional[Dict[int, List[Dict[str, Any]]]] = None, first_words: str = "") -> List[Dict[str, Any]]:
     """
     Process a single sentence to extract clause mate relationships.
     
     Args:
         sentence_tokens: List of token dictionaries for the sentence
-        sentence_id: Identifier for the sentence
+        sentence_id: Numeric identifier for the sentence
         all_sentence_tokens: Dictionary mapping sentence_id to list of tokens (for antecedent calculation)
+        first_words: First three words of the sentence joined by underscores
     
     Returns:
         List of clause mate relationship dictionaries
@@ -346,7 +378,7 @@ def process_sentence(sentence_tokens: List[Dict[str, Any]], sentence_id: str, al
                         'inanim'  # Inanimate coreference layer
                     ))
         
-        # Group tokens into phrases
+        # Group tokens into phrases (using Phase 2 entity-based logic)
         phrases = group_tokens_into_phrases(sentence_coref_tokens)
         
         # Calculate number of clause mates for this pronoun
@@ -373,7 +405,7 @@ def process_sentence(sentence_tokens: List[Dict[str, Any]], sentence_id: str, al
                 most_recent_antecedent_distance = '_'
                 first_antecedent_text = '_'
                 first_antecedent_distance = '_'
-                antecedent_sentence_id = '_'
+                antecedent_sentence_id = -1  # Use -1 to indicate no antecedent found
                 antecedent_choice = 0
                 if all_sentence_tokens:
                     # Calculate antecedent distances and sentence location
@@ -382,13 +414,13 @@ def process_sentence(sentence_tokens: List[Dict[str, Any]], sentence_id: str, al
                     )
                     
                     # Calculate antecedent choice if we found an antecedent
-                    if antecedent_sentence_id != '_' and antecedent_sentence_id in all_sentence_tokens:
+                    if antecedent_sentence_id != -1 and antecedent_sentence_id in all_sentence_tokens:
                         antecedent_choice = calculate_antecedent_choice(
                             pronoun_token, all_sentence_tokens[antecedent_sentence_id], antecedent_sentence_id
                         )
                 
                 # Extract numeric values from string variables
-                sentence_num = extract_sentence_number(sentence_id)
+                sentence_num = sentence_id  # sentence_id is already numeric
                 
                 # Extract numeric values for pronoun coreference IDs (use first ID if multiple)
                 first_pronoun_coref_id = list(pronoun_coref_ids)[0] if pronoun_coref_ids else '_'
@@ -404,8 +436,11 @@ def process_sentence(sentence_tokens: List[Dict[str, Any]], sentence_id: str, al
                 pronoun_inanimate_coref_link_base, pronoun_inanimate_coref_link_occurrence = extract_coref_link_numbers(pronoun_token['inanimate_coreference_link'])
                 
                 relationship = {
-                    'sentence_id': sentence_id,
+                    'sentence_id': sentence_num,  # Now using numeric sentence ID
+                    'sentence_id_numeric': sentence_num,
+                    'sentence_id_prefixed': f"sent_{sentence_num}",  # Keep prefixed version for compatibility
                     'sentence_num': sentence_num,
+                    'first_words': first_words,
                     'pronoun_text': pronoun_token['token_text'],
                     'pronoun_token_idx': pronoun_token['token_idx'],
                     'pronoun_grammatical_role': pronoun_token['grammatical_role'],
@@ -444,7 +479,7 @@ def process_sentence(sentence_tokens: List[Dict[str, Any]], sentence_id: str, al
     
     return relationships
 
-def calculate_antecedent_choice(pronoun_token: Dict[str, Any], antecedent_sentence_tokens: List[Dict[str, Any]], antecedent_sentence_id: str) -> int:
+def calculate_antecedent_choice(pronoun_token: Dict[str, Any], antecedent_sentence_tokens: List[Dict[str, Any]], antecedent_sentence_id: int) -> int:
     """
     Calculate the number of potential antecedents in the same sentence as the actual antecedent.
     Uses animacy-based matching: count referential expressions that match the pronoun's animacy requirements.
@@ -452,7 +487,7 @@ def calculate_antecedent_choice(pronoun_token: Dict[str, Any], antecedent_senten
     Args:
         pronoun_token: The pronoun token dictionary
         antecedent_sentence_tokens: List of tokens in the sentence where the antecedent is located
-        antecedent_sentence_id: The sentence ID where the antecedent is located
+        antecedent_sentence_id: The numeric sentence ID where the antecedent is located
     
     Returns:
         int: Number of potential antecedents (including the actual antecedent)
@@ -602,7 +637,7 @@ def extract_coref_link_numbers(
     except (ValueError, AttributeError):
         return None, None
 
-def find_antecedent_and_distance(pronoun_token: Dict[str, Any], all_sentence_tokens: Dict[str, List[Dict[str, Any]]], current_sentence_id: str) -> Tuple[str, str, str, str, str]:
+def find_antecedent_and_distance(pronoun_token: Dict[str, Any], all_sentence_tokens: Dict[int, List[Dict[str, Any]]], current_sentence_id: int) -> Tuple[str, str, str, str, int]:
     """
     Find both the most recent and first antecedent phrases of a pronoun and calculate the linear distances to them.
     
@@ -627,7 +662,7 @@ def find_antecedent_and_distance(pronoun_token: Dict[str, Any], all_sentence_tok
         pronoun_coref_ids.add(inanimate_full_id)
     
     if not pronoun_coref_ids:
-        return Constants.MISSING_VALUE, Constants.MISSING_VALUE, Constants.MISSING_VALUE, Constants.MISSING_VALUE, Constants.MISSING_VALUE
+        return Constants.MISSING_VALUE, Constants.MISSING_VALUE, Constants.MISSING_VALUE, Constants.MISSING_VALUE, -1
     
     # Get the base chain number (e.g., "115" from "115-4")
     chain_numbers = set()
@@ -639,15 +674,15 @@ def find_antecedent_and_distance(pronoun_token: Dict[str, Any], all_sentence_tok
             chain_numbers.add(str(coref_id))
     
     if not chain_numbers:
-        return Constants.MISSING_VALUE, Constants.MISSING_VALUE, Constants.MISSING_VALUE, Constants.MISSING_VALUE, Constants.MISSING_VALUE
+        return Constants.MISSING_VALUE, Constants.MISSING_VALUE, Constants.MISSING_VALUE, Constants.MISSING_VALUE, -1
     
     # Calculate the absolute position of the current pronoun
-    current_sentence_num = int(current_sentence_id.replace(Constants.SENTENCE_PREFIX, ''))
+    current_sentence_num = current_sentence_id  # sentence_id is already numeric
     pronoun_absolute_pos = 0
     
     # Count tokens in all sentences before the current sentence
     for sent_id in sorted(all_sentence_tokens.keys()):
-        sent_num = int(sent_id.replace(Constants.SENTENCE_PREFIX, ''))
+        sent_num = sent_id  # sent_id is already numeric
         if sent_num < current_sentence_num:
             pronoun_absolute_pos += len(all_sentence_tokens[sent_id])
         elif sent_num == current_sentence_num:
@@ -660,7 +695,7 @@ def find_antecedent_and_distance(pronoun_token: Dict[str, Any], all_sentence_tok
     
     # Look through all sentences up to and including the current one
     for sent_id in sorted(all_sentence_tokens.keys()):
-        sent_num = int(sent_id.replace(Constants.SENTENCE_PREFIX, ''))
+        sent_num = sent_id  # sent_id is already numeric
         if sent_num > current_sentence_num:
             break
         
@@ -748,7 +783,7 @@ def find_antecedent_and_distance(pronoun_token: Dict[str, Any], all_sentence_tok
                 absolute_pos = 0
                 # Count tokens in all sentences before this one
                 for prev_sent_id in sorted(all_sentence_tokens.keys()):
-                    prev_sent_num = int(prev_sent_id.replace(Constants.SENTENCE_PREFIX, ''))
+                    prev_sent_num = prev_sent_id  # prev_sent_id is already numeric
                     if prev_sent_num < sent_num:
                         absolute_pos += len(all_sentence_tokens[prev_sent_id])
                     else:
@@ -777,7 +812,7 @@ def find_antecedent_and_distance(pronoun_token: Dict[str, Any], all_sentence_tok
                 first_antecedent['phrase']['text'], str(first_antecedent['distance']),
                 most_recent_antecedent['sentence_id'])
     
-    return Constants.MISSING_VALUE, Constants.MISSING_VALUE, Constants.MISSING_VALUE, Constants.MISSING_VALUE, Constants.MISSING_VALUE
+    return Constants.MISSING_VALUE, Constants.MISSING_VALUE, Constants.MISSING_VALUE, Constants.MISSING_VALUE, -1
 
 def main() -> Optional[pd.DataFrame]:
     """Main function to run the clause mate extraction."""

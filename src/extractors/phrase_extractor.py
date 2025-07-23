@@ -14,7 +14,7 @@ sys.path.append(str(Path(__file__).parent.parent.parent))
 
 from src.extractors.base import BasePhraseExtractor
 from src.data.models import Token, SentenceContext, ExtractionResult, CoreferencePhrase
-from utils import extract_coreference_id, extract_full_coreference_id
+from ..utils import extract_coreference_id, extract_full_coreference_id
 
 
 class PhraseExtractor(BasePhraseExtractor):

@@ -172,6 +172,9 @@ class ClauseMateRelationship:
     antecedent_info: AntecedentInfo
     first_words: str = ""
     
+    # Pronoun coreference IDs (for compatibility with Phase 1)
+    pronoun_coref_ids: Optional[List[str]] = None
+    
     # Derived numeric fields for analysis
     pronoun_coref_base_num: Optional[int] = None
     pronoun_coref_occurrence_num: Optional[int] = None
@@ -200,7 +203,9 @@ class ClauseMateRelationship:
         """
         return {
             # Sentence information
-            'sentence_id': self.sentence_id,
+            'sentence_id': self.sentence_num,  # Now using numeric sentence ID as primary
+            'sentence_id_numeric': self.sentence_num,
+            'sentence_id_prefixed': f"sent_{self.sentence_num}",
             'sentence_num': self.sentence_num,
             'first_words': self.first_words,
             
@@ -209,6 +214,8 @@ class ClauseMateRelationship:
             'pronoun_token_idx': self.pronoun.idx,
             'pronoun_grammatical_role': self.pronoun.grammatical_role,
             'pronoun_thematic_role': self.pronoun.thematic_role,
+            'pronoun_givenness': self._determine_pronoun_givenness(),
+            'pronoun_coref_ids': self.pronoun_coref_ids,
             'pronoun_coreference_link': self.pronoun.coreference_link,
             'pronoun_coreference_type': self.pronoun.coreference_type,
             'pronoun_inanimate_coreference_link': self.pronoun.inanimate_coreference_link,
@@ -244,9 +251,6 @@ class ClauseMateRelationship:
             'pronoun_first_antecedent_text': self.antecedent_info.first_text,
             'pronoun_first_antecedent_distance': self.antecedent_info.first_distance,
             'pronoun_antecedent_choice': self.antecedent_info.choice_count,
-            
-            # Derived fields
-            'pronoun_givenness': self._determine_pronoun_givenness(),
         }
     
     def _determine_pronoun_givenness(self) -> str:

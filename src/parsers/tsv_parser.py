@@ -15,7 +15,7 @@ sys.path.append(str(Path(__file__).parent.parent.parent))
 
 from src.parsers.base import BaseParser, BaseTokenProcessor
 from src.data.models import Token, SentenceContext
-from exceptions import FileProcessingError, ParseError
+from ..exceptions import FileProcessingError, ParseError
 
 
 class TSVParser(BaseParser):
@@ -37,7 +37,7 @@ class TSVParser(BaseParser):
         self._expected_columns = 14  # Updated based on actual TSV structure
         
         # Import column mappings from config
-        from config import TSVColumns
+        from ..config import TSVColumns
         self.columns = TSVColumns()
     
     def parse_file(self, file_path: str) -> Dict[str, List[Token]]:

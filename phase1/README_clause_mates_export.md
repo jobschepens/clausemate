@@ -1,30 +1,32 @@
-# Clause Mates Analysis - Export Documentation
+# Clause Mates Analysis - Phase 1 Export Documentation
 
 ## Project Overview
-This project extracts and analyzes clause mate relationships for German pronouns to test whether the presence and linguistic features of clause mates affect pronoun usage patterns.
+This documents the Phase 1 (monolithic version) clause mate extraction that analyzes relationships for German pronouns to test whether the presence and linguistic features of clause mates affect pronoun usage patterns.
 
-## Files in This Export
+## Files in This Phase 1 Export
 
 ### 📊 **Data Files**
-- **`clause_mates_chap2_export.csv`** - Main dataset with clause mate relationships
-  - 37 columns covering pronoun features, clause mate features, and antecedent information
+- **`clause_mates_phase1_export.csv`** - Main Phase 1 dataset with clause mate relationships
+  - 35 columns covering pronoun features, clause mate features, and antecedent information
+  - 463 total relationships across 222 sentences
   - Each row = one clause mate relationship
   - UTF-8 encoded CSV format
 
 ### 📋 **Documentation**
-- **`clause_mates_data_documentation.md`** - Comprehensive data documentation
-  - Column descriptions and data types
+- **`clause_mates_data_documentation.md`** - Comprehensive Phase 1 data documentation
+  - Column descriptions and data types for 35-column output
   - Usage examples and interpretation guide
   - Quality assurance information
 
-- **`clause_mates_metadata.json`** - Technical metadata
+- **`clause_mates_metadata.json`** - Technical metadata for Phase 1
   - JSON format specifications
   - Algorithm descriptions
   - Data validation rules
   - Analysis recommendations
 
 ### 🔧 **Source Code**
-- **`clause_mates_complete.py`** - Main extraction script
+- **`clause_mates_complete.py`** - Main Phase 1 extraction script
+  - Self-contained monolithic implementation
   - Full implementation with phrase-level antecedent detection
   - Animacy-based antecedent choice calculation
   - Numeric conversion of string variables
@@ -38,12 +40,13 @@ This project extracts and analyzes clause mate relationships for German pronouns
 ```python
 import pandas as pd
 
-# Load the main dataset
-df = pd.read_csv('clause_mates_chap2_export.csv', encoding='utf-8')
+# Load the Phase 1 dataset
+df = pd.read_csv('phase1/clause_mates_phase1_export.csv', encoding='utf-8')
 
 # Basic info
 print(f"Dataset shape: {df.shape}")
 print(f"Columns: {list(df.columns)}")
+print(f"Total relationships: {len(df)}")  # Should be 463
 ```
 
 ### 2. **Key Research Variables**

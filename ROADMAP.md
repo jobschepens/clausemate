@@ -1,17 +1,54 @@
-# Clause Mates Analysis - Development Roadmap
+# Clause Mates- **Complete separation of concerns**
+- **Comprehensive testing suite** (6/6 tests passing)
+- **Organized in dedicated `src/` package**
+- **Entry point and verification scripts**
 
-## Current Status (v1.0) ✅
-- **Complete phrase-level antecedent detection**
-- **Method 1 antecedent choice** (animacy-based)
-- **Comprehensive data export** with 37 columns
-- **Full documentation** and metadata
-- **Numeric variable conversions** for statistical analysis
+### Current Project Structure ✅
+```
+├── phase1/                    # Self-contained Phase 1 (463 relationships, 35 cols)
+├── src/                       # Complete Phase 2 package (448 relationships, 34 cols)  
+├── exportscript.py            # Independent legacy script
+└── tests/                     # Project-wide testing
+```
+
+### How to Run ✅
+```bash
+# Phase 1
+python phase1/clause_mates_complete.py
+
+# Phase 2  
+python src/run_phase2.py
+
+# Phase 2 Testing
+python src/verify_phase2.py
+```
 
 ---
 
-## Phase 2: Enhanced Antecedent Choice Methods 🚧
+## Phase 3: Enhanced Antecedent Choice Methods 📋s - Development Roadmap
 
-### 2.1 Method 2: Morphological Compatibility (High Priority)
+## Current Status (v2.0) ✅
+
+### Phase 1 Complete ✅
+- **Self-contained monolithic version** 
+- **463 relationships** extracted with **35 columns**
+- **Complete phrase-level antecedent detection**
+- **Method 1 antecedent choice** (animacy-based)
+- **Full documentation** and metadata
+
+### Phase 2 Complete ✅  
+- **Modular architecture** with streaming support
+- **448 relationships** extracted with **34 columns**
+- **Complete separation of concerns**
+- **Comprehensive testing suite** (6/6 tests passing)
+- **Organized in dedicated `src/` package**
+- **Entry point and verification scripts**
+
+---
+
+## Phase 3: Enhanced Antecedent Choice Methods �
+
+### 3.1 Method 2: Morphological Compatibility (High Priority)
 **Goal**: Implement gender/number-based antecedent choice calculation
 
 #### Implementation Plan

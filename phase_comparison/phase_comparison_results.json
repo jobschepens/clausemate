@@ -1,0 +1,404 @@
+{
+  "phase1": {
+    "success": true,
+    "execution_time": 1.5531408786773682,
+    "output_file": "phase1/clause_mates_phase1_export.csv",
+    "output_exists": true,
+    "file_size_bytes": 106702,
+    "statistics": {},
+    "stdout": "",
+    "stderr": "2025-07-23 14:30:23,282 - INFO - Starting clause mate extraction from: C:\\Users\\jobsc\\sciebo\\INF_Schepens\\ind\\robert\\gotofiles\\2.tsv\n2025-07-23 14:30:23,283 - INFO - Reading TSV file line by line...\n2025-07-23 14:30:23,287 - INFO - Read 4120 lines from file\n2025-07-23 14:30:23,287 - INFO - First pass: collecting all tokens...\n2025-07-23 14:30:23,307 - INFO - Collected tokens from 222 sentences\n2025-07-23 14:30:23,307 - INFO - Second pass: extracting relationships...\n2025-07-23 14:30:23,307 - INFO - Sentence 1: 11 tokens, 0 relationships\n2025-07-23 14:30:23,307 - INFO - Sentence 2: 21 tokens, 1 relationships\n2025-07-23 14:30:23,307 - INFO - Sentence 3: 13 tokens, 1 relationships\n2025-07-23 14:30:24,009 - INFO - Total sentences processed: 222\n2025-07-23 14:30:24,009 - INFO - Total rows processed: 3665\n2025-07-23 14:30:24,010 - INFO - Extracted 463 clause mate relationships\n2025-07-23 14:30:24,010 - INFO - First 5 relationships:\n2025-07-23 14:30:24,010 - INFO - 1. Sentence: sent_10\n2025-07-23 14:30:24,010 - INFO -    Pronoun: 'er' (idx: 8)\n2025-07-23 14:30:24,010 - INFO -    Clause mate: 'der Detektiv' (idx: 3-4)\n2025-07-23 14:30:24,010 - INFO -    Pronoun coref IDs: ['127-8']\n2025-07-23 14:30:24,010 - INFO -    Clause mate coref ID: 127-7\n2025-07-23 14:30:24,011 - INFO - 2. Sentence: sent_100\n2025-07-23 14:30:24,011 - INFO -    Pronoun: 'das' (idx: 7)\n2025-07-23 14:30:24,011 - INFO -    Clause mate: 'man' (idx: 3-3)\n2025-07-23 14:30:24,011 - INFO -    Pronoun coref IDs: ['127-76']\n2025-07-23 14:30:24,011 - INFO -    Clause mate coref ID: 52-1\n2025-07-23 14:30:24,011 - INFO - 3. Sentence: sent_102\n2025-07-23 14:30:24,011 - INFO -    Pronoun: 'ihn' (idx: 5)\n2025-07-23 14:30:24,011 - INFO -    Clause mate: 'ihn' (idx: 9-9)\n2025-07-23 14:30:24,011 - INFO -    Pronoun coref IDs: ['127-77']\n2025-07-23 14:30:24,011 - INFO -    Clause mate coref ID: 127-78\n2025-07-23 14:30:24,011 - INFO - 4. Sentence: sent_102\n2025-07-23 14:30:24,011 - INFO -    Pronoun: 'ihn' (idx: 5)\n2025-07-23 14:30:24,011 - INFO -    Clause mate: 'einer' (idx: 10-10)\n2025-07-23 14:30:24,011 - INFO -    Pronoun coref IDs: ['127-77']\n2025-07-23 14:30:24,011 - INFO -    Clause mate coref ID: 56-1\n2025-07-23 14:30:24,011 - INFO - 5. Sentence: sent_102\n2025-07-23 14:30:24,011 - INFO -    Pronoun: 'ihn' (idx: 5)\n2025-07-23 14:30:24,011 - INFO -    Clause mate: 'dem' (idx: 13-13)\n2025-07-23 14:30:24,011 - INFO -    Pronoun coref IDs: ['127-77']\n2025-07-23 14:30:24,011 - INFO -    Clause mate coref ID: 35-1\n2025-07-23 14:30:24,016 - INFO - DataFrame shape: (463, 38)\n2025-07-23 14:30:24,016 - INFO - Columns: ['sentence_id', 'sentence_id_numeric', 'sentence_id_prefixed', 'sentence_num', 'first_words', 'pronoun_text', 'pronoun_token_idx', 'pronoun_grammatical_role', 'pronoun_thematic_role', 'pronoun_givenness', 'pronoun_coref_ids', 'pronoun_coref_base_num', 'pronoun_coref_occurrence_num', 'pronoun_most_recent_antecedent_text', 'pronoun_most_recent_antecedent_distance', 'pronoun_first_antecedent_text', 'pronoun_first_antecedent_distance', 'pronoun_antecedent_choice', 'num_clause_mates', 'clause_mate_text', 'clause_mate_coref_id', 'clause_mate_coref_base_num', 'clause_mate_coref_occurrence_num', 'clause_mate_start_idx', 'clause_mate_end_idx', 'clause_mate_grammatical_role', 'clause_mate_thematic_role', 'clause_mate_coreference_type', 'clause_mate_animacy', 'clause_mate_givenness', 'pronoun_coreference_link', 'pronoun_coref_link_base_num', 'pronoun_coref_link_occurrence_num', 'pronoun_coreference_type', 'pronoun_inanimate_coreference_link', 'pronoun_inanimate_coref_link_base_num', 'pronoun_inanimate_coref_link_occurrence_num', 'pronoun_inanimate_coreference_type']\n2025-07-23 14:30:24,017 - INFO - Unique pronouns: 16\n2025-07-23 14:30:24,018 - INFO - Unique clause mates: 192\n2025-07-23 14:30:24,018 - INFO - Unique sentences: 101\n2025-07-23 14:30:24,029 - INFO - Results exported to: C:\\Users\\jobsc\\sciebo\\INF_Schepens\\ind\\robert\\phase1\\clause_mates_phase1_export.csv\n"
+  },
+  "phase2": {
+    "success": true,
+    "execution_time": 0.9324045181274414,
+    "output_file": "clause_mates_chap2_export.csv",
+    "output_exists": true,
+    "file_size_bytes": 81408,
+    "statistics": {
+      "sentences_processed": 222,
+      "tokens_processed": 3665,
+      "relationships_found": 448,
+      "coreference_chains_found": 235,
+      "critical_pronouns_found": 151,
+      "phrases_found": 561
+    },
+    "stdout": "\nAnalysis Summary:\n  sentences_processed: 222\n  tokens_processed: 3665\n  relationships_found: 448\n  coreference_chains_found: 235\n  critical_pronouns_found: 151\n  phrases_found: 561\n",
+    "stderr": "2025-07-23 14:30:24,272 - INFO - Starting analysis of file: C:\\Users\\jobsc\\sciebo\\INF_Schepens\\ind\\robert\\gotofiles\\2.tsv\n2025-07-23 14:30:24,273 - INFO - Using complete file analysis (prioritizing maintainability)\n2025-07-23 14:30:24,315 - INFO - Analysis complete. Statistics: {'sentences_processed': 222, 'tokens_processed': 3665, 'relationships_found': 448, 'coreference_chains_found': 235, 'critical_pronouns_found': 151, 'phrases_found': 561}\n2025-07-23 14:30:24,960 - INFO - Results exported to: C:\\Users\\jobsc\\sciebo\\INF_Schepens\\ind\\robert\\clause_mates_phase2_export.csv\n2025-07-23 14:30:24,960 - INFO - Exported 448 relationships\n"
+  },
+  "comparison": {
+    "phase1": {
+      "rows": 463,
+      "columns": 38,
+      "column_names": [
+        "sentence_id",
+        "sentence_id_numeric",
+        "sentence_id_prefixed",
+        "sentence_num",
+        "first_words",
+        "pronoun_text",
+        "pronoun_token_idx",
+        "pronoun_grammatical_role",
+        "pronoun_thematic_role",
+        "pronoun_givenness",
+        "pronoun_coref_ids",
+        "pronoun_coref_base_num",
+        "pronoun_coref_occurrence_num",
+        "pronoun_most_recent_antecedent_text",
+        "pronoun_most_recent_antecedent_distance",
+        "pronoun_first_antecedent_text",
+        "pronoun_first_antecedent_distance",
+        "pronoun_antecedent_choice",
+        "num_clause_mates",
+        "clause_mate_text",
+        "clause_mate_coref_id",
+        "clause_mate_coref_base_num",
+        "clause_mate_coref_occurrence_num",
+        "clause_mate_start_idx",
+        "clause_mate_end_idx",
+        "clause_mate_grammatical_role",
+        "clause_mate_thematic_role",
+        "clause_mate_coreference_type",
+        "clause_mate_animacy",
+        "clause_mate_givenness",
+        "pronoun_coreference_link",
+        "pronoun_coref_link_base_num",
+        "pronoun_coref_link_occurrence_num",
+        "pronoun_coreference_type",
+        "pronoun_inanimate_coreference_link",
+        "pronoun_inanimate_coref_link_base_num",
+        "pronoun_inanimate_coref_link_occurrence_num",
+        "pronoun_inanimate_coreference_type"
+      ],
+      "file_size_mb": 0.1
+    },
+    "phase2": {
+      "rows": 448,
+      "columns": 38,
+      "column_names": [
+        "sentence_id",
+        "sentence_id_numeric",
+        "sentence_id_prefixed",
+        "sentence_num",
+        "first_words",
+        "pronoun_text",
+        "pronoun_token_idx",
+        "pronoun_grammatical_role",
+        "pronoun_thematic_role",
+        "pronoun_givenness",
+        "pronoun_coref_ids",
+        "pronoun_coreference_link",
+        "pronoun_coreference_type",
+        "pronoun_inanimate_coreference_link",
+        "pronoun_inanimate_coreference_type",
+        "pronoun_coref_base_num",
+        "pronoun_coref_occurrence_num",
+        "pronoun_coref_link_base_num",
+        "pronoun_coref_link_occurrence_num",
+        "pronoun_inanimate_coref_link_base_num",
+        "pronoun_inanimate_coref_link_occurrence_num",
+        "num_clause_mates",
+        "clause_mate_text",
+        "clause_mate_coref_id",
+        "clause_mate_start_idx",
+        "clause_mate_end_idx",
+        "clause_mate_grammatical_role",
+        "clause_mate_thematic_role",
+        "clause_mate_coreference_type",
+        "clause_mate_animacy",
+        "clause_mate_givenness",
+        "clause_mate_coref_base_num",
+        "clause_mate_coref_occurrence_num",
+        "pronoun_most_recent_antecedent_text",
+        "pronoun_most_recent_antecedent_distance",
+        "pronoun_first_antecedent_text",
+        "pronoun_first_antecedent_distance",
+        "pronoun_antecedent_choice"
+      ],
+      "file_size_mb": 0.08
+    },
+    "columns": {
+      "common_count": 38,
+      "common_columns": [
+        "clause_mate_animacy",
+        "clause_mate_coref_base_num",
+        "clause_mate_coref_id",
+        "clause_mate_coref_occurrence_num",
+        "clause_mate_coreference_type",
+        "clause_mate_end_idx",
+        "clause_mate_givenness",
+        "clause_mate_grammatical_role",
+        "clause_mate_start_idx",
+        "clause_mate_text",
+        "clause_mate_thematic_role",
+        "first_words",
+        "num_clause_mates",
+        "pronoun_antecedent_choice",
+        "pronoun_coref_base_num",
+        "pronoun_coref_ids",
+        "pronoun_coref_link_base_num",
+        "pronoun_coref_link_occurrence_num",
+        "pronoun_coref_occurrence_num",
+        "pronoun_coreference_link",
+        "pronoun_coreference_type",
+        "pronoun_first_antecedent_distance",
+        "pronoun_first_antecedent_text",
+        "pronoun_givenness",
+        "pronoun_grammatical_role",
+        "pronoun_inanimate_coref_link_base_num",
+        "pronoun_inanimate_coref_link_occurrence_num",
+        "pronoun_inanimate_coreference_link",
+        "pronoun_inanimate_coreference_type",
+        "pronoun_most_recent_antecedent_distance",
+        "pronoun_most_recent_antecedent_text",
+        "pronoun_text",
+        "pronoun_thematic_role",
+        "pronoun_token_idx",
+        "sentence_id",
+        "sentence_id_numeric",
+        "sentence_id_prefixed",
+        "sentence_num"
+      ],
+      "phase1_only_count": 0,
+      "phase1_only": [],
+      "phase2_only_count": 0,
+      "phase2_only": []
+    },
+    "data_types": {
+      "pronoun_first_antecedent_distance": {
+        "phase1": "object",
+        "phase2": "object",
+        "same": true
+      },
+      "pronoun_token_idx": {
+        "phase1": "int64",
+        "phase2": "int64",
+        "same": true
+      },
+      "pronoun_coref_occurrence_num": {
+        "phase1": "int64",
+        "phase2": "float64",
+        "same": false
+      },
+      "first_words": {
+        "phase1": "object",
+        "phase2": "object",
+        "same": true
+      },
+      "clause_mate_coref_occurrence_num": {
+        "phase1": "int64",
+        "phase2": "float64",
+        "same": false
+      },
+      "pronoun_text": {
+        "phase1": "object",
+        "phase2": "object",
+        "same": true
+      },
+      "pronoun_coref_base_num": {
+        "phase1": "int64",
+        "phase2": "float64",
+        "same": false
+      },
+      "pronoun_grammatical_role": {
+        "phase1": "object",
+        "phase2": "object",
+        "same": true
+      },
+      "pronoun_most_recent_antecedent_distance": {
+        "phase1": "object",
+        "phase2": "object",
+        "same": true
+      },
+      "clause_mate_grammatical_role": {
+        "phase1": "object",
+        "phase2": "object",
+        "same": true
+      },
+      "clause_mate_start_idx": {
+        "phase1": "int64",
+        "phase2": "int64",
+        "same": true
+      },
+      "clause_mate_coref_id": {
+        "phase1": "object",
+        "phase2": "object",
+        "same": true
+      },
+      "sentence_num": {
+        "phase1": "int64",
+        "phase2": "int64",
+        "same": true
+      },
+      "clause_mate_animacy": {
+        "phase1": "object",
+        "phase2": "object",
+        "same": true
+      },
+      "pronoun_first_antecedent_text": {
+        "phase1": "object",
+        "phase2": "object",
+        "same": true
+      },
+      "pronoun_inanimate_coref_link_occurrence_num": {
+        "phase1": "float64",
+        "phase2": "float64",
+        "same": true
+      },
+      "pronoun_inanimate_coreference_type": {
+        "phase1": "object",
+        "phase2": "object",
+        "same": true
+      },
+      "sentence_id_prefixed": {
+        "phase1": "object",
+        "phase2": "object",
+        "same": true
+      },
+      "clause_mate_text": {
+        "phase1": "object",
+        "phase2": "object",
+        "same": true
+      },
+      "pronoun_givenness": {
+        "phase1": "object",
+        "phase2": "object",
+        "same": true
+      },
+      "sentence_id_numeric": {
+        "phase1": "int64",
+        "phase2": "int64",
+        "same": true
+      },
+      "clause_mate_coreference_type": {
+        "phase1": "object",
+        "phase2": "object",
+        "same": true
+      },
+      "pronoun_coref_link_base_num": {
+        "phase1": "float64",
+        "phase2": "float64",
+        "same": true
+      },
+      "num_clause_mates": {
+        "phase1": "int64",
+        "phase2": "int64",
+        "same": true
+      },
+      "pronoun_coref_ids": {
+        "phase1": "object",
+        "phase2": "object",
+        "same": true
+      },
+      "pronoun_most_recent_antecedent_text": {
+        "phase1": "object",
+        "phase2": "object",
+        "same": true
+      },
+      "clause_mate_givenness": {
+        "phase1": "object",
+        "phase2": "object",
+        "same": true
+      },
+      "pronoun_antecedent_choice": {
+        "phase1": "int64",
+        "phase2": "int64",
+        "same": true
+      },
+      "pronoun_thematic_role": {
+        "phase1": "object",
+        "phase2": "object",
+        "same": true
+      },
+      "pronoun_coref_link_occurrence_num": {
+        "phase1": "float64",
+        "phase2": "float64",
+        "same": true
+      },
+      "pronoun_inanimate_coreference_link": {
+        "phase1": "object",
+        "phase2": "object",
+        "same": true
+      },
+      "clause_mate_coref_base_num": {
+        "phase1": "int64",
+        "phase2": "float64",
+        "same": false
+      },
+      "clause_mate_end_idx": {
+        "phase1": "int64",
+        "phase2": "int64",
+        "same": true
+      },
+      "pronoun_coreference_link": {
+        "phase1": "object",
+        "phase2": "object",
+        "same": true
+      },
+      "pronoun_coreference_type": {
+        "phase1": "object",
+        "phase2": "object",
+        "same": true
+      },
+      "pronoun_inanimate_coref_link_base_num": {
+        "phase1": "float64",
+        "phase2": "float64",
+        "same": true
+      },
+      "sentence_id": {
+        "phase1": "object",
+        "phase2": "int64",
+        "same": false
+      },
+      "clause_mate_thematic_role": {
+        "phase1": "object",
+        "phase2": "object",
+        "same": true
+      }
+    },
+    "sample_data": {
+      "sentence_id": {
+        "phase1_unique": 101,
+        "phase2_unique": 101,
+        "phase1_sample": [
+          "sent_10",
+          "sent_100",
+          "sent_102"
+        ],
+        "phase2_sample": [
+          4,
+          7,
+          7
+        ]
+      },
+      "pronoun_text": {
+        "phase1_unique": 16,
+        "phase2_unique": 16,
+        "phase1_sample": [
+          "er",
+          "das",
+          "ihn"
+        ],
+        "phase2_sample": [
+          "Der",
+          "er",
+          "er"
+        ]
+      },
+      "clause_mate_text": {
+        "phase1_unique": 192,
+        "phase2_unique": 191,
+        "phase1_sample": [
+          "der Detektiv",
+          "man",
+          "ihn"
+        ],
+        "phase2_sample": [
+          "der Liftgeschichte",
+          "das Gefühl",
+          "er"
+        ]
+      }
+    }
+  }
+}

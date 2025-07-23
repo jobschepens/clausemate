@@ -4,8 +4,8 @@ A Python tool for extracting and analyzing clause mate relationships from German
 
 ## Project Status
 
-- ✅ **Phase 1 Complete**: Constants extraction, type hints, error handling, modularization
-- 🔄 **Phase 2 Ready**: Structural improvements, testing, code deduplication  
+- ✅ **Phase 1 Complete**: Self-contained monolithic version with full functionality
+- ✅ **Phase 2 Complete**: Modular architecture with streaming support and comprehensive testing
 - 📋 **Phase 3 Planned**: Advanced features and configuration system
 
 ## Description
@@ -29,13 +29,27 @@ This tool analyzes German pronouns and their clause mates in annotated linguisti
 ## Project Structure
 
 ```
-├── clause_mates_complete.py    # Main analysis script
-├── config.py                   # Configuration and constants
-├── utils.py                    # Utility functions
-├── pronoun_classifier.py       # Pronoun classification logic
-├── exceptions.py               # Custom exception classes
-├── phase2_improvement_plan.md  # Development roadmap
-└── old/                       # Legacy scripts (archived)
+├── phase1/                     # Phase 1 - Self-contained monolithic version
+│   ├── clause_mates_complete.py    # Main analysis script
+│   ├── config.py                   # Phase 1 configuration and constants
+│   ├── utils.py                    # Phase 1 utility functions  
+│   ├── pronoun_classifier.py       # Phase 1 pronoun classification logic
+│   ├── exceptions.py               # Phase 1 custom exception classes
+│   └── README.md                   # Phase 1 documentation
+├── src/                        # Phase 2 - Complete modular architecture
+│   ├── main.py                     # Main orchestrator
+│   ├── config.py                   # Phase 2 configuration
+│   ├── exceptions.py               # Phase 2 exception handling
+│   ├── utils.py                    # Phase 2 utility functions
+│   ├── pronoun_classifier.py       # Phase 2 pronoun classification
+│   ├── run_phase2.py               # Entry point script for Phase 2
+│   ├── verify_phase2.py            # Testing and verification script
+│   ├── parsers/                    # TSV parsing components
+│   ├── extractors/                 # Feature extraction components
+│   ├── analyzers/                  # Analysis components
+│   └── data/                       # Data models and structures
+├── exportscript.py             # Independent legacy analysis script
+└── gotofiles/                  # Input data files
 ```
 
 ## Installation
@@ -53,28 +67,56 @@ pip install pandas
 
 ## Usage
 
-### Basic Usage
+### Phase 1 - Self-Contained Version
 ```bash
-python clause_mates_complete.py
+python phase1/clause_mates_complete.py
 ```
+Output: `phase1/clause_mates_phase1_export.csv` (463 relationships, 35 columns)
 
-The script will process the configured input file and generate:
-- `clause_mates_chap2_export.csv` - Main analysis results
-- `clause_mates_data_documentation.md` - Data structure documentation  
-- `clause_mates_metadata.json` - Technical metadata
+### Phase 2 - Modular Architecture
+```bash
+# Method 1: Direct execution
+python src/run_phase2.py
+
+# Method 2: Module execution  
+python -m src.main
+```
+Output: `clause_mates_chap2_export.csv` (448 relationships, 34 columns)
+
+### Legacy Export Script
+```bash
+python exportscript.py
+```
+Output: `clause_mates_export.csv` (processes curation files)
+
+### Testing Phase 2 Components
+```bash
+python src/verify_phase2.py
+```
 
 ### Configuration
 
-Edit `config.py` to customize:
-- Input/output file paths
-- Column mappings for TSV format
-- Processing constants
+#### Phase 1 Configuration
+Edit `phase1/config.py` to customize Phase 1 settings:
+- Input/output file paths for Phase 1
+- Column mappings and constants
+
+#### Phase 2 Configuration  
+Edit `src/config.py` to customize Phase 2 settings:
+- Input/output file paths for Phase 2
+- Processing parameters and column mappings
 
 ## Output Format
 
-Each row in the output represents one clause mate relationship:
-- **37 columns total**
-- **Pronoun features**: text, position, grammatical/thematic roles
+### Phase 1 Output
+- **File**: `phase1/clause_mates_phase1_export.csv`
+- **463 relationships** across 222 sentences
+- **35 columns** with complete linguistic features
+
+### Phase 2 Output  
+- **File**: `clause_mates_chap2_export.csv`
+- **448 relationships** across 222 sentences
+- **34 columns** with streamlined feature set
 - **Clause mate features**: text, coreference ID, animacy, givenness
 - **Antecedent information**: distances to most recent and first mentions
 - **Numeric variables**: for statistical analysis

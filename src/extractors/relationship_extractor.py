@@ -17,7 +17,7 @@ from src.data.models import (
     Token, SentenceContext, ExtractionResult, CoreferencePhrase,
     ClauseMateRelationship, Phrase, AntecedentInfo
 )
-from utils import extract_coreference_id, extract_full_coreference_id, determine_givenness
+from ..utils import extract_coreference_id, extract_full_coreference_id, determine_givenness
 
 
 class RelationshipExtractor(BaseRelationshipExtractor):
@@ -120,7 +120,8 @@ class RelationshipExtractor(BaseRelationshipExtractor):
                     clause_mate=phrase,
                     num_clause_mates=num_clause_mates,
                     antecedent_info=antecedent_info,
-                    first_words=getattr(context, 'first_words', "")
+                    first_words=getattr(context, 'first_words', ""),
+                    pronoun_coref_ids=list(pronoun_coref_ids)
                 )
                 
                 relationships.append(relationship)

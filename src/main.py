@@ -34,8 +34,8 @@ except ImportError:
 # Import from root directory modules
 import sys
 sys.path.append(str(Path(__file__).parent.parent))
-from config import FilePaths
-from exceptions import ClauseMateExtractionError
+from .config import FilePaths
+from .exceptions import ClauseMateExtractionError
 
 
 class ClauseMateAnalyzer:
