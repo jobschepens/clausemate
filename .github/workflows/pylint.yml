@@ -57,9 +57,9 @@ jobs:
 
     - name: Test reproducibility
       run: |
-        # Run Phase 2 twice and compare outputs using test data
-        python src/main.py data/input/test_sample.tsv -o run1.csv
-        python src/main.py data/input/test_sample.tsv -o run2.csv
+        # Run Phase 2 twice and compare outputs using tracked test data
+        python src/main.py data/input/gotofiles/2.tsv -o run1.csv
+        python src/main.py data/input/gotofiles/2.tsv -o run2.csv
 
         # Check if outputs are identical
         if ! diff -q run1.csv run2.csv > /dev/null; then
@@ -74,12 +74,12 @@ jobs:
     - name: Performance benchmarking
       run: |
         pip install memory-profiler
-        # Add basic performance tests
+        # Add basic performance tests using tracked test data
         python -c "
         import time
         start = time.time()
         import subprocess
-        result = subprocess.run(['python', 'src/main.py'], capture_output=True)
+        result = subprocess.run(['python', 'src/main.py', 'data/input/gotofiles/2.tsv', '-o', 'benchmark.csv'], capture_output=True)
         end = time.time()
         print(f'Phase 2 execution time: {end-start:.2f} seconds')
         if end-start > 30:  # Fail if takes more than 30 seconds
