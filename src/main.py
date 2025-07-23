@@ -8,8 +8,18 @@ import logging
 from pathlib import Path
 from typing import Any, Dict, List
 
-from .config import FilePaths
-from .exceptions import ClauseMateExtractionError
+# Import dependencies - handle both module and script execution
+try:
+    # When run as module (python -m src.main)
+    from .config import FilePaths
+    from .exceptions import ClauseMateExtractionError
+except ImportError:
+    # When run as script (python src/main.py)
+    import sys
+
+    sys.path.append(str(Path(__file__).parent.parent))
+    from src.config import FilePaths
+    from src.exceptions import ClauseMateExtractionError
 
 # Import from the modular components
 try:
@@ -32,11 +42,6 @@ except ImportError:
     from src.extractors.pronoun_extractor import PronounExtractor
     from src.extractors.relationship_extractor import RelationshipExtractor
     from src.parsers.tsv_parser import DefaultTokenProcessor, TSVParser
-
-# Import from root directory modules
-import sys
-
-sys.path.append(str(Path(__file__).parent.parent))
 
 
 class ClauseMateAnalyzer:
@@ -103,7 +108,7 @@ class ClauseMateAnalyzer:
             self.logger.error(f"Analysis failed: {str(e)}")
             raise ClauseMateExtractionError(
                 f"Failed to analyze file {file_path}: {str(e)}"
-            )
+            ) from e
 
     def _analyze_complete(self, file_path: str) -> List[ClauseMateRelationship]:
         """Analyze file by loading all sentences into memory.
@@ -218,7 +223,9 @@ class ClauseMateAnalyzer:
 
         except Exception as e:
             self.logger.error(f"Export failed: {str(e)}")
-            raise ClauseMateExtractionError(f"Failed to export results: {str(e)}")
+            raise ClauseMateExtractionError(
+                f"Failed to export results: {str(e)}"
+            ) from e
 
     def get_statistics(self) -> Dict[str, Any]:
         """Get analysis statistics.
