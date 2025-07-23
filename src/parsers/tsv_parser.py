@@ -129,9 +129,8 @@ class TSVParser(BaseParser):
                             continue
                         if len(row) < self._expected_columns:
                             raise ParseError(
-                                f"Line {line_num}: Expected {
-                                    self._expected_columns
-                                } columns, "
+                                f"Line {line_num}: Expected "
+                                f"{self._expected_columns} columns, "
                                 f"got {len(row)}"
                             )
                         token = self.parse_token_line(line_text)
