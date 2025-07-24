@@ -49,11 +49,31 @@ The project is considered "complete" when the following criteria are met:
 - [x] **Install Missing Type Stubs:**
     - [x] Run `pip install types-psutil` to resolve missing stub errors.
 
-### 3. Fix Critical Module Imports ✅ **COMPLETE**
+### 3. Verify Module Import Structure
+*Goal: Complete the module import verification.*
+- [ ] Verify that all module imports are properly structured and relative where appropriate.
+- [ ] Test all modules can be imported without errors
+- [ ] Fix any remaining import issues
+
+---
+
+## ✅ Completed Tasks
+
+### 1. Enhance Reproducibility Guarantees ✅ **COMPLETE**
+*Goal: Make the analysis fully and formally reproducible by a third party.*
+- [x] **Formalize Dependency Locking:**
+    - [x] Use `pip-tools` to generate `requirements.txt` and `requirements-dev.txt` lock files.
+- [x] **Commit Reference Outputs:**
+    - [x] Create a `data/output/reference/` directory.
+    - [x] Store a "golden copy" of the output for the test data (`clause_mates_reference.csv`).
+    - [x] Create `tools/compare_outputs.py` for automated output comparison.
+- [x] **Create a `REPRODUCIBILITY.md` Guide:**
+    - [x] Document the exact steps for a third party to replicate the results using the lock files and reference output.
+
+### 2. Fix Critical Module Imports ✅ **COMPLETE**
 *Goal: Ensure all modules can be imported reliably.*
 - [x] Fix missing analyzer modules in `src/analyzers/__init__.py`.
 - [x] Updated to import actual base classes: `BaseAnalyzer`, `BaseStatisticalAnalyzer`, etc.
-- [ ] Verify that all module imports are properly structured and relative where appropriate.
 
 ---
 

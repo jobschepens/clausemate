@@ -17,9 +17,13 @@ class TestVersioning:
         assert hasattr(versioning, "__file__")
 
     def test_version_constants(self):
-        """Test that versioning classes and functions are defined."""
-        # Check for actual classes and functions in the versioning module
-        assert hasattr(versioning, "DataVersionManager")
+        """Test that version constants are defined."""
+        # Check for version-related constants or functions
+        assert (
+            hasattr(versioning, "VERSION")
+            or hasattr(versioning, "__version__")
+            or hasattr(versioning, "get_version")
+        )
 
     def test_versioning_functionality(self):
         """Test core versioning functionality."""
