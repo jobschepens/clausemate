@@ -21,15 +21,15 @@ The project is considered "complete" when the following criteria are met:
 
 ### 1. Enhance Reproducibility Guarantees
 *Goal: Make the analysis fully and formally reproducible by a third party.*
-- [ ] **Formalize Dependency Locking:**
-    - [ ] Use `pip-tools` to generate `requirements.txt` and `requirements-dev.txt` lock files.
+- [x] **Formalize Dependency Locking:**
+    - [x] Use `pip-tools` to generate `requirements.txt` and `requirements-dev.txt` lock files.
     - [ ] Update the CI and `noxfile.py` to use these lock files for all installations.
-- [ ] **Commit Reference Outputs:**
-    - [ ] Create a `data/output/reference/` directory.
-    - [ ] Store a "golden copy" of the output for the test data (`2.tsv`).
-    - [ ] Modify the CI `reproducibility` job to compare the script's output against this reference file.
-- [ ] **Create a `REPRODUCIBILITY.md` Guide:**
-    - [ ] Document the exact steps for a third party to replicate the results using the lock files and reference output.
+- [x] **Commit Reference Outputs:**
+    - [x] Create a `data/output/reference/` directory.
+    - [x] Store a "golden copy" of the output for the test data (`2.tsv`).
+    - [x] Modify the CI `reproducibility` job to compare the script's output against this reference file.
+- [x] **Create a `REPRODUCIBILITY.md` Guide:**
+    - [x] Document the exact steps for a third party to replicate the results using the lock files and reference output.
 
 ### 2. Achieve Full Type Safety
 *Goal: Reduce mypy errors to fewer than 10.*
@@ -37,12 +37,12 @@ The project is considered "complete" when the following criteria are met:
     - [ ] Add return type annotations to all functions.
     - [ ] Fix type mismatches in `relationship_extractor.py`.
     - [ ] Add proper type annotations to `benchmark.py` functions.
-- [ ] **Install Missing Type Stubs:**
-    - [ ] Run `pip install types-psutil` to resolve missing stub errors.
+- [x] **Install Missing Type Stubs:**
+    - [x] Run `pip install types-psutil` to resolve missing stub errors.
 
 ### 3. Fix Critical Module Imports
 *Goal: Ensure all modules can be imported reliably.*
-- [ ] Fix missing analyzer modules in `src/analyzers/__init__.py`.
+- [x] Fix missing analyzer modules in `src/analyzers/__init__.py`.
 - [ ] Verify that all module imports are properly structured and relative where appropriate.
 
 ---
@@ -61,10 +61,10 @@ The project is considered "complete" when the following criteria are met:
 
 ### 5. Increase Test Coverage
 *Goal: Increase test coverage to over 60%.*
-- [ ] **Add Tests for Untested Modules:**
-    - [ ] `src/benchmark.py`
-    - [ ] `src/verify_phase2.py`
-    - [ ] `src/data/versioning.py`
+- [x] **Add Tests for Untested Modules:**
+    - [x] `src/benchmark.py`
+    - [x] `src/verify_phase2.py`
+    - [x] `src/data/versioning.py`
 
 ---
 
