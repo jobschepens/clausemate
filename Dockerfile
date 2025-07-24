@@ -1,42 +1,47 @@
-# Use official Python runtime as base image
-FROM python:3.10-slim
+# build stage
+FROM python:3.10-slim as builder
 
-# Set working directory
 WORKDIR /app
 
-# Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends git && \
+    rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first for better caching
-COPY pyproject.toml ./
-COPY README.md ./
+COPY pyproject.toml README.md ./
+COPY requirements.txt requirements-dev.txt ./
 
-# Install Python dependencies
-RUN pip install -e ".[dev]"
+RUN pip install --no-cache-dir -r requirements-dev.txt
 
-# Copy source code
 COPY src/ ./src/
 COPY tests/ ./tests/
-COPY data/ ./data/
-COPY archive/ ./archive/
 
-# Create output directory
-RUN mkdir -p data/output
-
-# Run tests to verify setup
 RUN python -m pytest tests/ -v
 
-# Set default command
+# production stage
+FROM python:3.10-slim as production
+
+WORKDIR /app
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+RUN addgroup --system app && adduser --system --group app
+
+COPY --from=builder /app/src ./src
+COPY --from=builder /app/pyproject.toml .
+COPY --from=builder /app/README.md .
+COPY --from=builder /app/requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+USER app
+
 CMD ["python", "src/main.py"]
 
-# Health check
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
     CMD python -c "import src.main; print('OK')" || exit 1

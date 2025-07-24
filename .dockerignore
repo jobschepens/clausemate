@@ -1,0 +1,26 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+pip-selfcheck.json
+*.egg-info/
+htmlcov/
+
+# Docker
+.dockerignore
+Dockerfile
+plan.md
+
+# Other
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
