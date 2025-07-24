@@ -1,4 +1,30 @@
+
 # Clause Mates Analyzer
+
+<!-- Badges -->
+<p align="left">
+  <a href="https://github.com/jobschepens/clausemate/actions">
+    <img src="https://github.com/jobschepens/clausemate/actions/workflows/python-app.yml/badge.svg" alt="Build Status">
+  </a>
+  <a href="https://codecov.io/gh/jobschepens/clausemate">
+    <img src="https://codecov.io/gh/jobschepens/clausemate/branch/main/graph/badge.svg" alt="Coverage">
+  </a>
+  <a href="https://www.python.org/downloads/release/python-380/">
+    <img src="https://img.shields.io/badge/python-3.8%2B-blue.svg" alt="Python 3.8+">
+  </a>
+  <a href="https://github.com/charliermarsh/ruff">
+    <img src="https://img.shields.io/badge/linting-ruff-%23f7ca18" alt="Ruff Linting">
+  </a>
+  <a href="https://pre-commit.com/">
+    <img src="https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit" alt="pre-commit">
+  </a>
+  <a href="https://github.com/jobschepens/clausemate/blob/main/LICENSE">
+    <img src="https://img.shields.io/badge/license-research-lightgrey.svg" alt="License">
+  </a>
+  <a href="https://github.com/jobschepens/clausemate/tree/main/docs">
+    <img src="https://img.shields.io/badge/docs-available-brightgreen.svg" alt="Docs">
+  </a>
+</p>
 
 > **⚠️ Disclaimer**: This repository contains experimental research code developed through iterative "vibe coding" sessions. While the functionality is complete and tested, the codebase reflects rapid prototyping, multiple refactoring attempts, and exploratory development. Code quality and organization may vary across different phases of development. Use with appropriate expectations for research/experimental software.
 
