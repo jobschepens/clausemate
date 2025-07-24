@@ -1,38 +1,4 @@
-# Cross-Sentence Antecedent Detection Analysis Report
-
-**Generated from Phase 2 implementation with cross-sentence antecedent analysis**
-
-## Antecedent Detection Analysis
-
-- **Total relationships**: 448
-- **Successful antecedent detections**: 423
-- **Success rate**: 94.4%
-
-## Task Requirement Analysis
-
-**Research Question**: Do pronouns appear at more consistent linear positions when clause mates are present?
-
-### Clause Mate Presence Analysis
-
-**With multiple clause mates** (400 cases):
-- Average pronoun-antecedent distance: 34.4 tokens
-- Distance variability (std dev): 228.3
-
-**With few/no clause mates** (23 cases):
-- Average pronoun-antecedent distance: 14.7 tokens
-- Distance variability (std dev): 9.3
-
-### Task Pattern Check
-
-❌ **Different pattern**: Longer average distance when clause mates present
-❌ **Different pattern**: More variable positions when clause mates present
-
-## Cross-Sentence Detection Examples
-
-**Cross-sentence antecedents found**: 113
-
-### Diverse Examples
-*Showing correct "most recent" antecedent selection across sentences:*
+# Examples
 
 #### Example 1
 

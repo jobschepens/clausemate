@@ -216,6 +216,24 @@ class ClauseMateAnalyzer:
 
             # Create DataFrame and export
             df = pd.DataFrame(data)
+
+            # Convert coreference number columns to proper integer type
+            # Use pandas nullable integer type to handle NaN values correctly
+            integer_columns = [
+                "pronoun_coref_base_num",
+                "pronoun_coref_occurrence_num",
+                "clause_mate_coref_base_num",
+                "clause_mate_coref_occurrence_num",
+                "pronoun_coref_link_base_num",
+                "pronoun_coref_link_occurrence_num",
+                "pronoun_inanimate_coref_link_base_num",
+                "pronoun_inanimate_coref_link_occurrence_num",
+            ]
+
+            for col in integer_columns:
+                if col in df.columns:
+                    df[col] = df[col].astype("Int64")  # Nullable integer type
+
             df.to_csv(output_path, index=False)
 
             self.logger.info(f"Results exported to: {output_path}")

@@ -122,6 +122,9 @@ class RelationshipExtractor(BaseRelationshipExtractor):
                 # Debug
                 # print(f"DEBUG: Got antecedent info: {antecedent_info}")
 
+                # Extract coreference numbers for statistical analysis
+                coref_numbers = self._extract_coreference_numbers(pronoun, phrase)
+
                 relationship = ClauseMateRelationship(
                     sentence_id=str(context.sentence_num),
                     sentence_num=context.sentence_num,
@@ -131,6 +134,29 @@ class RelationshipExtractor(BaseRelationshipExtractor):
                     antecedent_info=antecedent_info,
                     first_words=getattr(context, "first_words", ""),
                     pronoun_coref_ids=list(pronoun_coref_ids),
+                    # Populate coreference number fields for statistical analysis
+                    pronoun_coref_base_num=coref_numbers["pronoun_coref_base_num"],
+                    pronoun_coref_occurrence_num=coref_numbers[
+                        "pronoun_coref_occurrence_num"
+                    ],
+                    clause_mate_coref_base_num=coref_numbers[
+                        "clause_mate_coref_base_num"
+                    ],
+                    clause_mate_coref_occurrence_num=coref_numbers[
+                        "clause_mate_coref_occurrence_num"
+                    ],
+                    pronoun_coref_link_base_num=coref_numbers[
+                        "pronoun_coref_link_base_num"
+                    ],
+                    pronoun_coref_link_occurrence_num=coref_numbers[
+                        "pronoun_coref_link_occurrence_num"
+                    ],
+                    pronoun_inanimate_coref_link_base_num=coref_numbers[
+                        "pronoun_inanimate_coref_link_base_num"
+                    ],
+                    pronoun_inanimate_coref_link_occurrence_num=coref_numbers[
+                        "pronoun_inanimate_coref_link_occurrence_num"
+                    ],
                 )
 
                 relationships.append(relationship)
@@ -446,3 +472,70 @@ class RelationshipExtractor(BaseRelationshipExtractor):
             except (IndexError, ValueError):
                 return 999  # Default high number
         return 999
+
+    def _extract_coreference_numbers(self, pronoun: Token, phrase: Phrase) -> dict:
+        """Extract all coreference numbers for statistical analysis.
+
+        Args:
+            pronoun: The pronoun token
+            phrase: The clause mate phrase
+
+        Returns:
+            Dictionary with all extracted coreference numbers
+        """
+        from typing import Dict, Optional
+
+        from ..utils import (
+            extract_coref_base_and_occurrence,
+            extract_coref_link_numbers,
+        )
+
+        result: Dict[str, Optional[int]] = {
+            "pronoun_coref_base_num": None,
+            "pronoun_coref_occurrence_num": None,
+            "clause_mate_coref_base_num": None,
+            "clause_mate_coref_occurrence_num": None,
+            "pronoun_coref_link_base_num": None,
+            "pronoun_coref_link_occurrence_num": None,
+            "pronoun_inanimate_coref_link_base_num": None,
+            "pronoun_inanimate_coref_link_occurrence_num": None,
+        }
+
+        # Extract pronoun coreference type numbers
+        if pronoun.coreference_type and pronoun.coreference_type != "_":
+            from ..utils import extract_coreference_id
+
+            coref_id = extract_coreference_id(pronoun.coreference_type)
+            if coref_id:
+                base_num, occurrence_num = extract_coref_base_and_occurrence(coref_id)
+                result["pronoun_coref_base_num"] = base_num
+                result["pronoun_coref_occurrence_num"] = occurrence_num
+
+        # Extract pronoun coreference link numbers (animate)
+        if pronoun.coreference_link and pronoun.coreference_link != "_":
+            base_num, occurrence_num = extract_coref_link_numbers(
+                pronoun.coreference_link
+            )
+            result["pronoun_coref_link_base_num"] = base_num
+            result["pronoun_coref_link_occurrence_num"] = occurrence_num
+
+        # Extract pronoun inanimate coreference link numbers
+        if (
+            pronoun.inanimate_coreference_link
+            and pronoun.inanimate_coreference_link != "_"
+        ):
+            base_num, occurrence_num = extract_coref_link_numbers(
+                pronoun.inanimate_coreference_link
+            )
+            result["pronoun_inanimate_coref_link_base_num"] = base_num
+            result["pronoun_inanimate_coref_link_occurrence_num"] = occurrence_num
+
+        # Extract clause mate coreference numbers from phrase.coreference_id
+        if phrase.coreference_id and phrase.coreference_id != "_":
+            base_num, occurrence_num = extract_coref_base_and_occurrence(
+                phrase.coreference_id
+            )
+            result["clause_mate_coref_base_num"] = base_num
+            result["clause_mate_coref_occurrence_num"] = occurrence_num
+
+        return result
