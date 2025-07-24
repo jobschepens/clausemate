@@ -1,0 +1,124 @@
+digraph G {
+concentrate=true;
+splines="ortho";
+rankdir="LR";
+subgraph legend{
+    rank = min;
+    label = "legend";
+    Legend [shape=none, margin=0, label = <
+        <table cellspacing="0" cellpadding="0" border="1"><tr><td>Code2flow Legend</td></tr><tr><td>
+        <table cellspacing="0">
+        <tr><td>Regular function</td><td width="50px" bgcolor='#cccccc'></td></tr>
+        <tr><td>Trunk function (nothing calls this)</td><td bgcolor='#966F33'></td></tr>
+        <tr><td>Leaf function (this calls nothing else)</td><td bgcolor='#6db33f'></td></tr>
+        <tr><td>Function call</td><td><font color='black'>&#8594;</font></td></tr>
+        </table></td></tr></table>
+        >];
+}node_f6ffcca9 [label="0: (global)()" name="main::(global)" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_3198fd76 [label="54: __init__()" name="main::ClauseMateAnalyzer.__init__" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_1e0a34bd [label="113: _analyze_complete()" name="main::ClauseMateAnalyzer._analyze_complete" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_aca7d719 [label="167: _analyze_streaming()" name="main::ClauseMateAnalyzer._analyze_streaming" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_7f773000 [label="238: _extract_sentence_number()" name="main::ClauseMateAnalyzer._extract_sentence_number" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_27f1cfcf [label="87: analyze_file()" name="main::ClauseMateAnalyzer.analyze_file" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_47c58137 [label="198: export_results()" name="main::ClauseMateAnalyzer.export_results" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_ff68e1cf [label="230: get_statistics()" name="main::ClauseMateAnalyzer.get_statistics" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_579f30f0 [label="246: main()" name="main::main" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_095cc69b [label="285: _analyze_antecedents()" name="relationship_extractor::RelationshipExtractor._analyze_antecedents" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_df748bee [label="228: _convert_to_phrase()" name="relationship_extractor::RelationshipExtractor._convert_to_phrase" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_527f5e13 [label="257: _determine_animacy()" name="relationship_extractor::RelationshipExtractor._determine_animacy" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_44dc4c7e [label="441: _extract_occurrence_number()" name="relationship_extractor::RelationshipExtractor._extract_occurrence_number" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_c4de6f11 [label="185: _get_pronoun_coreference_ids()" name="relationship_extractor::RelationshipExtractor._get_pronoun_coreference_ids" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_8109aeee [label="39: extract()" name="relationship_extractor::RelationshipExtractor.extract" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_3ed52370 [label="83: extract_relationships()" name="relationship_extractor::RelationshipExtractor.extract_relationships" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_da72f235 [label="140: find_clause_mates()" name="relationship_extractor::RelationshipExtractor.find_clause_mates" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_6557e20b [label="403: enrich_token()" name="tsv_parser::DefaultTokenProcessor.enrich_token" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_2bc925f0 [label="381: validate_token()" name="tsv_parser::DefaultTokenProcessor.validate_token" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_fea27965 [label="28: __init__()" name="tsv_parser::TSVParser.__init__" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_3bb680cc [label="348: _create_sentence_context()" name="tsv_parser::TSVParser._create_sentence_context" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_63f40cc3 [label="333: _extract_first_words()" name="tsv_parser::TSVParser._extract_first_words" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_82235d45 [label="294: _extract_sentence_id()" name="tsv_parser::TSVParser._extract_sentence_id" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_b9c38f81 [label="315: _extract_sentence_num()" name="tsv_parser::TSVParser._extract_sentence_num" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_8b2b4219 [label="280: is_sentence_boundary()" name="tsv_parser::TSVParser.is_sentence_boundary" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_9f598d6b [label="42: parse_file()" name="tsv_parser::TSVParser.parse_file" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_e588f6df [label="69: parse_sentence_streaming()" name="tsv_parser::TSVParser.parse_sentence_streaming" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_7d1b8ddb [label="186: parse_token_line()" name="tsv_parser::TSVParser.parse_token_line" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_f6ffcca9 -> node_579f30f0 [color="#E69F00" penwidth="2"];
+node_3198fd76 -> node_fea27965 [color="#D55E00" penwidth="2"];
+node_1e0a34bd -> node_7f773000 [color="#0072B2" penwidth="2"];
+node_1e0a34bd -> node_8109aeee [color="#0072B2" penwidth="2"];
+node_1e0a34bd -> node_8109aeee [color="#0072B2" penwidth="2"];
+node_1e0a34bd -> node_8109aeee [color="#0072B2" penwidth="2"];
+node_1e0a34bd -> node_e588f6df [color="#0072B2" penwidth="2"];
+node_aca7d719 -> node_8109aeee [color="#E69F00" penwidth="2"];
+node_aca7d719 -> node_e588f6df [color="#E69F00" penwidth="2"];
+node_27f1cfcf -> node_1e0a34bd [color="#CC79A7" penwidth="2"];
+node_27f1cfcf -> node_aca7d719 [color="#CC79A7" penwidth="2"];
+node_579f30f0 -> node_3198fd76 [color="#000000" penwidth="2"];
+node_579f30f0 -> node_27f1cfcf [color="#000000" penwidth="2"];
+node_579f30f0 -> node_47c58137 [color="#000000" penwidth="2"];
+node_579f30f0 -> node_ff68e1cf [color="#000000" penwidth="2"];
+node_095cc69b -> node_44dc4c7e [color="#009E73" penwidth="2"];
+node_095cc69b -> node_c4de6f11 [color="#009E73" penwidth="2"];
+node_df748bee -> node_527f5e13 [color="#D55E00" penwidth="2"];
+node_8109aeee -> node_3ed52370 [color="#D55E00" penwidth="2"];
+node_3ed52370 -> node_095cc69b [color="#000000" penwidth="2"];
+node_3ed52370 -> node_df748bee [color="#000000" penwidth="2"];
+node_3ed52370 -> node_c4de6f11 [color="#000000" penwidth="2"];
+node_da72f235 -> node_c4de6f11 [color="#0072B2" penwidth="2"];
+node_3bb680cc -> node_6557e20b [color="#F0E442" penwidth="2"];
+node_b9c38f81 -> node_82235d45 [color="#E69F00" penwidth="2"];
+node_9f598d6b -> node_e588f6df [color="#009E73" penwidth="2"];
+node_e588f6df -> node_2bc925f0 [color="#CC79A7" penwidth="2"];
+node_e588f6df -> node_3bb680cc [color="#CC79A7" penwidth="2"];
+node_e588f6df -> node_3bb680cc [color="#CC79A7" penwidth="2"];
+node_e588f6df -> node_63f40cc3 [color="#CC79A7" penwidth="2"];
+node_e588f6df -> node_8b2b4219 [color="#CC79A7" penwidth="2"];
+node_e588f6df -> node_7d1b8ddb [color="#CC79A7" penwidth="2"];
+subgraph cluster_3fcaca2d {
+    node_579f30f0 node_f6ffcca9;
+    label="File: main";
+    name="main";
+    style="filled";
+    graph[style=dotted];
+    subgraph cluster_3ef21504 {
+        node_3198fd76 node_27f1cfcf node_1e0a34bd node_aca7d719 node_47c58137 node_ff68e1cf node_7f773000;
+        label="Class: ClauseMateAnalyzer";
+        name="ClauseMateAnalyzer";
+        style="filled";
+        graph[style=dotted];
+    };
+};
+subgraph cluster_5aea24f6 {
+    label="File: relationship_extractor";
+    name="relationship_extractor";
+    style="filled";
+    graph[style=dotted];
+    subgraph cluster_300af77a {
+        node_8109aeee node_3ed52370 node_da72f235 node_c4de6f11 node_df748bee node_527f5e13 node_095cc69b node_44dc4c7e;
+        label="Class: RelationshipExtractor";
+        name="RelationshipExtractor";
+        style="filled";
+        graph[style=dotted];
+    };
+};
+subgraph cluster_1fcf9976 {
+    label="File: tsv_parser";
+    name="tsv_parser";
+    style="filled";
+    graph[style=dotted];
+    subgraph cluster_fe1af2ee {
+        node_fea27965 node_9f598d6b node_e588f6df node_7d1b8ddb node_8b2b4219 node_82235d45 node_b9c38f81 node_63f40cc3 node_3bb680cc;
+        label="Class: TSVParser";
+        name="TSVParser";
+        style="filled";
+        graph[style=dotted];
+    };
+    subgraph cluster_3b7ae052 {
+        node_2bc925f0 node_6557e20b;
+        label="Class: DefaultTokenProcessor";
+        name="DefaultTokenProcessor";
+        style="filled";
+        graph[style=dotted];
+    };
+};
+}

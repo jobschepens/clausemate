@@ -1,0 +1,220 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Architecture</title>
+    </head>
+    <body>
+        <h1>System Architecture</h1>
+<p>This document provides a detailed overview of the system's architecture, data models, and runtime data flow. The diagrams herein are generated using a combination of manual and automated techniques to ensure they are both descriptive and maintainable.</p>
+<hr />
+<h2>1. High-Level Component Diagram</h2>
+<p>This diagram illustrates the major components of the project and their primary interactions. It provides a "bird's-eye view" of the repository's structure.</p>
+<div class="mermaid">
+graph TD
+    subgraph "Input & Output"
+        A["📄 Raw TSV Data<br>(data/input/)"]
+        Z["📊 Final CSV Report<br>(data/output/)"]
+    end
+
+    subgraph "Application Core (src/)"
+        B["Orchestrator<br>(main.py, run_phase2.py)"]
+        C["Shared Configuration<br>(config.py)"]
+        D["Shared Data Models<br>(data/models.py)"]
+
+        subgraph "Core Pipeline"
+            direction LR
+            P1["1. Parsers<br>(parsers/)"]
+            P2["2. Extractors<br>(extractors/)"]
+            P3["3. Analyzers<br>(analyzers/)"]
+        end
+    end
+
+    subgraph "Development & Analysis Tooling"
+        T1["Nox & Pre-commit<br>(noxfile.py, .pre-commit-config.yaml)"]
+        T2["CI/CD Workflow<br>(.github/workflows/pylint.yml)"]
+        T3["Analysis Scripts<br>(tools/)"]
+    end
+
+    %% Data Flow
+    A -- "Reads raw text" --> P1
+    P1 -- "Creates List&lt;Token&gt;" --> P2
+    P2 -- "Creates List&lt;ClauseMateRelationship&gt;" --> P3
+    P3 -- "Enriches relationships" --> B
+    B -- "Writes to disk" --> Z
+
+    %% Component Dependencies
+    B -- "Uses" --> C
+    B -- "Coordinates" --> P1
+    B -- "Coordinates" --> P2
+    B -- "Coordinates" --> P3
+    P1 -- "Uses" --> D
+    P2 -- "Uses" --> D
+    P3 -- "Uses" --> D
+    T3 -- "Analyzes" --> Z
+</div>
+
+<hr />
+<h2>2. Core Data Models (UML Class Diagram)</h2>
+<p>This diagram shows the primary data structures defined in <code>src/data/models.py</code> and their relationships. These models are the backbone of the application, ensuring type safety and clear data contracts between components.</p>
+<div class="mermaid">
+classDiagram
+    class Token {
+        +idx: int
+        +text: str
+        +sentence_num: int
+        +grammatical_role: str
+        +thematic_role: str
+        +coreference_link: Optional[str]
+        +coreference_type: Optional[str]
+    }
+
+    class Phrase {
+        +text: str
+        +coreference_id: str
+        +start_idx: int
+        +end_idx: int
+        +grammatical_role: str
+        +thematic_role: str
+        +coreference_type: str
+        +animacy: AnimacyType
+        +givenness: str
+    }
+
+    class AntecedentInfo {
+        +most_recent_text: str
+        +most_recent_distance: str
+        +first_text: str
+        +first_distance: str
+    }
+
+    class ClauseMateRelationship {
+        +sentence_id: str
+        +sentence_num: int
+        +pronoun: Token
+        +clause_mate: Phrase
+        +num_clause_mates: int
+        +antecedent_info: AntecedentInfo
+        +to_dict(): Dict
+    }
+
+    class SentenceContext {
+        +sentence_id: str
+        +sentence_num: int
+        +tokens: List~Token~
+        +critical_pronouns: List~Token~
+        +coreference_phrases: List~CoreferencePhrase~
+    }
+
+    ClauseMateRelationship o-- "1" Token : has_pronoun
+    ClauseMateRelationship o-- "1" Phrase : has_clause_mate
+    ClauseMateRelationship o-- "1" AntecedentInfo : has_antecedent_info
+    SentenceContext o-- "*" Token : contains
+</div>
+
+<hr />
+<h2>3. Runtime Data Flow (Sequence Diagram)</h2>
+<p>This diagram illustrates the sequence of operations when the application is run. It shows how the main orchestrator coordinates the different pipeline components to process the input data and generate the final output.</p>
+<div class="mermaid">
+sequenceDiagram
+    participant User
+    participant Orchestrator (main.py)
+    participant TSVParser (parsers/)
+    participant RelationshipExtractor (extractors/)
+    participant DistanceAnalyzer (analyzers/)
+    participant FileSystem
+
+    User->>Orchestrator: python src/run_phase2.py
+    Orchestrator->>FileSystem: Read TSV file
+    FileSystem-->>Orchestrator: Return file content
+
+    Orchestrator->>TSVParser: Parse(file_content)
+    TSVParser-->>Orchestrator: Return List~SentenceContext~
+
+    loop For each SentenceContext
+        Orchestrator->>RelationshipExtractor: Extract(sentence_context)
+        RelationshipExtractor-->>Orchestrator: Return List~ClauseMateRelationship~
+    end
+
+    loop For each ClauseMateRelationship
+        Orchestrator->>DistanceAnalyzer: Analyze(relationship)
+        DistanceAnalyzer-->>Orchestrator: Return enriched_relationship
+    end
+
+    Orchestrator->>FileSystem: Write enriched relationships to CSV
+    FileSystem-->>Orchestrator: Confirm write
+    Orchestrator-->>User: Process complete
+</div>
+
+<hr />
+<h2>4. Code-Level Flowchart (Generated)</h2>
+<p>This diagram provides a more granular, code-level view of the project's execution flow. It is automatically generated from the source code using the <code>code2flow</code> tool, showing the call relationships between functions and classes.</p>
+<p><img alt="Project Flow" src="project_flow.svg" title="Project Flow" /></p>
+<hr />
+<h2>5. Diagram Generation and Rendering</h2>
+<p>This architecture document is a living document, designed to be updated as the codebase evolves. The diagrams are generated using specific tools that translate text-based definitions or source code into visuals. This approach, often called "Diagrams as Code," makes the documentation easy to version control and maintain.</p>
+<p>A Python script, <code>tools/render_arch_doc.py</code>, automates the process of converting this Markdown file into a standalone HTML document with fully rendered diagrams.</p>
+<h3>5.1. Manually Created Diagrams (Mermaid.js)</h3>
+<p>The <strong>High-Level Component Diagram</strong>, <strong>Core Data Models (UML)</strong>, and <strong>Runtime Data Flow (Sequence Diagram)</strong> are created using <a href="https://mermaid-js.github.io/mermaid/#/">Mermaid.js</a>.</p>
+<ul>
+<li><strong>What it is:</strong> Mermaid is a JavaScript-based tool that renders diagrams and charts from text in a syntax similar to Markdown.</li>
+<li><strong>How to reproduce/update:</strong><ol>
+<li>Edit the <code>```mermaid ... ```</code> code blocks directly in this Markdown file.</li>
+<li>The syntax is well-documented on the Mermaid.js website.</li>
+<li>Many Markdown editors (like the one on GitHub or in VS Code with the <em>Markdown Preview Mermaid Support</em> extension) provide live previews.</li>
+<li>Run <code>python tools/render_arch_doc.py</code> to see the changes in the final HTML.</li>
+</ol>
+</li>
+</ul>
+<h3>5.2. Auto-Generated Diagram (code2flow &amp; Graphviz)</h3>
+<p>The <strong>Code-Level Flowchart</strong> is generated automatically by analyzing the Python source code.</p>
+<ul>
+<li><strong>What it is:</strong> The flowchart is a call graph that shows which functions and methods call each other. The graph's structure is defined using the <strong>DOT language</strong>, a plain text graph description language that is part of the <a href="https://graphviz.org/">Graphviz</a> ecosystem.</li>
+<li><strong>How to reproduce/update:</strong><ol>
+<li>The DOT graph definition inside the <code>```dot ... ```</code> block is generated by the <a href="https://github.com/scottrogowski/code2flow">code2flow</a> Python package.</li>
+<li>To regenerate the DOT code after significant changes to the <code>src</code> directory, you can run the following command:
+    <code>bash
+    code2flow src/main.py src/parsers/tsv_parser.py src/extractors/relationship_extractor.py src/analyzers/base.py --output docs/project_flow.gv</code></li>
+<li>Copy the contents of the generated <code>docs/project_flow.gv</code> file and paste it inside the <code>```dot ... ```</code> block in this file.</li>
+<li>Run <code>python tools/render_arch_doc.py</code> to update the final HTML.</li>
+</ol>
+</li>
+</ul>
+<h3>5.3. Final HTML Rendering Process</h3>
+<p>The <code>tools/render_arch_doc.py</code> script performs the following steps to create <code>docs/ARCHITECTURE.html</code>:</p>
+<ol>
+<li>
+<p><strong>Reads <code>ARCHITECTURE.md</code>:</strong> The script starts by reading the raw Markdown content of this file.</p>
+</li>
+<li>
+<p><strong>Renders the DOT Graph:</strong></p>
+<ul>
+<li>It finds the <code>dot</code> code block.</li>
+<li>To avoid requiring a local installation of Graphviz, the script sends the DOT code to the <code>https://quickchart.io/graphviz</code> web service.</li>
+<li>The service returns a Scalable Vector Graphic (SVG) of the flowchart, which is saved as <code>docs/project_flow.svg</code>.</li>
+<li>The script then replaces the <code>```dot ... ```</code> block in the Markdown with an <code>&lt;img&gt;</code> tag pointing to the new SVG file.</li>
+</ul>
+</li>
+<li>
+<p><strong>Renders Mermaid Diagrams:</strong></p>
+<ul>
+<li>The script uses the <code>markdown</code> library with the <code>markdown-mermaid</code> extension. This wraps the Mermaid code blocks in the necessary HTML tags.</li>
+</ul>
+</li>
+<li>
+<p><strong>Assembles the Final HTML:</strong></p>
+<ul>
+<li>The script converts the modified Markdown to an HTML body.</li>
+<li>It then wraps this body in a complete HTML structure and injects the <strong>Mermaid.js</strong> library from a CDN, which allows the browser to render the Mermaid diagrams.</li>
+</ul>
+</li>
+</ol>
+<h3>5.4. How to Regenerate the Full HTML Document</h3>
+<p>If you make any changes to this <code>ARCHITECTURE.md</code> file, run the following command from the project root to regenerate the final HTML document:</p>
+<p><code>bash
+python tools/render_arch_doc.py</code></p>
+<p>This will update <code>docs/ARCHITECTURE.html</code> with all the latest content and diagrams.</p>
+        <script src="https://unpkg.com/mermaid@8.14.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    </body>
+    </html>
