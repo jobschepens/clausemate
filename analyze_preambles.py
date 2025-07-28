@@ -46,11 +46,7 @@ def analyze_file(file_path):
     # Extract specific annotation types
     print("\nAnnotation types found:")
     for line in preamble:
-        if (
-            line.startswith("#T_SP=")
-            or line.startswith("#T_CH=")
-            or line.startswith("#T_RL=")
-        ):
+        if line.startswith(("#T_SP=", "#T_CH=", "#T_RL=")):
             print(f"  {line}")
 
 

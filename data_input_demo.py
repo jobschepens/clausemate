@@ -61,7 +61,8 @@ def main():
 
                 if format_info.additional_columns:
                     print(
-                        f"   ➕ Additional columns: {len(format_info.additional_columns)}"
+                        f"   ➕ Additional columns: "
+                        f"{len(format_info.additional_columns)}"
                     )
 
                 results.append(

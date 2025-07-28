@@ -190,7 +190,7 @@ def main():
             diverse_examples = []
             seen_combinations = set()
 
-            for idx, (i, row) in enumerate(high_distance.iterrows()):
+            for idx, (_i, row) in enumerate(high_distance.iterrows()):
                 # Create a key for diversity: pronoun_text + sentence_id + antecedent_text
                 key = (
                     row["pronoun_text"],

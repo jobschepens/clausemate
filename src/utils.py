@@ -12,6 +12,7 @@ except ImportError:
     # Fallback for direct execution
     import sys
     from pathlib import Path
+
     sys.path.append(str(Path(__file__).parent))
     from config import Constants, RegexPatterns
     from exceptions import ParseError, ValidationError

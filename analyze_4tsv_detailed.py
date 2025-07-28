@@ -233,7 +233,8 @@ def generate_compatibility_report(comparison: Dict[str, Any]) -> str:
                 report.append("- **Potential coreference columns found**:")
                 for col_info in columns["potential_coreference_columns"]:
                     report.append(
-                        f"  - Column {col_info['column_index']}: {col_info['sample_values']}"
+                        f"  - Column {col_info['column_index']}: "
+                        f"{col_info['sample_values']}"
                     )
 
     # Recommendations
