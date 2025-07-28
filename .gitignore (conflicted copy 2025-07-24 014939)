@@ -64,6 +64,7 @@ output.txt
 # Data files (keep structure but ignore large files)
 *.tsv
 !tests/fixtures/*.tsv
+!data/input/gotofiles/2.tsv  # Required for CI reproducibility testing
 *.csv
 !tests/fixtures/*.csv
 *.ser
