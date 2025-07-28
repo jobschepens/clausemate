@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Simple verification script for Phase 2 components.
+"""Verification script for Clause Mates Analyzer components.
 
-This script provides a basic check to ensure our modular architecture
-works correctly and can process data as expected.
+This script provides a comprehensive check to ensure our production-ready
+modular architecture works correctly and can process data as expected.
 """
 
 import os

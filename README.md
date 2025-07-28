@@ -117,7 +117,7 @@ This tool analyzes German pronouns and their clause mates in annotated linguisti
    .venv\Scripts\activate
    # macOS/Linux:
    source .venv/bin/activate
-   
+
    pip install -e .[dev,benchmark]
    ```
 
@@ -136,7 +136,7 @@ The system automatically detects file formats and selects the appropriate parser
 ```bash
 # Automatic format detection and adaptive parsing
 python src/main.py data/input/gotofiles/2.tsv                    # Standard format
-python src/main.py data/input/gotofiles/later/1.tsv              # Extended format  
+python src/main.py data/input/gotofiles/later/1.tsv              # Extended format
 python src/main.py data/input/gotofiles/later/3.tsv              # Legacy format
 python src/main.py data/input/gotofiles/later/4.tsv              # Incomplete format
 

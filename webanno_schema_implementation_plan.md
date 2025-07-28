@@ -93,26 +93,26 @@ Incomplete Schema (4.tsv):
 # src/utils/preamble_parser.py
 class PreambleParser:
     """Extract schema information from WebAnno preambles."""
-    
+
     def parse_preamble(self, file_path: str) -> PreambleInfo:
         """Parse WebAnno preamble for schema detection."""
-        
+
         format_version = None
         layers = []
         column_mapping = {}
-        
+
         with open(file_path, 'r', encoding='utf-8') as f:
             for line in f:
                 if not line.startswith('#'):
                     break
-                    
+
                 if line.startswith('#FORMAT='):
                     format_version = line.strip()[8:]
                 elif line.startswith('#T_SP='):
                     layer_def = line.strip()[5:]
                     layer_info = self._parse_layer_definition(layer_def)
                     layers.append(layer_info)
-                    
+
         return PreambleInfo(
             format_version=format_version,
             layers=layers,
@@ -131,7 +131,7 @@ class PreambleParser:
 # src/utils/format_detector.py
 class FormatDetector:
     """Intelligent format detection using preamble analysis."""
-    
+
     def detect_format(self, file_path: str) -> TSVFormatInfo:
         """
         Comprehensive format detection:
@@ -140,10 +140,10 @@ class FormatDetector:
         - Column count and structure
         - Morphological feature detection
         """
-        
+
         preamble_info = self.preamble_parser.parse_preamble(file_path)
         column_count = self._count_columns(file_path)
-        
+
         # Determine format based on schema complexity
         if self._has_morphological_layers(preamble_info.layers):
             format_type = "extended"
@@ -157,7 +157,7 @@ class FormatDetector:
         else:
             format_type = "standard"
             has_morphology = False
-            
+
         return TSVFormatInfo(
             format_type=format_type,
             column_count=column_count,
@@ -172,20 +172,20 @@ class FormatDetector:
 ```python
 def _parse_layer_definition(self, layer_def: str) -> LayerInfo:
     """Parse individual layer definition from preamble."""
-    
+
     parts = layer_def.split('|')
     if len(parts) >= 2:
         layer_type = parts[0]
         layer_name = parts[1]
         layer_features = parts[2:] if len(parts) > 2 else []
-        
+
         return LayerInfo(
             type=layer_type,
             name=layer_name,
             features=layer_features,
             is_morphological=self._is_morphological_layer(layer_type)
         )
-    
+
     return LayerInfo(type="unknown", name="unknown", features=[])
 ```
 
@@ -196,28 +196,28 @@ def _parse_layer_definition(self, layer_def: str) -> LayerInfo:
 # src/parsers/adaptive_tsv_parser.py
 class AdaptiveTSVParser:
     """Schema-aware parser with dynamic column mapping."""
-    
+
     def __init__(self, format_info: TSVFormatInfo):
         self.format_info = format_info
         self.schema_layers = format_info.schema_layers
         self.column_mapping = self._create_dynamic_mapping()
-        
+
     def _create_dynamic_mapping(self) -> Dict[str, int]:
         """Create column mapping based on detected schema."""
-        
+
         mapping = {}
         column_index = 0
-        
+
         # Base columns (always present in WebAnno TSV)
         base_columns = [
             'sentence_id', 'token_id', 'token_start', 'token_end',
             'token', 'pos', 'lemma'
         ]
-        
+
         for col in base_columns:
             mapping[col] = column_index
             column_index += 1
-            
+
         # Schema-specific columns based on detected layers
         for layer in self.schema_layers:
             if layer.is_morphological:
@@ -233,7 +233,7 @@ class AdaptiveTSVParser:
             elif 'segment' in layer.name.lower():
                 mapping['segment'] = column_index
                 column_index += 1
-                
+
         return mapping
 ```
 
@@ -241,28 +241,28 @@ class AdaptiveTSVParser:
 ```python
 def validate_schema_columns(self, df: pd.DataFrame) -> ValidationResult:
     """Validate that DataFrame matches expected schema."""
-    
+
     errors = []
     warnings = []
-    
+
     # Check required columns based on schema
     required_columns = self._get_required_columns()
     for col in required_columns:
         if col not in df.columns:
             errors.append(f"Missing required column for schema: {col}")
-    
+
     # Check optional columns
     optional_columns = self._get_optional_columns()
     for col in optional_columns:
         if col not in df.columns:
             warnings.append(f"Optional column missing: {col}")
-    
+
     # Validate column data types
     for col, expected_type in self._get_column_types().items():
         if col in df.columns:
             if not self._validate_column_type(df[col], expected_type):
                 errors.append(f"Column {col} has incorrect data type")
-    
+
     return ValidationResult(errors=errors, warnings=warnings)
 ```
 
@@ -272,10 +272,10 @@ def validate_schema_columns(self, df: pd.DataFrame) -> ValidationResult:
 ```python
 def extract_features_by_schema(self, df: pd.DataFrame) -> pd.DataFrame:
     """Extract features based on detected schema layers."""
-    
+
     # Base feature extraction (all schemas)
     df = self._extract_base_features(df)
-    
+
     # Schema-specific feature extraction
     for layer in self.schema_layers:
         if layer.is_morphological:
@@ -284,15 +284,15 @@ def extract_features_by_schema(self, df: pd.DataFrame) -> pd.DataFrame:
             df = self._extract_semantic_features(df, layer)
         elif 'discourse' in layer.type.lower():
             df = self._extract_discourse_features(df, layer)
-    
+
     return df
 
 def _extract_morphological_features(self, df: pd.DataFrame, layer: LayerInfo) -> pd.DataFrame:
     """Extract morphological features from detected morphology layer."""
-    
+
     if 'morphological_features' in self.column_mapping:
         morph_col = self.column_mapping['morphological_features']
-        
+
         # Parse morphological features
         df['pronoun_type'] = df.iloc[:, morph_col].apply(
             lambda x: self._extract_pronoun_type(x)
@@ -303,7 +303,7 @@ def _extract_morphological_features(self, df: pd.DataFrame, layer: LayerInfo) ->
         df['number'] = df.iloc[:, morph_col].apply(
             lambda x: self._extract_number(x)
         )
-    
+
     return df
 ```
 
@@ -406,35 +406,35 @@ class TSVFormatInfo:
 ```python
 class SchemaValidator:
     """Validate WebAnno TSV files against expected schemas."""
-    
+
     def validate_schema(self, file_path: str, expected_schema: str = None) -> ValidationResult:
         """Comprehensive schema validation."""
-        
+
         errors = []
         warnings = []
-        
+
         # Parse preamble
         preamble_info = self.preamble_parser.parse_preamble(file_path)
-        
+
         # Validate format version
         if not self._validate_format_version(preamble_info.format_version):
             errors.append(f"Unsupported format version: {preamble_info.format_version}")
-        
+
         # Validate layer definitions
         layer_errors = self._validate_layers(preamble_info.layers)
         errors.extend(layer_errors)
-        
+
         # Validate column structure
         column_errors = self._validate_column_structure(file_path, preamble_info)
         errors.extend(column_errors)
-        
+
         # Cross-reference with expected schema
         if expected_schema:
             schema_errors = self._validate_against_expected_schema(
                 preamble_info, expected_schema
             )
             errors.extend(schema_errors)
-        
+
         return ValidationResult(
             is_valid=len(errors) == 0,
             errors=errors,
@@ -449,10 +449,10 @@ class SchemaValidator:
 ```python
 def handle_schema_errors(self, file_path: str, validation_result: ValidationResult) -> TSVFormatInfo:
     """Handle schema validation errors with graceful recovery."""
-    
+
     if validation_result.is_valid:
         return self._create_format_info_from_schema(validation_result.schema_info)
-    
+
     # Attempt recovery strategies
     recovery_strategies = [
         self._recover_from_missing_preamble,
@@ -460,7 +460,7 @@ def handle_schema_errors(self, file_path: str, validation_result: ValidationResu
         self._recover_from_column_mismatch,
         self._fallback_to_structure_detection
     ]
-    
+
     for strategy in recovery_strategies:
         try:
             format_info = strategy(file_path, validation_result)
@@ -469,7 +469,7 @@ def handle_schema_errors(self, file_path: str, validation_result: ValidationResu
                 return format_info
         except Exception as e:
             self.logger.debug(f"Recovery strategy {strategy.__name__} failed: {e}")
-    
+
     # Final fallback
     self.logger.error("All schema recovery strategies failed, using basic format detection")
     return self._basic_format_detection(file_path)
@@ -485,7 +485,7 @@ def handle_schema_errors(self, file_path: str, validation_result: ValidationResu
 ```python
 class TestSchemaImplementation:
     """Test suite for WebAnno schema implementation."""
-    
+
     def test_preamble_parsing(self):
         """Test preamble parsing for all schema types."""
         test_files = [
@@ -494,15 +494,15 @@ class TestSchemaImplementation:
             "data/input/gotofiles/later/3.tsv",     # Legacy schema
             "data/input/gotofiles/later/4.tsv"      # Incomplete schema
         ]
-        
+
         for file_path in test_files:
             preamble_info = self.preamble_parser.parse_preamble(file_path)
-            
+
             # Validate preamble parsing
             assert preamble_info.format_version is not None
             assert len(preamble_info.layers) > 0
             assert len(preamble_info.column_mapping) > 0
-    
+
     def test_schema_detection_accuracy(self):
         """Test schema detection accuracy."""
         expected_schemas = {
@@ -511,21 +511,21 @@ class TestSchemaImplementation:
             "data/input/gotofiles/later/3.tsv": "legacy",
             "data/input/gotofiles/later/4.tsv": "incomplete"
         }
-        
+
         for file_path, expected_schema in expected_schemas.items():
             format_info = self.format_detector.detect_format(file_path)
             assert format_info.format_type == expected_schema
-    
+
     def test_morphological_feature_extraction(self):
         """Test morphological feature extraction from extended schema."""
         parser = AdaptiveTSVParser(self.extended_format_info)
         df = parser.parse_file("data/input/gotofiles/later/1.tsv")
-        
+
         # Validate morphological features
         assert 'pronoun_type' in df.columns
         assert 'gender' in df.columns
         assert 'number' in df.columns
-        
+
         # Check feature extraction quality
         pronoun_types = df['pronoun_type'].dropna().unique()
         assert len(pronoun_types) > 0
@@ -552,7 +552,7 @@ Total: 25/25 tests passing (100% success rate)
 ```python
 def test_end_to_end_schema_processing(self):
     """Test complete processing pipeline for all schemas."""
-    
+
     test_cases = [
         {
             'file': 'data/input/gotofiles/2.tsv',
@@ -579,12 +579,12 @@ def test_end_to_end_schema_processing(self):
             'has_morphology': False
         }
     ]
-    
+
     for test_case in test_cases:
         # Test complete processing pipeline
         analyzer = ClauseMateAnalyzer()
         results = analyzer.analyze(test_case['file'])
-        
+
         # Validate results
         assert len(results) == test_case['expected_relationships']
         assert analyzer.format_info.format_type == test_case['expected_schema']
@@ -679,11 +679,11 @@ The WebAnno schema implementation successfully establishes the Clause Mates Anal
 
 ---
 
-**Implementation Status**: COMPLETED ✅  
-**Completion Date**: 2024-07-28  
-**Version**: 2.1  
-**Schema Support**: 4 WebAnno TSV schema variations  
-**Detection Accuracy**: 100%  
+**Implementation Status**: COMPLETED ✅
+**Completion Date**: 2024-07-28
+**Version**: 2.1
+**Schema Support**: 4 WebAnno TSV schema variations
+**Detection Accuracy**: 100%
 **Next Phase**: Enhanced Morphological Features (Phase 3)
 
 For detailed technical specifications and usage instructions, see the comprehensive project documentation and schema-specific specification files.

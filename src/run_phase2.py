@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Entry point for the Phase 2 Clause Mates Analyzer.
+"""Entry point for the Clause Mates Analyzer - Production Ready v2.1.
 
-This script provides the main command-line interface for running the modular
-clause mates analysis pipeline.
+This script provides the main command-line interface for running the production-ready
+clause mates analysis pipeline with 100% file format compatibility.
 """
 
 import sys

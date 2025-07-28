@@ -24,15 +24,15 @@ def test_format_detection():
     print("=" * 60)
     print("TESTING FORMAT DETECTION")
     print("=" * 60)
-    
+
     detector = TSVFormatDetector()
     test_files = [
         "data/input/gotofiles/2.tsv",
         "data/input/gotofiles/later/1.tsv",
         "data/input/gotofiles/later/3.tsv",
-        "data/input/gotofiles/later/4.tsv"
+        "data/input/gotofiles/later/4.tsv",
     ]
-    
+
     results = []
     for file_path in test_files:
         if Path(file_path).exists():
@@ -51,7 +51,7 @@ def test_format_detection():
                 print(f"  ERROR: {e}")
         else:
             print(f"\nSkipping missing file: {file_path}")
-    
+
     return results
 
 
@@ -60,43 +60,44 @@ def test_adaptive_analyzer():
     print("\n" + "=" * 60)
     print("TESTING ADAPTIVE ANALYZER")
     print("=" * 60)
-    
-    test_files = [
-        "data/input/gotofiles/2.tsv",
-        "data/input/gotofiles/later/1.tsv"
-    ]
-    
+
+    test_files = ["data/input/gotofiles/2.tsv", "data/input/gotofiles/later/1.tsv"]
+
     for file_path in test_files:
         if not Path(file_path).exists():
             print(f"\nSkipping missing file: {file_path}")
             continue
-            
+
         print(f"\nTesting with adaptive parsing: {file_path}")
         try:
             # Test with adaptive parsing enabled
             analyzer = ClauseMateAnalyzer(
-                enable_adaptive_parsing=True,
-                log_level=logging.INFO
+                enable_adaptive_parsing=True, log_level=logging.INFO
             )
-            
+
             relationships = analyzer.analyze_file(file_path)
             stats = analyzer.get_statistics()
-            
-            print(f"  Results:")
+
+            print("  Results:")
             print(f"    Sentences processed: {stats['sentences_processed']}")
             print(f"    Tokens processed: {stats['tokens_processed']}")
             print(f"    Relationships found: {stats['relationships_found']}")
-            
+
             # Check extended stats if available
-            if hasattr(analyzer, '_extended_stats'):
+            if hasattr(analyzer, "_extended_stats"):
                 ext_stats = analyzer._extended_stats
-                print(f"    Format detected: {ext_stats.get('file_format_detected', 'N/A')}")
-                print(f"    Compatibility score: {ext_stats.get('compatibility_score', 'N/A')}")
+                print(
+                    f"    Format detected: {ext_stats.get('file_format_detected', 'N/A')}"
+                )
+                print(
+                    f"    Compatibility score: {ext_stats.get('compatibility_score', 'N/A')}"
+                )
                 print(f"    Column count: {ext_stats.get('column_count', 'N/A')}")
-            
+
         except Exception as e:
             print(f"  ERROR: {e}")
             import traceback
+
             traceback.print_exc()
 
 
@@ -105,33 +106,33 @@ def test_legacy_fallback():
     print("\n" + "=" * 60)
     print("TESTING LEGACY FALLBACK")
     print("=" * 60)
-    
+
     file_path = "data/input/gotofiles/2.tsv"
-    
+
     if not Path(file_path).exists():
         print(f"Skipping missing file: {file_path}")
         return
-        
+
     print(f"Testing with legacy parsing only: {file_path}")
     try:
         # Test with adaptive parsing disabled
         analyzer = ClauseMateAnalyzer(
-            enable_adaptive_parsing=False,
-            log_level=logging.INFO
+            enable_adaptive_parsing=False, log_level=logging.INFO
         )
-        
+
         relationships = analyzer.analyze_file(file_path)
         stats = analyzer.get_statistics()
-        
-        print(f"  Results:")
+
+        print("  Results:")
         print(f"    Sentences processed: {stats['sentences_processed']}")
         print(f"    Tokens processed: {stats['tokens_processed']}")
         print(f"    Relationships found: {stats['relationships_found']}")
-        print(f"    Parser used: Legacy TSVParser")
-        
+        print("    Parser used: Legacy TSVParser")
+
     except Exception as e:
         print(f"  ERROR: {e}")
         import traceback
+
         traceback.print_exc()
 
 
@@ -140,31 +141,35 @@ def test_command_line_interface():
     print("\n" + "=" * 60)
     print("TESTING COMMAND LINE INTERFACE")
     print("=" * 60)
-    
+
     print("Available command line options:")
     print("  python src/main.py [input_file] [options]")
     print("  --streaming          Use streaming processing")
     print("  --disable-adaptive   Disable adaptive parsing")
     print("  --verbose           Enable verbose logging")
     print("  -o OUTPUT           Specify output file")
-    
+
     # Test help output
     try:
         import subprocess
-        result = subprocess.run([
-            sys.executable, "src/main.py", "--help"
-        ], capture_output=True, text=True, timeout=10)
-        
+
+        result = subprocess.run(
+            [sys.executable, "src/main.py", "--help"],
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+
         if result.returncode == 0:
             print("\nHelp output preview:")
-            lines = result.stdout.split('\n')
+            lines = result.stdout.split("\n")
             for line in lines[:15]:  # Show first 15 lines
                 print(f"  {line}")
             if len(lines) > 15:
                 print("  ...")
         else:
             print(f"Help command failed: {result.stderr}")
-            
+
     except Exception as e:
         print(f"Could not test command line interface: {e}")
 
@@ -173,46 +178,49 @@ def main():
     """Run all integration tests."""
     print("CLAUSE MATES ANALYZER - INTEGRATION TESTS")
     print("Testing adaptive parsing system integration")
-    
+
     # Set up logging
     logging.basicConfig(
         level=logging.WARNING,  # Reduce noise during testing
-        format="%(levelname)s: %(message)s"
+        format="%(levelname)s: %(message)s",
     )
-    
+
     try:
         # Run tests
         format_results = test_format_detection()
         test_adaptive_analyzer()
         test_legacy_fallback()
         test_command_line_interface()
-        
+
         # Summary
         print("\n" + "=" * 60)
         print("INTEGRATION TEST SUMMARY")
         print("=" * 60)
-        
+
         if format_results:
             print(f"Format detection tested on {len(format_results)} files")
-            compatible_files = len([r for r in format_results if r.compatibility_score >= 0.7])
+            compatible_files = len(
+                [r for r in format_results if r.compatibility_score >= 0.7]
+            )
             print(f"Compatible files: {compatible_files}/{len(format_results)}")
-        
+
         print("\nIntegration components tested:")
         print("  ✓ Format detection system")
         print("  ✓ Adaptive parser integration")
         print("  ✓ Legacy parser fallback")
         print("  ✓ Command line interface")
         print("  ✓ Enhanced ClauseMateAnalyzer")
-        
+
         print("\nIntegration test completed successfully!")
         print("The adaptive parsing system is properly integrated.")
-        
+
     except Exception as e:
         print(f"\nIntegration test failed: {e}")
         import traceback
+
         traceback.print_exc()
         return 1
-    
+
     return 0
 
 

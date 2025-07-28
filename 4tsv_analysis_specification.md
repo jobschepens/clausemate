@@ -36,7 +36,7 @@ The system automatically detects 4.tsv as an incomplete format:
 # From src/utils/format_detector.py
 def detect_format(self, file_path: str) -> TSVFormatInfo:
     """Detect TSV format from file structure and preamble."""
-    
+
     # Column count analysis
     if column_count <= 13:
         return TSVFormatInfo(
@@ -56,16 +56,16 @@ Specialized parser handles reduced column formats:
 # From src/parsers/incomplete_format_parser.py
 class IncompleteFormatParser:
     """Parser for incomplete TSV formats with missing columns."""
-    
+
     def __init__(self):
         self.required_columns = [
-            'sentence_id', 'token_id', 'token_start', 'token_end', 
+            'sentence_id', 'token_id', 'token_start', 'token_end',
             'token', 'pos', 'lemma', 'deprel', 'head'
         ]
         self.optional_columns = [
             'misc', 'coreference', 'segment'
         ]
-    
+
     def parse_file(self, file_path: str) -> pd.DataFrame:
         """Parse incomplete format with graceful degradation."""
         # Implementation handles missing columns with defaults
@@ -98,7 +98,7 @@ Missing columns are handled with appropriate defaults:
 ```python
 def apply_graceful_degradation(self, df: pd.DataFrame) -> pd.DataFrame:
     """Apply defaults for missing columns."""
-    
+
     # Add missing columns with defaults
     missing_columns = {
         'morphological_features': '',
@@ -106,11 +106,11 @@ def apply_graceful_degradation(self, df: pd.DataFrame) -> pd.DataFrame:
         'semantic_role': 'UNKNOWN',
         'discourse_status': 'UNKNOWN'
     }
-    
+
     for col, default_value in missing_columns.items():
         if col not in df.columns:
             df[col] = default_value
-    
+
     return df
 ```
 
@@ -159,7 +159,7 @@ The incomplete format parser is fully integrated into the main system:
 # From src/main.py
 def select_parser(format_info: TSVFormatInfo):
     """Select appropriate parser based on format detection."""
-    
+
     if format_info.format_type == "incomplete":
         return IncompleteFormatParser()
     elif format_info.format_type == "extended":
@@ -175,7 +175,7 @@ Configuration system updated to support incomplete formats:
 # From src/config.py
 class TSVColumns:
     """Dynamic column configuration for different formats."""
-    
+
     @classmethod
     def get_incomplete_format_columns(cls):
         """Get column mapping for incomplete formats."""
@@ -197,15 +197,15 @@ Comprehensive tests validate incomplete format processing:
 ```python
 # From tests/test_incomplete_format.py
 class TestIncompleteFormatParser:
-    
+
     def test_4tsv_processing(self):
         """Test that 4.tsv processes correctly."""
         parser = IncompleteFormatParser()
         result = parser.parse_file("data/input/gotofiles/later/4.tsv")
-        
+
         assert len(result) == 695  # Expected relationship count
         assert all(col in result.columns for col in required_columns)
-    
+
     def test_graceful_degradation(self):
         """Test handling of missing columns."""
         # Test implementation validates default value assignment
@@ -253,18 +253,18 @@ Comprehensive validation ensures data quality:
 ```python
 def validate_incomplete_format(self, df: pd.DataFrame) -> List[str]:
     """Validate incomplete format data."""
-    
+
     errors = []
-    
+
     # Check required columns
     for col in self.required_columns:
         if col not in df.columns:
             errors.append(f"Missing required column: {col}")
-    
+
     # Validate data types
     if not pd.api.types.is_numeric_dtype(df['sentence_id']):
         errors.append("sentence_id must be numeric")
-    
+
     return errors
 ```
 
@@ -338,9 +338,9 @@ The implementation successfully addresses the original challenge of processing i
 
 ---
 
-**Implementation Status**: COMPLETED ✅  
-**Last Updated**: 2024-07-28  
-**Version**: 2.1  
+**Implementation Status**: COMPLETED ✅
+**Last Updated**: 2024-07-28
+**Version**: 2.1
 **Compatibility**: 4.tsv (12 columns, 695 relationships)
 
 For usage instructions and examples, see the main project documentation and `REPRODUCIBILITY.md`.

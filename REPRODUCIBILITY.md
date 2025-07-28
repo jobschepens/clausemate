@@ -115,7 +115,7 @@ data/output/
    # Using conda
    conda create -n clausemate-repro python=3.9
    conda activate clausemate-repro
-   
+
    # Or using venv
    python -m venv clausemate-repro
    source clausemate-repro/bin/activate  # Linux/Mac
@@ -246,7 +246,7 @@ data/output/
    ```bash
    # Ensure you're in the project root directory
    pwd  # Should end with 'clausemate'
-   
+
    # Check Python path
    python -c "import sys; print('\n'.join(sys.path))"
    ```
@@ -267,7 +267,7 @@ data/output/
    ```bash
    # Check for file modifications
    ls -la data/input/gotofiles/2.tsv
-   
+
    # Verify Python version consistency
    python --version
    ```
@@ -412,8 +412,8 @@ If you use this tool in your research, please cite:
 
 ---
 
-**Last Updated**: 2024-07-28  
-**Version**: 2.1  
+**Last Updated**: 2024-07-28
+**Version**: 2.1
 **Compatibility**: All supported file formats (2.tsv, 1.tsv, 3.tsv, 4.tsv)
 
 For the most up-to-date reproduction instructions, please check the project repository and documentation.

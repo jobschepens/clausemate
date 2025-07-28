@@ -144,7 +144,7 @@ The Clause Mates Analyzer has achieved **100% file format compatibility** with a
 - [ ] **Implement parallel processing for large corpora**
   ```python
   from multiprocessing import Pool
-  
+
   def process_sentences_parallel(sentences, num_workers=4):
       """Parallel sentence processing for large corpora"""
   ```
@@ -159,7 +159,7 @@ The Clause Mates Analyzer has achieved **100% file format compatibility** with a
   ```python
   import joblib
   from functools import lru_cache
-  
+
   @lru_cache(maxsize=1000)
   def cached_antecedent_search(pronoun_id, sentence_range):
       """Cache expensive antecedent calculations"""
@@ -178,7 +178,7 @@ The Clause Mates Analyzer has achieved **100% file format compatibility** with a
 - [ ] **Process multiple chapters**
   ```python
   chapters = ['chap_1_aktuell.tsv', 'chap_2_aktuell.tsv', 'chap_3_aktuell.tsv', 'chap_4_aktuell.tsv']
-  
+
   def process_full_corpus(chapter_files):
       """
       Combine data from all chapters with:
@@ -348,8 +348,8 @@ The Clause Mates Analyzer has achieved **100% file format compatibility** with a
 
 ---
 
-**Last Updated**: 2024-07-28  
-**Current Phase**: Phase 3 - Enhanced Morphological Features  
+**Last Updated**: 2024-07-28
+**Current Phase**: Phase 3 - Enhanced Morphological Features
 **Next Milestone**: Morphological feature extraction implementation
 
 For detailed implementation plans and technical specifications, see:

@@ -80,7 +80,7 @@ Timestamped Output (Organized Results)
 # src/utils/format_detector.py
 class FormatDetector:
     """Intelligent format detection using preamble analysis."""
-    
+
     def detect_format(self, file_path: str) -> TSVFormatInfo:
         """
         Comprehensive format detection:
@@ -89,10 +89,10 @@ class FormatDetector:
         - Schema layer identification
         - Morphological feature detection
         """
-        
+
         preamble_info = self.preamble_parser.parse_preamble(file_path)
         column_count = self._count_columns(file_path)
-        
+
         if column_count >= 30:
             return TSVFormatInfo("extended", column_count, True, preamble_info.layers)
         elif column_count <= 13:
@@ -116,28 +116,28 @@ class FormatDetector:
 # src/parsers/adaptive_tsv_parser.py
 class AdaptiveTSVParser:
     """Schema-aware parser with dynamic column mapping."""
-    
+
     def __init__(self, format_info: TSVFormatInfo):
         self.format_info = format_info
         self.column_mapping = self._create_dynamic_mapping()
         self.schema_layers = format_info.schema_layers
-        
+
     def _create_dynamic_mapping(self) -> Dict[str, int]:
         """Create column mapping based on detected schema."""
         mapping = {}
-        
+
         # Base columns (always present)
         mapping.update({
             'sentence_id': 0, 'token_id': 1, 'token_start': 2,
             'token_end': 3, 'token': 4, 'pos': 5, 'lemma': 6
         })
-        
+
         # Schema-specific columns
         if 'morphology' in self.schema_layers:
             mapping['morphological_features'] = self._find_morphology_column()
         if 'coreference' in self.schema_layers:
             mapping['coreference'] = self._find_coreference_column()
-            
+
         return mapping
 ```
 
@@ -146,23 +146,23 @@ class AdaptiveTSVParser:
 # src/parsers/incomplete_format_parser.py
 class IncompleteFormatParser:
     """Specialized parser for incomplete TSV formats."""
-    
+
     def parse_file(self, file_path: str) -> pd.DataFrame:
         """Parse with graceful degradation for missing columns."""
-        
+
         df = pd.read_csv(file_path, sep='\t', comment='#')
-        
+
         # Apply graceful degradation
         missing_columns = {
             'morphological_features': '',
             'syntactic_role': 'UNKNOWN',
             'semantic_role': 'UNKNOWN'
         }
-        
+
         for col, default_value in missing_columns.items():
             if col not in df.columns:
                 df[col] = default_value
-                
+
         return df
 ```
 
@@ -173,23 +173,23 @@ class IncompleteFormatParser:
 # src/utils/preamble_parser.py
 class PreambleParser:
     """Extract schema information from WebAnno preambles."""
-    
+
     def parse_preamble(self, file_path: str) -> PreambleInfo:
         """Parse WebAnno preamble for schema detection."""
-        
+
         layers = []
         column_info = {}
-        
+
         with open(file_path, 'r', encoding='utf-8') as f:
             for line in f:
                 if not line.startswith('#'):
                     break
-                    
+
                 if line.startswith('#T_SP='):
                     # Parse layer definitions
                     layer_def = line.strip()[5:]
                     layers.append(self._parse_layer_definition(layer_def))
-                    
+
         return PreambleInfo(layers=layers, column_mapping=column_info)
 ```
 
@@ -272,10 +272,10 @@ Total: 30/30 tests passing (100% success rate)
 ```python
 def validate_processing_results(format_type: str, results: pd.DataFrame) -> ValidationResult:
     """Comprehensive validation of processing results."""
-    
+
     errors = []
     warnings = []
-    
+
     # Expected relationship counts by format
     expected_counts = {
         'standard': 448,
@@ -283,19 +283,19 @@ def validate_processing_results(format_type: str, results: pd.DataFrame) -> Vali
         'legacy': 527,
         'incomplete': 695
     }
-    
+
     actual_count = len(results)
     expected_count = expected_counts.get(format_type)
-    
+
     if actual_count != expected_count:
         errors.append(f"Relationship count mismatch: expected {expected_count}, got {actual_count}")
-    
+
     # Validate required columns
     required_columns = ['sentence_id', 'pronoun_token', 'num_clause_mates']
     for col in required_columns:
         if col not in results.columns:
             errors.append(f"Missing required column: {col}")
-    
+
     return ValidationResult(errors=errors, warnings=warnings)
 ```
 
@@ -439,10 +439,10 @@ The enhanced system now serves as a **production-ready platform** for German pro
 
 ---
 
-**Plan Status**: COMPLETED ✅  
-**Implementation Date**: 2024-07-28  
-**Version**: 2.1  
-**Total Relationships Supported**: 1,904 across 4 formats  
+**Plan Status**: COMPLETED ✅
+**Implementation Date**: 2024-07-28
+**Version**: 2.1
+**Total Relationships Supported**: 1,904 across 4 formats
 **Next Phase**: Enhanced Morphological Features (Phase 3)
 
 For detailed technical specifications and usage instructions, see the comprehensive project documentation and format-specific specification files.

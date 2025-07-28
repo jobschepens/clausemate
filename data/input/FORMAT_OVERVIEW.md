@@ -64,7 +64,7 @@ Columns 4-22 contain detailed morphological information:
 ```
 4.tsv (Incomplete): 695 relationships ⭐ HIGHEST
 3.tsv (Legacy):     527 relationships
-2.tsv (Standard):   448 relationships  
+2.tsv (Standard):   448 relationships
 1.tsv (Extended):   234 relationships
 ```
 
@@ -79,7 +79,7 @@ Columns 4-22 contain detailed morphological information:
 ### Parser Selection Logic
 ```
 Compatibility Score >= 0.7  → Adaptive Parser
-Format Type = "incomplete"   → Incomplete Format Parser  
+Format Type = "incomplete"   → Incomplete Format Parser
 Compatibility Score < 0.5    → Legacy Parser (fallback)
 ```
 
@@ -173,7 +173,7 @@ Timestamped output directories for easy result tracking
 
 ```
 data/input/gotofiles/2.tsv              # Standard format
-data/input/gotofiles/later/1.tsv        # Extended format  
+data/input/gotofiles/later/1.tsv        # Extended format
 data/input/gotofiles/later/3.tsv        # Legacy format
 data/input/gotofiles/later/4.tsv        # Incomplete format
 ```

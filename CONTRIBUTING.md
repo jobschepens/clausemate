@@ -29,13 +29,13 @@ The Clause Mates Analyzer is a research tool for analyzing pronoun-antecedent re
    ```
 
 2. **Set up development environment**
-   
+
    **Option A: Using Conda (Recommended)**
    ```bash
    conda env create -f environment.yml
    conda activate clausemate
    ```
-   
+
    **Option B: Using pip**
    ```bash
    pip install -e ".[dev]"
@@ -115,7 +115,7 @@ We maintain high code quality through automated tools:
    git add .
    git commit -m "feat: add new feature description"
    ```
-   
+
    Use conventional commit messages:
    - `feat:` for new features
    - `fix:` for bug fixes
@@ -162,10 +162,10 @@ class TestAdaptiveTSVParser:
         """Test that parser correctly identifies standard 15-column format."""
         # Arrange
         parser = AdaptiveTSVParser()
-        
+
         # Act
         result = parser.detect_format("data/input/gotofiles/2.tsv")
-        
+
         # Assert
         assert result.format_type == "standard"
         assert result.column_count == 15
@@ -196,13 +196,13 @@ class TSVFormatInfo:
 def detect_format(file_path: str) -> TSVFormatInfo:
     """
     Detect TSV format from file preamble and structure.
-    
+
     Args:
         file_path: Path to the TSV file to analyze
-        
+
     Returns:
         TSVFormatInfo object with detected format details
-        
+
     Raises:
         FileNotFoundError: If the specified file doesn't exist
         ValueError: If the file format cannot be determined
