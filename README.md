@@ -1,4 +1,3 @@
-
 # Clause Mates Analyzer
 
 <!-- Badges -->
@@ -33,240 +32,193 @@ A Python tool for extracting and analyzing clause mate relationships from German
 ## Project Status
 
 - ✅ **Phase 1 Complete**: Self-contained monolithic version with full functionality
-- ✅ **Phase 2 Complete**: Modular architecture with cross-sentence antecedent detection (94.4% success rate)
-- 📋 **Phase 3 Planned**: Advanced features and configuration system
+- ✅ **Phase 2 Complete**: Modular architecture with adaptive parsing and 100% file compatibility
+- ✅ **Documentation Complete**: Comprehensive format documentation for all supported file types
+- 📋 **Phase 3 Planned**: Enhanced morphological features and advanced analysis capabilities
 
-> 📄 **Complete Implementation Report**: See [`docs/PHASE2_COMPLETE_IMPLEMENTATION_REPORT.md`](docs/PHASE2_COMPLETE_IMPLEMENTATION_REPORT.md) for comprehensive details on Phase 2 achievements, including cross-sentence antecedent detection and analysis tools.
+> 📄 **Latest Achievement**: Complete WebAnno TSV format compatibility with adaptive parsing system supporting 4 different file formats (12-38 columns) with automatic format detection and graceful degradation.
 
 ## Description
 
 This tool analyzes German pronouns and their clause mates in annotated linguistic data. It identifies critical pronouns (personal, demonstrative, and d-pronouns) and extracts their relationships with other referential expressions in the same sentence.
 
 ### Critical Pronouns Analyzed
+
 - **Third person personal**: er, sie, es, ihm, ihr, ihn, ihnen
 - **D-pronouns (pronominal)**: der, die, das, dem, den, deren, dessen, derer
 - **Demonstrative**: dieser, diese, dieses, diesem, diesen
 
 ## Features
 
-- Parse TSV files with linguistic annotations
-- Extract coreference relationships between pronouns and clause mates
-- Calculate antecedent distances and sentence locations (cross-sentence capable)
-- Export structured data for statistical analysis
-- Comprehensive error handling and logging
-- Type-safe implementation with full type hints
-- **Cross-sentence antecedent detection** with 94.4% success rate
+- **Adaptive TSV Parsing**: Supports multiple WebAnno TSV 3.3 format variations (12-38 columns)
+- **Automatic Format Detection**: Preamble-based dynamic column mapping
+- **100% File Compatibility**: Works with standard, extended, legacy, and incomplete formats
+- **Cross-sentence Analysis**: Antecedent detection with 94.4% success rate
+- **Comprehensive Documentation**: Detailed format specifications for all supported files
+- **Robust Error Handling**: Graceful degradation and clear user feedback
+- **Type-safe Implementation**: Full type hints and comprehensive testing
+- **Timestamped Output**: Automatic organization with date/time-stamped directories
+
+## Supported File Formats
+
+| Format | Columns | Description | Relationships | Status |
+|--------|---------|-------------|---------------|---------|
+| **Standard** | 15 | Basic linguistic annotations | 448 | ✅ Fully supported |
+| **Extended** | 37 | Rich morphological features | 234 | ✅ Fully supported |
+| **Legacy** | 14 | Compact annotation set | 527 | ✅ Fully supported |
+| **Incomplete** | 12 | Limited annotations | 695 | ✅ Graceful handling |
+
+> 📊 **Format Documentation**: See [`data/input/FORMAT_OVERVIEW.md`](data/input/FORMAT_OVERVIEW.md) for comprehensive technical specifications.
 
 ## Project Structure
 
 ```
-├── phase1/                     # Phase 1 - Self-contained monolithic version
-│   ├── clause_mates_complete.py    # Main analysis script
-│   ├── config.py                   # Phase 1 configuration and constants
-│   ├── utils.py                    # Phase 1 utility functions
-│   ├── pronoun_classifier.py       # Phase 1 pronoun classification logic
-│   ├── exceptions.py               # Phase 1 custom exception classes
-│   └── README.md                   # Phase 1 documentation
 ├── src/                        # Phase 2 - Complete modular architecture
-│   ├── main.py                     # Main orchestrator
-│   ├── config.py                   # Phase 2 configuration
-│   ├── exceptions.py               # Phase 2 exception handling
-│   ├── utils.py                    # Phase 2 utility functions
-│   ├── pronoun_classifier.py       # Phase 2 pronoun classification
-│   ├── run_phase2.py               # Entry point script for Phase 2
-│   ├── verify_phase2.py            # Testing and verification script
-│   ├── parsers/                    # TSV parsing components
+│   ├── main.py                     # Main orchestrator with adaptive parsing
+│   ├── config.py                   # Generalized configuration system
+│   ├── parsers/                    # Adaptive TSV parsing components
+│   │   ├── adaptive_tsv_parser.py      # Preamble-based dynamic parsing
+│   │   ├── incomplete_format_parser.py # Specialized incomplete format handler
+│   │   ├── preamble_parser.py          # WebAnno schema extraction
+│   │   └── tsv_parser.py               # Legacy parser (fallback)
 │   ├── extractors/                 # Feature extraction components
-│   ├── analyzers/                  # Analysis components
+│   ├── utils/                      # Format detection and utilities
+│   │   └── format_detector.py          # Automatic format analysis
 │   └── data/                       # Data models and structures
-├── exportscript.py             # Independent legacy analysis script
-└── gotofiles/                  # Input data files
+├── data/                       # Input and output data
+│   ├── input/                      # Source TSV files with documentation
+│   │   ├── FORMAT_OVERVIEW.md          # Comprehensive format comparison
+│   │   ├── gotofiles/                  # Standard and extended formats
+│   │   │   ├── 2.tsv_DOCUMENTATION.md      # Standard format (15 cols)
+│   │   │   └── later/                      # Alternative formats
+│   │   │       ├── 1.tsv_DOCUMENTATION.md      # Extended format (37 cols)
+│   │   │       ├── 3.tsv_DOCUMENTATION.md      # Legacy format (14 cols)
+│   │   │       └── 4.tsv_DOCUMENTATION.md      # Incomplete format (12 cols)
+│   │   └── output/                 # Timestamped analysis results
+├── tests/                      # Comprehensive test suite
+├── tools/                      # Analysis and utility scripts
+└── docs/                       # Project documentation
 ```
 
 ## Installation
 
-1. Clone the repository:
-```bash
-git clone <repository-url>
-cd clause-mates-analyzer
-```
+1. **Clone the repository**:
+   ```bash
+   git clone <repository-url>
+   cd clause-mates-analyzer
+   ```
 
-2. Install dependencies:
-```bash
-pip install pandas
-```
+2. **Set up environment** (choose one):
+
+   **Option A: pip (recommended)**
+   ```bash
+   python -m venv .venv
+   # Windows:
+   .venv\Scripts\activate
+   # macOS/Linux:
+   source .venv/bin/activate
+   
+   pip install -e .[dev,benchmark]
+   ```
+
+   **Option B: conda**
+   ```bash
+   conda env create -f environment.yml
+   conda activate clausemate
+   ```
 
 ## Usage
 
-### Phase 1 - Self-Contained Version
-```bash
-python phase1/clause_mates_complete.py
-```
-Output: `phase1/clause_mates_phase1_export.csv` (463 relationships, 35 columns)
+### Current System (Phase 2)
 
-### Phase 2 - Modular Architecture
-```bash
-# Method 1: Direct execution
-python src/run_phase2.py
+The system automatically detects file formats and selects the appropriate parser:
 
-# Method 2: Module execution
-python -m src.main
+```bash
+# Automatic format detection and adaptive parsing
+python src/main.py data/input/gotofiles/2.tsv                    # Standard format
+python src/main.py data/input/gotofiles/later/1.tsv              # Extended format  
+python src/main.py data/input/gotofiles/later/3.tsv              # Legacy format
+python src/main.py data/input/gotofiles/later/4.tsv              # Incomplete format
+
+# Force legacy parser (disable adaptive features)
+python src/main.py --disable-adaptive data/input/gotofiles/2.tsv
+
+# Verbose output with format detection details
+python src/main.py --verbose data/input/gotofiles/later/1.tsv
 ```
-Output: `clause_mates_chap2_export.csv` (448 relationships, 34 columns)
+
+**Output**: Automatically creates timestamped directories in `data/output/YYYYMMDD_HHMMSS/`
+
+### Analysis Results by Format
+
+| File | Format | Sentences | Tokens | Relationships | Coreference Chains |
+|------|--------|-----------|--------|---------------|-------------------|
+| **2.tsv** | Standard | 222 | 3,665 | **448** | 235 |
+| **1.tsv** | Extended | 127 | 2,267 | **234** | 195 |
+| **3.tsv** | Legacy | 207 | 3,786 | **527** | 244 |
+| **4.tsv** | Incomplete | 243 | 4,412 | **695** | 245 |
 
 ### Analysis Tools
-The `tools/` directory contains comprehensive analysis scripts:
 
 ```bash
-# Generate comprehensive cross-sentence analysis report
+# Generate comprehensive analysis reports
 python tools/analyze_results.py
 
-# Check duplicate relationships (expected behavior)
-python tools/check_duplicates.py
-
-# Validate TSV file format
+# Check file format compatibility
 python tools/check_file_format.py
+
+# Compare analysis outputs
+python tools/compare_outputs.py
 ```
-
-**Key Analysis Results**:
-- ✅ **94.4% antecedent detection success rate**
-- ✅ **113 cross-sentence antecedent cases** spanning up to 695+ tokens
-- ✅ **Complete sentence context** for all examples
-- 📄 **Comprehensive report**: `docs/CROSS_SENTENCE_ANALYSIS_REPORT.md`
-
-### Legacy Export Script
-```bash
-python exportscript.py
-```
-Output: `clause_mates_export.csv` (processes curation files)
-
-### Testing Phase 2 Components
-```bash
-python src/verify_phase2.py
-```
-
-### Configuration
-
-#### Phase 1 Configuration
-Edit `phase1/config.py` to customize Phase 1 settings:
-- Input/output file paths for Phase 1
-- Column mappings and constants
-
-#### Phase 2 Configuration
-Edit `src/config.py` to customize Phase 2 settings:
-- Input/output file paths for Phase 2
-- Processing parameters and column mappings
-
-## Output Format
-
-### Phase 1 Output
-- **File**: `phase1/clause_mates_phase1_export.csv`
-- **463 relationships** across 222 sentences
-- **35 columns** with complete linguistic features
-
-### Phase 2 Output
-- **File**: `clause_mates_chap2_export.csv`
-- **448 relationships** across 222 sentences
-- **34 columns** with streamlined feature set
-- **Clause mate features**: text, coreference ID, animacy, givenness
-- **Antecedent information**: distances to most recent and first mentions
-- **Numeric variables**: for statistical analysis
 
 ## Development
 
-### Phase 1 Achievements ✅
-- Extracted all magic numbers and strings to `config.py`
-- Added comprehensive type hints throughout codebase
-- Implemented structured error handling with custom exceptions
-- Modularized utility functions and pronoun logic
-- Established clean code architecture
-
-### Phase 2 Goals 🔄
-- Split monolithic script into focused modules
-- Eliminate code duplication (~30% → <5%)
-- Add comprehensive unit tests (>80% coverage)
-- Improve maintainability and developer experience
-- Create clear module boundaries
-
-### Phase 3 Plans 📋
-- External configuration system
-- Plugin architecture for extensible analysis
-- Advanced logging and monitoring
-
-## Contributing
-
-This is a research project. For contributions:
-1. Follow the established code style and type hints
-2. Add tests for new functionality
-3. Update documentation as needed
-4. Ensure backward compatibility with existing data
-
-## Requirements
-
-- Python 3.8+
-- pandas
-- Standard library modules (re, logging, collections, typing)
-
-## Development Setup
-
 ### Quick Start
-For detailed setup instructions, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
-### Dependency Management
-
-This project supports both pip and conda-based development workflows:
-
-#### Recommended: pip-based development
 ```bash
-# Create and activate virtual environment
-python -m venv .venv
-
-# Windows
-.venv\Scripts\activate
-
-# macOS/Linux
-source .venv/bin/activate
-
-# Install with development dependencies
-pip install -e .[dev,benchmark]
-```
-
-#### Alternative: conda-based development
-```bash
-# Create conda environment from file
-conda env create -f environment.yml
-
-# Activate environment
-conda activate clausemate
-```
-
-### Development Workflow
-```bash
-# Install dependencies (after environment setup)
+# Install development dependencies
 pip install -e .[dev,benchmark]
 
-# Run development tasks with nox (cross-platform)
+# Run quality checks
 nox                      # Run default sessions (lint, test)
 nox -s lint              # Fast ruff linting
 nox -s format            # Code formatting
-nox -s test              # Run tests on current Python
-nox -s test-3.9          # Run tests on Python 3.9
+nox -s test              # Run tests
 nox -s ci                # Full CI pipeline
-nox -s install_dev       # Set up development environment
 
 # Run tests directly
 pytest
 ```
 
-## Code Quality
+### Code Quality
 
-This project uses **ruff** for fast, comprehensive code quality checking and formatting. Ruff consolidates linting, formatting, and import sorting in a single ultra-fast tool. The project follows modern Python best practices with pre-commit hooks for automatic code quality validation.
+This project uses **ruff** for fast, comprehensive code quality checking and formatting:
 
-### Development Tools
 - **ruff**: Fast linting and formatting (replaces black, isort, flake8)
 - **mypy**: Type checking
 - **pytest**: Testing framework
 - **pre-commit**: Git hooks for quality assurance
+
+## Requirements
+
+- **Python**: 3.8+
+- **Core Dependencies**: pandas, standard library modules
+- **Development**: ruff, mypy, pytest, pre-commit
+
+## Contributing
+
+This is a research project. For contributions:
+
+1. Follow the established code style and type hints
+2. Add tests for new functionality
+3. Update documentation as needed
+4. Ensure backward compatibility with existing data
+
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for detailed setup instructions.
+
+## Reproducibility
+
+For exact result reproduction, see [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md) for step-by-step instructions using locked dependencies and reference outputs.
 
 ## License
 

@@ -5,8 +5,16 @@ import re
 from pathlib import Path
 from typing import List, Optional, Tuple, Union
 
-from .config import Constants, RegexPatterns
-from .exceptions import ParseError, ValidationError
+try:
+    from .config import Constants, RegexPatterns
+    from .exceptions import ParseError, ValidationError
+except ImportError:
+    # Fallback for direct execution
+    import sys
+    from pathlib import Path
+    sys.path.append(str(Path(__file__).parent))
+    from config import Constants, RegexPatterns
+    from exceptions import ParseError, ValidationError
 
 
 def validate_file_path(file_path: Union[str, Path]) -> Path:

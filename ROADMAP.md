@@ -1,57 +1,73 @@
-# Clause Mates- **Complete separation of concerns**
+# Clause Mates Analyzer - Development Roadmap
+
+## Current Status (v2.1) ✅
+
+### Phase 1 Complete ✅
+- **Self-contained monolithic version**
+- **448 relationships** extracted with **38 columns**
+- **Complete phrase-level antecedent detection**
+- **Method 1 antecedent choice** (animacy-based)
+- **Full documentation** and metadata
+
+### Phase 2 Complete ✅
+- **Modular architecture** with adaptive parsing
+- **100% file compatibility** across all WebAnno TSV format variations
+- **Preamble-based dynamic column mapping**
+- **Automatic format detection** and parser selection
+- **Comprehensive documentation** for all supported formats
+- **Complete separation of concerns**
 - **Comprehensive testing suite** (6/6 tests passing)
 - **Organized in dedicated `src/` package**
 - **Entry point and verification scripts**
 
 ### Current Project Structure ✅
 ```
-├── src/                       # Complete Phase 2 package (448 relationships, 38 cols)
+├── src/                       # Complete Phase 2 package with adaptive parsing
+├── data/                      # Input and output data with comprehensive documentation
+│   ├── input/                 # Source data files with format specifications
+│   │   ├── FORMAT_OVERVIEW.md     # Comprehensive format comparison
+│   │   ├── gotofiles/             # Standard and extended formats
+│   │   │   ├── 2.tsv_DOCUMENTATION.md  # Standard format (15 cols, 448 relationships)
+│   │   │   └── later/                  # Alternative formats
+│   │   │       ├── 1.tsv_DOCUMENTATION.md  # Extended format (37 cols, 234 relationships)
+│   │   │       ├── 3.tsv_DOCUMENTATION.md  # Legacy format (14 cols, 527 relationships)
+│   │   │       └── 4.tsv_DOCUMENTATION.md  # Incomplete format (12 cols, 695 relationships)
+│   │   └── output/            # Timestamped analysis results
 ├── archive/                   # Historical code and analysis
-│   ├── phase1/                # Self-contained Phase 1 (448 relationships, 38 cols)
+│   ├── phase1/                # Self-contained Phase 1
 │   ├── phase_comparison/      # Phase comparison analysis and planning
-│   │   ├── compare_phases.py  # Main comparison script
-│   │   ├── phase2_completion_plan.md  # Implementation roadmap
-│   │   ├── phase_difference_analysis.md  # Analysis documentation
-│   │   └── [other comparison files]  # Reports, results, and analysis
 │   └── planning_docs/         # Project planning and completion reports
-├── data/                      # Input and output data
-│   ├── input/                 # Source data files
-│   └── output/                # Generated exports and analysis results
-└── tests/                     # Project-wide testing
+├── tests/                     # Project-wide testing
+└── tools/                     # Analysis and utility scripts
 ```
 
 ### How to Run ✅
 ```bash
-# Phase 1
-python phase1/clause_mates_complete.py
+# Current System (Adaptive Parsing)
+python src/main.py data/input/gotofiles/2.tsv                    # Standard format (448 relationships)
+python src/main.py data/input/gotofiles/later/1.tsv              # Extended format (234 relationships)
+python src/main.py data/input/gotofiles/later/3.tsv              # Legacy format (527 relationships)
+python src/main.py data/input/gotofiles/later/4.tsv              # Incomplete format (695 relationships)
 
-# Phase 2
-python src/run_phase2.py
+# Legacy mode (disable adaptive features)
+python src/main.py --disable-adaptive data/input/gotofiles/2.tsv
 
-# Phase 2 Testing
-python src/verify_phase2.py
-
-# Phase Comparison Analysis
-python archive/phase_comparison/compare_phases.py
+# Verbose output with format detection
+python src/main.py --verbose data/input/gotofiles/later/1.tsv
 ```
-
-### Phase Comparison Organization 📊
-All phase comparison work has been organized in the `archive/phase_comparison/` folder:
-- **Analysis scripts**: `compare_phases.py`, `run_analysis_with_output.py`
-- **Planning documents**: `phase2_completion_plan.md`, `phase2_improvement_plan.md`
-- **Results & reports**: Analysis outputs, comparison results, and documentation
-- **This organization keeps the main directory clean while preserving all comparison work**
 
 ---
 
-## Computational Reproducibility Status 🔄
+## Computational Reproducibility Status ✅
 
-### ✅ **Current Implementation (v2.0)**
+### ✅ **Current Implementation (v2.1)**
 - **Modular Architecture**: Clean separation of concerns with `src/` package structure
+- **Adaptive Parsing**: 100% compatibility across WebAnno TSV format variations
 - **Testing Suite**: Comprehensive unit tests with 6/6 tests passing
 - **Code Quality**: Ruff integration with GitHub Actions for fast, comprehensive linting
 - **File Organization**: Structured archive and output management
 - **Cross-platform Compatibility**: Relative path handling and platform-independent code
+- **Format Documentation**: Comprehensive specifications for all supported file types
 
 ### 🚀 **Modern Development Standards (v2.1)**
 
@@ -145,82 +161,59 @@ make release-check
 
 ---
 
-## Phase 3: Enhanced Antecedent Choice Methods 📋s - Development Roadmap
+## Phase 3: Enhanced Morphological Features 🔄
 
-## Current Status (v2.0) ✅
-
-### Phase 1 Complete ✅
-- **Self-contained monolithic version**
-- **463 relationships** extracted with **35 columns**
-- **Complete phrase-level antecedent detection**
-- **Method 1 antecedent choice** (animacy-based)
-- **Full documentation** and metadata
-
-### Phase 2 Complete ✅
-- **Modular architecture** with streaming support
-- **448 relationships** extracted with **34 columns**
-- **Complete separation of concerns**
-- **Comprehensive testing suite** (6/6 tests passing)
-- **Organized in dedicated `src/` package**
-- **Entry point and verification scripts**
-- **Phase comparison analysis completed** with organized documentation
-- **Completion roadmap created** for remaining Phase 2 enhancements
-
----
-
-## Phase 3: Enhanced Antecedent Choice Methods �
-
-### 3.1 Method 2: Morphological Compatibility (High Priority)
-**Goal**: Implement gender/number-based antecedent choice calculation
+### 3.1 Morphological Feature Extraction (High Priority)
+**Goal**: Implement pronoun type extraction using detected morphological columns
 
 #### Implementation Plan
 ```python
-# Dependencies
-import spacy
-nlp = spacy.load("de_core_news_sm")  # German language model
-
 # Enhanced pronoun features mapping
 PRONOUN_FEATURES = {
-    'er': {'gender': 'masc', 'number': 'sing'},
-    'sie': {'gender': 'fem', 'number': 'sing'},  # or plural - needs disambiguation
-    'es': {'gender': 'neut', 'number': 'sing'},
-    'ihn': {'gender': 'masc', 'number': 'sing'},
-    'ihm': {'gender': 'masc', 'number': 'sing'},
-    'ihr': {'gender': 'fem', 'number': 'sing'},  # or possessive
-    'ihnen': {'gender': 'any', 'number': 'plur'},
-    # ... D-pronouns and demonstratives
+    'er': {'gender': 'masc', 'number': 'sing', 'type': 'PersPron'},
+    'sie': {'gender': 'fem', 'number': 'sing', 'type': 'PersPron'},  # or plural - needs disambiguation
+    'es': {'gender': 'neut', 'number': 'sing', 'type': 'PersPron'},
+    'der': {'gender': 'masc', 'number': 'sing', 'type': 'DemPron'},  # D-pronoun
+    'die': {'gender': 'fem', 'number': 'sing', 'type': 'DemPron'},   # D-pronoun
+    'das': {'gender': 'neut', 'number': 'sing', 'type': 'DemPron'},  # D-pronoun
+    # ... additional mappings
 }
 ```
 
 #### Technical Approach
 1. **Morphological Analysis**
-   - Use spaCy's German model for automatic feature extraction
-   - Extract gender/number from noun phrases
-   - Handle article-noun agreement patterns
+   - Use detected pronType column (column 16 in 1.tsv)
+   - Extract gender/number from morphological features
+   - Map WebAnno types to system types (Dem→DemPron, Pers→PersPron)
 
-2. **Pronoun Disambiguation**
-   - Implement context-based "sie" disambiguation (fem.sg vs plural)
-   - Use syntactic patterns and verb agreement
-   - Fall back to animacy method when ambiguous
+2. **Enhanced Critical Pronoun Detection**
+   - Integrate morphological data with existing pronoun analysis
+   - Improve pronoun classification accuracy
+   - Add support for ambiguous pronoun resolution
 
-3. **Compatibility Scoring**
-   - Exact match: gender + number agreement
-   - Partial match: number agreement only
-   - Weighted scoring for ambiguous cases
+3. **Extended Output Format**
+   ```python
+   # New columns to add:
+   'pronoun_morphological_type'     # Extracted from morphological features
+   'pronoun_gender'                 # Extracted pronoun gender
+   'pronoun_number'                 # Extracted pronoun number
+   'morphological_features_raw'     # Raw morphological feature string
+   ```
 
-#### Expected Output
+### 3.2 Advanced Antecedent Choice Methods (Medium Priority)
+**Goal**: Implement multiple antecedent choice strategies
+
+#### Method 2: Morphological Compatibility
 ```python
-# New columns to add:
-'pronoun_antecedent_choice_method2'  # Morphological compatibility count
-'pronoun_gender'                     # Extracted pronoun gender
-'pronoun_number'                     # Extracted pronoun number
-'clause_mate_gender'                 # Clause mate gender (if determinable)
-'clause_mate_number'                 # Clause mate number
+def calculate_antecedent_choice_morphological(pronoun, candidates):
+    """
+    Gender/number-based antecedent choice calculation
+    Returns compatibility scores based on morphological agreement
+    """
+    pass
 ```
 
-### 2.2 Method 3: Combined Scoring (Medium Priority)
-**Goal**: Hybrid approach combining animacy + morphology
-
+#### Method 3: Combined Scoring
 ```python
 def calculate_antecedent_choice_combined(pronoun, candidates):
     """
@@ -230,14 +223,18 @@ def calculate_antecedent_choice_combined(pronoun, candidates):
     pass
 ```
 
-### 2.3 Method 4: Syntactic Constraints (Low Priority)
-**Goal**: Add syntactic compatibility (c-command, binding constraints)
+### 3.3 Schema-Aware Processing (Low Priority)
+**Goal**: Extend schema awareness for advanced linguistic features
+
+- **Enhanced Schema Detection**: Identify available morphological layers
+- **Feature Extraction Strategy**: Pluggable extractors for different annotation types
+- **Command Line Options**: User control over morphological feature extraction
 
 ---
 
-## Phase 3: Advanced Linguistic Features 🔮
+## Phase 4: Advanced Linguistic Features 🔮
 
-### 3.1 Enhanced Givenness Detection
+### 4.1 Enhanced Givenness Detection
 **Current**: Binary new/given based on occurrence number
 **Proposed**: Multi-level information status
 
@@ -258,7 +255,7 @@ def calculate_discourse_status(coreference_chain, current_position):
     pass
 ```
 
-### 3.2 Thematic Role Hierarchy
+### 4.2 Thematic Role Hierarchy
 **Goal**: Implement thematic role prominence scales
 
 ```python
@@ -271,7 +268,7 @@ def calculate_thematic_prominence(role1, role2):
     pass
 ```
 
-### 3.3 Clause Structure Analysis
+### 4.3 Clause Structure Analysis
 **Goal**: Distinguish main vs subordinate clauses
 
 - Extract clause boundaries from segment annotations
@@ -280,10 +277,10 @@ def calculate_thematic_prominence(role1, role2):
 
 ---
 
-## Phase 4: Cross-Linguistic Extension 📚
+## Phase 5: Cross-Linguistic Extension 📚
 
-### 4.1 Multi-Chapter Analysis
-**Goal**: Extend beyond Chapter 2 to full corpus
+### 5.1 Multi-Chapter Analysis
+**Goal**: Extend beyond single chapters to full corpus
 
 #### Data Integration
 ```python
@@ -300,7 +297,7 @@ def process_full_corpus(chapter_files):
     pass
 ```
 
-### 4.2 Comparative Studies
+### 5.2 Comparative Studies
 **Goal**: Compare patterns across different text types
 
 - **Literary vs technical texts**
@@ -309,9 +306,9 @@ def process_full_corpus(chapter_files):
 
 ---
 
-## Phase 5: Statistical Modeling 📊
+## Phase 6: Statistical Modeling 📊
 
-### 5.1 Predictive Models
+### 6.1 Predictive Models
 **Goal**: Build models to predict pronoun choice
 
 #### Features for Modeling
@@ -319,7 +316,7 @@ def process_full_corpus(chapter_files):
 MODELING_FEATURES = {
     'pronoun_features': [
         'pronoun_token_idx', 'pronoun_grammatical_role',
-        'pronoun_most_recent_antecedent_distance'
+        'pronoun_most_recent_antecedent_distance', 'pronoun_morphological_type'
     ],
     'clause_mate_features': [
         'num_clause_mates', 'clause_mate_animacy',
@@ -337,7 +334,7 @@ MODELING_FEATURES = {
 - **Random Forest**: Feature importance analysis
 - **Neural Networks**: Complex interaction patterns
 
-### 5.2 Causal Inference
+### 6.2 Causal Inference
 **Goal**: Test causal relationships between clause mates and pronoun choice
 
 ```python
@@ -348,9 +345,9 @@ MODELING_FEATURES = {
 
 ---
 
-## Phase 6: Visualization & Interface 🎨
+## Phase 7: Visualization & Interface 🎨
 
-### 6.1 Interactive Dashboard
+### 7.1 Interactive Dashboard
 **Goal**: Web-based exploration interface
 
 #### Features
@@ -366,7 +363,7 @@ MODELING_FEATURES = {
 # Visualization: Plotly, seaborn
 ```
 
-### 6.2 Linguistic Annotation Tool
+### 7.2 Linguistic Annotation Tool
 **Goal**: Semi-automated annotation assistance
 
 - **Suggest clause mate boundaries**
@@ -375,9 +372,9 @@ MODELING_FEATURES = {
 
 ---
 
-## Phase 7: Performance & Scalability 🚀
+## Phase 8: Performance & Scalability 🚀
 
-### 7.1 Code Optimization
+### 8.1 Code Optimization
 **Current**: Sequential sentence processing
 **Proposed**: Parallel processing
 
@@ -394,12 +391,12 @@ def process_sentences_parallel(sentences, num_workers=4):
     return results
 ```
 
-### 7.2 Memory Optimization
+### 8.2 Memory Optimization
 - **Streaming processing** for large files
 - **Chunk-based analysis** for memory efficiency
 - **Database backend** for very large corpora
 
-### 7.3 Caching System
+### 8.3 Caching System
 ```python
 import joblib
 from functools import lru_cache
@@ -414,12 +411,11 @@ def cached_antecedent_search(pronoun_id, sentence_range):
 
 ## Implementation Timeline 📅
 
-### **Q3 2025**: Method 2 Implementation
-- [x] **Phase comparison organization**: All comparison work organized in dedicated folder
-- [x] **Phase 2 completion roadmap**: Comprehensive implementation plan created
-- [ ] Set up spaCy German pipeline
-- [ ] Implement morphological feature extraction
-- [ ] Add gender/number compatibility scoring
+### **Q3 2025**: Enhanced Morphological Features
+- [x] **Phase 2 completion**: 100% file compatibility achieved
+- [x] **Comprehensive documentation**: All formats documented
+- [ ] Implement morphological feature extraction using detected columns
+- [ ] Add pronoun type mapping (Dem→DemPron, Pers→PersPron)
 - [ ] Validate against manual annotations
 
 ### **Q4 2025**: Advanced Features
@@ -444,11 +440,24 @@ def cached_antecedent_search(pronoun_id, sentence_range):
 
 ## Dependencies & Requirements 📋
 
-### **New Dependencies**
+### **Current Dependencies**
 ```python
-# Method 2 requirements
+# Core requirements
+pandas>=1.3.0
+python>=3.8
+
+# Development
+ruff>=0.1.0
+mypy>=1.0.0
+pytest>=7.0.0
+pre-commit>=2.0.0
+```
+
+### **Phase 3 Requirements**
+```python
+# Morphological analysis (if needed)
 spacy>=3.4.0
-de-core-news-sm>=3.4.0  # German language model
+de-core-news-sm>=3.4.0  # German language model (optional)
 
 # Statistical modeling
 scikit-learn>=1.0.0
@@ -474,12 +483,12 @@ dask>=2021.0.0  # For larger datasets
 
 ## Research Applications 🔬
 
-### **Immediate Applications** (Phases 2-3)
+### **Immediate Applications** (Phases 3-4)
 1. **Pronoun Resolution Systems**: Improved antecedent choice algorithms
 2. **Discourse Analysis**: Information structure patterns
 3. **Language Learning**: Pronoun usage difficulty prediction
 
-### **Long-term Applications** (Phases 4-7)
+### **Long-term Applications** (Phases 5-8)
 1. **Machine Translation**: Context-aware pronoun translation
 2. **Text Generation**: Coherent pronoun patterns in generated text
 3. **Linguistic Theory**: Empirical testing of binding theory predictions
@@ -507,5 +516,5 @@ dask>=2021.0.0  # For larger datasets
 
 *This roadmap is a living document. Priorities may shift based on research findings and user feedback.*
 
-**Next milestone**: Method 2 implementation with spaCy morphological analysis
+**Current milestone**: Phase 3 - Enhanced morphological features with detected pronoun type columns
 **Contact**: See main project documentation for contributor information

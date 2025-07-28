@@ -30,6 +30,9 @@ try:
     from .extractors.pronoun_extractor import PronounExtractor
     from .extractors.relationship_extractor import RelationshipExtractor
     from .parsers.tsv_parser import DefaultTokenProcessor, TSVParser
+    from .parsers.adaptive_tsv_parser import AdaptiveTSVParser
+    from .parsers.incomplete_format_parser import IncompleteFormatParser
+    from .utils.format_detector import TSVFormatDetector
 except ImportError:
     # Fall back to absolute imports (when run directly)
     import sys
@@ -42,6 +45,9 @@ except ImportError:
     from src.extractors.pronoun_extractor import PronounExtractor
     from src.extractors.relationship_extractor import RelationshipExtractor
     from src.parsers.tsv_parser import DefaultTokenProcessor, TSVParser
+    from src.parsers.adaptive_tsv_parser import AdaptiveTSVParser
+    from src.parsers.incomplete_format_parser import IncompleteFormatParser
+    from src.utils.format_detector import TSVFormatDetector
 
 
 class ClauseMateAnalyzer:
@@ -51,12 +57,14 @@ class ClauseMateAnalyzer:
     while maintaining the modular architecture underneath.
     """
 
-    def __init__(self, enable_streaming: bool = False, log_level: int = logging.INFO):
+    def __init__(self, enable_streaming: bool = False, log_level: int = logging.INFO,
+                 enable_adaptive_parsing: bool = True):
         """Initialize the clause mate analyzer.
 
         Args:
             enable_streaming: Whether to use streaming parsing for large files
             log_level: Logging level for the analyzer
+            enable_adaptive_parsing: Whether to use adaptive parsing for different file formats
         """
         # Set up logging
         logging.basicConfig(
@@ -66,7 +74,18 @@ class ClauseMateAnalyzer:
 
         # Initialize components
         self.token_processor = DefaultTokenProcessor()
-        self.parser = TSVParser(self.token_processor)
+        self.enable_adaptive_parsing = enable_adaptive_parsing
+        
+        # Initialize parsers - adaptive parser as primary, incomplete as fallback, legacy as last resort
+        if enable_adaptive_parsing:
+            self.adaptive_parser = AdaptiveTSVParser(self.token_processor)
+            self.incomplete_parser = IncompleteFormatParser(self.token_processor)
+            self.format_detector = TSVFormatDetector()
+            self.logger.info("Adaptive parsing enabled - will auto-detect file formats")
+        
+        self.legacy_parser = TSVParser(self.token_processor)
+        self.parser = self.adaptive_parser if enable_adaptive_parsing else self.legacy_parser
+        
         self.coreference_extractor = CoreferenceExtractor()
         self.pronoun_extractor = PronounExtractor()
         self.phrase_extractor = PhraseExtractor()
@@ -99,6 +118,10 @@ class ClauseMateAnalyzer:
         self.logger.info(f"Starting analysis of file: {file_path}")
 
         try:
+            # Perform format detection if adaptive parsing is enabled
+            if self.enable_adaptive_parsing:
+                self._detect_and_configure_format(file_path)
+            
             if self.enable_streaming:
                 return self._analyze_streaming(file_path)
             else:
@@ -205,12 +228,17 @@ class ClauseMateAnalyzer:
             output_path: Path to the output CSV file
         """
         import pandas as pd
+        import os
+        from datetime import datetime
 
         if not relationships:
             self.logger.warning("No relationships to export")
             return
 
         try:
+            # Create timestamped output directory if needed
+            output_path = self._ensure_timestamped_output_path(output_path)
+            
             # Convert relationships to dictionaries
             data = [rel.to_dict() for rel in relationships]
 
@@ -245,6 +273,43 @@ class ClauseMateAnalyzer:
                 f"Failed to export results: {str(e)}"
             ) from e
 
+    def _ensure_timestamped_output_path(self, output_path: str) -> str:
+        """Ensure output path uses timestamped directory structure.
+        
+        Args:
+            output_path: Original output path
+            
+        Returns:
+            Modified output path with timestamped directory
+        """
+        import os
+        from datetime import datetime
+        from pathlib import Path
+        
+        output_path_obj = Path(output_path)
+        
+        # Check if path already contains a timestamped directory
+        import re
+        if any(re.match(r'\d{8}_\d{6}', str(part)) for part in output_path_obj.parts):
+            # Already has timestamp, return as-is
+            return output_path
+            
+        # Generate timestamp
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        
+        # Always create timestamped directory under data/output/
+        data_output_dir = Path('data/output')
+        timestamped_dir = data_output_dir / timestamp
+            
+        # Ensure directory exists
+        timestamped_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Return new path
+        new_path = timestamped_dir / output_path_obj.name
+        
+        self.logger.info(f"Created timestamped output directory: {timestamped_dir}")
+        return str(new_path)
+
     def get_statistics(self) -> Dict[str, Any]:
         """Get analysis statistics.
 
@@ -252,6 +317,51 @@ class ClauseMateAnalyzer:
             Dictionary containing analysis statistics
         """
         return self.stats.copy()
+
+    def _detect_and_configure_format(self, file_path: str) -> None:
+        """Detect file format and configure the appropriate parser.
+        
+        Args:
+            file_path: Path to the file to analyze
+        """
+        try:
+            # Analyze file format
+            format_info = self.format_detector.analyze_file(file_path)
+            
+            self.logger.info(f"File format analysis:")
+            self.logger.info(f"  - Columns detected: {format_info.total_columns}")
+            self.logger.info(f"  - Compatibility score: {format_info.compatibility_score:.2f}")
+            self.logger.info(f"  - Format type: {format_info.format_type}")
+            
+            # Update statistics with format information (extend stats dict to handle mixed types)
+            if not hasattr(self, '_extended_stats'):
+                self._extended_stats = {}
+            self._extended_stats["file_format_detected"] = format_info.format_type
+            self._extended_stats["compatibility_score"] = format_info.compatibility_score
+            self._extended_stats["column_count"] = format_info.total_columns
+            
+            # Choose parser based on compatibility and format type
+            if format_info.compatibility_score >= 0.7:
+                self.logger.info("Using adaptive parser for high compatibility file")
+                self.parser = self.adaptive_parser
+            elif format_info.format_type == "incomplete" and format_info.compatibility_score >= 0.5:
+                self.logger.info(f"Using incomplete format parser for {format_info.format_type} format "
+                               f"(compatibility: {format_info.compatibility_score:.2f})")
+                self.parser = self.incomplete_parser
+            else:
+                self.logger.warning(f"Low compatibility score ({format_info.compatibility_score:.2f}), "
+                                  f"falling back to legacy parser")
+                self.parser = self.legacy_parser
+                
+            # Log any issues found
+            if format_info.issues:
+                self.logger.warning("Format issues detected:")
+                for issue in format_info.issues:
+                    self.logger.warning(f"  - {issue}")
+                    
+        except Exception as e:
+            self.logger.warning(f"Format detection failed: {e}, using legacy parser")
+            self.parser = self.legacy_parser
 
     def _extract_sentence_number(self, sentence_id: str) -> int:
         """Extract sentence number from sentence ID."""
@@ -286,6 +396,11 @@ def main():
     parser.add_argument(
         "--verbose", "-v", action="store_true", help="Enable verbose logging"
     )
+    parser.add_argument(
+        "--disable-adaptive",
+        action="store_true",
+        help="Disable adaptive parsing (use legacy parser only)",
+    )
 
     args = parser.parse_args()
 
@@ -293,7 +408,11 @@ def main():
     log_level = logging.DEBUG if args.verbose else logging.INFO
 
     # Create analyzer
-    analyzer = ClauseMateAnalyzer(enable_streaming=args.streaming, log_level=log_level)
+    analyzer = ClauseMateAnalyzer(
+        enable_streaming=args.streaming,
+        log_level=log_level,
+        enable_adaptive_parsing=not args.disable_adaptive
+    )
 
     try:
         # Run analysis

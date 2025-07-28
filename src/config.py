@@ -7,16 +7,28 @@ from typing import Set
 
 
 class TSVColumns:
-    """Column indices for TSV file parsing."""
+    """Base column indices for TSV file parsing.
+    
+    Note: These are default/fallback values. The actual column positions
+    are determined dynamically by the adaptive parser based on file preambles
+    and format detection. Different TSV files may have different column
+    arrangements depending on their WebAnno annotation schema.
+    """
 
+    # Core columns that are typically consistent across formats
     TOKEN_ID = 0
     TOKEN_TEXT = 2
-    GRAMMATICAL_ROLE = 4
-    THEMATIC_ROLE = 5
-    COREFERENCE_LINK = 10
-    COREFERENCE_TYPE = 11
-    INANIMATE_COREFERENCE_LINK = 12
-    INANIMATE_COREFERENCE_TYPE = 13
+    
+    # Optional columns - positions vary by format and are detected dynamically
+    GRAMMATICAL_ROLE = 4  # May vary based on annotation schema
+    THEMATIC_ROLE = 5     # May vary based on annotation schema
+    
+    # Coreference columns - positions determined by preamble analysis
+    # These are fallback values only, actual positions are dynamic
+    COREFERENCE_LINK = None           # Determined by format detection
+    COREFERENCE_TYPE = None           # Determined by format detection
+    INANIMATE_COREFERENCE_LINK = None # Determined by format detection
+    INANIMATE_COREFERENCE_TYPE = None # Determined by format detection
 
 
 # Alias for backwards compatibility
@@ -28,7 +40,12 @@ class Constants:
 
     MISSING_VALUE = "_"
     SENTENCE_PREFIX = "sent_"
-    MIN_COLUMNS_REQUIRED = 15
+    
+    # Column requirements - now dynamic based on format detection
+    MIN_COLUMNS_BASIC = 3        # Minimum for basic token parsing (ID, text, etc.)
+    MIN_COLUMNS_STANDARD = 14    # Standard format minimum
+    MIN_COLUMNS_EXTENDED = 30    # Extended format minimum
+    MIN_COLUMNS_REQUIRED = 14    # Fallback default (maintained for compatibility)
 
     # Coreference types
     PERSONAL_PRONOUN_TYPE = "PersPron"
@@ -64,10 +81,22 @@ class PronounSets:
 
 
 class FilePaths:
-    """Default file paths - using relative paths for portability."""
+    """Default file paths - using relative paths for portability.
+    
+    Note: These are fallback defaults. The system now supports dynamic
+    file selection and automatic format detection for any compatible TSV file.
+    """
 
-    INPUT_FILE = r"data/input/gotofiles/2.tsv"
-    OUTPUT_FILE = r"data/output/clause_mates_phase2_export.csv"
+    # Default input directory - users can specify any compatible TSV file
+    INPUT_DIR = r"data/input/gotofiles"
+    INPUT_FILE = r"data/input/gotofiles/2.tsv"  # Fallback default
+    OUTPUT_FILE = r"data/output/clause_mates_analysis_export.csv"
+    
+    # Common input file locations for reference
+    GOTOFILES_DIR = r"data/input/gotofiles"
+    LATER_DIR = r"data/input/gotofiles/later"
+    SOURCE_DIR = r"data/input/source"
+    ANNOTATION_DIR = r"data/input/annotation"
 
 
 class RegexPatterns:
