@@ -1,0 +1,198 @@
+{
+  "processing_stats": {
+    "total_chapters": 4,
+    "total_relationships": 1904,
+    "cross_chapter_chains": 44,
+    "processing_time_seconds": 11.398809
+  },
+  "chapter_info": [
+    {
+      "chapter_number": 1,
+      "file_path": "data\\input\\gotofiles\\later\\1.tsv",
+      "format_type": "extended",
+      "columns": 37,
+      "relationships_count": 234,
+      "sentence_range": [
+        1,
+        127
+      ],
+      "compatibility_score": 1.0
+    },
+    {
+      "chapter_number": 2,
+      "file_path": "data\\input\\gotofiles\\2.tsv",
+      "format_type": "standard",
+      "columns": 15,
+      "relationships_count": 448,
+      "sentence_range": [
+        1,
+        222
+      ],
+      "compatibility_score": 1.0
+    },
+    {
+      "chapter_number": 3,
+      "file_path": "data\\input\\gotofiles\\later\\3.tsv",
+      "format_type": "legacy",
+      "columns": 14,
+      "relationships_count": 527,
+      "sentence_range": [
+        1,
+        206
+      ],
+      "compatibility_score": 1.0
+    },
+    {
+      "chapter_number": 4,
+      "file_path": "data\\input\\gotofiles\\later\\4.tsv",
+      "format_type": "incomplete",
+      "columns": 12,
+      "relationships_count": 695,
+      "sentence_range": [
+        1,
+        242
+      ],
+      "compatibility_score": 1.0
+    }
+  ],
+  "cross_chapter_chains": {
+    "unified_chain_1": [
+      "er",
+      "der",
+      "ihm",
+      "das",
+      "den"
+    ],
+    "unified_chain_2": [
+      "sie"
+    ],
+    "unified_chain_3": [
+      "der Nemec"
+    ],
+    "unified_chain_4": [
+      "ist"
+    ],
+    "unified_chain_5": [
+      "es"
+    ],
+    "unified_chain_6": [
+      "Ende Jänner"
+    ],
+    "unified_chain_7": [
+      "ihn"
+    ],
+    "unified_chain_8": [
+      "Schwiegereltern"
+    ],
+    "unified_chain_9": [
+      "Brenners"
+    ],
+    "unified_chain_10": [
+      "ihr"
+    ],
+    "unified_chain_11": [
+      "dem Brenner"
+    ],
+    "unified_chain_12": [
+      "die"
+    ],
+    "unified_chain_13": [
+      "du"
+    ],
+    "unified_chain_14": [
+      "ihre"
+    ],
+    "unified_chain_15": [
+      "den Leuten"
+    ],
+    "unified_chain_16": [
+      "sein"
+    ],
+    "unified_chain_17": [
+      "in Zell"
+    ],
+    "unified_chain_18": [
+      "ich"
+    ],
+    "unified_chain_19": [
+      "seinen"
+    ],
+    "unified_chain_20": [
+      "man"
+    ],
+    "unified_chain_21": [
+      "gesagt"
+    ],
+    "unified_chain_22": [
+      "der Polizei"
+    ],
+    "unified_chain_23": [
+      "vom Brenner"
+    ],
+    "unified_chain_24": [
+      "dem"
+    ],
+    "unified_chain_25": [
+      "den Schmeller"
+    ],
+    "unified_chain_26": [
+      "den Nemec"
+    ],
+    "unified_chain_27": [
+      "seine"
+    ],
+    "unified_chain_28": [
+      "dem Vergolder"
+    ],
+    "unified_chain_29": [
+      "wir"
+    ],
+    "unified_chain_30": [
+      "allen"
+    ],
+    "unified_chain_31": [
+      "hat"
+    ],
+    "unified_chain_32": [
+      "ihnen"
+    ],
+    "unified_chain_33": [
+      "seinem"
+    ],
+    "unified_chain_34": [
+      "seinen Bericht"
+    ],
+    "unified_chain_35": [
+      "der Brenner"
+    ],
+    "unified_chain_36": [
+      "wer"
+    ],
+    "unified_chain_37": [
+      "Zell"
+    ],
+    "unified_chain_38": [
+      "seiner"
+    ],
+    "unified_chain_39": [
+      "einer"
+    ],
+    "unified_chain_40": [
+      "der Vergolder"
+    ],
+    "unified_chain_41": [
+      "ihren"
+    ],
+    "unified_chain_42": [
+      "mich"
+    ],
+    "unified_chain_43": [
+      "sich"
+    ],
+    "unified_chain_44": [
+      "mir"
+    ]
+  },
+  "success": true,
+  "processing_time": 11.398809
+}

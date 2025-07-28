@@ -1,0 +1,172 @@
+{
+  "processing_stats": {
+    "total_chapters": 4,
+    "total_relationships": 1904,
+    "cross_chapter_chains": 36,
+    "processing_time_seconds": 30.273788
+  },
+  "chapter_info": [
+    {
+      "chapter_number": 1,
+      "file_path": "data\\input\\gotofiles\\2.tsv",
+      "format_type": "standard",
+      "columns": 15,
+      "relationships_count": 448,
+      "sentence_range": [
+        1,
+        222
+      ],
+      "compatibility_score": 1.0
+    },
+    {
+      "chapter_number": 2,
+      "file_path": "data\\input\\gotofiles\\later\\1.tsv",
+      "format_type": "extended",
+      "columns": 37,
+      "relationships_count": 234,
+      "sentence_range": [
+        1,
+        127
+      ],
+      "compatibility_score": 1.0
+    },
+    {
+      "chapter_number": 3,
+      "file_path": "data\\input\\gotofiles\\later\\3.tsv",
+      "format_type": "legacy",
+      "columns": 14,
+      "relationships_count": 527,
+      "sentence_range": [
+        1,
+        206
+      ],
+      "compatibility_score": 1.0
+    },
+    {
+      "chapter_number": 4,
+      "file_path": "data\\input\\gotofiles\\later\\4.tsv",
+      "format_type": "incomplete",
+      "columns": 12,
+      "relationships_count": 695,
+      "sentence_range": [
+        1,
+        242
+      ],
+      "compatibility_score": 1.0
+    }
+  ],
+  "cross_chapter_chains": {
+    "unified_chain_1": [
+      "er"
+    ],
+    "unified_chain_2": [
+      "ihn"
+    ],
+    "unified_chain_3": [
+      "ihm",
+      "das",
+      "der"
+    ],
+    "unified_chain_4": [
+      "die"
+    ],
+    "unified_chain_5": [
+      "einer"
+    ],
+    "unified_chain_6": [
+      "mich"
+    ],
+    "unified_chain_7": [
+      "dem"
+    ],
+    "unified_chain_8": [
+      "allen"
+    ],
+    "unified_chain_9": [
+      "mir"
+    ],
+    "unified_chain_10": [
+      "Hat"
+    ],
+    "unified_chain_11": [
+      "in Zell"
+    ],
+    "unified_chain_12": [
+      "Sie"
+    ],
+    "unified_chain_13": [
+      "seinem"
+    ],
+    "unified_chain_14": [
+      "man"
+    ],
+    "unified_chain_15": [
+      "du"
+    ],
+    "unified_chain_16": [
+      "der Vergolder"
+    ],
+    "unified_chain_17": [
+      "der Brenner"
+    ],
+    "unified_chain_18": [
+      "ihnen"
+    ],
+    "unified_chain_19": [
+      "den"
+    ],
+    "unified_chain_20": [
+      "ihren"
+    ],
+    "unified_chain_21": [
+      "ihre"
+    ],
+    "unified_chain_22": [
+      "es"
+    ],
+    "unified_chain_23": [
+      "wer"
+    ],
+    "unified_chain_24": [
+      "ihr"
+    ],
+    "unified_chain_25": [
+      "dem Vergolder"
+    ],
+    "unified_chain_26": [
+      "dem Brenner"
+    ],
+    "unified_chain_27": [
+      "seine"
+    ],
+    "unified_chain_28": [
+      "keiner"
+    ],
+    "unified_chain_29": [
+      "sich"
+    ],
+    "unified_chain_30": [
+      "ist"
+    ],
+    "unified_chain_31": [
+      "wir"
+    ],
+    "unified_chain_32": [
+      "den Leuten"
+    ],
+    "unified_chain_33": [
+      "sein"
+    ],
+    "unified_chain_34": [
+      "ich"
+    ],
+    "unified_chain_35": [
+      "seiner"
+    ],
+    "unified_chain_36": [
+      "seinen"
+    ]
+  },
+  "success": true,
+  "processing_time": 30.273788
+}

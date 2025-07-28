@@ -33,10 +33,11 @@ A Python tool for extracting and analyzing clause mate relationships from German
 
 - ✅ **Phase 1 Complete**: Self-contained monolithic version with full functionality
 - ✅ **Phase 2 Complete**: Modular architecture with adaptive parsing and 100% file compatibility
+- ✅ **Phase 3.1 Complete**: Unified multi-file processing with cross-chapter coreference resolution
 - ✅ **Documentation Complete**: Comprehensive format documentation for all supported file types
-- 📋 **Phase 3 Planned**: Enhanced morphological features and advanced analysis capabilities
+- 📋 **Phase 3.2 Planned**: Advanced analytics and visualization features
 
-> 📄 **Latest Achievement**: Complete WebAnno TSV format compatibility with adaptive parsing system supporting 4 different file formats (12-38 columns) with automatic format detection and graceful degradation.
+> 📄 **Latest Achievement**: Unified multi-file processing system that processes all 4 chapter files as a single dataset, outputting one comprehensive file with cross-chapter coreference resolution instead of four separate files.
 
 ## Description
 
@@ -50,10 +51,13 @@ This tool analyzes German pronouns and their clause mates in annotated linguisti
 
 ## Features
 
+- **Unified Multi-File Processing**: Process all 4 chapter files as a single unified dataset
+- **Cross-Chapter Coreference Resolution**: Identify and resolve coreference chains spanning multiple files
 - **Adaptive TSV Parsing**: Supports multiple WebAnno TSV 3.3 format variations (12-38 columns)
 - **Automatic Format Detection**: Preamble-based dynamic column mapping
 - **100% File Compatibility**: Works with standard, extended, legacy, and incomplete formats
 - **Cross-sentence Analysis**: Antecedent detection with 94.4% success rate
+- **Single Unified Output**: One comprehensive file instead of four separate outputs
 - **Comprehensive Documentation**: Detailed format specifications for all supported files
 - **Robust Error Handling**: Graceful degradation and clear user feedback
 - **Type-safe Implementation**: Full type hints and comprehensive testing
@@ -73,9 +77,15 @@ This tool analyzes German pronouns and their clause mates in annotated linguisti
 ## Project Structure
 
 ```
-├── src/                        # Phase 2 - Complete modular architecture
+├── src/                        # Phase 3.1 - Complete unified processing architecture
 │   ├── main.py                     # Main orchestrator with adaptive parsing
 │   ├── config.py                   # Generalized configuration system
+│   ├── multi_file/                 # Multi-file processing components (Phase 3.1)
+│   │   ├── multi_file_batch_processor.py   # Unified multi-file coordinator
+│   │   ├── unified_sentence_manager.py     # Global sentence numbering
+│   │   ├── cross_file_coreference_resolver.py # Cross-chapter chain resolution
+│   │   ├── unified_relationship_model.py   # Extended relationship data model
+│   │   └── __init__.py                     # Multi-file module exports
 │   ├── parsers/                    # Adaptive TSV parsing components
 │   │   ├── adaptive_tsv_parser.py      # Preamble-based dynamic parsing
 │   │   ├── incomplete_format_parser.py # Specialized incomplete format handler
@@ -85,6 +95,7 @@ This tool analyzes German pronouns and their clause mates in annotated linguisti
 │   ├── utils/                      # Format detection and utilities
 │   │   └── format_detector.py          # Automatic format analysis
 │   └── data/                       # Data models and structures
+├── run_multi_file_analysis.py     # Production multi-file processing interface
 ├── data/                       # Input and output data
 │   ├── input/                      # Source TSV files with documentation
 │   │   ├── FORMAT_OVERVIEW.md          # Comprehensive format comparison
@@ -97,7 +108,9 @@ This tool analyzes German pronouns and their clause mates in annotated linguisti
 │   │   └── output/                 # Timestamped analysis results
 ├── tests/                      # Comprehensive test suite
 ├── tools/                      # Analysis and utility scripts
-└── docs/                       # Project documentation
+├── docs/                       # Project documentation
+├── MULTI_FILE_PROCESSING_DOCUMENTATION.md # Multi-file architecture guide
+└── unified_multi_file_processing_plan_updated.md # Implementation plan
 ```
 
 ## Installation
@@ -129,12 +142,33 @@ This tool analyzes German pronouns and their clause mates in annotated linguisti
 
 ## Usage
 
-### Current System (Phase 2)
+### Multi-File Processing (Phase 3.1) - **RECOMMENDED**
 
-The system automatically detects file formats and selects the appropriate parser:
+Process all 4 chapter files as a unified dataset with cross-chapter coreference resolution:
 
 ```bash
-# Automatic format detection and adaptive parsing
+# Unified multi-file processing (all chapters as single dataset)
+python run_multi_file_analysis.py
+
+# With verbose logging
+python run_multi_file_analysis.py --verbose
+
+# Custom output directory
+python run_multi_file_analysis.py --output-dir custom_output
+```
+
+**Output**: Single unified file with all 1,904 relationships + 36 cross-chapter chains
+- Creates timestamped directory: `data/output/unified_analysis_YYYYMMDD_HHMMSS/`
+- **unified_relationships.csv**: Main CSV output with source file metadata
+- **unified_relationships.json**: JSON format with complete relationship data
+- **cross_chapter_statistics.json**: Cross-chapter chain resolution statistics
+
+### Single File Processing (Phase 2)
+
+Process individual files with automatic format detection:
+
+```bash
+# Individual file processing with adaptive parsing
 python src/main.py data/input/gotofiles/2.tsv                    # Standard format
 python src/main.py data/input/gotofiles/later/1.tsv              # Extended format
 python src/main.py data/input/gotofiles/later/3.tsv              # Legacy format
@@ -147,16 +181,24 @@ python src/main.py --disable-adaptive data/input/gotofiles/2.tsv
 python src/main.py --verbose data/input/gotofiles/later/1.tsv
 ```
 
-**Output**: Automatically creates timestamped directories in `data/output/YYYYMMDD_HHMMSS/`
+**Output**: Individual timestamped directories in `data/output/YYYYMMDD_HHMMSS/`
 
-### Analysis Results by Format
+### Analysis Results Comparison
 
+#### Unified Multi-File Processing (Recommended)
+| **Unified Output** | **Total** | **Cross-Chapter Chains** | **Processing Time** |
+|-------------------|-----------|--------------------------|-------------------|
+| **All 4 Chapters** | **1,904 relationships** | **36 unified chains** | **~12 seconds** |
+
+#### Individual File Processing
 | File | Format | Sentences | Tokens | Relationships | Coreference Chains |
 |------|--------|-----------|--------|---------------|-------------------|
 | **2.tsv** | Standard | 222 | 3,665 | **448** | 235 |
 | **1.tsv** | Extended | 127 | 2,267 | **234** | 195 |
 | **3.tsv** | Legacy | 207 | 3,786 | **527** | 244 |
 | **4.tsv** | Incomplete | 243 | 4,412 | **695** | 245 |
+
+> 💡 **Recommendation**: Use multi-file processing for complete narrative analysis with cross-chapter relationships. Individual processing is available for specific chapter analysis or debugging.
 
 ### Analysis Tools
 
