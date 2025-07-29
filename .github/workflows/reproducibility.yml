@@ -127,7 +127,8 @@ jobs:
         # Clean pytest cache to avoid import file mismatch errors
         find . -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
         find . -name "*.pyc" -delete 2>/dev/null || true
-        pytest --cov=src --cov-report=xml --cov-report=term-missing -v || echo "No pytest tests found, running manual coverage test"
+        # Exclude duplicate test files to avoid import conflicts
+        pytest --cov=src --cov-report=xml --cov-report=term-missing -v --ignore=tests/property/test_property_based.py || echo "No pytest tests found, running manual coverage test"
 
         # Manual coverage test if pytest fails
         python -m coverage run --source=src -m pytest -v || python -m coverage run --source=src -c "
