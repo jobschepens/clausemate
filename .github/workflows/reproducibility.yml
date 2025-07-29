@@ -36,8 +36,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install pytest pytest-cov coverage codecov
-        # Install the package in development mode to fix import issues
-        pip install -e .
+        # Install the package in development mode with all optional dependencies
+        pip install -e ".[dev,benchmark]"
 
     - name: Verify project structure
       run: |
@@ -201,7 +201,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install -e .
+        pip install -e ".[dev,benchmark]"
 
     - name: Generate baseline outputs
       run: |
@@ -274,8 +274,8 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install memory-profiler
-        pip install -e .
+        # Install with benchmark dependencies which includes psutil and memory-profiler
+        pip install -e ".[dev,benchmark]"
 
     - name: Performance benchmark
       run: |
