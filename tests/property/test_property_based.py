@@ -3,7 +3,7 @@
 import string
 
 import pytest
-from hypothesis import assume, given, settings
+from hypothesis import HealthCheck, assume, given, settings
 from hypothesis import strategies as st
 from hypothesis.strategies import composite
 
@@ -95,7 +95,7 @@ class TestPropertyBasedValidation:
     """Property-based tests for data model validation."""
 
     @given(valid_token_data())
-    @settings(max_examples=50)
+    @settings(max_examples=50, suppress_health_check=[HealthCheck.too_slow])
     def test_token_creation_always_valid(self, token_data):
         """Test that valid token data always creates valid tokens."""
         token = Token(**token_data)
