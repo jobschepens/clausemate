@@ -1,13 +1,17 @@
 """Performance benchmarking for clause mate extraction."""
 
 import time
+from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Callable, Dict
 
 import pandas as pd
-import psutil
+
+try:
+    import psutil
+except ImportError:
+    psutil = None
 
 
 @dataclass
@@ -27,6 +31,11 @@ class PerformanceBenchmark:
     """Benchmark processing performance."""
 
     def __init__(self):
+        """Initialize the performance benchmark with psutil process monitoring."""
+        if psutil is None:
+            raise ImportError(
+                "psutil is required for benchmarking. Install with: pip install psutil"
+            )
         self.process = psutil.Process()
 
     def benchmark_function(
@@ -73,7 +82,7 @@ class PerformanceBenchmark:
             throughput_rows_per_sec=throughput,
         )
 
-    def compare_phases(self) -> Dict[str, BenchmarkResult]:
+    def compare_phases(self) -> dict[str, BenchmarkResult]:
         """Compare performance of both phases."""
         results = {}
 
@@ -102,14 +111,16 @@ class PerformanceBenchmark:
         return results
 
     def save_benchmark_results(
-        self, results: Dict[str, BenchmarkResult], output_file: Path
+        self, results: dict[str, BenchmarkResult], output_file: Path
     ):
         """Save benchmark results to file."""
         benchmark_data = {
             "timestamp": datetime.now().isoformat(),
             "system_info": {
-                "cpu_count": psutil.cpu_count(),
-                "memory_total_mb": psutil.virtual_memory().total / 1024 / 1024,
+                "cpu_count": psutil.cpu_count() if psutil else "unknown",
+                "memory_total_mb": psutil.virtual_memory().total / 1024 / 1024
+                if psutil
+                else "unknown",
                 "platform": platform.platform(),
             },
             "results": {},
