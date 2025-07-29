@@ -104,7 +104,7 @@ def test_file_parsing(file_path: str, description: str):
         return False
 
 
-def test_file_parsing_helper(file_path: str, description: str):
+def file_parsing_helper(file_path: str, description: str):
     """Helper function for the main() function to test parsing a single file."""
     print(f"\n{'=' * 60}")
     print(f"Testing: {description}")
@@ -194,7 +194,7 @@ def main():
 
     for file_path, description in test_files:
         if Path(file_path).exists():
-            success = test_file_parsing_helper(file_path, description)
+            success = file_parsing_helper(file_path, description)
             results.append((file_path, success))
         else:
             print(f"\n⚠️  SKIPPED: {file_path} (file not found)")
