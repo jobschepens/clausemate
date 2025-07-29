@@ -5,6 +5,7 @@ on:
     branches: [ main, develop ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   coverage:
@@ -58,7 +59,7 @@ jobs:
         # Try pytest first, fallback to manual coverage if no tests exist
         if [ -d "tests" ] && [ "$(find tests -name 'test_*.py' -type f | wc -l)" -gt 0 ]; then
           echo "Running pytest with coverage..."
-          python -m pytest --cov=src --cov-report=xml --cov-report=term-missing -v --ignore=tests/optional
+          python -m pytest --cov=src --cov-report=xml --cov-report=term-missing --junitxml=junit.xml -v --ignore=tests/optional
         else
           echo "No pytest tests found, running coverage on main modules..."
           python -m coverage run --source=src --omit="*/tests/*,*/test_*" test_coverage.py
@@ -66,11 +67,16 @@ jobs:
         fi
 
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v4
+      uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         file: ./coverage.xml
         flags: unittests
         name: codecov-umbrella
         fail_ci_if_error: false
-        verbose: true
+
+    - name: Upload test results to Codecov
+      if: ${{ !cancelled() }}
+      uses: codecov/test-results-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}

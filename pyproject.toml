@@ -77,6 +77,7 @@ addopts = [
     "--cov-fail-under=25",
     "--strict-markers",
     "--disable-warnings",
+    "--junitxml=junit.xml",
 ]
 markers = [
     "slow: marks tests as slow (deselect with '-m \"not slow\"')",
