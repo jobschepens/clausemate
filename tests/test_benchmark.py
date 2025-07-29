@@ -8,7 +8,11 @@ import pytest
 # Add the src directory to the Python path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from src import benchmark
+# Skip entire module if benchmark dependencies are not available
+try:
+    from src import benchmark
+except ImportError:
+    pytest.skip("benchmark dependencies not available", allow_module_level=True)
 
 
 class TestBenchmark:

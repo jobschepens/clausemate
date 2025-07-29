@@ -3,9 +3,14 @@
 import string
 
 import pytest
-from hypothesis import HealthCheck, assume, given, settings
-from hypothesis import strategies as st
-from hypothesis.strategies import composite
+
+# Skip entire module if hypothesis is not available
+try:
+    from hypothesis import HealthCheck, assume, given, settings
+    from hypothesis import strategies as st
+    from hypothesis.strategies import composite
+except ImportError:
+    pytest.skip("hypothesis not available", allow_module_level=True)
 
 from src.data.models import AnimacyType, Phrase, SentenceContext, Token
 
