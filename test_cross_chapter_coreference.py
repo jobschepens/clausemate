@@ -117,15 +117,15 @@ class CrossChapterCoreferenceAnalyzer:
                 and rel.pronoun.coreference_link != "_"
                 and "->" in rel.pronoun.coreference_link
             ):
-                    chain_id = rel.pronoun.coreference_link.split("->")[1].split("-")[0]
-                    coreference_chains[chain_id].append(
-                        {
-                            "text": rel.pronoun.text,
-                            "sentence": rel.sentence_num,
-                            "type": "pronoun",
-                            "position": rel.pronoun.idx,
-                        }
-                    )
+                chain_id = rel.pronoun.coreference_link.split("->")[1].split("-")[0]
+                coreference_chains[chain_id].append(
+                    {
+                        "text": rel.pronoun.text,
+                        "sentence": rel.sentence_num,
+                        "type": "pronoun",
+                        "position": rel.pronoun.idx,
+                    }
+                )
 
             # Extract chain ID from pronoun coreference type (e.g., "PersPron[127]")
             if rel.pronoun.coreference_type and rel.pronoun.coreference_type != "_":
@@ -243,7 +243,9 @@ class CrossChapterCoreferenceAnalyzer:
                     sentences = [m["sentence"] for m in mentions if m["sentence"]]
                     if texts and sentences:
                         sent_range = f"{min(sentences)}-{max(sentences)}"
-                        print(f"      Chain {chain_id}: {texts} (sentences {sent_range})")
+                        print(
+                            f"      Chain {chain_id}: {texts} (sentences {sent_range})"
+                        )
 
     def detect_cross_chapter_evidence(self):
         """Detect evidence of cross-chapter coreference chains."""
@@ -401,8 +403,12 @@ class CrossChapterCoreferenceAnalyzer:
             )
 
             if same_id_evidence:
-                print(f"    🎯 Same Chain ID Evidence: {len(same_id_evidence)} connections")
-                print("      This is STRONG evidence for cross-chapter coreference chains!")
+                print(
+                    f"    🎯 Same Chain ID Evidence: {len(same_id_evidence)} connections"
+                )
+                print(
+                    "      This is STRONG evidence for cross-chapter coreference chains!"
+                )
                 for evidence in same_id_evidence[:3]:  # Show first 3
                     print(
                         f"        Chain {evidence['chain_id']}: "

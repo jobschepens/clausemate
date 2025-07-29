@@ -91,16 +91,19 @@ class CrossFileCoreferenceResolver:
                         chapter_chains[chain_id].add(pronoun_text)
 
                 # Also check clause mate coreference if it has chain IDs
-                if hasattr(rel, "clause_mate") and hasattr(rel.clause_mate, "coreference_id"):
+                if hasattr(rel, "clause_mate") and hasattr(
+                    rel.clause_mate, "coreference_id"
+                ):
                     clause_mate_coref_id = rel.clause_mate.coreference_id
                     clause_mate_text = rel.clause_mate.text
-                    
+
                     if clause_mate_coref_id:
                         chapter_chains[clause_mate_coref_id].add(clause_mate_text)
 
             # Convert sets to lists for JSON serialization
             self.chapter_chains[file_path] = {
-                chain_id: list(entities) for chain_id, entities in chapter_chains.items()
+                chain_id: list(entities)
+                for chain_id, entities in chapter_chains.items()
             }
 
             self.logger.info(
@@ -130,7 +133,7 @@ class CrossFileCoreferenceResolver:
                 chains2 = self.chapter_chains[file2]
 
                 # Look for exact chain ID matches across chapters
-                for chain_id1 in chains1.keys():
+                for chain_id1 in chains1:
                     if chain_id1 in chains2:
                         # Found the same chain ID in both chapters - this is a cross-chapter chain
                         connections.append((file1, chain_id1, file2, chain_id1))
@@ -176,14 +179,11 @@ class CrossFileCoreferenceResolver:
         entities1_key = {e for e in normalized_entities1 if e in key_entities}
         entities2_key = {e for e in normalized_entities2 if e in key_entities}
 
-        if (
+        return bool(
             entities1_key
             and entities2_key
             and entities1_key.intersection(entities2_key)
-        ):
-            return True
-
-        return False
+        )
 
     def _merge_connected_chains(
         self, connections: List[Tuple[str, str, str, str]]

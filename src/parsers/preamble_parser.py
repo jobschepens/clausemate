@@ -1,4 +1,4 @@
-"""WebAnno TSV Preamble Parser
+"""WebAnno TSV Preamble Parser.
 
 Parses WebAnno TSV preambles to determine dynamic column mapping based on annotation schema.
 This enables handling different TSV formats with varying column arrangements.

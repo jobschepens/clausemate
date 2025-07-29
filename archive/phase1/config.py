@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Configuration module for clause mate extraction script.
+"""Configuration module for clause mate extraction script.
 Contains all constants, column definitions, and configuration settings.
 """
 

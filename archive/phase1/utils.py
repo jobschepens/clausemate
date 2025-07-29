@@ -1,19 +1,16 @@
 #!/usr/bin/env python3
-"""
-Utility functions for the clause mate extraction script.
-"""
+"""Utility functions for the clause mate extraction script."""
 
 import re
-from typing import List, Optional, Tuple, Union
 from pathlib import Path
+from typing import List, Optional, Tuple, Union
 
-from config import Constants, TSVColumns, RegexPatterns
-from exceptions import ValidationError, ParseError
+from config import Constants, RegexPatterns
+from exceptions import ParseError, ValidationError
 
 
 def validate_file_path(file_path: Union[str, Path]) -> Path:
-    """
-    Validate that the file path exists and is readable.
+    """Validate that the file path exists and is readable.
 
     Args:
         file_path: Path to the file
@@ -39,7 +36,7 @@ def validate_file_path(file_path: Union[str, Path]) -> Path:
 
     # Test readability
     try:
-        with open(path, 'r', encoding='utf-8') as f:
+        with open(path, encoding='utf-8') as f:
             f.read(1)
     except PermissionError as e:
         raise PermissionError(f"Cannot read file: {path}") from e
@@ -48,8 +45,7 @@ def validate_file_path(file_path: Union[str, Path]) -> Path:
 
 
 def safe_get_column(row: List[str], column_index: int, default: str = Constants.MISSING_VALUE) -> str:
-    """
-    Safely extract a column value from a row.
+    """Safely extract a column value from a row.
 
     Args:
         row: List of column values
@@ -69,8 +65,7 @@ def safe_get_column(row: List[str], column_index: int, default: str = Constants.
 
 
 def parse_token_info(token_info: str) -> Tuple[int, int]:
-    """
-    Parse token info string into sentence and token numbers.
+    """Parse token info string into sentence and token numbers.
 
     Args:
         token_info: String like "4-1" (sentence-token)
@@ -98,8 +93,7 @@ def parse_token_info(token_info: str) -> Tuple[int, int]:
 
 
 def extract_coreference_type(coreference_value: str) -> Optional[str]:
-    """
-    Extract the type from a coreference annotation.
+    """Extract the type from a coreference annotation.
 
     Args:
         coreference_value: Value like "PersPron[127-4]"
@@ -115,8 +109,7 @@ def extract_coreference_type(coreference_value: str) -> Optional[str]:
 
 
 def extract_coreference_id(coreference_value: str) -> Optional[str]:
-    """
-    Extract the full coreference chain ID from a coreference annotation.
+    """Extract the full coreference chain ID from a coreference annotation.
 
     Args:
         coreference_value: Value like "PersPron[127-4]"
@@ -141,8 +134,7 @@ def extract_coreference_id(coreference_value: str) -> Optional[str]:
 
 
 def extract_full_coreference_id(coreference_link: str) -> Optional[str]:
-    """
-    Extract the full coreference ID from a coreference link annotation.
+    """Extract the full coreference ID from a coreference link annotation.
 
     Args:
         coreference_link: Value like "*->115-4"
@@ -167,8 +159,7 @@ def extract_full_coreference_id(coreference_link: str) -> Optional[str]:
 
 
 def determine_givenness(coreference_id: str) -> str:
-    """
-    Determine if a referential expression is 'neu' (new) or 'bekannt' (given/known).
+    """Determine if a referential expression is 'neu' (new) or 'bekannt' (given/known).
 
     Args:
         coreference_id: String like "115-4" or "225-1"
@@ -190,8 +181,7 @@ def determine_givenness(coreference_id: str) -> str:
 
 
 def extract_sentence_number(sentence_id: str) -> Optional[int]:
-    """
-    Extract numeric sentence number from sentence_id string.
+    """Extract numeric sentence number from sentence_id string.
 
     Args:
         sentence_id: String like 'sent_34'
@@ -209,8 +199,7 @@ def extract_sentence_number(sentence_id: str) -> Optional[int]:
 
 
 def extract_coref_base_and_occurrence(coref_id: str) -> Tuple[Optional[int], Optional[int]]:
-    """
-    Extract base chain number and occurrence number from coreference ID.
+    """Extract base chain number and occurrence number from coreference ID.
 
     Args:
         coref_id: String like "115-4" or just "115"
@@ -235,8 +224,7 @@ def extract_coref_base_and_occurrence(coref_id: str) -> Tuple[Optional[int], Opt
 
 
 def extract_coref_link_numbers(coref_link: str) -> Tuple[Optional[int], Optional[int]]:
-    """
-    Extract base chain number and occurrence number from coreference link.
+    """Extract base chain number and occurrence number from coreference link.
 
     Args:
         coref_link: String like "*->115-4" or "*->115"

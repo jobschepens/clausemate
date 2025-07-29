@@ -16,9 +16,7 @@ import json
 import logging
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Any, Optional, Tuple
-import csv
-import html
+from typing import Any, Dict, List
 
 # For generating HTML visualizations
 HTML_TEMPLATE = """
@@ -67,40 +65,39 @@ HTML_TEMPLATE = """
 
 class InteractiveVisualizer:
     """Interactive visualization system for multi-file clause mates analysis."""
-    
+
     def __init__(self, output_dir: str):
         """Initialize the interactive visualizer.
-        
+
         Args:
             output_dir: Directory for output files
         """
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.logger = logging.getLogger(__name__)
-        
+
     def create_cross_chapter_network_visualization(
         self,
         cross_chapter_chains: Dict[str, List[str]],
         relationships_data: List[Dict[str, Any]],
-        output_filename: str = "cross_chapter_network.html"
+        output_filename: str = "cross_chapter_network.html",
     ) -> str:
         """Create interactive cross-chapter coreference network visualization.
-        
+
         Args:
             cross_chapter_chains: Cross-chapter chain data
             relationships_data: Relationship data for context
             output_filename: Name of output HTML file
-            
+
         Returns:
             Path to created HTML file
         """
         output_path = self.output_dir / output_filename
-        
+
         # Prepare network data
         nodes = []
         edges = []
-        node_id = 0
-        
+
         # Create chapter nodes
         chapters = set()
         for chain_id, entities in cross_chapter_chains.items():
@@ -111,19 +108,21 @@ class InteractiveVisualizer:
                         chapters.add(chapter_num)
                     except:
                         pass
-        
+
         chapter_colors = {1: "#FF6B6B", 2: "#4ECDC4", 3: "#45B7D1", 4: "#96CEB4"}
-        
+
         for chapter in sorted(chapters):
-            nodes.append({
-                "id": f"chapter_{chapter}",
-                "label": f"Chapter {chapter}",
-                "group": "chapter",
-                "color": chapter_colors.get(chapter, "#999999"),
-                "size": 30,
-                "font": {"size": 16, "color": "white"}
-            })
-        
+            nodes.append(
+                {
+                    "id": f"chapter_{chapter}",
+                    "label": f"Chapter {chapter}",
+                    "group": "chapter",
+                    "color": chapter_colors.get(chapter, "#999999"),
+                    "size": 30,
+                    "font": {"size": 16, "color": "white"},
+                }
+            )
+
         # Create chain nodes and edges
         for chain_id, entities in cross_chapter_chains.items():
             chain_chapters = set()
@@ -134,36 +133,40 @@ class InteractiveVisualizer:
                         chain_chapters.add(chapter_num)
                     except:
                         pass
-            
+
             if len(chain_chapters) > 1:  # Only cross-chapter chains
                 # Create chain node
                 chain_node_id = f"chain_{chain_id}"
-                nodes.append({
-                    "id": chain_node_id,
-                    "label": f"Chain {chain_id}",
-                    "group": "chain",
-                    "color": "#FFA500",
-                    "size": 15,
-                    "font": {"size": 12}
-                })
-                
+                nodes.append(
+                    {
+                        "id": chain_node_id,
+                        "label": f"Chain {chain_id}",
+                        "group": "chain",
+                        "color": "#FFA500",
+                        "size": 15,
+                        "font": {"size": 12},
+                    }
+                )
+
                 # Connect chain to chapters
                 for chapter in chain_chapters:
-                    edges.append({
-                        "from": chain_node_id,
-                        "to": f"chapter_{chapter}",
-                        "color": {"color": "#999999", "opacity": 0.6},
-                        "width": 2
-                    })
-        
+                    edges.append(
+                        {
+                            "from": chain_node_id,
+                            "to": f"chapter_{chapter}",
+                            "color": {"color": "#999999", "opacity": 0.6},
+                            "width": 2,
+                        }
+                    )
+
         # Generate HTML content
         content = f"""
         <div class="header">
             <h1>Cross-Chapter Coreference Network</h1>
             <p>Interactive visualization of coreference chains spanning multiple chapters</p>
-            <p>Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
+            <p>Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</p>
         </div>
-        
+
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-value">{len(chapters)}</div>
@@ -178,7 +181,7 @@ class InteractiveVisualizer:
                 <div class="stat-label">Total Connections</div>
             </div>
         </div>
-        
+
         <div class="legend">
             <div class="legend-item">
                 <div class="legend-color" style="background-color: #FF6B6B;"></div>
@@ -201,15 +204,15 @@ class InteractiveVisualizer:
                 <span>Coreference Chain</span>
             </div>
         </div>
-        
+
         <div class="controls">
             <button class="btn" onclick="fitNetwork()">Fit to Screen</button>
             <button class="btn" onclick="togglePhysics()">Toggle Physics</button>
             <button class="btn" onclick="exportNetwork()">Export Image</button>
         </div>
-        
+
         <div id="network" class="network-container"></div>
-        
+
         <div class="chapter-section">
             <h3>Chain Details</h3>
             <div id="chain-details">
@@ -217,13 +220,13 @@ class InteractiveVisualizer:
             </div>
         </div>
         """
-        
+
         # Generate JavaScript
         script = f"""
         const nodes = new vis.DataSet({json.dumps(nodes)});
         const edges = new vis.DataSet({json.dumps(edges)});
         const data = {{ nodes: nodes, edges: edges }};
-        
+
         const options = {{
             nodes: {{
                 shape: 'dot',
@@ -256,26 +259,26 @@ class InteractiveVisualizer:
                 tooltipDelay: 200
             }}
         }};
-        
+
         const container = document.getElementById('network');
         const network = new vis.Network(container, data, options);
-        
+
         let physicsEnabled = true;
-        
+
         function fitNetwork() {{
             network.fit();
         }}
-        
+
         function togglePhysics() {{
             physicsEnabled = !physicsEnabled;
             network.setOptions({{ physics: {{ enabled: physicsEnabled }} }});
         }}
-        
+
         function exportNetwork() {{
             // This would require additional libraries for image export
             alert('Export functionality would require additional libraries');
         }}
-        
+
         network.on('click', function(params) {{
             if (params.nodes.length > 0) {{
                 const nodeId = params.nodes[0];
@@ -285,11 +288,11 @@ class InteractiveVisualizer:
                 }}
             }}
         }});
-        
+
         function showChainDetails(chainId) {{
             const chainData = {json.dumps(cross_chapter_chains)};
             const entities = chainData[chainId] || [];
-            
+
             let detailsHtml = `<h4>Chain ${{chainId}}</h4>`;
             detailsHtml += `<p><strong>Entities:</strong> ${{entities.length}}</p>`;
             detailsHtml += '<ul>';
@@ -297,172 +300,176 @@ class InteractiveVisualizer:
                 detailsHtml += `<li>${{entity}}</li>`;
             }});
             detailsHtml += '</ul>';
-            
+
             document.getElementById('chain-details').innerHTML = detailsHtml;
         }}
         """
-        
+
         # Write HTML file
         html_content = HTML_TEMPLATE.format(
-            title="Cross-Chapter Coreference Network",
-            content=content,
-            script=script
+            title="Cross-Chapter Coreference Network", content=content, script=script
         )
-        
-        with open(output_path, 'w', encoding='utf-8') as f:
+
+        with open(output_path, "w", encoding="utf-8") as f:
             f.write(html_content)
-        
+
         self.logger.info(f"Cross-chapter network visualization created: {output_path}")
         return str(output_path)
-    
+
     def create_chapter_analysis_reports(
         self,
         relationships_data: List[Dict[str, Any]],
         processing_stats: Dict[str, Any],
-        output_filename: str = "chapter_analysis_reports.html"
+        output_filename: str = "chapter_analysis_reports.html",
     ) -> str:
         """Create comprehensive chapter-by-chapter analysis reports.
-        
+
         Args:
             relationships_data: Relationship data
             processing_stats: Processing statistics
             output_filename: Name of output HTML file
-            
+
         Returns:
             Path to created HTML file
         """
         output_path = self.output_dir / output_filename
-        
+
         # Analyze data by chapter
         chapter_stats = {}
         for rel in relationships_data:
-            chapter = rel.get('chapter_number', 1)
+            chapter = rel.get("chapter_number", 1)
             if chapter not in chapter_stats:
                 chapter_stats[chapter] = {
-                    'relationships': 0,
-                    'pronouns': set(),
-                    'clause_mates': set(),
-                    'cross_chapter': 0,
-                    'sentences': set()
+                    "relationships": 0,
+                    "pronouns": set(),
+                    "clause_mates": set(),
+                    "cross_chapter": 0,
+                    "sentences": set(),
                 }
-            
-            chapter_stats[chapter]['relationships'] += 1
-            chapter_stats[chapter]['pronouns'].add(rel.get('pronoun_text', ''))
-            chapter_stats[chapter]['clause_mates'].add(rel.get('clause_mate_text', ''))
-            chapter_stats[chapter]['sentences'].add(rel.get('sentence_num', 0))
-            
-            if rel.get('cross_chapter_relationship', False):
-                chapter_stats[chapter]['cross_chapter'] += 1
-        
+
+            chapter_stats[chapter]["relationships"] += 1
+            chapter_stats[chapter]["pronouns"].add(rel.get("pronoun_text", ""))
+            chapter_stats[chapter]["clause_mates"].add(rel.get("clause_mate_text", ""))
+            chapter_stats[chapter]["sentences"].add(rel.get("sentence_num", 0))
+
+            if rel.get("cross_chapter_relationship", False):
+                chapter_stats[chapter]["cross_chapter"] += 1
+
         # Convert sets to counts
         for chapter in chapter_stats:
-            chapter_stats[chapter]['unique_pronouns'] = len(chapter_stats[chapter]['pronouns'])
-            chapter_stats[chapter]['unique_clause_mates'] = len(chapter_stats[chapter]['clause_mates'])
-            chapter_stats[chapter]['unique_sentences'] = len(chapter_stats[chapter]['sentences'])
-            del chapter_stats[chapter]['pronouns']
-            del chapter_stats[chapter]['clause_mates']
-            del chapter_stats[chapter]['sentences']
-        
+            chapter_stats[chapter]["unique_pronouns"] = len(
+                chapter_stats[chapter]["pronouns"]
+            )
+            chapter_stats[chapter]["unique_clause_mates"] = len(
+                chapter_stats[chapter]["clause_mates"]
+            )
+            chapter_stats[chapter]["unique_sentences"] = len(
+                chapter_stats[chapter]["sentences"]
+            )
+            del chapter_stats[chapter]["pronouns"]
+            del chapter_stats[chapter]["clause_mates"]
+            del chapter_stats[chapter]["sentences"]
+
         # Generate chapter reports
         chapter_reports = ""
         for chapter in sorted(chapter_stats.keys()):
             stats = chapter_stats[chapter]
-            
+
             chapter_reports += f"""
             <div class="chapter-section">
                 <h3>Chapter {chapter} Analysis</h3>
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-value">{stats['relationships']}</div>
+                        <div class="stat-value">{stats["relationships"]}</div>
                         <div class="stat-label">Total Relationships</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-value">{stats['unique_pronouns']}</div>
+                        <div class="stat-value">{stats["unique_pronouns"]}</div>
                         <div class="stat-label">Unique Pronouns</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-value">{stats['unique_clause_mates']}</div>
+                        <div class="stat-value">{stats["unique_clause_mates"]}</div>
                         <div class="stat-label">Unique Clause Mates</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-value">{stats['cross_chapter']}</div>
+                        <div class="stat-value">{stats["cross_chapter"]}</div>
                         <div class="stat-label">Cross-Chapter Links</div>
                     </div>
                 </div>
-                
+
                 <div style="margin-top: 15px;">
                     <strong>Density Metrics:</strong>
                     <ul>
-                        <li>Relationships per sentence: {stats['relationships'] / max(stats['unique_sentences'], 1):.2f}</li>
-                        <li>Cross-chapter percentage: {(stats['cross_chapter'] / max(stats['relationships'], 1) * 100):.1f}%</li>
-                        <li>Pronoun diversity: {stats['unique_pronouns'] / max(stats['relationships'], 1):.2f}</li>
+                        <li>Relationships per sentence: {stats["relationships"] / max(stats["unique_sentences"], 1):.2f}</li>
+                        <li>Cross-chapter percentage: {(stats["cross_chapter"] / max(stats["relationships"], 1) * 100):.1f}%</li>
+                        <li>Pronoun diversity: {stats["unique_pronouns"] / max(stats["relationships"], 1):.2f}</li>
                     </ul>
                 </div>
             </div>
             """
-        
+
         # Generate HTML content
         content = f"""
         <div class="header">
             <h1>Chapter-by-Chapter Analysis Reports</h1>
             <p>Comprehensive analysis of each chapter's coreference patterns</p>
-            <p>Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
+            <p>Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</p>
         </div>
-        
+
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-value">{len(chapter_stats)}</div>
                 <div class="stat-label">Total Chapters</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">{sum(stats['relationships'] for stats in chapter_stats.values())}</div>
+                <div class="stat-value">{sum(stats["relationships"] for stats in chapter_stats.values())}</div>
                 <div class="stat-label">Total Relationships</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">{sum(stats['cross_chapter'] for stats in chapter_stats.values())}</div>
+                <div class="stat-value">{sum(stats["cross_chapter"] for stats in chapter_stats.values())}</div>
                 <div class="stat-label">Cross-Chapter Links</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">{processing_stats.get('processing_time_seconds', 0):.2f}s</div>
+                <div class="stat-value">{processing_stats.get("processing_time_seconds", 0):.2f}s</div>
                 <div class="stat-label">Processing Time</div>
             </div>
         </div>
-        
+
         {chapter_reports}
-        
+
         <div class="chapter-section">
             <h3>Comparative Analysis</h3>
             <canvas id="comparisonChart" width="800" height="400"></canvas>
         </div>
         """
-        
+
         # Generate JavaScript for charts
         script = f"""
         const chapterData = {json.dumps(chapter_stats)};
-        
+
         // Simple bar chart using canvas
         const canvas = document.getElementById('comparisonChart');
         const ctx = canvas.getContext('2d');
-        
+
         const chapters = Object.keys(chapterData).sort();
         const relationships = chapters.map(ch => chapterData[ch].relationships);
         const maxRel = Math.max(...relationships);
-        
+
         const barWidth = 150;
         const barSpacing = 50;
         const chartHeight = 300;
         const chartTop = 50;
-        
+
         // Draw bars
         chapters.forEach((chapter, index) => {{
             const x = 50 + index * (barWidth + barSpacing);
             const barHeight = (relationships[index] / maxRel) * chartHeight;
             const y = chartTop + chartHeight - barHeight;
-            
+
             // Bar
             ctx.fillStyle = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4'][index] || '#999';
             ctx.fillRect(x, y, barWidth, barHeight);
-            
+
             // Label
             ctx.fillStyle = '#333';
             ctx.font = '14px Arial';
@@ -470,110 +477,110 @@ class InteractiveVisualizer:
             ctx.fillText(`Chapter ${{chapter}}`, x + barWidth/2, chartTop + chartHeight + 20);
             ctx.fillText(relationships[index], x + barWidth/2, y - 10);
         }});
-        
+
         // Title
         ctx.fillStyle = '#333';
         ctx.font = 'bold 16px Arial';
         ctx.textAlign = 'center';
         ctx.fillText('Relationships per Chapter', canvas.width/2, 30);
         """
-        
+
         # Write HTML file
         html_content = HTML_TEMPLATE.format(
-            title="Chapter Analysis Reports",
-            content=content,
-            script=script
+            title="Chapter Analysis Reports", content=content, script=script
         )
-        
-        with open(output_path, 'w', encoding='utf-8') as f:
+
+        with open(output_path, "w", encoding="utf-8") as f:
             f.write(html_content)
-        
+
         self.logger.info(f"Chapter analysis reports created: {output_path}")
         return str(output_path)
-    
+
     def create_comparative_dashboard(
         self,
         relationships_data: List[Dict[str, Any]],
         cross_chapter_chains: Dict[str, List[str]],
         processing_stats: Dict[str, Any],
-        output_filename: str = "comparative_dashboard.html"
+        output_filename: str = "comparative_dashboard.html",
     ) -> str:
         """Create comprehensive comparative analysis dashboard.
-        
+
         Args:
             relationships_data: Relationship data
             cross_chapter_chains: Cross-chapter chain data
             processing_stats: Processing statistics
             output_filename: Name of output HTML file
-            
+
         Returns:
             Path to created HTML file
         """
         output_path = self.output_dir / output_filename
-        
+
         # Analyze comparative metrics
         chapter_metrics = {}
         pronoun_types = {}
-        
+
         for rel in relationships_data:
-            chapter = rel.get('chapter_number', 1)
-            pronoun_type = rel.get('pronoun_coreference_type', 'Unknown')
-            
+            chapter = rel.get("chapter_number", 1)
+            pronoun_type = rel.get("pronoun_coreference_type", "Unknown")
+
             if chapter not in chapter_metrics:
                 chapter_metrics[chapter] = {
-                    'total_relationships': 0,
-                    'cross_chapter': 0,
-                    'pronoun_types': {},
-                    'avg_distance': [],
-                    'givenness_types': {}
+                    "total_relationships": 0,
+                    "cross_chapter": 0,
+                    "pronoun_types": {},
+                    "avg_distance": [],
+                    "givenness_types": {},
                 }
-            
-            chapter_metrics[chapter]['total_relationships'] += 1
-            
-            if rel.get('cross_chapter_relationship', False):
-                chapter_metrics[chapter]['cross_chapter'] += 1
-            
+
+            chapter_metrics[chapter]["total_relationships"] += 1
+
+            if rel.get("cross_chapter_relationship", False):
+                chapter_metrics[chapter]["cross_chapter"] += 1
+
             # Pronoun type analysis
-            if pronoun_type not in chapter_metrics[chapter]['pronoun_types']:
-                chapter_metrics[chapter]['pronoun_types'][pronoun_type] = 0
-            chapter_metrics[chapter]['pronoun_types'][pronoun_type] += 1
-            
+            if pronoun_type not in chapter_metrics[chapter]["pronoun_types"]:
+                chapter_metrics[chapter]["pronoun_types"][pronoun_type] = 0
+            chapter_metrics[chapter]["pronoun_types"][pronoun_type] += 1
+
             # Global pronoun type tracking
             if pronoun_type not in pronoun_types:
                 pronoun_types[pronoun_type] = 0
             pronoun_types[pronoun_type] += 1
-            
+
             # Distance analysis
-            distance = rel.get('pronoun_most_recent_antecedent_distance', 0)
+            distance = rel.get("pronoun_most_recent_antecedent_distance", 0)
             if isinstance(distance, (int, float)) and distance > 0:
-                chapter_metrics[chapter]['avg_distance'].append(distance)
-            
+                chapter_metrics[chapter]["avg_distance"].append(distance)
+
             # Givenness analysis
-            givenness = rel.get('pronoun_givenness', 'unknown')
-            if givenness not in chapter_metrics[chapter]['givenness_types']:
-                chapter_metrics[chapter]['givenness_types'][givenness] = 0
-            chapter_metrics[chapter]['givenness_types'][givenness] += 1
-        
+            givenness = rel.get("pronoun_givenness", "unknown")
+            if givenness not in chapter_metrics[chapter]["givenness_types"]:
+                chapter_metrics[chapter]["givenness_types"][givenness] = 0
+            chapter_metrics[chapter]["givenness_types"][givenness] += 1
+
         # Calculate averages
         for chapter in chapter_metrics:
-            distances = chapter_metrics[chapter]['avg_distance']
-            chapter_metrics[chapter]['avg_distance'] = sum(distances) / len(distances) if distances else 0
-        
+            distances = chapter_metrics[chapter]["avg_distance"]
+            chapter_metrics[chapter]["avg_distance"] = (
+                sum(distances) / len(distances) if distances else 0
+            )
+
         # Generate dashboard content
         content = f"""
         <div class="header">
             <h1>Comparative Analysis Dashboard</h1>
             <p>Comprehensive comparison across all chapters</p>
-            <p>Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
+            <p>Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</p>
         </div>
-        
+
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-value">{len(chapter_metrics)}</div>
                 <div class="stat-label">Chapters Analyzed</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">{sum(metrics['total_relationships'] for metrics in chapter_metrics.values())}</div>
+                <div class="stat-value">{sum(metrics["total_relationships"] for metrics in chapter_metrics.values())}</div>
                 <div class="stat-label">Total Relationships</div>
             </div>
             <div class="stat-card">
@@ -585,7 +592,7 @@ class InteractiveVisualizer:
                 <div class="stat-label">Pronoun Types</div>
             </div>
         </div>
-        
+
         <div class="chapter-section">
             <h3>Chapter Comparison Matrix</h3>
             <table>
@@ -601,49 +608,57 @@ class InteractiveVisualizer:
                 </thead>
                 <tbody>
         """
-        
+
         for chapter in sorted(chapter_metrics.keys()):
             metrics = chapter_metrics[chapter]
-            cross_chapter_pct = (metrics['cross_chapter'] / max(metrics['total_relationships'], 1)) * 100
-            
+            cross_chapter_pct = (
+                metrics["cross_chapter"] / max(metrics["total_relationships"], 1)
+            ) * 100
+
             # Find dominant pronoun type
-            dominant_pronoun = max(metrics['pronoun_types'].items(), key=lambda x: x[1])[0] if metrics['pronoun_types'] else 'None'
-            
+            dominant_pronoun = (
+                max(metrics["pronoun_types"].items(), key=lambda x: x[1])[0]
+                if metrics["pronoun_types"]
+                else "None"
+            )
+
             content += f"""
                     <tr>
                         <td>Chapter {chapter}</td>
-                        <td>{metrics['total_relationships']}</td>
-                        <td>{metrics['cross_chapter']}</td>
+                        <td>{metrics["total_relationships"]}</td>
+                        <td>{metrics["cross_chapter"]}</td>
                         <td>{cross_chapter_pct:.1f}%</td>
-                        <td>{metrics['avg_distance']:.1f}</td>
+                        <td>{metrics["avg_distance"]:.1f}</td>
                         <td>{dominant_pronoun}</td>
                     </tr>
             """
-        
+
         content += """
                 </tbody>
             </table>
         </div>
-        
+
         <div class="chapter-section">
             <h3>Pronoun Type Distribution</h3>
             <canvas id="pronounChart" width="800" height="400"></canvas>
         </div>
-        
+
         <div class="chapter-section">
             <h3>Cross-Chapter Connectivity</h3>
             <canvas id="connectivityChart" width="800" height="400"></canvas>
         </div>
-        
+
         <div class="chapter-section">
             <h3>Processing Performance</h3>
             <div class="stats-grid">
         """
-        
+
         # Add performance metrics
-        total_time = processing_stats.get('processing_time_seconds', 0)
-        total_relationships = sum(metrics['total_relationships'] for metrics in chapter_metrics.values())
-        
+        total_time = processing_stats.get("processing_time_seconds", 0)
+        total_relationships = sum(
+            metrics["total_relationships"] for metrics in chapter_metrics.values()
+        )
+
         content += f"""
                 <div class="stat-card">
                     <div class="stat-value">{total_time:.2f}s</div>
@@ -660,30 +675,30 @@ class InteractiveVisualizer:
             </div>
         </div>
         """
-        
+
         # Generate JavaScript for charts
         script = f"""
         const chapterMetrics = {json.dumps(chapter_metrics)};
         const pronounTypes = {json.dumps(pronoun_types)};
-        
+
         // Pronoun type pie chart
         const pronounCanvas = document.getElementById('pronounChart');
         const pronounCtx = pronounCanvas.getContext('2d');
-        
+
         const pronounLabels = Object.keys(pronounTypes);
         const pronounCounts = Object.values(pronounTypes);
         const total = pronounCounts.reduce((a, b) => a + b, 0);
-        
+
         const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFA500', '#FF69B4', '#32CD32', '#FFD700'];
-        
+
         let currentAngle = 0;
         const centerX = pronounCanvas.width / 2;
         const centerY = pronounCanvas.height / 2;
         const radius = 120;
-        
+
         pronounLabels.forEach((label, index) => {{
             const sliceAngle = (pronounCounts[index] / total) * 2 * Math.PI;
-            
+
             // Draw slice
             pronounCtx.beginPath();
             pronounCtx.moveTo(centerX, centerY);
@@ -691,48 +706,48 @@ class InteractiveVisualizer:
             pronounCtx.closePath();
             pronounCtx.fillStyle = colors[index % colors.length];
             pronounCtx.fill();
-            
+
             // Draw label
             const labelAngle = currentAngle + sliceAngle / 2;
             const labelX = centerX + Math.cos(labelAngle) * (radius + 30);
             const labelY = centerY + Math.sin(labelAngle) * (radius + 30);
-            
+
             pronounCtx.fillStyle = '#333';
             pronounCtx.font = '12px Arial';
             pronounCtx.textAlign = 'center';
             pronounCtx.fillText(`${{label}} (${{pronounCounts[index]}})`, labelX, labelY);
-            
+
             currentAngle += sliceAngle;
         }});
-        
+
         // Title
         pronounCtx.fillStyle = '#333';
         pronounCtx.font = 'bold 16px Arial';
         pronounCtx.textAlign = 'center';
         pronounCtx.fillText('Pronoun Type Distribution', centerX, 30);
-        
+
         // Connectivity chart
         const connectivityCanvas = document.getElementById('connectivityChart');
         const connectivityCtx = connectivityCanvas.getContext('2d');
-        
+
         const chapters = Object.keys(chapterMetrics).sort();
         const crossChapterCounts = chapters.map(ch => chapterMetrics[ch].cross_chapter);
         const maxCount = Math.max(...crossChapterCounts);
-        
+
         const barWidth = 120;
         const barSpacing = 80;
         const chartHeight = 250;
         const chartTop = 80;
-        
+
         chapters.forEach((chapter, index) => {{
             const x = 100 + index * (barWidth + barSpacing);
             const barHeight = maxCount > 0 ? (crossChapterCounts[index] / maxCount) * chartHeight : 0;
             const y = chartTop + chartHeight - barHeight;
-            
+
             // Bar
             connectivityCtx.fillStyle = colors[index % colors.length];
             connectivityCtx.fillRect(x, y, barWidth, barHeight);
-            
+
             // Label
             connectivityCtx.fillStyle = '#333';
             connectivityCtx.font = '14px Arial';
@@ -740,23 +755,21 @@ class InteractiveVisualizer:
             connectivityCtx.fillText(`Chapter ${{chapter}}`, x + barWidth/2, chartTop + chartHeight + 25);
             connectivityCtx.fillText(crossChapterCounts[index], x + barWidth/2, y - 10);
         }});
-        
+
         // Title
         connectivityCtx.fillStyle = '#333';
         connectivityCtx.font = 'bold 16px Arial';
         connectivityCtx.textAlign = 'center';
         connectivityCtx.fillText('Cross-Chapter Connectivity', connectivityCanvas.width/2, 50);
         """
-        
+
         # Write HTML file
         html_content = HTML_TEMPLATE.format(
-            title="Comparative Analysis Dashboard",
-            content=content,
-            script=script
+            title="Comparative Analysis Dashboard", content=content, script=script
         )
-        
-        with open(output_path, 'w', encoding='utf-8') as f:
+
+        with open(output_path, "w", encoding="utf-8") as f:
             f.write(html_content)
-        
+
         self.logger.info(f"Comparative dashboard created: {output_path}")
         return str(output_path)

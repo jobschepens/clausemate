@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Complete clause mate extraction script with improved program style.
+"""Complete clause mate extraction script with improved program style.
 This script identifies critical pronouns and extracts their clause mates for analysis.
 
 PHASE 1 IMPROVEMENTS APPLIED:
@@ -32,19 +31,24 @@ CRITICAL PRONOUNS:
 For detailed documentation, see clause_mates_data_documentation.md
 """
 
-import pandas as pd
-import re
 import logging
-from typing import Dict, List, Optional, Set, Tuple, Any
-from collections import defaultdict
+from typing import Any, Dict, List, Optional, Tuple
+
+import pandas as pd
 
 # Import our new modules
-from config import Constants, TSVColumns, FilePaths
-from exceptions import ParseError, FileProcessingError, CoreferenceExtractionError
+from config import Constants, FilePaths, TSVColumns
+from exceptions import FileProcessingError, ParseError
 from utils import (
-    validate_file_path, safe_get_column, parse_token_info,
-    extract_coreference_id, extract_full_coreference_id, determine_givenness,
-    extract_sentence_number, extract_coref_base_and_occurrence, extract_coref_link_numbers
+    determine_givenness,
+    extract_coref_base_and_occurrence,
+    extract_coref_link_numbers,
+    extract_coreference_id,
+    extract_full_coreference_id,
+    extract_sentence_number,
+    parse_token_info,
+    safe_get_column,
+    validate_file_path,
 )
 
 # Configure logging
@@ -53,9 +57,7 @@ logger = logging.getLogger(__name__)
 
 
 def is_critical_pronoun_legacy(coreference_type: str, inanimate_coreference_type: str, token_text: str) -> bool:
-    """
-    Legacy wrapper for backward compatibility.
-    """
+    """Legacy wrapper for backward compatibility."""
     from pronoun_classifier import is_critical_pronoun
 
     token_data = {
@@ -66,8 +68,7 @@ def is_critical_pronoun_legacy(coreference_type: str, inanimate_coreference_type
     return is_critical_pronoun(token_data)
 
 def group_tokens_into_phrases(tokens_data: List[Tuple[str, str, int, str, str, str, str]]) -> List[Dict[str, Any]]:
-    """
-    Group tokens that belong to the same coreference entity into phrases.
+    """Group tokens that belong to the same coreference entity into phrases.
     Uses Phase 2 logic: groups by entity ID rather than consecutive positioning.
 
     Args:
@@ -119,8 +120,7 @@ def group_tokens_into_phrases(tokens_data: List[Tuple[str, str, int, str, str, s
     return phrases
 
 def extract_first_words(line: str) -> str:
-    """
-    Extract the first three words from a sentence text line.
+    """Extract the first three words from a sentence text line.
 
     Args:
         line: The #Text= line from TSV file
@@ -136,8 +136,7 @@ def extract_first_words(line: str) -> str:
 
 
 def extract_clause_mates(file_path: str) -> List[Dict[str, Any]]:
-    """
-    Extract clause mate relationships from the TSV file.
+    """Extract clause mate relationships from the TSV file.
 
     Args:
         file_path: Path to the TSV file
@@ -149,15 +148,14 @@ def extract_clause_mates(file_path: str) -> List[Dict[str, Any]]:
         FileProcessingError: If file processing fails
         ParseError: If parsing fails
     """
-
     logger.info("Reading TSV file line by line...")
     # Use line-by-line reading to handle parsing issues
     lines = []
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             for line in f:
                 lines.append(line.strip().split('\t'))
-    except IOError as e:
+    except OSError as e:
         raise FileProcessingError(f"Failed to read file: {file_path}") from e
 
     logger.info(f"Read {len(lines)} lines from file")
@@ -271,8 +269,7 @@ def extract_clause_mates(file_path: str) -> List[Dict[str, Any]]:
     return relationships
 
 def process_sentence(sentence_tokens: List[Dict[str, Any]], sentence_id: int, all_sentence_tokens: Optional[Dict[int, List[Dict[str, Any]]]] = None, first_words: str = "") -> List[Dict[str, Any]]:
-    """
-    Process a single sentence to extract clause mate relationships.
+    """Process a single sentence to extract clause mate relationships.
 
     Args:
         sentence_tokens: List of token dictionaries for the sentence
@@ -511,8 +508,7 @@ def process_sentence(sentence_tokens: List[Dict[str, Any]], sentence_id: int, al
     return relationships
 
 def calculate_antecedent_choice(pronoun_token: Dict[str, Any], antecedent_sentence_tokens: List[Dict[str, Any]], antecedent_sentence_id: int) -> int:
-    """
-    Calculate the number of potential antecedents in the same sentence as the actual antecedent.
+    """Calculate the number of potential antecedents in the same sentence as the actual antecedent.
     Uses animacy-based matching: count referential expressions that match the pronoun's animacy requirements.
 
     Args:
@@ -618,8 +614,7 @@ def extract_sentence_number(sentence_id: str) -> Optional[int]:
         return None
 
 def extract_coref_base_and_occurrence(coref_id: str) -> Tuple[Optional[int], Optional[int]]:
-    """
-    Extract base chain number and occurrence number from coreference ID.
+    """Extract base chain number and occurrence number from coreference ID.
 
     Args:
         coref_id: String like "115-4" or just "115"
@@ -646,8 +641,7 @@ def extract_coref_base_and_occurrence(coref_id: str) -> Tuple[Optional[int], Opt
 def extract_coref_link_numbers(
     coref_link: str
 ) -> Tuple[Optional[int], Optional[int]]:
-    """
-    Extract base chain number and occurrence number from coreference link.
+    """Extract base chain number and occurrence number from coreference link.
 
     Args:
         coref_link: String like "*->115-4" or "*->115"
@@ -669,8 +663,7 @@ def extract_coref_link_numbers(
         return None, None
 
 def find_antecedent_and_distance(pronoun_token: Dict[str, Any], all_sentence_tokens: Dict[int, List[Dict[str, Any]]], current_sentence_id: int) -> Tuple[str, str, str, str, int]:
-    """
-    Find both the most recent and first antecedent phrases of a pronoun and calculate the linear distances to them.
+    """Find both the most recent and first antecedent phrases of a pronoun and calculate the linear distances to them.
 
     Args:
         pronoun_token: The pronoun token dictionary
@@ -847,7 +840,6 @@ def find_antecedent_and_distance(pronoun_token: Dict[str, Any], all_sentence_tok
 
 def main() -> Optional[pd.DataFrame]:
     """Main function to run the clause mate extraction."""
-
     # Use the configuration file path
     file_path = FilePaths.INPUT_FILE
 

@@ -13,4 +13,4 @@ Date: 2025-07-28
 
 from .interactive_visualizer import InteractiveVisualizer
 
-__all__ = ['InteractiveVisualizer']
+__all__ = ["InteractiveVisualizer"]

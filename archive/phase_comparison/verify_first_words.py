@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
-"""
-Quick verification that first_words field is working correctly in both phases.
-"""
+"""Quick verification that first_words field is working correctly in both phases."""
 
 import pandas as pd
 
+
 def compare_first_words():
     """Compare first_words between Phase 1 and Phase 2."""
-
     # Load both CSV files
     df1 = pd.read_csv("archive/phase1/clause_mates_phase1_export.csv", encoding='utf-8')
     df2 = pd.read_csv("clause_mates_phase2_export.csv", encoding='utf-8')
@@ -38,7 +36,7 @@ def compare_first_words():
         print(f"  {row['sentence_id']}: {row['first_words']}")
 
     # Check field statistics
-    print(f"\n📈 FIELD STATISTICS:")
+    print("\n📈 FIELD STATISTICS:")
     print(f"Phase 1 non-null values: {df1['first_words'].notna().sum()}/{len(df1)}")
     print(f"Phase 2 non-null values: {df2['first_words'].notna().sum()}/{len(df2)}")
 
@@ -51,7 +49,7 @@ def compare_first_words():
     total_columns_1 = len(df1.columns)
     total_columns_2 = len(df2.columns)
 
-    print(f"\n🏆 COMPLETE COMPATIBILITY CHECK:")
+    print("\n🏆 COMPLETE COMPATIBILITY CHECK:")
     print(f"Phase 1 total columns: {total_columns_1}")
     print(f"Phase 2 total columns: {total_columns_2}")
     print(f"Common columns: {len(common_columns)}")

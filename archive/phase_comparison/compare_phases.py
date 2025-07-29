@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Phase Comparison Script
+"""Phase Comparison Script.
 
 This script runs both Phase 1 and Phase 2 of the clause mate extraction system
 and provides a comprehensive comparison of their outputs, performance, and features.
@@ -9,14 +8,15 @@ Usage:
     python compare_phases.py
 """
 
+import json
+import logging
 import subprocess
 import sys
 import time
-import pandas as pd
 from pathlib import Path
-import json
-from typing import Dict, Any, List, Tuple
-import logging
+from typing import Any, Dict, List
+
+import pandas as pd
 
 # Set up logging
 logging.basicConfig(
@@ -163,7 +163,7 @@ class PhaseComparator:
             elif "Extracted" in line and "clause mate relationships" in line:
                 # Extract number from "Extracted 463 clause mate relationships"
                 parts = line.split()
-                for i, part in enumerate(parts):
+                for _i, part in enumerate(parts):
                     if part.isdigit():
                         stats['relationships_found'] = int(part)
                         break
@@ -222,11 +222,11 @@ class PhaseComparator:
 
             comparison['columns'] = {
                 'common_count': len(common_columns),
-                'common_columns': sorted(list(common_columns)),
+                'common_columns': sorted(common_columns),
                 'phase1_only_count': len(phase1_only),
-                'phase1_only': sorted(list(phase1_only)),
+                'phase1_only': sorted(phase1_only),
                 'phase2_only_count': len(phase2_only),
-                'phase2_only': sorted(list(phase2_only))
+                'phase2_only': sorted(phase2_only)
             }
 
             # Compare data types for common columns
@@ -290,7 +290,7 @@ class PhaseComparator:
         report.append("-" * 40)
         phase1 = results['phase1']
         if phase1.get('success'):
-            report.append(f"✅ Status: SUCCESS")
+            report.append("✅ Status: SUCCESS")
             report.append(f"⏱️  Execution Time: {phase1['execution_time']:.2f} seconds")
             report.append(f"📁 Output File: {phase1['output_file']}")
             report.append(f"💾 File Size: {phase1['file_size_bytes']:,} bytes")
@@ -301,7 +301,7 @@ class PhaseComparator:
                 for key, value in stats.items():
                     report.append(f"   {key}: {value:,}")
         else:
-            report.append(f"❌ Status: FAILED")
+            report.append("❌ Status: FAILED")
             report.append(f"❗ Error: {phase1.get('error', 'Unknown error')}")
 
         report.append("")
@@ -311,7 +311,7 @@ class PhaseComparator:
         report.append("-" * 40)
         phase2 = results['phase2']
         if phase2.get('success'):
-            report.append(f"✅ Status: SUCCESS")
+            report.append("✅ Status: SUCCESS")
             report.append(f"⏱️  Execution Time: {phase2['execution_time']:.2f} seconds")
             report.append(f"📁 Output File: {phase2['output_file']}")
             report.append(f"💾 File Size: {phase2['file_size_bytes']:,} bytes")
@@ -322,7 +322,7 @@ class PhaseComparator:
                 for key, value in stats.items():
                     report.append(f"   {key}: {value:,}")
         else:
-            report.append(f"❌ Status: FAILED")
+            report.append("❌ Status: FAILED")
             report.append(f"❗ Error: {phase2.get('error', 'Unknown error')}")
 
         report.append("")

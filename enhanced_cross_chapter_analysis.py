@@ -115,16 +115,16 @@ class EnhancedCrossChapterAnalyzer:
                 and rel.pronoun.coreference_link != "_"
                 and "->" in rel.pronoun.coreference_link
             ):
-                    chain_id = rel.pronoun.coreference_link.split("->")[1].split("-")[0]
-                    chains_by_id[chain_id].append(
-                        {
-                            "text": rel.pronoun.text,
-                            "sentence": rel.sentence_num,
-                            "type": "pronoun_link",
-                            "position": rel.pronoun.idx,
-                        }
-                    )
-                    chain_texts[chain_id].add(rel.pronoun.text.lower())
+                chain_id = rel.pronoun.coreference_link.split("->")[1].split("-")[0]
+                chains_by_id[chain_id].append(
+                    {
+                        "text": rel.pronoun.text,
+                        "sentence": rel.sentence_num,
+                        "type": "pronoun_link",
+                        "position": rel.pronoun.idx,
+                    }
+                )
+                chain_texts[chain_id].add(rel.pronoun.text.lower())
 
             # Extract chain information from pronoun coreference type
             if rel.pronoun.coreference_type and rel.pronoun.coreference_type != "_":
@@ -172,9 +172,7 @@ class EnhancedCrossChapterAnalyzer:
 
     def analyze_chapter_4_chains(self, chapter_4: ChainAnalysis):
         """Analyze Chapter 4 chains in detail."""
-        print(
-            f"Chapter 4 contains {len(chapter_4.chains_by_id)} unique chains:"
-        )
+        print(f"Chapter 4 contains {len(chapter_4.chains_by_id)} unique chains:")
 
         if not chapter_4.chains_by_id:
             print("\n⚠️  WARNING: Chapter 4 contains no coreference chains!")
@@ -325,11 +323,17 @@ class EnhancedCrossChapterAnalyzer:
         ]
 
         if self.cross_chapter_matches:
-            print(f"  ✅ EVIDENCE FOUND: {len(self.cross_chapter_matches)} total connections.")
+            print(
+                f"  ✅ EVIDENCE FOUND: {len(self.cross_chapter_matches)} total connections."
+            )
 
             if same_id_matches:
-                print(f"    🎯 Same Chain ID Evidence: {len(same_id_matches)} connections.")
-                print("      This is STRONG evidence for cross-chapter coreference chains!")
+                print(
+                    f"    🎯 Same Chain ID Evidence: {len(same_id_matches)} connections."
+                )
+                print(
+                    "      This is STRONG evidence for cross-chapter coreference chains!"
+                )
                 for match in same_id_matches[:5]:  # Show first 5
                     print(
                         f"        Chain {match['chain_id']}: "
@@ -342,7 +346,9 @@ class EnhancedCrossChapterAnalyzer:
                         )
 
             if similar_text_matches:
-                print(f"    🔤 Similar Text Evidence: {len(similar_text_matches)} connections.")
+                print(
+                    f"    🔤 Similar Text Evidence: {len(similar_text_matches)} connections."
+                )
                 print(
                     "      This provides supporting evidence for character continuity."
                 )

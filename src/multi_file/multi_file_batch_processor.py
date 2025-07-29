@@ -145,7 +145,7 @@ class MultiFileBatchProcessor:
             if filename.startswith(("1.tsv", "2.tsv", "3.tsv", "4.tsv")):
                 return int(filename[0])
             return 999  # Put unknown files at the end
-        
+
         chapter_files.sort(key=extract_chapter_number)
         self.chapter_files = chapter_files
 
@@ -297,12 +297,12 @@ class MultiFileBatchProcessor:
 
             # Phase 5: Create unified relationships with cross-chapter flagging
             unified_relationships = []
-            
+
             # Build a lookup for relationships that participate in cross-chapter chains
             cross_chapter_relationship_lookup = self._build_cross_chapter_lookup(
                 cross_chapter_chains, chapter_relationships
             )
-            
+
             for chapter_info in self.chapter_info:
                 file_path = chapter_info.file_path
                 relationships = chapter_relationships[file_path]
@@ -323,12 +323,14 @@ class MultiFileBatchProcessor:
                         chapter_number=chapter_info.chapter_number,
                         global_sentence_id=global_sentence_id,
                     )
-                    
+
                     # Check if this relationship participates in cross-chapter chains
                     rel_key = f"{file_path}:{rel.sentence_id}:{rel.pronoun.idx}"
                     if rel_key in cross_chapter_relationship_lookup:
                         unified_rel.cross_chapter_relationship = True
-                        unified_rel.chapter_boundary_context = cross_chapter_relationship_lookup[rel_key]
+                        unified_rel.chapter_boundary_context = (
+                            cross_chapter_relationship_lookup[rel_key]
+                        )
 
                     unified_relationships.append(unified_rel)
 
@@ -395,28 +397,30 @@ class MultiFileBatchProcessor:
     def _build_cross_chapter_lookup(
         self,
         cross_chapter_chains: Dict[str, List[str]],
-        chapter_relationships: Dict[str, List]
+        chapter_relationships: Dict[str, List],
     ) -> Dict[str, str]:
         """Build lookup table for relationships that participate in cross-chapter chains using chain IDs.
-        
+
         Args:
             cross_chapter_chains: Dictionary of unified chain IDs to entity lists
             chapter_relationships: Dictionary mapping file paths to relationship lists
-            
+
         Returns:
             Dictionary mapping relationship keys to chain context information
         """
-        self.logger.info("Building cross-chapter relationship lookup table using chain IDs")
-        
+        self.logger.info(
+            "Building cross-chapter relationship lookup table using chain IDs"
+        )
+
         lookup = {}
-        
+
         # First, extract all chain IDs that appear in cross-chapter chains
         # The cross_chapter_chains keys are unified chain IDs, but we need to find the original chain IDs
         cross_chapter_chain_ids = set()
-        
+
         # Get all chain IDs from all chapters to identify which ones are cross-chapter
         all_chapter_chain_ids = {}  # Maps file_path to set of chain_ids
-        
+
         for file_path, relationships in chapter_relationships.items():
             chapter_chain_ids = set()
             for rel in relationships:
@@ -424,23 +428,33 @@ class MultiFileBatchProcessor:
                     for chain_id in rel.pronoun_coref_ids:
                         chapter_chain_ids.add(chain_id)
             all_chapter_chain_ids[file_path] = chapter_chain_ids
-            self.logger.debug("Chapter %s has %d unique chain IDs", file_path, len(chapter_chain_ids))
-        
+            self.logger.debug(
+                "Chapter %s has %d unique chain IDs", file_path, len(chapter_chain_ids)
+            )
+
         # Find chain IDs that appear in multiple chapters (these are cross-chapter)
         all_files = list(all_chapter_chain_ids.keys())
         for i in range(len(all_files)):
             for j in range(i + 1, len(all_files)):
                 file1, file2 = all_files[i], all_files[j]
-                common_chains = all_chapter_chain_ids[file1].intersection(all_chapter_chain_ids[file2])
+                common_chains = all_chapter_chain_ids[file1].intersection(
+                    all_chapter_chain_ids[file2]
+                )
                 cross_chapter_chain_ids.update(common_chains)
                 if common_chains:
                     self.logger.debug(
                         "Found %d common chain IDs between %s and %s: %s",
-                        len(common_chains), file1, file2, list(common_chains)[:5]
+                        len(common_chains),
+                        file1,
+                        file2,
+                        list(common_chains)[:5],
                     )
-        
-        self.logger.info("Found %d chain IDs that span multiple chapters", len(cross_chapter_chain_ids))
-        
+
+        self.logger.info(
+            "Found %d chain IDs that span multiple chapters",
+            len(cross_chapter_chain_ids),
+        )
+
         # Now mark relationships that use these cross-chapter chain IDs
         for file_path, relationships in chapter_relationships.items():
             for rel in relationships:
@@ -449,27 +463,33 @@ class MultiFileBatchProcessor:
                     for chain_id in rel.pronoun_coref_ids:
                         if chain_id in cross_chapter_chain_ids:
                             rel_key = f"{file_path}:{rel.sentence_id}:{rel.pronoun.idx}"
-                            lookup[rel_key] = f"Participates in cross-chapter chain {chain_id}"
-                            
+                            lookup[rel_key] = (
+                                f"Participates in cross-chapter chain {chain_id}"
+                            )
+
                             self.logger.debug(
                                 "Marked relationship as cross-chapter: %s (chain ID: %s)",
-                                rel_key, chain_id
+                                rel_key,
+                                chain_id,
                             )
                             break  # Only need to mark once per relationship
-        
-        self.logger.info("Cross-chapter lookup complete: %d relationships flagged", len(lookup))
+
+        self.logger.info(
+            "Cross-chapter lookup complete: %d relationships flagged", len(lookup)
+        )
         return lookup
-    
+
     def _normalize_entity_text(self, text: str) -> str:
         """Normalize entity text for comparison."""
         if not text:
             return ""
-        
+
         # Convert to lowercase and remove extra whitespace
         import re
+
         normalized = re.sub(r"\s+", " ", text.lower().strip())
-        
+
         # Remove punctuation
         normalized = re.sub(r"[^\w\s]", "", normalized)
-        
+
         return normalized

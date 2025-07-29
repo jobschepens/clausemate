@@ -52,7 +52,7 @@ class OutputCapture:
             # Process content for markdown formatting
             for line in self.content:
                 # Convert separator lines to horizontal rules
-                if line.startswith("=") or line.startswith("-"):
+                if line.startswith(("=", "-")):
                     f.write("\n---\n\n")
                 # Add code blocks for data samples
                 elif any(

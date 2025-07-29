@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
-"""
-Custom exceptions for the clause mate extraction script.
-"""
+"""Custom exceptions for the clause mate extraction script."""
 
 from typing import Optional
 
 
 class ClauseMateExtractionError(Exception):
     """Base exception for clause mate extraction errors."""
-    pass
 
 
 class ParseError(ClauseMateExtractionError):
@@ -28,14 +25,11 @@ class ParseError(ClauseMateExtractionError):
 
 class ValidationError(ClauseMateExtractionError):
     """Raised when validation fails."""
-    pass
 
 
 class FileProcessingError(ClauseMateExtractionError):
     """Raised when file processing fails."""
-    pass
 
 
 class CoreferenceExtractionError(ClauseMateExtractionError):
     """Raised when coreference extraction fails."""
-    pass

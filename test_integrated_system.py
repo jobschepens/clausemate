@@ -75,7 +75,7 @@ def test_adaptive_analyzer():
                 enable_adaptive_parsing=True, log_level=logging.INFO
             )
 
-            relationships = analyzer.analyze_file(file_path)
+            analyzer.analyze_file(file_path)
             stats = analyzer.get_statistics()
 
             print("  Results:")
@@ -120,7 +120,7 @@ def test_legacy_fallback():
             enable_adaptive_parsing=False, log_level=logging.INFO
         )
 
-        relationships = analyzer.analyze_file(file_path)
+        analyzer.analyze_file(file_path)
         stats = analyzer.get_statistics()
 
         print("  Results:")

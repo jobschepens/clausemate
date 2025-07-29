@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Phase Comparison Script
+"""Phase Comparison Script.
 
 This script runs both Phase 1 and Phase 2 of the clause mate extraction system
 and provides a comprehensive comparison of their outputs, performance, and features.
@@ -158,7 +158,7 @@ class PhaseComparator:
             elif "Extracted" in line and "clause mate relationships" in line:
                 # Extract number from "Extracted 463 clause mate relationships"
                 parts = line.split()
-                for i, part in enumerate(parts):
+                for _i, part in enumerate(parts):
                     if part.isdigit():
                         stats["relationships_found"] = int(part)
                         break
@@ -221,11 +221,11 @@ class PhaseComparator:
 
             comparison["columns"] = {
                 "common_count": len(common_columns),
-                "common_columns": sorted(list(common_columns)),
+                "common_columns": sorted(common_columns),
                 "phase1_only_count": len(phase1_only),
-                "phase1_only": sorted(list(phase1_only)),
+                "phase1_only": sorted(phase1_only),
                 "phase2_only_count": len(phase2_only),
-                "phase2_only": sorted(list(phase2_only)),
+                "phase2_only": sorted(phase2_only),
             }
 
             # Compare data types for common columns

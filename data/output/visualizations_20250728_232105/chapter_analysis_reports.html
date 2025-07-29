@@ -32,13 +32,13 @@
 </head>
 <body>
     <div class="container">
-        
+
         <div class="header">
             <h1>Chapter-by-Chapter Analysis Reports</h1>
             <p>Comprehensive analysis of each chapter's coreference patterns</p>
             <p>Generated: 2025-07-28 23:21:05</p>
         </div>
-        
+
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-value">4</div>
@@ -57,8 +57,8 @@
                 <div class="stat-label">Processing Time</div>
             </div>
         </div>
-        
-        
+
+
             <div class="chapter-section">
                 <h3>Chapter 1 Analysis</h3>
                 <div class="stats-grid">
@@ -79,7 +79,7 @@
                         <div class="stat-label">Cross-Chapter Links</div>
                     </div>
                 </div>
-                
+
                 <div style="margin-top: 15px;">
                     <strong>Density Metrics:</strong>
                     <ul>
@@ -89,7 +89,7 @@
                     </ul>
                 </div>
             </div>
-            
+
             <div class="chapter-section">
                 <h3>Chapter 2 Analysis</h3>
                 <div class="stats-grid">
@@ -110,7 +110,7 @@
                         <div class="stat-label">Cross-Chapter Links</div>
                     </div>
                 </div>
-                
+
                 <div style="margin-top: 15px;">
                     <strong>Density Metrics:</strong>
                     <ul>
@@ -120,7 +120,7 @@
                     </ul>
                 </div>
             </div>
-            
+
             <div class="chapter-section">
                 <h3>Chapter 3 Analysis</h3>
                 <div class="stats-grid">
@@ -141,7 +141,7 @@
                         <div class="stat-label">Cross-Chapter Links</div>
                     </div>
                 </div>
-                
+
                 <div style="margin-top: 15px;">
                     <strong>Density Metrics:</strong>
                     <ul>
@@ -151,7 +151,7 @@
                     </ul>
                 </div>
             </div>
-            
+
             <div class="chapter-section">
                 <h3>Chapter 4 Analysis</h3>
                 <div class="stats-grid">
@@ -172,7 +172,7 @@
                         <div class="stat-label">Cross-Chapter Links</div>
                     </div>
                 </div>
-                
+
                 <div style="margin-top: 15px;">
                     <strong>Density Metrics:</strong>
                     <ul>
@@ -182,41 +182,41 @@
                     </ul>
                 </div>
             </div>
-            
-        
+
+
         <div class="chapter-section">
             <h3>Comparative Analysis</h3>
             <canvas id="comparisonChart" width="800" height="400"></canvas>
         </div>
-        
+
     </div>
     <script>
-        
+
         const chapterData = {"1": {"relationships": 234, "cross_chapter": 3, "unique_pronouns": 11, "unique_clause_mates": 127, "unique_sentences": 39}, "2": {"relationships": 448, "cross_chapter": 13, "unique_pronouns": 16, "unique_clause_mates": 191, "unique_sentences": 101}, "3": {"relationships": 527, "cross_chapter": 29, "unique_pronouns": 14, "unique_clause_mates": 164, "unique_sentences": 79}, "4": {"relationships": 695, "cross_chapter": 16, "unique_pronouns": 15, "unique_clause_mates": 189, "unique_sentences": 95}};
-        
+
         // Simple bar chart using canvas
         const canvas = document.getElementById('comparisonChart');
         const ctx = canvas.getContext('2d');
-        
+
         const chapters = Object.keys(chapterData).sort();
         const relationships = chapters.map(ch => chapterData[ch].relationships);
         const maxRel = Math.max(...relationships);
-        
+
         const barWidth = 150;
         const barSpacing = 50;
         const chartHeight = 300;
         const chartTop = 50;
-        
+
         // Draw bars
         chapters.forEach((chapter, index) => {
             const x = 50 + index * (barWidth + barSpacing);
             const barHeight = (relationships[index] / maxRel) * chartHeight;
             const y = chartTop + chartHeight - barHeight;
-            
+
             // Bar
             ctx.fillStyle = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4'][index] || '#999';
             ctx.fillRect(x, y, barWidth, barHeight);
-            
+
             // Label
             ctx.fillStyle = '#333';
             ctx.font = '14px Arial';
@@ -224,13 +224,13 @@
             ctx.fillText(`Chapter ${chapter}`, x + barWidth/2, chartTop + chartHeight + 20);
             ctx.fillText(relationships[index], x + barWidth/2, y - 10);
         });
-        
+
         // Title
         ctx.fillStyle = '#333';
         ctx.font = 'bold 16px Arial';
         ctx.textAlign = 'center';
         ctx.fillText('Relationships per Chapter', canvas.width/2, 30);
-        
+
     </script>
 </body>
 </html>

@@ -51,7 +51,7 @@ def save_unified_results(result, output_dir: Path) -> None:
 
         # Import the standardized column order from config
         from src.config import ExportColumns
-        
+
         # Write header using standardized column order plus multi-file specific columns
         multi_file_columns = [
             "chapter_file",
@@ -61,7 +61,7 @@ def save_unified_results(result, output_dir: Path) -> None:
             "cross_chapter",
             "source_file_path",
         ]
-        
+
         # Combine standardized columns with multi-file specific columns
         header_columns = multi_file_columns + ExportColumns.STANDARD_ORDER
         writer.writerow(header_columns)
@@ -85,18 +85,18 @@ def save_unified_results(result, output_dir: Path) -> None:
             }
 
             # Get standardized relationship data (this should be a ClauseMateRelationship object)
-            if hasattr(rel, 'to_dict'):
+            if hasattr(rel, "to_dict"):
                 standard_data = rel.to_dict()
             else:
                 # Fallback: create basic data structure if to_dict not available
-                standard_data = {col: "" for col in ExportColumns.STANDARD_ORDER}
+                standard_data = dict.fromkeys(ExportColumns.STANDARD_ORDER, "")
                 # Fill in what we can from the unified relationship
-                if hasattr(rel, 'sentence_id'):
+                if hasattr(rel, "sentence_id"):
                     standard_data["sentence_id"] = rel.sentence_id
-                if hasattr(rel, 'pronoun') and rel.pronoun:
+                if hasattr(rel, "pronoun") and rel.pronoun:
                     standard_data["pronoun_text"] = rel.pronoun.text
                     standard_data["pronoun_token_idx"] = rel.pronoun.idx
-                if hasattr(rel, 'clause_mate') and rel.clause_mate:
+                if hasattr(rel, "clause_mate") and rel.clause_mate:
                     standard_data["clause_mate_text"] = rel.clause_mate.text
                     standard_data["clause_mate_start_idx"] = rel.clause_mate.start_idx
                     standard_data["clause_mate_end_idx"] = rel.clause_mate.end_idx

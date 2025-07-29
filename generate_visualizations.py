@@ -12,15 +12,17 @@ Version: 3.1 - Visualization and Reporting Implementation
 Date: 2025-07-28
 """
 
-import json
-import sys
 import csv
+import json
 import logging
+import sys
 from datetime import datetime
 from pathlib import Path
 
 # Add src to path for imports
-sys.path.append('src')
+sys.path.append("src")
+
+import contextlib
 
 from visualization.interactive_visualizer import InteractiveVisualizer
 
@@ -29,61 +31,61 @@ def setup_logging() -> logging.Logger:
     """Set up logging configuration."""
     logging.basicConfig(
         level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         handlers=[
-            logging.FileHandler('visualization_generation.log'),
-            logging.StreamHandler(sys.stdout)
-        ]
+            logging.FileHandler("visualization_generation.log"),
+            logging.StreamHandler(sys.stdout),
+        ],
     )
     return logging.getLogger(__name__)
 
 
 def load_analysis_data(analysis_dir: str) -> tuple:
     """Load analysis data from the latest output directory.
-    
+
     Args:
         analysis_dir: Path to analysis output directory
-        
+
     Returns:
         Tuple of (relationships_data, cross_chapter_chains, processing_stats)
     """
     logger = logging.getLogger(__name__)
     analysis_path = Path(analysis_dir)
-    
+
     # Load cross-chapter chains
     chains_file = analysis_path / "cross_chapter_chains.json"
-    with open(chains_file, 'r', encoding='utf-8') as f:
+    with open(chains_file, encoding="utf-8") as f:
         cross_chapter_chains = json.load(f)
-    
+
     # Load processing statistics
     stats_file = analysis_path / "processing_statistics.json"
-    with open(stats_file, 'r', encoding='utf-8') as f:
+    with open(stats_file, encoding="utf-8") as f:
         processing_stats = json.load(f)
-    
+
     # Load relationships data from CSV
     relationships_data = []
     csv_file = analysis_path / "unified_relationships.csv"
-    
-    with open(csv_file, 'r', encoding='utf-8') as f:
+
+    with open(csv_file, encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
             # Convert numeric fields
-            for field in ['chapter_number', 'sentence_num', 'pronoun_token_idx']:
+            for field in ["chapter_number", "sentence_num", "pronoun_token_idx"]:
                 if field in row and row[field]:
-                    try:
+                    with contextlib.suppress(ValueError):
                         row[field] = int(row[field])
-                    except ValueError:
-                        pass
-            
+
             # Convert boolean fields
-            if 'cross_chapter' in row:
-                row['cross_chapter_relationship'] = row['cross_chapter'].lower() == 'true'
-            
+            if "cross_chapter" in row:
+                row["cross_chapter_relationship"] = (
+                    row["cross_chapter"].lower() == "true"
+                )
+
             relationships_data.append(row)
-    
+
     logger.info(f"Loaded {len(relationships_data)} relationships from {csv_file}")
     logger.info(f"Loaded {len(cross_chapter_chains)} cross-chapter chains")
-    
+
     return relationships_data, cross_chapter_chains, processing_stats
 
 
@@ -91,74 +93,81 @@ def main():
     """Main execution function."""
     logger = setup_logging()
     logger.info("Starting comprehensive visualization generation")
-    
+
     # Configuration
     analysis_dir = "data/output/unified_analysis_20250728_231555"  # Latest analysis
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     output_dir = f"data/output/visualizations_{timestamp}"
-    
+
     try:
         # Load analysis data
         logger.info("Loading analysis data...")
-        relationships_data, cross_chapter_chains, processing_stats = load_analysis_data(analysis_dir)
-        
+        relationships_data, cross_chapter_chains, processing_stats = load_analysis_data(
+            analysis_dir
+        )
+
         # Initialize visualizer
         logger.info("Initializing interactive visualizer...")
         visualizer = InteractiveVisualizer(output_dir)
-        
+
         # Generate visualizations
         logger.info("Generating cross-chapter network visualization...")
         network_path = visualizer.create_cross_chapter_network_visualization(
             cross_chapter_chains=cross_chapter_chains,
-            relationships_data=relationships_data
+            relationships_data=relationships_data,
         )
         logger.info(f"✅ Network visualization created: {network_path}")
-        
+
         logger.info("Generating chapter analysis reports...")
         reports_path = visualizer.create_chapter_analysis_reports(
-            relationships_data=relationships_data,
-            processing_stats=processing_stats
+            relationships_data=relationships_data, processing_stats=processing_stats
         )
         logger.info(f"✅ Chapter reports created: {reports_path}")
-        
+
         logger.info("Generating comparative dashboard...")
         dashboard_path = visualizer.create_comparative_dashboard(
             relationships_data=relationships_data,
             cross_chapter_chains=cross_chapter_chains,
-            processing_stats=processing_stats
+            processing_stats=processing_stats,
         )
         logger.info(f"✅ Comparative dashboard created: {dashboard_path}")
-        
+
         # Generate summary report
         logger.info("Creating visualization summary...")
         summary_path = create_visualization_summary(
-            output_dir, network_path, reports_path, dashboard_path,
-            len(relationships_data), len(cross_chapter_chains), processing_stats
+            output_dir,
+            network_path,
+            reports_path,
+            dashboard_path,
+            len(relationships_data),
+            len(cross_chapter_chains),
+            processing_stats,
         )
         logger.info(f"✅ Summary report created: {summary_path}")
-        
+
         # Final summary
         logger.info("=" * 60)
         logger.info("VISUALIZATION GENERATION COMPLETE")
         logger.info("=" * 60)
         logger.info(f"Output Directory: {output_dir}")
-        logger.info(f"Generated Files:")
+        logger.info("Generated Files:")
         logger.info(f"  • Cross-Chapter Network: {Path(network_path).name}")
         logger.info(f"  • Chapter Reports: {Path(reports_path).name}")
         logger.info(f"  • Comparative Dashboard: {Path(dashboard_path).name}")
         logger.info(f"  • Summary Report: {Path(summary_path).name}")
-        
+
         logger.info("\nVisualization Features Implemented:")
         logger.info("✅ Cross-chapter coreference chain visualization")
         logger.info("✅ Interactive relationship network graphs")
         logger.info("✅ Chapter-by-chapter analysis reports")
         logger.info("✅ Comparative analysis dashboards")
-        
+
         return 0
-        
+
     except Exception as e:
         logger.error(f"Visualization generation failed: {str(e)}")
         import traceback
+
         logger.error(f"Traceback: {traceback.format_exc()}")
         return 1
 
@@ -170,10 +179,10 @@ def create_visualization_summary(
     dashboard_path: str,
     total_relationships: int,
     total_chains: int,
-    processing_stats: dict
+    processing_stats: dict,
 ) -> str:
     """Create a summary report of all generated visualizations.
-    
+
     Args:
         output_dir: Output directory path
         network_path: Path to network visualization
@@ -182,12 +191,12 @@ def create_visualization_summary(
         total_relationships: Total number of relationships
         total_chains: Total number of cross-chapter chains
         processing_stats: Processing statistics
-        
+
     Returns:
         Path to created summary file
     """
     summary_path = Path(output_dir) / "visualization_summary.html"
-    
+
     html_content = f"""
     <!DOCTYPE html>
     <html lang="en">
@@ -227,9 +236,9 @@ def create_visualization_summary(
                 <h1>Multi-File Clause Mates Analysis</h1>
                 <h2>Interactive Visualizations & Reports</h2>
                 <p>Comprehensive visualization suite for cross-chapter coreference analysis</p>
-                <p><strong>Generated:</strong> {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
+                <p><strong>Generated:</strong> {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</p>
             </div>
-            
+
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-value">{total_relationships:,}</div>
@@ -240,15 +249,15 @@ def create_visualization_summary(
                     <div class="stat-label">Cross-Chapter Chains</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value">{processing_stats.get('total_chapters', 0)}</div>
+                    <div class="stat-value">{processing_stats.get("total_chapters", 0)}</div>
                     <div class="stat-label">Chapters Analyzed</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value">{processing_stats.get('processing_time_seconds', 0):.1f}s</div>
+                    <div class="stat-value">{processing_stats.get("processing_time_seconds", 0):.1f}s</div>
                     <div class="stat-label">Processing Time</div>
                 </div>
             </div>
-            
+
             <div class="visualization-grid">
                 <div class="viz-card">
                     <div class="viz-header">
@@ -256,40 +265,40 @@ def create_visualization_summary(
                     </div>
                     <div class="viz-content">
                         <div class="viz-description">
-                            Interactive network visualization showing coreference chains that span across multiple chapters. 
+                            Interactive network visualization showing coreference chains that span across multiple chapters.
                             Features clickable nodes, dynamic layout, and detailed chain information.
                         </div>
                         <a href="{Path(network_path).name}" class="viz-link">Open Network Visualization</a>
                     </div>
                 </div>
-                
+
                 <div class="viz-card">
                     <div class="viz-header">
                         <h3>📊 Chapter Analysis Reports</h3>
                     </div>
                     <div class="viz-content">
                         <div class="viz-description">
-                            Comprehensive chapter-by-chapter analysis with detailed statistics, density metrics, 
+                            Comprehensive chapter-by-chapter analysis with detailed statistics, density metrics,
                             and comparative charts showing relationships, pronouns, and cross-chapter links.
                         </div>
                         <a href="{Path(reports_path).name}" class="viz-link">View Chapter Reports</a>
                     </div>
                 </div>
-                
+
                 <div class="viz-card">
                     <div class="viz-header">
                         <h3>📈 Comparative Dashboard</h3>
                     </div>
                     <div class="viz-content">
                         <div class="viz-description">
-                            Advanced comparative analysis dashboard with pronoun type distribution, 
+                            Advanced comparative analysis dashboard with pronoun type distribution,
                             connectivity metrics, performance statistics, and cross-chapter comparison matrix.
                         </div>
                         <a href="{Path(dashboard_path).name}" class="viz-link">Open Dashboard</a>
                     </div>
                 </div>
             </div>
-            
+
             <div class="features-list">
                 <h3>✅ Implemented Visualization Features</h3>
                 <ul>
@@ -299,7 +308,7 @@ def create_visualization_summary(
                     <li><strong>Comparative analysis dashboards</strong> - Advanced analytics comparing patterns across chapters</li>
                 </ul>
             </div>
-            
+
             <div class="tech-info">
                 <h3>🔧 Technical Implementation</h3>
                 <p><strong>Technologies Used:</strong></p>
@@ -310,7 +319,7 @@ def create_visualization_summary(
                     <li>Responsive CSS Grid for adaptive layouts</li>
                     <li>JavaScript for interactive functionality</li>
                 </ul>
-                
+
                 <p><strong>Data Sources:</strong></p>
                 <ul>
                     <li>Unified relationships CSV ({total_relationships:,} relationships)</li>
@@ -318,7 +327,7 @@ def create_visualization_summary(
                     <li>Processing statistics and metadata</li>
                 </ul>
             </div>
-            
+
             <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #dee2e6;">
                 <p style="color: #6c757d;">
                     Multi-File Clause Mates Analysis System v3.1<br>
@@ -329,10 +338,10 @@ def create_visualization_summary(
     </body>
     </html>
     """
-    
-    with open(summary_path, 'w', encoding='utf-8') as f:
+
+    with open(summary_path, "w", encoding="utf-8") as f:
         f.write(html_content)
-    
+
     return str(summary_path)
 
 

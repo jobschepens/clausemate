@@ -61,7 +61,7 @@ class RelationshipExtractor(BaseRelationshipExtractor):
             features={
                 "relationship_count": len(relationships),
                 "pronouns_with_clause_mates": len(
-                    set(rel.pronoun.idx for rel in relationships)
+                    {rel.pronoun.idx for rel in relationships}
                 ),
             },
         )
@@ -203,10 +203,7 @@ class RelationshipExtractor(BaseRelationshipExtractor):
         if not relationship.sentence_id:
             return False
 
-        if relationship.sentence_num < 1:
-            return False
-
-        return True
+        return not relationship.sentence_num < 1
 
     def _get_pronoun_coreference_ids(self, pronoun: Token) -> Set[str]:
         """Get all coreference IDs for a pronoun.

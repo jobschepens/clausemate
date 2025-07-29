@@ -37,7 +37,7 @@ def test_file(file_path: str, description: str):
 
         # Get format info and statistics
         format_info = parser.get_format_info()
-        stats = parser.get_parsing_statistics()
+        parser.get_parsing_statistics()
 
         # Display results
         print(f"✅ SUCCESS: Parsed {len(sentences)} sentences")
@@ -57,7 +57,7 @@ def test_file(file_path: str, description: str):
 
         # Show sample sentences
         print("\n📝 Sample sentences:")
-        for i, (sentence_id, tokens) in enumerate(list(sentences.items())[:3]):
+        for _i, (sentence_id, tokens) in enumerate(list(sentences.items())[:3]):
             print(f"  Sentence {sentence_id}: {len(tokens)} tokens")
             if tokens:
                 sample_tokens = tokens[:5]  # First 5 tokens

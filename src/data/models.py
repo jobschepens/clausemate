@@ -284,12 +284,11 @@ class ClauseMateRelationship:
         if (
             self.pronoun.inanimate_coreference_link
             and self.pronoun.inanimate_coreference_link != "_"
-        ):
-            if "->" in self.pronoun.inanimate_coreference_link:
-                coref_id = self.pronoun.inanimate_coreference_link.split("->")[-1]
-                givenness = determine_givenness(coref_id)
-                if givenness != "_":
-                    return givenness
+        ) and "->" in self.pronoun.inanimate_coreference_link:
+            coref_id = self.pronoun.inanimate_coreference_link.split("->")[-1]
+            givenness = determine_givenness(coref_id)
+            if givenness != "_":
+                return givenness
 
         # Fallback: try to extract from type fields
         if self.pronoun.coreference_type and self.pronoun.coreference_type != "_":

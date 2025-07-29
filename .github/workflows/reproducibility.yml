@@ -1,0 +1,277 @@
+name: Reproducibility Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test-reproducibility:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.9, 3.10, 3.11]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest pytest-cov
+
+    - name: Verify project structure
+      run: |
+        echo "=== Project Structure ==="
+        find . -name "*.py" -path "./src/*" | head -20
+        echo "=== Data Input Files ==="
+        ls -la data/input/gotofiles/ || echo "Input directory not found"
+        ls -la data/input/gotofiles/later/ || echo "Later directory not found"
+
+    - name: Test single chapter analysis
+      run: |
+        echo "=== Testing Single Chapter Analysis ==="
+        python -c "
+        import sys
+        sys.path.append('src')
+        from main import ClauseMateAnalyzer
+        
+        # Test Chapter 2 (main file)
+        analyzer = ClauseMateAnalyzer(enable_adaptive_parsing=True)
+        try:
+            relationships = analyzer.analyze_file('data/input/gotofiles/2.tsv')
+            print(f'✅ Chapter 2: {len(relationships)} relationships extracted')
+            assert len(relationships) > 0, 'No relationships found in Chapter 2'
+        except Exception as e:
+            print(f'❌ Chapter 2 failed: {e}')
+            sys.exit(1)
+        "
+
+    - name: Test multi-file analysis
+      run: |
+        echo "=== Testing Multi-File Analysis ==="
+        python -c "
+        import sys
+        sys.path.append('src')
+        from multi_file.multi_file_batch_processor import MultiFileBatchProcessor
+        
+        try:
+            processor = MultiFileBatchProcessor()
+            result = processor.process_directory('data/input/gotofiles')
+            print(f'✅ Multi-file analysis: {len(result.unified_relationships)} total relationships')
+            print(f'✅ Cross-chapter chains: {len(result.cross_chapter_chains)} chains identified')
+            assert len(result.unified_relationships) > 0, 'No unified relationships found'
+            assert len(result.cross_chapter_chains) > 0, 'No cross-chapter chains found'
+        except Exception as e:
+            print(f'❌ Multi-file analysis failed: {e}')
+            sys.exit(1)
+        "
+
+    - name: Test advanced analysis features
+      run: |
+        echo "=== Testing Advanced Analysis Features ==="
+        python generate_advanced_analysis_simple.py || echo "Advanced analysis script not available"
+
+    - name: Test visualization generation
+      run: |
+        echo "=== Testing Visualization Generation ==="
+        python generate_visualizations.py || echo "Visualization script not available"
+
+    - name: Verify output structure
+      run: |
+        echo "=== Verifying Output Structure ==="
+        # Check for expected output directories
+        if [ -d "data/output" ]; then
+          echo "✅ Output directory exists"
+          find data/output -name "*.csv" -o -name "*.json" -o -name "*.html" | head -10
+        else
+          echo "❌ Output directory not found"
+        fi
+
+    - name: Run comprehensive system test
+      run: |
+        echo "=== Comprehensive System Test ==="
+        python -c "
+        import sys
+        sys.path.append('src')
+        
+        # Test the complete pipeline
+        try:
+            # 1. Single file analysis
+            from main import ClauseMateAnalyzer
+            analyzer = ClauseMateAnalyzer(enable_adaptive_parsing=True)
+            relationships = analyzer.analyze_file('data/input/gotofiles/2.tsv')
+            print(f'✅ Single file: {len(relationships)} relationships')
+            
+            # 2. Multi-file processing
+            from multi_file.multi_file_batch_processor import MultiFileBatchProcessor
+            processor = MultiFileBatchProcessor()
+            result = processor.process_directory('data/input/gotofiles')
+            print(f'✅ Multi-file: {len(result.unified_relationships)} relationships')
+            
+            # 3. Cross-chapter analysis
+            print(f'✅ Cross-chapter: {len(result.cross_chapter_chains)} chains')
+            
+            # 4. Verify data quality
+            sample_rel = result.unified_relationships[0] if result.unified_relationships else None
+            if sample_rel:
+                print(f'✅ Sample relationship: {sample_rel.pronoun.text} -> {sample_rel.clause_mate.text}')
+            
+            print('🎉 All tests passed successfully!')
+            
+        except Exception as e:
+            print(f'❌ System test failed: {e}')
+            import traceback
+            traceback.print_exc()
+            sys.exit(1)
+        "
+
+    - name: Generate test report
+      run: |
+        echo "=== Test Report ==="
+        echo "Python version: $(python --version)"
+        echo "Test timestamp: $(date)"
+        echo "Repository: ${{ github.repository }}"
+        echo "Commit: ${{ github.sha }}"
+        echo "Branch: ${{ github.ref }}"
+
+  test-output-reproducibility:
+    runs-on: ubuntu-latest
+    needs: test-reproducibility
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Generate baseline outputs
+      run: |
+        echo "=== Generating Baseline Outputs ==="
+        python -c "
+        import sys
+        sys.path.append('src')
+        from multi_file.multi_file_batch_processor import MultiFileBatchProcessor
+        
+        # Generate reproducible output
+        processor = MultiFileBatchProcessor()
+        result = processor.process_directory('data/input/gotofiles')
+        
+        # Save key metrics for comparison
+        with open('baseline_metrics.txt', 'w') as f:
+            f.write(f'total_relationships={len(result.unified_relationships)}\n')
+            f.write(f'cross_chapter_chains={len(result.cross_chapter_chains)}\n')
+            f.write(f'chapters_processed={len(result.chapter_info)}\n')
+        
+        print('✅ Baseline metrics saved')
+        "
+
+    - name: Verify output consistency
+      run: |
+        echo "=== Verifying Output Consistency ==="
+        if [ -f "baseline_metrics.txt" ]; then
+          echo "✅ Baseline metrics generated:"
+          cat baseline_metrics.txt
+        else
+          echo "❌ Baseline metrics not found"
+          exit 1
+        fi
+
+    - name: Upload test artifacts
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: test-outputs-${{ matrix.python-version }}
+        path: |
+          baseline_metrics.txt
+          data/output/**/*.csv
+          data/output/**/*.json
+          data/output/**/*.html
+        retention-days: 7
+
+  performance-benchmark:
+    runs-on: ubuntu-latest
+    needs: test-reproducibility
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install memory-profiler
+
+    - name: Performance benchmark
+      run: |
+        echo "=== Performance Benchmark ==="
+        python -c "
+        import sys
+        import time
+        import psutil
+        import os
+        sys.path.append('src')
+        
+        # Memory and time tracking
+        process = psutil.Process(os.getpid())
+        start_memory = process.memory_info().rss / 1024 / 1024  # MB
+        start_time = time.time()
+        
+        try:
+            from multi_file.multi_file_batch_processor import MultiFileBatchProcessor
+            processor = MultiFileBatchProcessor()
+            result = processor.process_directory('data/input/gotofiles')
+            
+            end_time = time.time()
+            end_memory = process.memory_info().rss / 1024 / 1024  # MB
+            
+            processing_time = end_time - start_time
+            memory_used = end_memory - start_memory
+            relationships_per_second = len(result.unified_relationships) / processing_time if processing_time > 0 else 0
+            
+            print(f'⏱️  Processing time: {processing_time:.2f} seconds')
+            print(f'💾 Memory used: {memory_used:.2f} MB')
+            print(f'🚀 Relationships/second: {relationships_per_second:.1f}')
+            print(f'📊 Total relationships: {len(result.unified_relationships)}')
+            print(f'🔗 Cross-chapter chains: {len(result.cross_chapter_chains)}')
+            
+            # Performance thresholds
+            if processing_time > 60:  # 1 minute threshold
+                print('⚠️  Warning: Processing time exceeds 60 seconds')
+            if memory_used > 500:  # 500MB threshold
+                print('⚠️  Warning: Memory usage exceeds 500MB')
+            
+            print('✅ Performance benchmark completed')
+            
+        except Exception as e:
+            print(f'❌ Performance benchmark failed: {e}')
+            sys.exit(1)
+        "

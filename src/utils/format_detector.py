@@ -371,7 +371,7 @@ class TSVFormatDetector:
         )
 
         # Identify format types
-        format_types = set(info.format_type for info in format_infos)
+        format_types = {info.format_type for info in format_infos}
 
         # Calculate statistics
         total_files = len(format_infos)

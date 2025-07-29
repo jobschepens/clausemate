@@ -1,4 +1,4 @@
-"""Clause Mates Analyzer - Modular Architecture (Phase 2)
+"""Clause Mates Analyzer - Modular Architecture (Phase 2).
 
 A Python package for extracting and analyzing clause mate relationships
 from German pronoun data for linguistic research.

@@ -1,16 +1,14 @@
 #!/usr/bin/env python3
-"""
-Pronoun identification module for the clause mate extraction script.
-"""
+"""Pronoun identification module for the clause mate extraction script."""
 
-from typing import Dict, Any, Optional
+from typing import Any, Dict, Optional
+
 from config import Constants, PronounSets
 from utils import extract_coreference_type
 
 
 def is_critical_pronoun(token_data: Dict[str, Any]) -> bool:
-    """
-    Determine if a token is a critical pronoun.
+    """Determine if a token is a critical pronoun.
 
     Args:
         token_data: Dictionary containing token information including:

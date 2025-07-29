@@ -71,7 +71,7 @@ class TestModularComponents(unittest.TestCase):
 
         # Invalid token (empty text) - should raise ValueError during creation
         with self.assertRaises(ValueError):
-            invalid_token = Token(
+            Token(
                 idx=1,
                 text="",
                 sentence_num=1,

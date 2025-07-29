@@ -75,7 +75,7 @@ def test_schema_aware_parsing():
 
             # Count coreference relationships
             total_coref_links = 0
-            for sentence_id, tokens in sentences.items():
+            for _sentence_id, tokens in sentences.items():
                 for token in tokens:
                     if token.coreference_link:
                         total_coref_links += 1
