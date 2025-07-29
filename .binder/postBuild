@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Install the package in development mode
+pip install -e .
+
+# Create a demo notebook directory
+mkdir -p notebooks
+
+# Set up Jupyter extensions for better experience
+jupyter labextension install @jupyter-widgets/jupyterlab-manager
+
+echo "Binder environment setup complete!"

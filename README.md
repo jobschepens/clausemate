@@ -8,11 +8,14 @@
   <a href="https://pypi.org/project/clausemate/">
     <img src="https://img.shields.io/pypi/pyversions/clausemate.svg" alt="Python versions">
   </a>
+  <a href="https://mybinder.org/v2/gh/jobschepens/clausemate/HEAD">
+    <img src="https://mybinder.org/badge_logo.svg" alt="Launch Binder">
+  </a>
   <a href="https://github.com/jobschepens/clausemate/actions">
     <img src="https://github.com/jobschepens/clausemate/actions/workflows/reproducibility.yml/badge.svg" alt="Reproducibility Tests">
   </a>
   <a href="https://github.com/jobschepens/clausemate/actions">
-    <img src="https://github.com/jobschepens/clausemate/actions/workflows/coverage.yml/badge.svg" alt="Coverage Tests">
+    <img src="https://github.com/jobschepens/clausemate/actions/workflows/coverage.yml/badge.svg" alt="Coverage & Test Analytics">
   </a>
   <a href="https://codecov.io/gh/jobschepens/clausemate">
     <img src="https://codecov.io/gh/jobschepens/clausemate/graph/badge.svg?token=ORFRUUB3HS" alt="Coverage"/>
@@ -77,6 +80,8 @@ This tool analyzes German pronouns and their clause mates in annotated linguisti
 - **Robust Error Handling**: Graceful degradation and clear user feedback
 - **Type-safe Implementation**: Full type hints and comprehensive testing
 - **Timestamped Output**: Automatic organization with date/time-stamped directories
+- **Test Analytics**: Comprehensive test monitoring with failure tracking and flaky test detection
+- **Interactive Demo**: Try the tool online with Binder (no installation required)
 
 ## Supported File Formats
 
@@ -188,6 +193,12 @@ pip install clausemate
 
 ## Quick Start
 
+### 🚀 Try Online (No Installation Required)
+[![Launch Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jobschepens/clausemate/HEAD)
+
+Click the Binder badge above to launch an interactive Jupyter environment with ClauseMate pre-installed. Open `notebooks/demo_analysis.ipynb` to explore the tool's capabilities.
+
+### 💻 Local Installation
 ```bash
 # Install the package
 pip install clausemate
@@ -339,8 +350,22 @@ This project uses **ruff** for fast, comprehensive code quality checking and for
 
 - **ruff**: Fast linting and formatting (replaces black, isort, flake8)
 - **mypy**: Type checking
-- **pytest**: Testing framework
+- **pytest**: Testing framework with JUnit XML output for analytics
 - **pre-commit**: Git hooks for quality assurance
+- **Codecov**: Coverage reporting and test analytics
+- **GitHub Actions**: Automated CI/CD with reproducibility testing
+
+### Test Analytics
+
+The project includes comprehensive test analytics via Codecov:
+
+- **Test Performance Monitoring**: Track test execution times and identify slow tests
+- **Failure Rate Analysis**: Monitor test reliability across builds
+- **Flaky Test Detection**: Automatically identify unstable tests
+- **Historical Trends**: View test performance over time
+- **Coverage Integration**: Combined coverage and test result reporting
+
+View test analytics at: [Codecov Dashboard](https://codecov.io/gh/jobschepens/clausemate)
 
 ## Requirements
 
