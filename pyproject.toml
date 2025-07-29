@@ -42,6 +42,7 @@ dev = [
     "bandit>=1.7.0",
     "safety>=2.0.0",
     "nox>=2023.4.22",
+    "hypothesis>=6.0.0",
 ]
 future = [
     "spacy>=3.4.0",
@@ -86,6 +87,7 @@ markers = [
     "slow: marks tests as slow (deselect with '-m \"not slow\"')",
     "integration: marks tests as integration tests",
     "unit: marks tests as unit tests",
+    "performance: marks tests as performance tests",
 ]
 
 [tool.mypy]
@@ -144,6 +146,9 @@ ignore = [
     "D104",  # Missing docstring in public package
     "D203",  # 1 blank line required before class docstring (conflicts with D211)
     "D213",  # Multi-line docstring summary should start at the second line (conflicts with D212)
+    "E501",  # Line too long (handled by formatter)
+    "F841",  # Local variable assigned but never used (common in tests)
+    "SIM102", # Use single if statement instead of nested (readability preference)
 ]
 
 exclude = [
