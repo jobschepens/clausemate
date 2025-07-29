@@ -452,7 +452,7 @@ def cached_antecedent_search(pronoun_id, sentence_range):
 ```python
 # Core requirements
 pandas>=1.3.0
-python>=3.8
+python>=3.11
 
 # Development
 ruff>=0.1.0

@@ -19,7 +19,7 @@ Usage:
 import nox
 
 # Supported Python versions for testing
-PYTHON_VERSIONS = ["3.8", "3.9", "3.10", "3.11"]
+PYTHON_VERSIONS = ["3.11"]
 # Default sessions to run when no specific session is specified
 nox.options.sessions = ["lint", "test"]
 

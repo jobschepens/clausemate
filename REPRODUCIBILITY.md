@@ -107,13 +107,13 @@ data/output/
 
 1. **Verify Python version**
    ```bash
-   python --version  # Should be 3.8+
+   python --version  # Should be 3.11+
    ```
 
 2. **Create isolated environment**
    ```bash
    # Using conda
-   conda create -n clausemate-repro python=3.9
+   conda create -n clausemate-repro python=3.11
    conda activate clausemate-repro
 
    # Or using venv
@@ -317,7 +317,7 @@ data/output/
 ### Dependencies
 ```
 pandas>=1.3.0        # Core data processing
-python>=3.8          # Minimum Python version
+python>=3.11         # Minimum Python version
 
 # Development dependencies (optional)
 pytest>=7.0.0        # Testing framework

@@ -1,5 +1,5 @@
 # build stage
-FROM python:3.10-slim as builder
+FROM python:3.11-slim as builder
 
 WORKDIR /app
 
@@ -23,7 +23,7 @@ COPY tests/ ./tests/
 RUN python -m pytest tests/ -v
 
 # production stage
-FROM python:3.10-slim as production
+FROM python:3.11-slim as production
 
 WORKDIR /app
 

@@ -8,8 +8,8 @@
   <a href="https://codecov.io/gh/jobschepens/clausemate">
     <img src="https://codecov.io/gh/jobschepens/clausemate/branch/main/graph/badge.svg" alt="Coverage">
   </a>
-  <a href="https://www.python.org/downloads/release/python-380/">
-    <img src="https://img.shields.io/badge/python-3.8%2B-blue.svg" alt="Python 3.8+">
+  <a href="https://www.python.org/downloads/release/python-3110/">
+    <img src="https://img.shields.io/badge/python-3.11%2B-blue.svg" alt="Python 3.11+">
   </a>
   <a href="https://github.com/charliermarsh/ruff">
     <img src="https://img.shields.io/badge/linting-ruff-%23f7ca18" alt="Ruff Linting">
