@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.9, 3.10, 3.11]
+        python-version: ["3.9", "3.10", "3.11"]
 
     steps:
     - uses: actions/checkout@v4
@@ -51,7 +51,7 @@ jobs:
         import sys
         sys.path.append('src')
         from main import ClauseMateAnalyzer
-        
+
         # Test Chapter 2 (main file)
         analyzer = ClauseMateAnalyzer(enable_adaptive_parsing=True)
         try:
@@ -70,7 +70,7 @@ jobs:
         import sys
         sys.path.append('src')
         from multi_file.multi_file_batch_processor import MultiFileBatchProcessor
-        
+
         try:
             processor = MultiFileBatchProcessor()
             result = processor.process_directory('data/input/gotofiles')
@@ -110,7 +110,7 @@ jobs:
         python -c "
         import sys
         sys.path.append('src')
-        
+
         # Test the complete pipeline
         try:
             # 1. Single file analysis
@@ -118,23 +118,23 @@ jobs:
             analyzer = ClauseMateAnalyzer(enable_adaptive_parsing=True)
             relationships = analyzer.analyze_file('data/input/gotofiles/2.tsv')
             print(f'✅ Single file: {len(relationships)} relationships')
-            
+
             # 2. Multi-file processing
             from multi_file.multi_file_batch_processor import MultiFileBatchProcessor
             processor = MultiFileBatchProcessor()
             result = processor.process_directory('data/input/gotofiles')
             print(f'✅ Multi-file: {len(result.unified_relationships)} relationships')
-            
+
             # 3. Cross-chapter analysis
             print(f'✅ Cross-chapter: {len(result.cross_chapter_chains)} chains')
-            
+
             # 4. Verify data quality
             sample_rel = result.unified_relationships[0] if result.unified_relationships else None
             if sample_rel:
                 print(f'✅ Sample relationship: {sample_rel.pronoun.text} -> {sample_rel.clause_mate.text}')
-            
+
             print('🎉 All tests passed successfully!')
-            
+
         except Exception as e:
             print(f'❌ System test failed: {e}')
             import traceback
@@ -175,17 +175,17 @@ jobs:
         import sys
         sys.path.append('src')
         from multi_file.multi_file_batch_processor import MultiFileBatchProcessor
-        
+
         # Generate reproducible output
         processor = MultiFileBatchProcessor()
         result = processor.process_directory('data/input/gotofiles')
-        
+
         # Save key metrics for comparison
         with open('baseline_metrics.txt', 'w') as f:
             f.write(f'total_relationships={len(result.unified_relationships)}\n')
             f.write(f'cross_chapter_chains={len(result.cross_chapter_chains)}\n')
             f.write(f'chapters_processed={len(result.chapter_info)}\n')
-        
+
         print('✅ Baseline metrics saved')
         "
 
@@ -239,38 +239,38 @@ jobs:
         import psutil
         import os
         sys.path.append('src')
-        
+
         # Memory and time tracking
         process = psutil.Process(os.getpid())
         start_memory = process.memory_info().rss / 1024 / 1024  # MB
         start_time = time.time()
-        
+
         try:
             from multi_file.multi_file_batch_processor import MultiFileBatchProcessor
             processor = MultiFileBatchProcessor()
             result = processor.process_directory('data/input/gotofiles')
-            
+
             end_time = time.time()
             end_memory = process.memory_info().rss / 1024 / 1024  # MB
-            
+
             processing_time = end_time - start_time
             memory_used = end_memory - start_memory
             relationships_per_second = len(result.unified_relationships) / processing_time if processing_time > 0 else 0
-            
+
             print(f'⏱️  Processing time: {processing_time:.2f} seconds')
             print(f'💾 Memory used: {memory_used:.2f} MB')
             print(f'🚀 Relationships/second: {relationships_per_second:.1f}')
             print(f'📊 Total relationships: {len(result.unified_relationships)}')
             print(f'🔗 Cross-chapter chains: {len(result.cross_chapter_chains)}')
-            
+
             # Performance thresholds
             if processing_time > 60:  # 1 minute threshold
                 print('⚠️  Warning: Processing time exceeds 60 seconds')
             if memory_used > 500:  # 500MB threshold
                 print('⚠️  Warning: Memory usage exceeds 500MB')
-            
+
             print('✅ Performance benchmark completed')
-            
+
         except Exception as e:
             print(f'❌ Performance benchmark failed: {e}')
             sys.exit(1)
