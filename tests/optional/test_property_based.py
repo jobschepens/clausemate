@@ -1,16 +1,17 @@
 """Property-based tests for data validation and edge cases using Hypothesis."""
 
-import string
-
 import pytest
 
-# Skip entire module if hypothesis is not available
+# Check for hypothesis availability before any other imports
 try:
-    from hypothesis import HealthCheck, assume, given, settings
-    from hypothesis import strategies as st
-    from hypothesis.strategies import composite
+    import hypothesis
 except ImportError:
     pytest.skip("hypothesis not available", allow_module_level=True)
+
+import string
+from hypothesis import HealthCheck, assume, given, settings
+from hypothesis import strategies as st
+from hypothesis.strategies import composite
 
 from src.data.models import AnimacyType, Phrase, SentenceContext, Token
 

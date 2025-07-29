@@ -1,18 +1,20 @@
 """Tests for the benchmark module."""
 
+import pytest
+
+# Check for psutil availability before any other imports
+try:
+    import psutil
+except ImportError:
+    pytest.skip("psutil not available", allow_module_level=True)
+
 import sys
 from pathlib import Path
-
-import pytest
 
 # Add the src directory to the Python path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-# Skip entire module if benchmark dependencies are not available
-try:
-    from src import benchmark
-except ImportError:
-    pytest.skip("benchmark dependencies not available", allow_module_level=True)
+from src import benchmark
 
 
 class TestBenchmark:
