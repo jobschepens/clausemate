@@ -8,6 +8,15 @@ from typing import Any, Dict, Optional
 
 import pandas as pd
 
+# Version constants
+VERSION = "1.0.0"
+__version__ = VERSION
+
+
+def get_version() -> str:
+    """Get the current version string."""
+    return VERSION
+
 
 class DataVersionManager:
     """Manage data versions and provenance."""

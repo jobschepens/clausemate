@@ -234,19 +234,22 @@ class TSVParser(BaseParser):
             inanimate_coreference_type = None
 
             if (
-                len(parts) > self.columns.COREFERENCE_LINK
+                self.columns.COREFERENCE_LINK is not None
+                and len(parts) > self.columns.COREFERENCE_LINK
                 and parts[self.columns.COREFERENCE_LINK] != "_"
             ):
                 coreference_link = parts[self.columns.COREFERENCE_LINK]
 
             if (
-                len(parts) > self.columns.COREFERENCE_TYPE
+                self.columns.COREFERENCE_TYPE is not None
+                and len(parts) > self.columns.COREFERENCE_TYPE
                 and parts[self.columns.COREFERENCE_TYPE] != "_"
             ):
                 coreference_type = parts[self.columns.COREFERENCE_TYPE]
 
             if (
-                len(parts) > self.columns.INANIMATE_COREFERENCE_LINK
+                self.columns.INANIMATE_COREFERENCE_LINK is not None
+                and len(parts) > self.columns.INANIMATE_COREFERENCE_LINK
                 and parts[self.columns.INANIMATE_COREFERENCE_LINK] != "_"
             ):
                 inanimate_coreference_link = parts[
@@ -254,7 +257,8 @@ class TSVParser(BaseParser):
                 ]
 
             if (
-                len(parts) > self.columns.INANIMATE_COREFERENCE_TYPE
+                self.columns.INANIMATE_COREFERENCE_TYPE is not None
+                and len(parts) > self.columns.INANIMATE_COREFERENCE_TYPE
                 and parts[self.columns.INANIMATE_COREFERENCE_TYPE] != "_"
             ):
                 inanimate_coreference_type = parts[
