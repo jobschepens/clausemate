@@ -32,7 +32,7 @@
 </head>
 <body>
     <div class="container">
-        
+
         <div class="header">
             <h1>Chapter-by-Chapter Analysis Reports</h1>
             <p>Comprehensive analysis of each chapter's coreference patterns</p>
@@ -58,7 +58,7 @@
             </div>
         </div>
 
-        
+
             <div class="chapter-section">
                 <h3>Chapter 1 Analysis</h3>
                 <div class="stats-grid">
@@ -89,7 +89,7 @@
                     </ul>
                 </div>
             </div>
-            
+
             <div class="chapter-section">
                 <h3>Chapter 2 Analysis</h3>
                 <div class="stats-grid">
@@ -120,7 +120,7 @@
                     </ul>
                 </div>
             </div>
-            
+
             <div class="chapter-section">
                 <h3>Chapter 3 Analysis</h3>
                 <div class="stats-grid">
@@ -151,7 +151,7 @@
                     </ul>
                 </div>
             </div>
-            
+
             <div class="chapter-section">
                 <h3>Chapter 4 Analysis</h3>
                 <div class="stats-grid">
@@ -182,16 +182,16 @@
                     </ul>
                 </div>
             </div>
-            
+
 
         <div class="chapter-section">
             <h3>Comparative Analysis</h3>
             <canvas id="comparisonChart" width="800" height="400"></canvas>
         </div>
-        
+
     </div>
     <script>
-        
+
         const chapterData = {"1": {"relationships": 234, "cross_chapter": 3, "unique_pronouns": 11, "unique_clause_mates": 127, "unique_sentences": 39}, "2": {"relationships": 448, "cross_chapter": 13, "unique_pronouns": 16, "unique_clause_mates": 191, "unique_sentences": 101}, "3": {"relationships": 527, "cross_chapter": 29, "unique_pronouns": 14, "unique_clause_mates": 164, "unique_sentences": 79}, "4": {"relationships": 695, "cross_chapter": 16, "unique_pronouns": 15, "unique_clause_mates": 189, "unique_sentences": 95}};
 
         // Simple bar chart using canvas
@@ -230,7 +230,7 @@
         ctx.font = 'bold 16px Arial';
         ctx.textAlign = 'center';
         ctx.fillText('Relationships per Chapter', canvas.width/2, 30);
-        
+
     </script>
 </body>
 </html>

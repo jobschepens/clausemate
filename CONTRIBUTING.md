@@ -4,14 +4,17 @@ Thank you for your interest in contributing to the Clause Mates Analyzer project
 
 ## Project Overview
 
-The Clause Mates Analyzer is a research tool for analyzing pronoun-antecedent relationships in German text using WebAnno TSV format data. The project has achieved 100% compatibility across different WebAnno annotation schemes through adaptive parsing technology.
+The Clause Mates Analyzer is a research tool for analyzing pronoun-antecedent relationships in German text using WebAnno TSV format data. The project has achieved unified multi-file processing with cross-chapter coreference resolution and professional deliverable package creation.
 
 ### Current System Capabilities
 - **Adaptive Parsing**: Automatic format detection and parser selection
 - **100% File Compatibility**: Supports 4 different WebAnno TSV format variations (12-38 columns)
+- **Unified Multi-File Processing**: Process all 4 chapters as single comprehensive dataset
+- **Cross-Chapter Coreference Resolution**: Resolve coreference chains spanning multiple files
+- **Professional Deliverable Package**: Complete HTML report with interactive visualizations
 - **Preamble-based Column Mapping**: Dynamic schema detection from WebAnno metadata
 - **Comprehensive Testing**: 6/6 tests passing with full coverage
-- **Timestamped Output**: Automatic organization of analysis results
+- **Collaboration Ready**: Professional packages ready for delivery to collaborators
 
 ## Development Setup
 

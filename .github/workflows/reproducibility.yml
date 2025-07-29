@@ -110,7 +110,7 @@ jobs:
       run: |
         echo "=== Comprehensive System Test with Coverage ==="
         pytest --cov=src --cov-report=xml --cov-report=term-missing -v || echo "No pytest tests found, running manual coverage test"
-        
+
         # Manual coverage test if pytest fails
         python -m coverage run --source=src -m pytest -v || python -m coverage run --source=src -c "
         import sys
@@ -146,7 +146,7 @@ jobs:
             traceback.print_exc()
             sys.exit(1)
         "
-        
+
         # Generate coverage report
         python -m coverage xml || echo "Coverage XML generation failed"
         python -m coverage report || echo "Coverage report generation failed"

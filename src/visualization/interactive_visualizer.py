@@ -138,7 +138,9 @@ class InteractiveVisualizer:
                         "label": f"Chain {chain_id.replace('unified_chain_', '')}",
                         "group": "chain",
                         "color": "#FFA500",
-                        "size": max(10, min(20, len(entities) * 2)),  # Size based on entity count
+                        "size": max(
+                            10, min(20, len(entities) * 2)
+                        ),  # Size based on entity count
                         "font": {"size": 12},
                         "title": f"Chain {chain_id}: {len(entities)} entities",
                     }

@@ -1,140 +1,153 @@
 #!/usr/bin/env python3
-"""
-Improved Cross-Chapter Coreference Network Visualization
+"""Improved Cross-Chapter Coreference Network Visualization.
 
 This script analyzes the unified relationships data to create a more meaningful
 cross-chapter network that shows actual relationships between chapters based on
 coreference chains that span multiple chapters.
 """
 
-import json
 import csv
+import json
 import os
-from collections import defaultdict, Counter
+from collections import defaultdict
 from datetime import datetime
 
+
 def analyze_cross_chapter_relationships(relationships_file, cross_chapter_chains_file):
-    """
-    Analyze the relationships data to extract meaningful cross-chapter connections.
-    """
+    """Analyze the relationships data to extract meaningful cross-chapter connections."""
     print("🔍 Analyzing cross-chapter relationships...")
-    
+
     # Load cross-chapter chains
-    with open(cross_chapter_chains_file, 'r', encoding='utf-8') as f:
+    with open(cross_chapter_chains_file, encoding="utf-8") as f:
         cross_chapter_chains = json.load(f)
-    
+
     # Data structures to track relationships
-    chapter_connections = defaultdict(lambda: defaultdict(int))  # chapter_a -> chapter_b -> count
+    chapter_connections = defaultdict(
+        lambda: defaultdict(int)
+    )  # chapter_a -> chapter_b -> count
     chain_chapter_mapping = defaultdict(set)  # chain_id -> set of chapters
     chapter_entities = defaultdict(set)  # chapter -> set of entities
-    
+
     # Read relationships CSV
     print("📖 Reading relationships data...")
-    with open(relationships_file, 'r', encoding='utf-8') as f:
+    with open(relationships_file, encoding="utf-8") as f:
         reader = csv.DictReader(f)
-        
+
         for row in reader:
-            chapter_num = int(row['chapter_number'])
-            coref_id = row.get('pronoun_coref_ids', '').strip("[]'\"")
-            
-            if coref_id and coref_id != '*':
+            chapter_num = int(row["chapter_number"])
+            coref_id = row.get("pronoun_coref_ids", "").strip("[]'\"")
+
+            if coref_id and coref_id != "*":
                 # Extract base coref ID (remove occurrence numbers)
-                base_coref_id = coref_id.split('-')[0] if '-' in coref_id else coref_id
-                
+                base_coref_id = coref_id.split("-")[0] if "-" in coref_id else coref_id
+
                 # Track which chapters this coreference chain appears in
                 chain_chapter_mapping[base_coref_id].add(chapter_num)
-                
+
                 # Track entities per chapter
-                pronoun_text = row.get('pronoun_text', '')
+                pronoun_text = row.get("pronoun_text", "")
                 if pronoun_text:
                     chapter_entities[chapter_num].add(pronoun_text)
-    
+
     print(f"📊 Found {len(chain_chapter_mapping)} coreference chains")
-    
+
     # Identify truly cross-chapter chains
     true_cross_chapter_chains = {}
     for chain_id, chapters in chain_chapter_mapping.items():
         if len(chapters) > 1:  # Appears in multiple chapters
-            true_cross_chapter_chains[chain_id] = sorted(list(chapters))
-            
+            true_cross_chapter_chains[chain_id] = sorted(chapters)
+
             # Count connections between chapters
-            chapters_list = sorted(list(chapters))
+            chapters_list = sorted(chapters)
             for i, ch1 in enumerate(chapters_list):
-                for ch2 in chapters_list[i+1:]:
+                for ch2 in chapters_list[i + 1 :]:
                     chapter_connections[ch1][ch2] += 1
                     chapter_connections[ch2][ch1] += 1  # Bidirectional
-    
+
     print(f"✅ Found {len(true_cross_chapter_chains)} true cross-chapter chains")
-    
+
     # Create chapter statistics
     chapter_stats = {}
     for chapter in range(1, 5):  # Assuming 4 chapters
         chapter_stats[chapter] = {
-            'total_entities': len(chapter_entities[chapter]),
-            'cross_chapter_chains': sum(1 for chains in true_cross_chapter_chains.values() if chapter in chains),
-            'connections': dict(chapter_connections[chapter])
+            "total_entities": len(chapter_entities[chapter]),
+            "cross_chapter_chains": sum(
+                1 for chains in true_cross_chapter_chains.values() if chapter in chains
+            ),
+            "connections": dict(chapter_connections[chapter]),
         }
-    
+
     return {
-        'true_cross_chapter_chains': true_cross_chapter_chains,
-        'chapter_connections': dict(chapter_connections),
-        'chapter_stats': chapter_stats,
-        'total_cross_chapter_chains': len(true_cross_chapter_chains)
+        "true_cross_chapter_chains": true_cross_chapter_chains,
+        "chapter_connections": dict(chapter_connections),
+        "chapter_stats": chapter_stats,
+        "total_cross_chapter_chains": len(true_cross_chapter_chains),
     }
 
+
 def create_improved_visualization(analysis_data, cross_chapter_chains, output_file):
-    """
-    Create an improved HTML visualization showing actual cross-chapter relationships.
-    """
+    """Create an improved HTML visualization showing actual cross-chapter relationships."""
     print("🎨 Creating improved visualization...")
-    
+
     # Calculate connection strengths for edge weights
     max_connections = 0
-    for ch1_connections in analysis_data['chapter_connections'].values():
+    for ch1_connections in analysis_data["chapter_connections"].values():
         for count in ch1_connections.values():
             max_connections = max(max_connections, count)
-    
+
     # Create nodes (chapters)
     chapter_colors = {
         1: "#FF6B6B",  # Red
-        2: "#4ECDC4",  # Teal  
+        2: "#4ECDC4",  # Teal
         3: "#45B7D1",  # Blue
-        4: "#96CEB4"   # Green
+        4: "#96CEB4",  # Green
     }
-    
+
     nodes = []
     for chapter in range(1, 5):
-        stats = analysis_data['chapter_stats'][chapter]
-        nodes.append({
-            "id": f"chapter_{chapter}",
-            "label": f"Chapter {chapter}",
-            "group": "chapter",
-            "color": chapter_colors[chapter],
-            "size": 30 + stats['cross_chapter_chains'] * 2,  # Size based on cross-chapter involvement
-            "font": {"size": 16, "color": "white"},
-            "title": f"Chapter {chapter}<br/>Cross-chapter chains: {stats['cross_chapter_chains']}<br/>Total entities: {stats['total_entities']}"
-        })
-    
+        stats = analysis_data["chapter_stats"][chapter]
+        nodes.append(
+            {
+                "id": f"chapter_{chapter}",
+                "label": f"Chapter {chapter}",
+                "group": "chapter",
+                "color": chapter_colors[chapter],
+                "size": 30
+                + stats["cross_chapter_chains"]
+                * 2,  # Size based on cross-chapter involvement
+                "font": {"size": 16, "color": "white"},
+                "title": f"Chapter {chapter}<br/>Cross-chapter chains: {stats['cross_chapter_chains']}<br/>Total entities: {stats['total_entities']}",
+            }
+        )
+
     # Create edges (connections between chapters)
     edges = []
     edge_id = 0
-    for ch1, connections in analysis_data['chapter_connections'].items():
+    for ch1, connections in analysis_data["chapter_connections"].items():
         for ch2, count in connections.items():
             if ch1 < ch2:  # Avoid duplicate edges
                 # Calculate edge weight (thickness) based on connection strength
-                weight = max(1, min(10, (count / max_connections) * 10)) if max_connections > 0 else 1
-                
-                edges.append({
-                    "id": edge_id,
-                    "from": f"chapter_{ch1}",
-                    "to": f"chapter_{ch2}",
-                    "width": weight,
-                    "color": {"color": "#666666", "opacity": 0.7},
-                    "title": f"{count} shared coreference chains",
-                    "label": str(count) if count > 5 else ""  # Show label for strong connections
-                })
+                weight = (
+                    max(1, min(10, (count / max_connections) * 10))
+                    if max_connections > 0
+                    else 1
+                )
+
+                edges.append(
+                    {
+                        "id": edge_id,
+                        "from": f"chapter_{ch1}",
+                        "to": f"chapter_{ch2}",
+                        "width": weight,
+                        "color": {"color": "#666666", "opacity": 0.7},
+                        "title": f"{count} shared coreference chains",
+                        "label": str(count)
+                        if count > 5
+                        else "",  # Show label for strong connections
+                    }
+                )
                 edge_id += 1
-    
+
     # Create the HTML content
     html_content = f"""
 <!DOCTYPE html>
@@ -171,7 +184,7 @@ def create_improved_visualization(analysis_data, cross_chapter_chains, output_fi
         <div class="header">
             <h1>Improved Cross-Chapter Coreference Network</h1>
             <p>Interactive visualization showing actual coreference relationships between chapters</p>
-            <p>Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
+            <p>Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</p>
         </div>
 
         <div class="stats-grid">
@@ -180,7 +193,7 @@ def create_improved_visualization(analysis_data, cross_chapter_chains, output_fi
                 <div class="stat-label">Total Chapters</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">{analysis_data['total_cross_chapter_chains']}</div>
+                <div class="stat-value">{analysis_data["total_cross_chapter_chains"]}</div>
                 <div class="stat-label">True Cross-Chapter Chains</div>
             </div>
             <div class="stat-card">
@@ -188,7 +201,7 @@ def create_improved_visualization(analysis_data, cross_chapter_chains, output_fi
                 <div class="stat-label">Chapter Connections</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">{sum(sum(connections.values()) for connections in analysis_data['chapter_connections'].values()) // 2}</div>
+                <div class="stat-value">{sum(sum(connections.values()) for connections in analysis_data["chapter_connections"].values()) // 2}</div>
                 <div class="stat-label">Total Shared References</div>
             </div>
         </div>
@@ -234,7 +247,7 @@ def create_improved_visualization(analysis_data, cross_chapter_chains, output_fi
                 </thead>
                 <tbody>
 """
-    
+
     # Add connection matrix
     for ch1 in range(1, 5):
         html_content += f"                    <tr><th>Chapter {ch1}</th>"
@@ -242,18 +255,18 @@ def create_improved_visualization(analysis_data, cross_chapter_chains, output_fi
             if ch1 == ch2:
                 html_content += "<td>-</td>"
             else:
-                count = analysis_data['chapter_connections'].get(ch1, {}).get(ch2, 0)
+                count = analysis_data["chapter_connections"].get(ch1, {}).get(ch2, 0)
                 html_content += f"<td>{count}</td>"
         html_content += "</tr>\n"
-    
+
     html_content += f"""
                 </tbody>
             </table>
-            <p><strong>Note:</strong> Numbers represent the count of coreference chains shared between chapters. 
+            <p><strong>Note:</strong> Numbers represent the count of coreference chains shared between chapters.
             Thicker lines in the network indicate stronger connections.</p>
         </div>
     </div>
-    
+
     <script>
         const nodes = new vis.DataSet({json.dumps(nodes)});
         const edges = new vis.DataSet({json.dumps(edges)});
@@ -317,8 +330,8 @@ def create_improved_visualization(analysis_data, cross_chapter_chains, output_fi
             if (params.nodes.length > 0) {{
                 const nodeId = params.nodes[0];
                 const chapterNum = nodeId.replace('chapter_', '');
-                const stats = {json.dumps(analysis_data['chapter_stats'])};
-                
+                const stats = {json.dumps(analysis_data["chapter_stats"])};
+
                 alert(`Chapter ${{chapterNum}} Details:\\n` +
                       `Cross-chapter chains: ${{stats[chapterNum].cross_chapter_chains}}\\n` +
                       `Total entities: ${{stats[chapterNum].total_entities}}\\n` +
@@ -329,50 +342,63 @@ def create_improved_visualization(analysis_data, cross_chapter_chains, output_fi
 </body>
 </html>
 """
-    
+
     # Write the HTML file
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
-    with open(output_file, 'w', encoding='utf-8') as f:
+    with open(output_file, "w", encoding="utf-8") as f:
         f.write(html_content)
-    
+
     print(f"✅ Improved visualization saved to: {output_file}")
+
 
 def main():
     """Main function to create improved cross-chapter visualization."""
-    
     # File paths
-    relationships_file = "data/output/unified_analysis_20250729_123353/unified_relationships.csv"
-    cross_chapter_chains_file = "data/output/unified_analysis_20250729_123353/cross_chapter_chains.json"
+    relationships_file = (
+        "data/output/unified_analysis_20250729_123353/unified_relationships.csv"
+    )
+    cross_chapter_chains_file = (
+        "data/output/unified_analysis_20250729_123353/cross_chapter_chains.json"
+    )
     output_file = "data/output/test_visualization/improved_cross_chapter_network.html"
-    
+
     print("🚀 Creating improved cross-chapter coreference network visualization...")
-    
+
     # Check if files exist
     if not os.path.exists(relationships_file):
         print(f"❌ Relationships file not found: {relationships_file}")
         return
-    
+
     if not os.path.exists(cross_chapter_chains_file):
         print(f"❌ Cross-chapter chains file not found: {cross_chapter_chains_file}")
         return
-    
+
     # Load cross-chapter chains
-    with open(cross_chapter_chains_file, 'r', encoding='utf-8') as f:
+    with open(cross_chapter_chains_file, encoding="utf-8") as f:
         cross_chapter_chains = json.load(f)
-    
+
     # Analyze relationships
-    analysis_data = analyze_cross_chapter_relationships(relationships_file, cross_chapter_chains_file)
-    
+    analysis_data = analyze_cross_chapter_relationships(
+        relationships_file, cross_chapter_chains_file
+    )
+
     # Create improved visualization
     create_improved_visualization(analysis_data, cross_chapter_chains, output_file)
-    
+
     print("🎉 Improved cross-chapter network visualization completed successfully!")
-    print(f"📊 Analysis Summary:")
-    print(f"   - True cross-chapter chains: {analysis_data['total_cross_chapter_chains']}")
-    print(f"   - Chapter connections: {len([1 for ch_conn in analysis_data['chapter_connections'].values() for _ in ch_conn])}")
-    
-    for chapter, stats in analysis_data['chapter_stats'].items():
-        print(f"   - Chapter {chapter}: {stats['cross_chapter_chains']} cross-chapter chains, {len(stats['connections'])} connections")
+    print("📊 Analysis Summary:")
+    print(
+        f"   - True cross-chapter chains: {analysis_data['total_cross_chapter_chains']}"
+    )
+    print(
+        f"   - Chapter connections: {len([1 for ch_conn in analysis_data['chapter_connections'].values() for _ in ch_conn])}"
+    )
+
+    for chapter, stats in analysis_data["chapter_stats"].items():
+        print(
+            f"   - Chapter {chapter}: {stats['cross_chapter_chains']} cross-chapter chains, {len(stats['connections'])} connections"
+        )
+
 
 if __name__ == "__main__":
     main()
