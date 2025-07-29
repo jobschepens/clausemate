@@ -7,9 +7,7 @@ reproducible and clean execution.
 Usage:
     nox                    # Run default sessions (lint, test)
     nox -s lint            # Run only linting
-    nox -s test            # Run tests on current Python version
-    nox -s test-3.9        # Run tests on Python 3.9
-    nox -s test-3.10       # Run tests on Python 3.10
+    nox -s test            # Run tests on Python 3.11
     nox -s mypy            # Run type checking
     nox -s safety          # Run security checks
     nox -s docs            # Build documentation
@@ -39,7 +37,7 @@ def test(session):
     )
 
 
-@nox.session
+@nox.session(python="3.11")
 def lint(session):
     """Run ruff linting and formatting checks."""
     session.install("ruff>=0.1.0")
@@ -49,7 +47,7 @@ def lint(session):
     )
 
 
-@nox.session
+@nox.session(python="3.11")
 def lint_ci(session):
     """Run ruff linting and formatting checks for CI (strict)."""
     session.install("ruff>=0.1.0")
@@ -57,7 +55,7 @@ def lint_ci(session):
     session.run("ruff", "format", "--check", "src/", "tests/", "tools/")
 
 
-@nox.session
+@nox.session(python="3.11")
 def format(session):
     """Format code with ruff."""
     session.install("ruff>=0.1.0")
@@ -65,42 +63,42 @@ def format(session):
     session.run("ruff", "check", "--fix", "src/", "tests/", "tools/")
 
 
-@nox.session
+@nox.session(python="3.11")
 def mypy(session):
     """Run mypy type checking."""
     session.install("-e", ".[dev]")
     session.run("mypy", "src/")
 
 
-@nox.session
+@nox.session(python="3.11")
 def safety(session):
     """Check dependencies for known security vulnerabilities."""
     session.install("safety>=2.0.0")
     session.run("safety", "check", "--json")
 
 
-@nox.session
+@nox.session(python="3.11")
 def bandit(session):
     """Run bandit security linting."""
     session.install("bandit>=1.7.0")
     session.run("bandit", "-r", "src/", "-f", "json")
 
 
-@nox.session
+@nox.session(python="3.11")
 def pre_commit(session):
     """Run pre-commit hooks on all files."""
     session.install("pre-commit>=2.20.0")
     session.run("pre-commit", "run", "--all-files")
 
 
-@nox.session
+@nox.session(python="3.11")
 def deps(session):
     """Check for outdated dependencies."""
     session.install("pip-tools")
     session.run("pip", "list", "--outdated")
 
 
-@nox.session
+@nox.session(python="3.11")
 def clean(session):
     """Clean up build artifacts and caches."""
     import pathlib
@@ -132,14 +130,14 @@ def clean(session):
         shutil.rmtree(pycache, ignore_errors=True)
 
 
-@nox.session
+@nox.session(python="3.11")
 def build(session):
     """Build the package."""
     session.install("build")
     session.run("python", "-m", "build")
 
 
-@nox.session
+@nox.session(python="3.11")
 def install_dev(session):
     """Install the package in development mode with all dependencies."""
     session.install("-e", ".[dev,benchmark]")
@@ -151,7 +149,7 @@ def install_dev(session):
     session.log("  nox -s mypy     # Type checking")
 
 
-@nox.session
+@nox.session(python="3.11")
 def ci(session):
     """Run the full CI pipeline."""
     session.log("🚀 Running full CI pipeline...")

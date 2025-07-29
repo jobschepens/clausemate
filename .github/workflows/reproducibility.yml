@@ -34,9 +34,10 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        # Try to install requirements, fallback to compatible versions if needed
-        pip install -r requirements.txt || pip install "pandas>=2.0.0,<2.4.0" "numpy>=1.24.0,<2.4.0"
+        pip install -r requirements.txt
         pip install pytest pytest-cov coverage codecov
+        # Install the package in development mode to fix import issues
+        pip install -e .
 
     - name: Verify project structure
       run: |
@@ -50,9 +51,7 @@ jobs:
       run: |
         echo "=== Testing Single Chapter Analysis ==="
         python -c "
-        import sys
-        sys.path.append('src')
-        from main import ClauseMateAnalyzer
+        from src.main import ClauseMateAnalyzer
 
         # Test Chapter 2 (main file)
         analyzer = ClauseMateAnalyzer(enable_adaptive_parsing=True)
@@ -62,6 +61,8 @@ jobs:
             assert len(relationships) > 0, 'No relationships found in Chapter 2'
         except Exception as e:
             print(f'❌ Chapter 2 failed: {e}')
+            import traceback
+            traceback.print_exc()
             sys.exit(1)
         "
 
@@ -69,19 +70,19 @@ jobs:
       run: |
         echo "=== Testing Multi-File Analysis ==="
         python -c "
-        import sys
-        sys.path.append('src')
-        from multi_file.multi_file_batch_processor import MultiFileBatchProcessor
+        from src.multi_file.multi_file_batch_processor import MultiFileBatchProcessor
 
         try:
             processor = MultiFileBatchProcessor()
-            result = processor.process_directory('data/input/gotofiles')
+            result = processor.process_files('data/input/gotofiles')
             print(f'✅ Multi-file analysis: {len(result.unified_relationships)} total relationships')
             print(f'✅ Cross-chapter chains: {len(result.cross_chapter_chains)} chains identified')
             assert len(result.unified_relationships) > 0, 'No unified relationships found'
             assert len(result.cross_chapter_chains) > 0, 'No cross-chapter chains found'
         except Exception as e:
             print(f'❌ Multi-file analysis failed: {e}')
+            import traceback
+            traceback.print_exc()
             sys.exit(1)
         "
 
@@ -113,21 +114,18 @@ jobs:
 
         # Manual coverage test if pytest fails
         python -m coverage run --source=src -m pytest -v || python -m coverage run --source=src -c "
-        import sys
-        sys.path.append('src')
-
         # Test the complete pipeline
         try:
             # 1. Single file analysis
-            from main import ClauseMateAnalyzer
+            from src.main import ClauseMateAnalyzer
             analyzer = ClauseMateAnalyzer(enable_adaptive_parsing=True)
             relationships = analyzer.analyze_file('data/input/gotofiles/2.tsv')
             print(f'✅ Single file: {len(relationships)} relationships')
 
             # 2. Multi-file processing
-            from multi_file.multi_file_batch_processor import MultiFileBatchProcessor
+            from src.multi_file.multi_file_batch_processor import MultiFileBatchProcessor
             processor = MultiFileBatchProcessor()
-            result = processor.process_directory('data/input/gotofiles')
+            result = processor.process_files('data/input/gotofiles')
             print(f'✅ Multi-file: {len(result.unified_relationships)} relationships')
 
             # 3. Cross-chapter analysis
@@ -185,18 +183,17 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+        pip install -e .
 
     - name: Generate baseline outputs
       run: |
         echo "=== Generating Baseline Outputs ==="
         python -c "
-        import sys
-        sys.path.append('src')
-        from multi_file.multi_file_batch_processor import MultiFileBatchProcessor
+        from src.multi_file.multi_file_batch_processor import MultiFileBatchProcessor
 
         # Generate reproducible output
         processor = MultiFileBatchProcessor()
-        result = processor.process_directory('data/input/gotofiles')
+        result = processor.process_files('data/input/gotofiles')
 
         # Save key metrics for comparison
         with open('baseline_metrics.txt', 'w') as f:
@@ -248,6 +245,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install memory-profiler
+        pip install -e .
 
     - name: Performance benchmark
       run: |
@@ -257,7 +255,6 @@ jobs:
         import time
         import psutil
         import os
-        sys.path.append('src')
 
         # Memory and time tracking
         process = psutil.Process(os.getpid())
@@ -265,9 +262,9 @@ jobs:
         start_time = time.time()
 
         try:
-            from multi_file.multi_file_batch_processor import MultiFileBatchProcessor
+            from src.multi_file.multi_file_batch_processor import MultiFileBatchProcessor
             processor = MultiFileBatchProcessor()
-            result = processor.process_directory('data/input/gotofiles')
+            result = processor.process_files('data/input/gotofiles')
 
             end_time = time.time()
             end_memory = process.memory_info().rss / 1024 / 1024  # MB
@@ -292,5 +289,7 @@ jobs:
 
         except Exception as e:
             print(f'❌ Performance benchmark failed: {e}')
+            import traceback
+            traceback.print_exc()
             sys.exit(1)
         "
