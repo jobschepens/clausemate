@@ -30,11 +30,8 @@ venv/
 ENV/
 
 # Data outputs (generated files - don't track results)
-data/output/*.csv
-data/output/*.log
-data/output/log/
-data/output/*.json
-data/output/*.html
+data/output/
+!data/output/.gitkeep
 
 # Archive outputs (preserve but don't track changes)
 archive/*/output/
@@ -64,6 +61,10 @@ output.txt
 *.temp
 
 # Data files (keep structure but ignore large files)
+data/input/
+!data/input/FORMAT_OVERVIEW.md
+!data/input/*_DOCUMENTATION.md
+!data/input/**/*_DOCUMENTATION.md
 *.tsv
 !tests/fixtures/*.tsv
 *.csv

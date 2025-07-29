@@ -1,0 +1,3 @@
+# This file keeps the data/input directory in git
+# Actual data files (.tsv) are ignored by .gitignore for privacy
+# Only documentation files are tracked
