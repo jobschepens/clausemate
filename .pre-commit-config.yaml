@@ -21,3 +21,10 @@ repos:
       # Run the formatter
       - id: ruff-format
         exclude: ^archive/
+
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.45.0  # Use the latest release
+    hooks:
+      - id: markdownlint
+        args: [--fix]
+        files: \.(md|markdown)$

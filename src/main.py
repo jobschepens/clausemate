@@ -284,7 +284,7 @@ class ClauseMateAnalyzer:
             output_path: Original output path
 
         Returns:
-            Modified output path with timestamped directory
+            Modified output path with timestamped directory, or original path if it's a simple filename
         """
         from datetime import datetime
         from pathlib import Path
@@ -298,10 +298,15 @@ class ClauseMateAnalyzer:
             # Already has timestamp, return as-is
             return output_path
 
+        # If it's a simple filename (no directory components), respect it for reproducibility tests
+        if len(output_path_obj.parts) == 1 and not output_path_obj.is_absolute():
+            self.logger.info(f"Using simple filename for output: {output_path}")
+            return output_path
+
         # Generate timestamp
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-        # Always create timestamped directory under data/output/
+        # Create timestamped directory under data/output/
         data_output_dir = Path("data/output")
         timestamped_dir = data_output_dir / timestamp
 

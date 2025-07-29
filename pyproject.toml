@@ -199,3 +199,25 @@ exclude_lines = [
     "class .*\\bProtocol\\):",
     "@(abc\\.)?abstractmethod",
 ]
+
+[tool.markdownlint]
+default = true
+no-hard-tabs = false
+whitespace = false
+MD033 = false
+MD034 = false
+MD022 = false
+MD031 = false
+MD032 = false
+MD040 = false
+MD050 = false
+MD013 = false
+
+# [tool.markdownlint.MD013]
+# line_length = 500
+
+[tool.markdownlint.MD003]
+style = "atx"
+
+[tool.markdownlint.MD007]
+indent = 4
