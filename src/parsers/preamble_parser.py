@@ -5,17 +5,17 @@ This enables handling different TSV formats with varying column arrangements.
 """
 
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 
 @dataclass
 class AnnotationSchema:
     """Represents a parsed WebAnno annotation schema."""
 
-    span_annotations: List[Dict[str, Any]]
-    chain_annotations: List[Dict[str, Any]]
-    relation_annotations: List[Dict[str, Any]]
-    column_mapping: Dict[str, int]
+    span_annotations: list[dict[str, Any]]
+    chain_annotations: list[dict[str, Any]]
+    relation_annotations: list[dict[str, Any]]
+    column_mapping: dict[str, int]
     total_columns: int
 
 
@@ -23,6 +23,7 @@ class PreambleParser:
     """Parser for WebAnno TSV preambles to extract annotation schema and column mapping."""
 
     def __init__(self):
+        """Initialize the preamble parser."""
         self.reset()
 
     def reset(self):
@@ -31,7 +32,7 @@ class PreambleParser:
         self.column_mapping = {}
         self.total_columns = 0
 
-    def parse_preamble_lines(self, preamble_lines: List[str]) -> AnnotationSchema:
+    def parse_preamble_lines(self, preamble_lines: list[str]) -> AnnotationSchema:
         """Parse preamble lines to extract annotation schema and calculate column positions.
 
         Args:
@@ -86,7 +87,7 @@ class PreambleParser:
 
         return self.schema
 
-    def _calculate_column_positions(self, schema: Dict) -> Tuple[Dict[str, int], int]:
+    def _calculate_column_positions(self, schema: dict) -> tuple[dict[str, int], int]:
         """Calculate column positions based on annotation schema.
 
         WebAnno TSV format:
@@ -161,7 +162,7 @@ class PreambleParser:
 
         return column_mapping, current_column - 1
 
-    def get_coreference_columns(self) -> Dict[str, int]:
+    def get_coreference_columns(self) -> dict[str, int]:
         """Get column positions for coreference-related annotations.
 
         Returns:
@@ -177,7 +178,7 @@ class PreambleParser:
 
         return coref_columns
 
-    def get_morphological_columns(self) -> Dict[str, int]:
+    def get_morphological_columns(self) -> dict[str, int]:
         """Get column positions for morphological feature annotations.
 
         Returns:
@@ -193,7 +194,7 @@ class PreambleParser:
 
         return morph_columns
 
-    def get_pronoun_type_column(self) -> Optional[int]:
+    def get_pronoun_type_column(self) -> int | None:
         """Get the column position for pronoun type information.
 
         Returns:
@@ -209,7 +210,7 @@ class PreambleParser:
 
         return None
 
-    def get_coreference_link_column(self) -> Optional[int]:
+    def get_coreference_link_column(self) -> int | None:
         """Get the column position for coreference link information.
 
         Returns:
@@ -225,7 +226,7 @@ class PreambleParser:
 
         return None
 
-    def get_coreference_type_column(self) -> Optional[int]:
+    def get_coreference_type_column(self) -> int | None:
         """Get the column position for coreference type information.
 
         Returns:
@@ -241,8 +242,40 @@ class PreambleParser:
 
         return None
 
+    def get_grammatical_role_column(self) -> int | None:
+        """Get the column position for grammatical role information.
 
-def extract_preamble_from_file(file_path: str) -> List[str]:
+        Returns:
+            Column number for GrammatischeRolle|grammatischeRolle, or None if not found
+        """
+        if not self.schema:
+            return None
+
+        # Look for GrammatischeRolle|grammatischeRolle
+        for annotation, column in self.schema.column_mapping.items():
+            if "GrammatischeRolle" in annotation and "grammatischeRolle" in annotation:
+                return column
+
+        return None
+
+    def get_thematic_role_column(self) -> int | None:
+        """Get the column position for thematic role information.
+
+        Returns:
+            Column number for GrammatischeRolle|thematischeRolle, or None if not found
+        """
+        if not self.schema:
+            return None
+
+        # Look for GrammatischeRolle|thematischeRolle
+        for annotation, column in self.schema.column_mapping.items():
+            if "GrammatischeRolle" in annotation and "thematischeRolle" in annotation:
+                return column
+
+        return None
+
+
+def extract_preamble_from_file(file_path: str) -> list[str]:
     """Extract preamble lines from a WebAnno TSV file.
 
     Args:
@@ -264,6 +297,6 @@ def extract_preamble_from_file(file_path: str) -> List[str]:
                     # First non-comment, non-empty line - stop reading preamble
                     break
     except Exception as e:
-        raise ValueError(f"Error reading preamble from {file_path}: {e}")
+        raise ValueError(f"Error reading preamble from {file_path}: {e}") from e
 
     return preamble_lines

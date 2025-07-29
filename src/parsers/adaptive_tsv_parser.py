@@ -7,7 +7,8 @@ with the clause mates analysis system.
 
 import csv
 import logging
-from typing import Any, Dict, Iterator, List, Optional
+from collections.abc import Iterator
+from typing import Any
 
 from src.data.models import SentenceContext, Token
 from src.parsers.base import BaseParser, BaseTokenProcessor
@@ -40,16 +41,16 @@ class AdaptiveTSVParser(BaseParser):
         self.processor = processor
         self.format_detector = TSVFormatDetector()
         self.preamble_parser = PreambleParser()
-        self.current_format_info: Optional[TSVFormatInfo] = None
-        self.current_column_mapping: Optional[ColumnMapping] = None
-        self.current_annotation_schema: Optional[AnnotationSchema] = None
+        self.current_format_info: TSVFormatInfo | None = None
+        self.current_column_mapping: ColumnMapping | None = None
+        self.current_annotation_schema: AnnotationSchema | None = None
 
         # Import column mappings from config
         from ..config import TSVColumns
 
         self.default_columns = TSVColumns()
 
-    def parse_file(self, file_path: str) -> Dict[str, List[Token]]:
+    def parse_file(self, file_path: str) -> dict[str, list[Token]]:
         """Parse a TSV file with automatic format detection.
 
         Args:
@@ -91,12 +92,14 @@ class AdaptiveTSVParser(BaseParser):
         try:
             for sentence_context in self.parse_sentence_streaming(file_path):
                 sentences[sentence_context.sentence_id] = sentence_context.tokens
-        except FileNotFoundError:
-            raise FileProcessingError(f"File not found: {file_path}")
-        except PermissionError:
-            raise FileProcessingError(f"Permission denied: {file_path}")
+        except FileNotFoundError as e:
+            raise FileProcessingError(f"File not found: {file_path}") from e
+        except PermissionError as e:
+            raise FileProcessingError(f"Permission denied: {file_path}") from e
         except Exception as e:
-            raise FileProcessingError(f"Error reading file {file_path}: {str(e)}")
+            raise FileProcessingError(
+                f"Error reading file {file_path}: {str(e)}"
+            ) from e
 
         logger.info(f"Successfully parsed {len(sentences)} sentences from {file_path}")
         return sentences
@@ -220,6 +223,30 @@ class AdaptiveTSVParser(BaseParser):
                     mapping.inanimate_coreference_link = column - 1
                 elif "referenceType" in annotation:
                     mapping.inanimate_coreference_type = column - 1
+
+        # Get grammatical and thematic role column positions from preamble parser
+        grammatical_role_col = self.preamble_parser.get_grammatical_role_column()
+        thematic_role_col = self.preamble_parser.get_thematic_role_column()
+
+        if grammatical_role_col is not None:
+            mapping.grammatical_role = grammatical_role_col - 1  # Convert to 0-based
+            logger.info(
+                f"  Grammatical role column: {grammatical_role_col} (index {mapping.grammatical_role})"
+            )
+        else:
+            logger.warning(
+                "Could not find grammatical role column in preamble, using default"
+            )
+
+        if thematic_role_col is not None:
+            mapping.thematic_role = thematic_role_col - 1  # Convert to 0-based
+            logger.info(
+                f"  Thematic role column: {thematic_role_col} (index {mapping.thematic_role})"
+            )
+        else:
+            logger.warning(
+                "Could not find thematic role column in preamble, using default"
+            )
 
         return mapping
 
@@ -379,14 +406,16 @@ class AdaptiveTSVParser(BaseParser):
                         first_words=current_first_words or "",
                     )
 
-        except FileNotFoundError:
-            raise FileProcessingError(f"File not found: {file_path}")
-        except PermissionError:
-            raise FileProcessingError(f"Permission denied: {file_path}")
+        except FileNotFoundError as e:
+            raise FileProcessingError(f"File not found: {file_path}") from e
+        except PermissionError as e:
+            raise FileProcessingError(f"Permission denied: {file_path}") from e
         except Exception as e:
-            if isinstance(e, (ParseError, FileProcessingError)):
+            if isinstance(e, ParseError | FileProcessingError):
                 raise
-            raise FileProcessingError(f"Error processing file {file_path}: {str(e)}")
+            raise FileProcessingError(
+                f"Error processing file {file_path}: {str(e)}"
+            ) from e
 
     def parse_token_line_adaptive(self, line: str, line_num: int) -> Token:
         """Parse a token line with adaptive column handling.
@@ -474,7 +503,7 @@ class AdaptiveTSVParser(BaseParser):
         except (ValueError, IndexError) as e:
             raise ParseError(
                 f"Invalid token line format at line {line_num}: {line}. Error: {str(e)}"
-            )
+            ) from e
 
     def parse_token_line(self, line: str) -> Token:
         """Parse a single TSV line into a Token object (BaseParser interface).
@@ -494,7 +523,7 @@ class AdaptiveTSVParser(BaseParser):
         return self.parse_token_line_adaptive(line, 0)
 
     def _safe_get_column(
-        self, parts: List[str], column_index: int, default: str = ""
+        self, parts: list[str], column_index: int, default: str = ""
     ) -> str:
         """Safely get a column value with fallback to default.
 
@@ -537,7 +566,7 @@ class AdaptiveTSVParser(BaseParser):
         return ""
 
     def _create_sentence_context(
-        self, sentence_id: str, sentence_num: int, tokens: List[Token], first_words: str
+        self, sentence_id: str, sentence_num: int, tokens: list[Token], first_words: str
     ) -> SentenceContext:
         """Create a SentenceContext with enriched tokens."""
         for token in tokens:
@@ -562,7 +591,7 @@ class AdaptiveTSVParser(BaseParser):
         context.tokens = enriched_tokens
         return context
 
-    def get_format_info(self) -> Optional[TSVFormatInfo]:
+    def get_format_info(self) -> TSVFormatInfo | None:
         """Get information about the currently loaded format.
 
         Returns:
@@ -570,7 +599,7 @@ class AdaptiveTSVParser(BaseParser):
         """
         return self.current_format_info
 
-    def get_parsing_statistics(self) -> Dict[str, Any]:
+    def get_parsing_statistics(self) -> dict[str, Any]:
         """Get statistics about the current parsing session.
 
         Returns:
