@@ -5,8 +5,11 @@
   <a href="https://github.com/jobschepens/clausemate/actions">
     <img src="https://github.com/jobschepens/clausemate/actions/workflows/python-app.yml/badge.svg" alt="Build Status">
   </a>
-  <a href="https://codecov.io/gh/jobschepens/clausemate">
+  <!-- <a href="https://codecov.io/gh/jobschepens/clausemate">
     <img src="https://codecov.io/gh/jobschepens/clausemate/branch/main/graph/badge.svg" alt="Coverage">
+  </a> -->
+  <a href="https://codecov.io/gh/jobschepens/clausemate" >
+    <img src="https://codecov.io/gh/jobschepens/clausemate/graph/badge.svg?token=ORFRUUB3HS" alt="Coverage"/>
   </a>
   <a href="https://www.python.org/downloads/release/python-3110/">
     <img src="https://img.shields.io/badge/python-3.11%2B-blue.svg" alt="Python 3.11+">
