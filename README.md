@@ -95,7 +95,22 @@ This tool analyzes German pronouns and their clause mates in annotated linguisti
 │   ├── utils/                      # Format detection and utilities
 │   │   └── format_detector.py          # Automatic format analysis
 │   └── data/                       # Data models and structures
-├── run_multi_file_analysis.py     # Production multi-file processing interface
+├── scripts/                    # Executable scripts and utilities
+│   ├── run_multi_file_analysis.py     # Production multi-file processing interface
+│   ├── enhanced_cross_chapter_analysis.py # Enhanced cross-chapter analysis
+│   ├── generate_advanced_analysis_simple.py # Advanced analysis generator
+│   └── generate_visualizations.py     # Visualization generation
+├── analysis/                   # Analysis scripts and tools
+│   ├── analyze_4tsv_detailed.py       # Detailed TSV format analysis
+│   ├── analyze_column_mapping.py      # Column mapping analysis
+│   └── analyze_preambles.py           # Preamble structure analysis
+├── tests/                      # Comprehensive test suite
+│   ├── test_multi_file_processing.py  # Multi-file processing tests
+│   ├── test_cross_chapter_coreference.py # Cross-chapter tests
+│   └── test_4tsv_processing.py        # TSV format tests
+├── logs/                       # Log files and execution records
+│   ├── multi_file_analysis.log        # Multi-file processing logs
+│   └── visualization_generation.log   # Visualization generation logs
 ├── data/                       # Input and output data
 │   ├── input/                      # Source TSV files with documentation
 │   │   ├── FORMAT_OVERVIEW.md          # Comprehensive format comparison
@@ -106,11 +121,12 @@ This tool analyzes German pronouns and their clause mates in annotated linguisti
 │   │   │       ├── 3.tsv_DOCUMENTATION.md      # Legacy format (14 cols)
 │   │   │       └── 4.tsv_DOCUMENTATION.md      # Incomplete format (12 cols)
 │   │   └── output/                 # Timestamped analysis results
-├── tests/                      # Comprehensive test suite
-├── tools/                      # Analysis and utility scripts
+├── tools/                      # Development and utility tools
 ├── docs/                       # Project documentation
-├── MULTI_FILE_PROCESSING_DOCUMENTATION.md # Multi-file architecture guide
-└── unified_multi_file_processing_plan_updated.md # Implementation plan
+│   ├── MULTI_FILE_PROCESSING_DOCUMENTATION.md # Multi-file architecture guide
+│   ├── unified_multi_file_processing_plan.md # Implementation plan
+│   ├── 4tsv_analysis_specification.md # TSV format specifications
+│   └── cross_chapter_coreference_analysis_spec.md # Cross-chapter analysis spec
 ```
 
 ## Installation
@@ -148,13 +164,13 @@ Process all 4 chapter files as a unified dataset with cross-chapter coreference 
 
 ```bash
 # Unified multi-file processing (all chapters as single dataset)
-python run_multi_file_analysis.py
+python scripts/run_multi_file_analysis.py
 
 # With verbose logging
-python run_multi_file_analysis.py --verbose
+python scripts/run_multi_file_analysis.py --verbose
 
 # Custom output directory
-python run_multi_file_analysis.py --output-dir custom_output
+python scripts/run_multi_file_analysis.py --output-dir custom_output
 ```
 
 **Output**: Single unified file with all 1,904 relationships + 36 cross-chapter chains
@@ -204,13 +220,37 @@ python src/main.py --verbose data/input/gotofiles/later/1.tsv
 
 ```bash
 # Generate comprehensive analysis reports
-python tools/analyze_results.py
+python analysis/analyze_4tsv_detailed.py
 
-# Check file format compatibility
-python tools/check_file_format.py
+# Analyze column mappings and format compatibility
+python analysis/analyze_column_mapping.py
 
-# Compare analysis outputs
-python tools/compare_outputs.py
+# Analyze preamble structures
+python analysis/analyze_preambles.py
+
+# Generate advanced analysis with visualizations
+python scripts/generate_advanced_analysis_simple.py
+
+# Create interactive visualizations
+python scripts/generate_visualizations.py
+```
+
+### Testing
+
+```bash
+# Run all tests
+python -m pytest
+
+# Run specific test categories
+python -m pytest tests/test_4tsv_processing.py
+python -m pytest tests/test_multi_file_processing.py
+python -m pytest tests/test_cross_chapter_coreference.py
+
+# Run with verbose output
+python -m pytest -v
+
+# Run with coverage
+python -m pytest --cov=src
 ```
 
 ## Development
