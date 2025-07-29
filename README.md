@@ -2,17 +2,20 @@
 
 <!-- Badges -->
 <p align="left">
+  <a href="https://pypi.org/project/clausemate/">
+    <img src="https://img.shields.io/pypi/v/clausemate.svg" alt="PyPI version">
+  </a>
+  <a href="https://pypi.org/project/clausemate/">
+    <img src="https://img.shields.io/pypi/pyversions/clausemate.svg" alt="Python versions">
+  </a>
   <a href="https://github.com/jobschepens/clausemate/actions">
-    <img src="https://github.com/jobschepens/clausemate/actions/workflows/python-app.yml/badge.svg" alt="Build Status">
+    <img src="https://github.com/jobschepens/clausemate/actions/workflows/reproducibility.yml/badge.svg" alt="Reproducibility Tests">
   </a>
-  <!-- <a href="https://codecov.io/gh/jobschepens/clausemate">
-    <img src="https://codecov.io/gh/jobschepens/clausemate/branch/main/graph/badge.svg" alt="Coverage">
-  </a> -->
-  <a href="https://codecov.io/gh/jobschepens/clausemate" >
+  <a href="https://github.com/jobschepens/clausemate/actions">
+    <img src="https://github.com/jobschepens/clausemate/actions/workflows/coverage.yml/badge.svg" alt="Coverage Tests">
+  </a>
+  <a href="https://codecov.io/gh/jobschepens/clausemate">
     <img src="https://codecov.io/gh/jobschepens/clausemate/graph/badge.svg?token=ORFRUUB3HS" alt="Coverage"/>
-  </a>
-  <a href="https://www.python.org/downloads/release/python-3110/">
-    <img src="https://img.shields.io/badge/python-3.11%2B-blue.svg" alt="Python 3.11+">
   </a>
   <a href="https://github.com/charliermarsh/ruff">
     <img src="https://img.shields.io/badge/linting-ruff-%23f7ca18" alt="Ruff Linting">
@@ -21,10 +24,7 @@
     <img src="https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit" alt="pre-commit">
   </a>
   <a href="https://github.com/jobschepens/clausemate/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/license-research-lightgrey.svg" alt="License">
-  </a>
-  <a href="https://github.com/jobschepens/clausemate/tree/main/docs">
-    <img src="https://img.shields.io/badge/docs-available-brightgreen.svg" alt="Docs">
+    <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License">
   </a>
 </p>
 
@@ -154,10 +154,17 @@ This tool analyzes German pronouns and their clause mates in annotated linguisti
 
 ## Installation
 
+### **Option 1: Install from PyPI (Recommended)**
+```bash
+pip install clausemate
+```
+
+### **Option 2: Development Installation**
+
 1. **Clone the repository**:
    ```bash
-   git clone <repository-url>
-   cd clause-mates-analyzer
+   git clone https://github.com/jobschepens/clausemate.git
+   cd clausemate
    ```
 
 2. **Set up environment** (choose one):
@@ -179,7 +186,36 @@ This tool analyzes German pronouns and their clause mates in annotated linguisti
    conda activate clausemate
    ```
 
+## Quick Start
+
+```bash
+# Install the package
+pip install clausemate
+
+# Analyze a TSV file
+clausemate your_file.tsv
+
+# Get help
+clausemate --help
+```
+
 ## Usage
+
+### Command Line Interface
+
+```bash
+# Basic usage
+clausemate input_file.tsv
+
+# Specify output file
+clausemate input_file.tsv -o output.csv
+
+# Enable verbose logging
+clausemate input_file.tsv --verbose
+
+# Use streaming for large files
+clausemate input_file.tsv --streaming
+```
 
 ### Multi-File Processing (Phase 3.1) - **RECOMMENDED**
 
@@ -280,7 +316,7 @@ python -m pytest --cov=src
 
 ## Development
 
-### Quick Start
+### Development Setup
 
 ```bash
 # Install development dependencies
