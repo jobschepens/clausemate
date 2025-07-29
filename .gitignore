@@ -97,3 +97,6 @@ htmlcov/
 
 # Documentation builds
 docs/_build/
+
+# PyPI credentials
+.pypirc
