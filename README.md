@@ -194,9 +194,9 @@ pip install clausemate
 ## Quick Start
 
 ### 🚀 Try Online (No Installation Required)
-[![Launch Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jobschepens/clausemate/HEAD)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jobschepens/clausemate/HEAD?urlpath=%2Fdoc%2Ftree%2Fnotebooks%5Cdemo_analysis.ipynb)
 
-Click the Binder badge above to launch an interactive Jupyter environment with ClauseMate pre-installed. Open `notebooks/demo_analysis.ipynb` to explore the tool's capabilities.
+Click the Binder badge above to launch an interactive Jupyter environment with ClauseMate pre-installed and automatically open the demo notebook to explore the tool's capabilities.
 
 ### 💻 Local Installation
 ```bash
