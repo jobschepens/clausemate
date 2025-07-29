@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross-Chapter Coreference Network</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <link href="https://unpkg.com/vis-network/styles/vis-network.css" rel="stylesheet" type="text/css" />
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header { text-align: center; margin-bottom: 30px; }
+        .network-container { height: 600px; border: 1px solid #ddd; margin: 20px 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0; }
+        .stat-card { background: #f8f9fa; padding: 15px; border-radius: 5px; border-left: 4px solid #007bff; }
+        .stat-value { font-size: 2em; font-weight: bold; color: #007bff; }
+        .stat-label { color: #666; margin-top: 5px; }
+        .chapter-section { margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 5px; }
+        .controls { margin: 20px 0; padding: 15px; background: #e9ecef; border-radius: 5px; }
+        .btn { padding: 8px 16px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .btn:hover { background: #0056b3; }
+        .legend { display: flex; flex-wrap: wrap; gap: 15px; margin: 15px 0; }
+        .legend-item { display: flex; align-items: center; }
+        .legend-color { width: 20px; height: 20px; border-radius: 50%; margin-right: 8px; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #f8f9fa; font-weight: bold; }
+        .highlight { background-color: #fff3cd; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <div class="header">
+            <h1>Cross-Chapter Coreference Network</h1>
+            <p>Interactive visualization of coreference chains spanning multiple chapters</p>
+            <p>Generated: 2025-07-29 12:34:47</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">0</div>
+                <div class="stat-label">Total Chapters</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">208</div>
+                <div class="stat-label">Cross-Chapter Chains</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">549</div>
+                <div class="stat-label">Total Connections</div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #FF6B6B;"></div>
+                <span>Chapter 1</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #4ECDC4;"></div>
+                <span>Chapter 2</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #45B7D1;"></div>
+                <span>Chapter 3</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #96CEB4;"></div>
+                <span>Chapter 4</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #FFA500;"></div>
+                <span>Coreference Chain</span>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="fitNetwork()">Fit to Screen</button>
+            <button class="btn" onclick="togglePhysics()">Toggle Physics</button>
+            <button class="btn" onclick="exportNetwork()">Export Image</button>
+        </div>
+
+        <div id="network" class="network-container"></div>
+
+        <div class="chapter-section">
+            <h3>Chain Details</h3>
+            <div id="chain-details">
+                <p>Click on a chain node to see detailed information.</p>
+            </div>
+        </div>
+        
+    </div>
+    <script>
+        
+        const nodes = new vis.DataSet([]);
+        const edges = new vis.DataSet([]);
+        const data = { nodes: nodes, edges: edges };
+
+        const options = {
+            nodes: {
+                shape: 'dot',
+                scaling: {
+                    min: 10,
+                    max: 30
+                },
+                font: {
+                    size: 12,
+                    face: 'Arial'
+                }
+            },
+            edges: {
+                width: 2,
+                color: { inherit: 'from' },
+                smooth: {
+                    type: 'continuous'
+                }
+            },
+            physics: {
+                stabilization: { iterations: 150 },
+                barnesHut: {
+                    gravitationalConstant: -8000,
+                    springConstant: 0.001,
+                    springLength: 200
+                }
+            },
+            interaction: {
+                hover: true,
+                tooltipDelay: 200
+            }
+        };
+
+        const container = document.getElementById('network');
+        const network = new vis.Network(container, data, options);
+
+        let physicsEnabled = true;
+
+        function fitNetwork() {
+            network.fit();
+        }
+
+        function togglePhysics() {
+            physicsEnabled = !physicsEnabled;
+            network.setOptions({ physics: { enabled: physicsEnabled } });
+        }
+
+        function exportNetwork() {
+            // This would require additional libraries for image export
+            alert('Export functionality would require additional libraries');
+        }
+
+        network.on('click', function(params) {
+            if (params.nodes.length > 0) {
+                const nodeId = params.nodes[0];
+                if (nodeId.startsWith('chain_')) {
+                    const chainId = nodeId.replace('chain_', '');
+                    showChainDetails(chainId);
+                }
+            }
+        });
+
+        function showChainDetails(chainId) {
+            const chainData = {"unified_chain_1": ["seine Arbeit", "der Zeit", "die Geschichte", "den Bericht"], "unified_chain_2": ["die Gastronomen", "Kollegen"], "unified_chain_3": ["einer", "keine", "er"], "unified_chain_4": ["eines von diesen alten Gasth\u00e4usern", "seinen Bericht", "am Kopf"], "unified_chain_5": ["Ende J\u00e4nner", "einer Meisterschaft"], "unified_chain_6": ["jedes Jahr", "die Idee", "sein Hotelzimmer", "ihre St\u00f6cke"], "unified_chain_7": ["Die Kripo", "dem W\u00f6rg\u00f6tter"], "unified_chain_8": ["von Anfang an", "meine Witze", "dem Asphalt"], "unified_chain_9": ["seiner Carrera - Sonnenbrille", "sieben Monaten"], "unified_chain_10": ["vom Rauchenaufh\u00f6ren", "20 Meter", "ihren Zustand", "zwei andere Kunden"], "unified_chain_11": ["in Zell", "seiner Wut", "Das"], "unified_chain_12": ["ein einzelner m\u00e4nnlicher T\u00e4ter", "vom Dorfentfernt"], "unified_chain_13": ["ein kleines Ungl\u00fcck", "einen Polizisten oder einen Detektiv", "Lifting"], "unified_chain_14": ["Hoffnung", "die Taxifahrer", "ein gro\u00dfes Ungl\u00fcck", "beim Hirschenwirt"], "unified_chain_15": ["eine Art Lokalaugenschein", "seinem Hotelzimmer", "etwas"], "unified_chain_16": ["soundso viele Spieler", "einen neuen Chef", "Besuch"], "unified_chain_17": ["einen Migr\u00e4neanfall", "das", "beim Aufwachen"], "unified_chain_18": ["seine", "vom Vergolder"], "unified_chain_19": ["ihn", "die ganze Nacht", "der Zeitung"], "unified_chain_20": ["Die Wahrheit \u00fcber Moser Gudrun", "ihn"], "unified_chain_21": ["der M\u00f6nch", "du"], "unified_chain_22": ["diese Nacht", "den Fall", "der Lift"], "unified_chain_23": ["dem Schitourismus", "dieser harmlosen Streiterei", "Scotland Yard"], "unified_chain_24": ["die blaue Ader auf der Stirn", "die Versicherung", "20 Jahren"], "unified_chain_25": ["Gottes", "Der deutsche Bundespr\u00e4sident"], "unified_chain_26": ["zum Stausee", "dem Geld", "der Grant"], "unified_chain_27": ["Geschwister", "sie"], "unified_chain_28": ["du", "Gro\u00dfvater"], "unified_chain_29": ["jeden Morgen", "den Mandl", "ein bekanntes Gesicht"], "unified_chain_30": ["einem halben Jahr", "seinem Stock"], "unified_chain_31": ["der Sessellift", "meiner Seite", "den Tisch"], "unified_chain_32": ["den Mund", "das Bierglas"], "unified_chain_33": ["in Amerika", "Motiv", "der Strecke"], "unified_chain_34": ["die Leute", "man", "am 22."], "unified_chain_35": ["ganz anderen Leuten", "man", "sie"], "unified_chain_36": ["Ende Dezember", "den Kiosk"], "unified_chain_37": ["die neue Schiausr\u00fcstung", "im J\u00e4nner", "Gras"], "unified_chain_38": ["seinem Hotelzimmer im Hirschen", "der Kripo"], "unified_chain_39": ["der Liftgeschichte", "die Vergabe der Wohnungen"], "unified_chain_40": ["das", "die Anoraks", "das Berichtschreiben"], "unified_chain_41": ["den ersten Schu\u00df", "den vorgeschriebenen Probelauf", "einem Wiener Detektivb\u00fcro", "diesem Gebiet"], "unified_chain_42": ["den See", "vor drei Jahren", "das"], "unified_chain_43": ["dem Pausenmachen", "dem Kollegen Tunzinger", "wer"], "unified_chain_44": ["sie", "gesagt"], "unified_chain_45": ["eine vertraute Stimme", "das", "allen"], "unified_chain_46": ["Ende J\u00e4nner", "den Vorfall von der Talstation", "jeder"], "unified_chain_47": ["seinen Gedanken", "einen \u00e4ngstlichen Eindruck", "120 Kilo"], "unified_chain_48": ["seinem Balkon", "den Fall", "Rad - Trac", "Der Lorenz"], "unified_chain_49": ["er", "der Kellnerin", "wer"], "unified_chain_50": ["Detektiv", "die D\u00e4mmerung"], "unified_chain_51": ["den ganzen Fall", "sein Hemd", "es"], "unified_chain_52": ["eine \u00dcberraschung", "neue Mannschaften", "der Versicherung", "die Zerst\u00f6rung der neuen Schi"], "unified_chain_53": ["Schweden", "in der Wohnung von seinen Eltern"], "unified_chain_54": ["die", "sie"], "unified_chain_55": ["eineinhalb Jahre", "ein halbes Jahr", "schmutzige Gummistiefel"], "unified_chain_56": ["seinem Sender", "jede Woche", "einen Aschenbecher"], "unified_chain_57": ["die Zerst\u00f6rung der Erde", "im Mund", "seinen Bericht"], "unified_chain_58": ["einer", "mir"], "unified_chain_59": ["Wartezeiten", "in Zell", "an dieser Stelle"], "unified_chain_60": ["den Sorgen", "beim Heimattheater", "eine Ohrfeige"], "unified_chain_61": ["das", "seinem Bericht \u00fcber das Geheimbordell in der Brucker Bundesstra\u00dfe", "die zwei Nu\u00dfholzschr\u00e4nke"], "unified_chain_62": ["der Geburtstagsfeier ihres gemeinsamen Kollegen Schmeller", "die Taube", "einem gewissen Dings"], "unified_chain_63": ["Die Zeller", "beim Rainerwirt", "deiner", "man"], "unified_chain_64": ["Der Lift Lois", "einer"], "unified_chain_65": ["der Bahn", "dem Moment"], "unified_chain_66": ["seinem", "dem Vergolder"], "unified_chain_67": ["beim Lift", "die beiden M\u00e4nner", "la\u00df"], "unified_chain_68": ["zur H\u00e4lfte", "die Gegend", "Zell"], "unified_chain_69": ["La\u00df", "seine Wohnung", "ein rotes Gesicht", "es"], "unified_chain_70": ["Diesen Winter", "das"], "unified_chain_71": ["das linke Bein", "in Zell", "dem Rauchen", "bei jedem Wetter"], "unified_chain_72": ["Schei\u00df", "einer"], "unified_chain_73": ["seine schmutzige Tankwarthose", "es", "am 23 .", "der Kripo"], "unified_chain_74": ["man", "Schulkollegen Schwaighofer", "der"], "unified_chain_75": ["eine Glatze", "einer Stunde", "19 Jahre"], "unified_chain_76": ["man", "sie"], "unified_chain_77": ["das", "in Schottland"], "unified_chain_78": ["am n\u00e4chsten oder \u00fcbern\u00e4chsten Wochenende", "das", "einen rosaroten Chevrolet"], "unified_chain_79": ["die Pistenraupe", "ein halbes Jahr", "die alte Stra\u00dfe", "es"], "unified_chain_80": ["in Zell", "das", "der Kripo"], "unified_chain_81": ["zwei Achtel Wei\u00df", "so einen Fall", "am Morgen"], "unified_chain_82": ["vom Vergolder", "er"], "unified_chain_83": ["man", "letzten Leser"], "unified_chain_84": ["Manche", "den B\u00fcrgermeister selbst oder den Pfarrer"], "unified_chain_85": ["den Chevrolet", "eine zehnzeilige Zusammenfassung"], "unified_chain_86": ["die", "ihr"], "unified_chain_87": ["aufseinem", "er"], "unified_chain_88": ["Die", "diese alten Leute"], "unified_chain_89": ["in aller \u00d6ffentlichkeit", "den Kiosk", "kein einziges Wort"], "unified_chain_90": ["diesen Riesenaugen", "zwei ganz neue Jacketkronen"], "unified_chain_91": ["dem", "ein kleiner filigraner Tisch"], "unified_chain_92": ["ihm", "Der"], "unified_chain_93": ["eines", "man", "zum Gruntner Schorsch"], "unified_chain_94": ["einer Schulung", "Geld", "zwei Achtel"], "unified_chain_95": ["der"], "unified_chain_96": ["den J\u00e4nner", "die ganze Welt", "zum Kiosk"], "unified_chain_97": ["du", "Das", "f\u00fcnf Jahren"], "unified_chain_98": ["Tote", "den Schmeller", "man"], "unified_chain_99": ["das Gef\u00fchl", "in dem Moment", "am ersten Tag"], "unified_chain_100": ["er", "seine"], "unified_chain_101": ["das", "im finsteren Vorhaus vom Hirschenwirt"], "unified_chain_102": ["Amerika", "beim Hirschen", "die Reklame", "seinen Bericht"], "unified_chain_103": ["einer Stunde", "am See", "einen F\u00fcnfer"], "unified_chain_104": ["die", "ich"], "unified_chain_105": ["ein zweites Mal", "den Radiator", "zweimal im Monat"], "unified_chain_106": ["irgendwas", "der Bahn", "dem Bank\u00fcberfall"], "unified_chain_107": ["sie", "uns"], "unified_chain_108": ["es", "aufden Heustadl", "Kopfweh"], "unified_chain_109": ["auf einem Liftsessel", "den Eissch\u00fctzen"], "unified_chain_110": ["das", "keine Aussicht"], "unified_chain_111": ["du", "die beiden Amis"], "unified_chain_112": ["die Zeller", "jemand"], "unified_chain_113": ["dem Lokalreporter Mandl", "die Kurve", "wer"], "unified_chain_114": ["aufdas Geplapper vom Andi", "den ganzen Sommer", "die Tochter des Polizeimusikdirektors"], "unified_chain_115": ["Es", "ein paar Tage", "im Vorteil", "den Blick"], "unified_chain_116": ["ihr", "sie"], "unified_chain_117": ["einer", "der Landeshauptmann"], "unified_chain_118": ["die", "es"], "unified_chain_119": ["in Pension", "Tschechenaugen", "der Kreiss\u00e4ge"], "unified_chain_120": ["kein Mensch", "du", "sie"], "unified_chain_121": ["den Kollegen", "das B\u00fcndel", "beim besten Willen"], "unified_chain_122": ["eine Wurstsemmel", "Kopfweh"], "unified_chain_123": ["einheimische Kinder", "einen Leser"], "unified_chain_124": ["du", "man"], "unified_chain_125": ["das", "den"], "unified_chain_126": ["ihn", "den"], "unified_chain_127": ["Das", "einen Bericht", "zwei Spuren"], "unified_chain_128": ["sich", "zwei Br\u00fcder", "die anderen", "Sie"], "unified_chain_129": ["einen tschechischen Namen", "seine Buwog - Wohnung", "das leere Bierglas"], "unified_chain_130": ["seinem Stock", "einem halben Jahr"], "unified_chain_131": ["aufseinem eigenen Schilift", "das abgem\u00e4hte Feld", "dem Nachnamen"], "unified_chain_132": ["sie", "wir"], "unified_chain_133": ["den", "frage"], "unified_chain_134": ["im selben Moment", "einem Alibi"], "unified_chain_135": ["die gesamte gegnerische Mannschaft", "sie"], "unified_chain_136": ["der"], "unified_chain_137": ["dem Papier", "einer riesigen Schank im Vorhaus", "in allen Einzelheiten"], "unified_chain_138": ["eine gef\u00f6rderte Wohnung", "das Gef\u00fchl", "im selben Wortlaut", "Taube"], "unified_chain_139": ["vom Gschwentner und vom Andi", "sie"], "unified_chain_140": ["im warmen Schnee", "seinen Bericht", "seinem Zimmertischchen", "der Kripo"], "unified_chain_141": ["der", "du"], "unified_chain_142": ["den Robert Redford", "man", "der H\u00fctte"], "unified_chain_143": ["die Geschichte von der Klimaverschiebung", "Schnaps", "seine Buwog - Wohnu11g"], "unified_chain_144": ["am Tag", "in Pension", "Zell"], "unified_chain_145": ["die", "euren"], "unified_chain_146": ["er", "alle Zeller Burschen"], "unified_chain_147": ["der", "seinen Bericht", "diese alten Geschichten"], "unified_chain_148": ["eine Spur", "der Forderung", "keine Ahnung"], "unified_chain_149": ["Das", "ihr Zimmer"], "unified_chain_150": ["ein richtiges Milchgesicht", "an der Stelle"], "unified_chain_151": ["Man", "einen abnormal langen Zug", "Jeder", "du"], "unified_chain_152": ["beim Anstellen", "eine andere Amerikanerin"], "unified_chain_153": ["sie", "der Schmeller und der Tunzinger"], "unified_chain_154": ["eine Leiche", "ein paar Pensionisten und ein paar andere", "man"], "unified_chain_155": ["Schwiegereltern", "sie"], "unified_chain_156": ["Gute Wurstsemn1eln", "keine Zeile"], "unified_chain_157": ["keiner", "er"], "unified_chain_158": ["die Zahnarztreklame", "der Ferne", "ihren scharfen Kanten", "halb Zell"], "unified_chain_159": ["der Mensch", "jeder"], "unified_chain_160": ["dem Schneewind", "seine Wurstsemmel", "seinem Zimmer", "Der Hirschenwirt"], "unified_chain_161": ["die Nu\u00dfholzschr\u00e4nke von seinem Gro\u00dfvater", "einen Schluck Thermoskaffee", "die l\u00e4ngste Zeit", "seinen Tschechenaugen"], "unified_chain_162": ["das", "seinem Stock", "der Stadt"], "unified_chain_163": ["keiner", "jeder", "einer"], "unified_chain_164": ["zwei Lifte", "es", "ein paar Millionen"], "unified_chain_165": ["ihren", "der Opfer"], "unified_chain_166": ["die ganze Zeit", "ein hiesiges Detektivb\u00fcro"], "unified_chain_167": ["die Rettung", "die"], "unified_chain_168": ["ihn", "so elendig lange Berichte", "im selben Atemzug", "in der Fr\u00fch"], "unified_chain_169": ["nacktem Oberk\u00f6rper", "das", "in Zell"], "unified_chain_170": ["sehr gute Augen", "einem Schu\u00df", "zum Anschauen", "der Liftgeschichte"], "unified_chain_171": ["diese Woche", "diesem Bankraub", "dem Moment"], "unified_chain_172": ["den Sessellift", "seinem Balkon", "im August", "dem rosaroten Chevrolet vom Johnny"], "unified_chain_173": ["den ganzen Tag", "man", "seine Wohnung"], "unified_chain_174": ["der", "er"], "unified_chain_175": ["den furnierten Tisch", "der Konzentration", "einem anderen Fall"], "unified_chain_176": ["einer", "im ganzen Wirtshaussaal", "ein paar"], "unified_chain_177": ["es", "die Unterarmst\u00fcmpfe"], "unified_chain_178": ["den Ted Parson und seine Frau", "Doppelsessel"], "unified_chain_179": ["wir", "jeden Morgen"], "unified_chain_180": ["seinem", "Schwiegersohn"], "unified_chain_181": ["sie", "ein paar alte Deppen"], "unified_chain_182": ["der Nemec", "Moser Gudrun", "ein Schwede"], "unified_chain_183": ["einen alten Filzhut", "der Polizei"], "unified_chain_184": ["man", "Der Vergolder"], "unified_chain_185": ["keinen", "die Heidnische Kirche"], "unified_chain_186": ["jedem", "Mannschaften", "man"], "unified_chain_187": ["der Bande", "den aussichtslosen Fall der beiden Amerikaner", "den Schnee"], "unified_chain_188": ["den Verdacht", "den dichten Schneefall", "eine gerade Zahl", "seinem hei\u00dfen Zimmer"], "unified_chain_189": ["40", "das Radio", "am n\u00e4chsten Wochenende"], "unified_chain_190": ["der Polizei", "einen Vertrag"], "unified_chain_191": ["die", "sie"], "unified_chain_192": ["drei Monaten", "den Heustadl", "das Kopfweh"], "unified_chain_193": ["man", "den Asphalteissch\u00fctzen"], "unified_chain_194": ["eine Wartezeit", "es"], "unified_chain_195": ["man", "am Lift", "mich"], "unified_chain_196": ["den Filmen", "das Sendersuchrad"], "unified_chain_197": ["man", "die"], "unified_chain_198": ["die nur angezuckerten Felder", "es", "seine Wohnung", "den Stimmbruch"], "unified_chain_199": ["seinem", "der Vergolder Antretter"], "unified_chain_200": ["Das", "der"], "unified_chain_201": ["den Balkon", "das"], "unified_chain_202": ["ist", "der"], "unified_chain_203": ["einer Stunde", "dem Kirchplatz"], "unified_chain_204": ["Witze", "der Lifth\u00fctte"], "unified_chain_205": ["Die Rettung", "dem Lift"], "unified_chain_206": ["die Geduld", "Kopfweh", "ein paar Wochen"], "unified_chain_207": ["wir", "sie"], "unified_chain_208": ["das Bierglas", "der Meierling", "keinen Haggl"]};
+            const entities = chainData[chainId] || [];
+
+            let detailsHtml = `<h4>Chain ${chainId}</h4>`;
+            detailsHtml += `<p><strong>Entities:</strong> ${entities.length}</p>`;
+            detailsHtml += '<ul>';
+            entities.forEach(entity => {
+                detailsHtml += `<li>${entity}</li>`;
+            });
+            detailsHtml += '</ul>';
+
+            document.getElementById('chain-details').innerHTML = detailsHtml;
+        }
+        
+    </script>
+</body>
+</html>

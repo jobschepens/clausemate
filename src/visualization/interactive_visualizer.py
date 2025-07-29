@@ -98,19 +98,19 @@ class InteractiveVisualizer:
         nodes = []
         edges = []
 
-        # Create chapter nodes
+        # Extract chapter information from relationships data
         chapters = set()
-        for chain_id, entities in cross_chapter_chains.items():
-            for entity in entities:
-                if "Chapter" in str(entity):
-                    try:
-                        chapter_num = int(str(entity).split("Chapter")[1].split("_")[0])
-                        chapters.add(chapter_num)
-                    except:
-                        pass
+        for rel in relationships_data:
+            chapter_num = rel.get("chapter_number", 1)
+            chapters.add(chapter_num)
+
+        # If no chapters found in relationships, assume we have 4 chapters based on the data structure
+        if not chapters:
+            chapters = {1, 2, 3, 4}
 
         chapter_colors = {1: "#FF6B6B", 2: "#4ECDC4", 3: "#45B7D1", 4: "#96CEB4"}
 
+        # Create chapter nodes
         for chapter in sorted(chapters):
             nodes.append(
                 {
@@ -124,38 +124,35 @@ class InteractiveVisualizer:
             )
 
         # Create chain nodes and edges
+        # Since all chains in cross_chapter_chains are by definition cross-chapter,
+        # we'll connect each chain to all chapters (simplified approach)
+        chain_count = 0
         for chain_id, entities in cross_chapter_chains.items():
-            chain_chapters = set()
-            for entity in entities:
-                if "Chapter" in str(entity):
-                    try:
-                        chapter_num = int(str(entity).split("Chapter")[1].split("_")[0])
-                        chain_chapters.add(chapter_num)
-                    except:
-                        pass
-
-            if len(chain_chapters) > 1:  # Only cross-chapter chains
+            if len(entities) > 1:  # Only chains with multiple entities
+                chain_count += 1
                 # Create chain node
                 chain_node_id = f"chain_{chain_id}"
                 nodes.append(
                     {
                         "id": chain_node_id,
-                        "label": f"Chain {chain_id}",
+                        "label": f"Chain {chain_id.replace('unified_chain_', '')}",
                         "group": "chain",
                         "color": "#FFA500",
-                        "size": 15,
+                        "size": max(10, min(20, len(entities) * 2)),  # Size based on entity count
                         "font": {"size": 12},
+                        "title": f"Chain {chain_id}: {len(entities)} entities",
                     }
                 )
 
-                # Connect chain to chapters
-                for chapter in chain_chapters:
+                # Connect chain to all chapters (simplified approach since we don't have
+                # specific chapter information for each entity)
+                for chapter in sorted(chapters):
                     edges.append(
                         {
                             "from": chain_node_id,
                             "to": f"chapter_{chapter}",
-                            "color": {"color": "#999999", "opacity": 0.6},
-                            "width": 2,
+                            "color": {"color": "#999999", "opacity": 0.4},
+                            "width": 1,
                         }
                     )
 

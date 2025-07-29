@@ -34,6 +34,7 @@ data/output/*.csv
 data/output/*.log
 data/output/log/
 data/output/*.json
+data/output/*.html
 
 # Archive outputs (preserve but don't track changes)
 archive/*/output/

@@ -1,0 +1,71 @@
+name: Coverage
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install coverage pytest pytest-cov
+    
+    - name: Create test script
+      run: |
+        cat > test_coverage.py << 'EOF'
+        import sys
+        import os
+        sys.path.append('src')
+        
+        try:
+            from main import ClauseMateAnalyzer
+            analyzer = ClauseMateAnalyzer(enable_adaptive_parsing=True)
+            print('✅ Main module imported successfully')
+            
+            # Try to run a simple analysis if data exists
+            if os.path.exists('data/input/gotofiles/2.tsv'):
+                relationships = analyzer.analyze_file('data/input/gotofiles/2.tsv')
+                print(f'✅ Analysis completed: {len(relationships)} relationships found')
+            else:
+                print('⚠️ Test data not found, skipping analysis')
+                
+        except Exception as e:
+            print(f'❌ Test failed: {e}')
+            sys.exit(1)
+        EOF
+    
+    - name: Run tests with coverage
+      run: |
+        # Try pytest first, fallback to manual coverage if no tests exist
+        if [ -d "tests" ] && [ "$(find tests -name 'test_*.py' -type f | wc -l)" -gt 0 ]; then
+          echo "Running pytest with coverage..."
+          python -m pytest --cov=src --cov-report=xml --cov-report=term-missing -v
+        else
+          echo "No pytest tests found, running coverage on main modules..."
+          python -m coverage run --source=src --omit="*/tests/*,*/test_*" test_coverage.py
+          python -m coverage xml
+        fi
+    
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: false
+        verbose: true
