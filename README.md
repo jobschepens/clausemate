@@ -33,6 +33,13 @@
 
 > **⚠️ Disclaimer**: This repository contains experimental research code developed through iterative "vibe coding" sessions. While the functionality is complete and tested, the codebase reflects rapid prototyping, multiple refactoring attempts, and exploratory development. Code quality and organization may vary across different phases of development. Use with appropriate expectations for research/experimental software.
 
+## Recent Improvements
+
+- ✅ **Fixed ModuleNotFoundError**: Scripts now work from any directory with robust path handling
+- ✅ **Enhanced Binder Support**: Demo notebook auto-opens with improved installation and error handling
+- ✅ **Docker Development**: Complete containerized development environment with docker-compose
+- ✅ **Cross-Platform Compatibility**: Resolved Unicode encoding issues for Windows compatibility
+
 A Python tool for extracting and analyzing clause mate relationships from German pronoun data for linguistic research.
 
 ## Project Status
@@ -159,42 +166,57 @@ This tool analyzes German pronouns and their clause mates in annotated linguisti
 
 ## Installation
 
-### **Option 1: Install from PyPI (Recommended)**
+### **Option 1: Docker (Recommended for Development)**
+```bash
+# Quick start with Docker Compose
+git clone https://github.com/jobschepens/clausemate.git
+cd clausemate
+docker-compose -f docker-compose.dev.yml up -d
+docker exec -it clausemate-dev bash
+
+# Inside container:
+python test_docker_setup.py  # Verify setup
+python scripts/run_multi_file_analysis.py --verbose
+```
+
+See [DOCKER_README.md](DOCKER_README.md) for detailed Docker instructions.
+
+### **Option 2: Install from PyPI**
 ```bash
 pip install clausemate
 ```
 
-### **Option 2: Development Installation**
+### **Option 3: Development Installation**
 
 1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/jobschepens/clausemate.git
-   cd clausemate
-   ```
+    ```bash
+    git clone https://github.com/jobschepens/clausemate.git
+    cd clausemate
+    ```
 
 2. **Set up environment** (choose one):
 
-   **Option A: pip (recommended)**
-   ```bash
-   python -m venv .venv
-   # Windows:
-   .venv\Scripts\activate
-   # macOS/Linux:
-   source .venv/bin/activate
+    **Option A: pip (recommended)**
+    ```bash
+    python -m venv .venv
+    # Windows:
+    .venv\Scripts\activate
+    # macOS/Linux:
+    source .venv/bin/activate
 
-   pip install -e .[dev,benchmark]
-   ```
+    pip install -e .[dev,benchmark]
+    ```
 
-   **Option B: conda**
-   ```bash
-   conda env create -f environment.yml
-   conda activate clausemate
-   ```
+    **Option B: conda**
+    ```bash
+    conda env create -f environment.yml
+    conda activate clausemate
+    ```
 
 ## Quick Start
 
 ### 🚀 Try Online (No Installation Required)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jobschepens/clausemate/HEAD?urlpath=%2Fdoc%2Ftree%2Fnotebooks%5Cdemo_analysis.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jobschepens/clausemate/HEAD?urlpath=lab/tree/notebooks/demo_analysis.ipynb)
 
 Click the Binder badge above to launch an interactive Jupyter environment with ClauseMate pre-installed and automatically open the demo notebook to explore the tool's capabilities.
 

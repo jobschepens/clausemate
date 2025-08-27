@@ -1,0 +1,15 @@
+# Development dependencies for Docker/Linux environments
+# Includes core packages to avoid external file dependencies
+pandas>=2.0
+numpy
+pytest>=7.0.0
+pytest-cov>=4.0.0
+mypy>=1.0.0
+ruff>=0.1.0
+pre-commit>=2.20.0
+bandit>=1.7.0
+safety>=2.0.0
+nox>=2023.4.22
+jupyter>=1.0.0
+jupyterlab>=4.0.0
+nbformat>=5.0.0

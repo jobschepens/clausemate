@@ -80,6 +80,14 @@ class PronounSets:
     DEMONSTRATIVE_PRONOUNS: Set[str] = {"dieser", "diese", "dieses", "diesem", "diesen"}
 
 
+# Combined critical pronouns for backwards compatibility
+CRITICAL_PRONOUNS = {
+    "third_person_personal": PronounSets.THIRD_PERSON_PRONOUNS,
+    "d_pronouns": PronounSets.D_PRONOUNS,
+    "demonstrative": PronounSets.DEMONSTRATIVE_PRONOUNS,
+}
+
+
 class FilePaths:
     """Default file paths - using relative paths for portability.
 

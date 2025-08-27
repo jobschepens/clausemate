@@ -1,12 +1,75 @@
 #!/bin/bash
 
+# Enhanced Binder postBuild script for ClauseMate
+
+echo "Setting up ClauseMate Binder environment..."
+
 # Install the package in development mode
+echo "Installing ClauseMate..."
 pip install -e .
 
-# Create a demo notebook directory
+# Ensure notebooks directory exists
+echo "Setting up notebooks directory..."
 mkdir -p notebooks
 
-# Set up Jupyter extensions for better experience
-jupyter labextension install @jupyter-widgets/jupyterlab-manager
+# Copy demo notebook if it doesn't exist
+if [ ! -f "notebooks/demo_analysis.ipynb" ]; then
+    echo "Demo notebook not found in notebooks directory"
+    # The notebook should be in the repo, but let's check
+    if [ -f "notebooks/demo_analysis.ipynb" ]; then
+        echo "Demo notebook found in repository"
+    else
+        echo "Warning: Demo notebook not found"
+    fi
+fi
 
-echo "Binder environment setup complete!"
+# Set up Jupyter extensions for better experience
+echo "Setting up Jupyter extensions..."
+jupyter labextension install @jupyter-widgets/jupyterlab-manager || echo "Extension installation skipped"
+
+# Create a simple startup script for users
+cat > notebooks/start_here.py << 'EOF'
+#!/usr/bin/env python3
+"""
+ClauseMate Binder Quick Start
+Run this cell to verify your environment is set up correctly.
+"""
+
+import sys
+import os
+
+print("🔍 Checking ClauseMate installation...")
+
+try:
+    from src.main import ClauseMateAnalyzer
+    from src.multi_file.multi_file_batch_processor import MultiFileBatchProcessor
+    print("✅ ClauseMate modules imported successfully!")
+except ImportError as e:
+    print(f"❌ Import error: {e}")
+    print("Please run: pip install -e .")
+
+print("\n📁 Available data directories:")
+data_dirs = ["data/input/gotofiles", "data/input", "data"]
+for d in data_dirs:
+    if os.path.exists(d):
+        files = list(os.listdir(d)) if os.path.isdir(d) else []
+        print(f"  {d}: {len(files)} items")
+    else:
+        print(f"  {d}: not found")
+
+print("\n🚀 Ready to analyze German pronoun clause mates!")
+print("Open demo_analysis.ipynb to get started.")
+EOF
+
+# Make the startup script executable
+chmod +x notebooks/start_here.py
+
+echo ""
+echo "🎉 Binder environment setup complete!"
+echo ""
+echo "Next steps:"
+echo "1. Open notebooks/demo_analysis.ipynb"
+echo "2. Run the first cell to install and import ClauseMate"
+echo "3. Follow the notebook examples"
+echo ""
+echo "If you encounter import errors, run: pip install -e ."

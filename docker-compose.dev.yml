@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  clausemate-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: clausemate-dev
+    volumes:
+      - .:/workspace
+      - /workspace/__pycache__
+    working_dir: /workspace
+    ports:
+      - "8888:8888"  # Jupyter Lab
+    environment:
+      - PYTHONPATH=/workspace
+    command: bash
+    stdin_open: true
+    tty: true
+
+  clausemate-jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: clausemate-jupyter
+    volumes:
+      - .:/workspace
+      - /workspace/__pycache__
+    working_dir: /workspace
+    ports:
+      - "8889:8888"  # Jupyter Lab on different port
+    environment:
+      - PYTHONPATH=/workspace
+      - JUPYTER_RUNTIME_DIR=/tmp/jupyter
+      - JUPYTER_DATA_DIR=/workspace/.jupyter
+    command: python -m jupyterlab --ip=0.0.0.0 --port=8888 --no-browser --notebook-dir=/workspace
+    stdin_open: true
+    tty: true

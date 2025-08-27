@@ -19,7 +19,18 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-from src.multi_file.multi_file_batch_processor import MultiFileBatchProcessor
+# Add project root to Python path for imports
+project_root = Path(__file__).resolve().parents[1]
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
+
+try:
+    from src.multi_file.multi_file_batch_processor import MultiFileBatchProcessor
+except ImportError as e:
+    print(f"❌ Import error: {e}")
+    print(f"Project root: {project_root}")
+    print("Try running: pip install -e . from the project root")
+    sys.exit(1)
 
 
 def setup_logging(verbose: bool = False) -> None:
@@ -50,7 +61,16 @@ def save_unified_results(result, output_dir: Path) -> None:
         writer = csv.writer(f)
 
         # Import the standardized column order from config
-        from src.config import ExportColumns
+        try:
+            from src.config import ExportColumns
+            standard_columns = ExportColumns.STANDARD_ORDER
+        except ImportError:
+            # Fallback if config import fails - use basic column order
+            standard_columns = [
+                "sentence_id", "pronoun_text", "pronoun_token_idx", "pronoun_start_idx",
+                "pronoun_end_idx", "clause_mate_text", "clause_mate_start_idx", "clause_mate_end_idx",
+                "relationship_type", "distance", "sentence_text", "layer"
+            ]
 
         # Write header using standardized column order plus multi-file specific columns
         multi_file_columns = [
@@ -63,7 +83,7 @@ def save_unified_results(result, output_dir: Path) -> None:
         ]
 
         # Combine standardized columns with multi-file specific columns
-        header_columns = multi_file_columns + ExportColumns.STANDARD_ORDER
+        header_columns = multi_file_columns + standard_columns
         writer.writerow(header_columns)
 
         # Write relationships
@@ -89,7 +109,7 @@ def save_unified_results(result, output_dir: Path) -> None:
                 standard_data = rel.to_dict()
             else:
                 # Fallback: create basic data structure if to_dict not available
-                standard_data = dict.fromkeys(ExportColumns.STANDARD_ORDER, "")
+                standard_data = dict.fromkeys(standard_columns, "")
                 # Fill in what we can from the unified relationship
                 if hasattr(rel, "sentence_id"):
                     standard_data["sentence_id"] = rel.sentence_id
