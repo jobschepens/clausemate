@@ -61,6 +61,10 @@ A complete analysis package is available at [`data/output/deliverable_package_20
 
 This tool analyzes German pronouns and their clause mates in annotated linguistic data. It identifies critical pronouns (personal, demonstrative, and d-pronouns) and extracts their relationships with other referential expressions in the same sentence.
 
+### Research Context
+
+This analyzer was developed for advanced computational linguistics research investigating referential coherence and pronoun resolution patterns in German discourse. The tool supports empirical studies examining how clause mate relationships influence pronoun interpretation and processing, contributing to theoretical frameworks in psycholinguistics and computational language modeling.
+
 ### Critical Pronouns Analyzed
 
 - **Third person personal**: er, sie, es, ihm, ihr, ihn, ihnen
