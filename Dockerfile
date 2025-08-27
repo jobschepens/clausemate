@@ -9,13 +9,17 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends git && \
+    apt-get install -y --no-install-recommends \
+        git \
+        build-essential \
+        gcc \
+        g++ && \
     rm -rf /var/lib/apt/lists/*
 
 COPY pyproject.toml README.md ./
-COPY requirements.txt requirements-dev.txt ./
+COPY requirements.txt requirements-dev-docker.txt ./
 
-RUN pip install --no-cache-dir -r requirements-dev.txt
+RUN pip install --no-cache-dir -r requirements-dev-docker.txt
 
 COPY src/ ./src/
 COPY tests/ ./tests/

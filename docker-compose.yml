@@ -36,6 +36,10 @@ services:
       "
     environment:
       - JUPYTER_ENABLE_LAB=yes
+      - JUPYTER_RUNTIME_DIR=/tmp/jupyter
+      - JUPYTER_DATA_DIR=/home/clausemate/.jupyter
+      - JUPYTER_CONFIG_DIR=/home/clausemate/.jupyter
+      - PYTHONPATH=/workspace
 
   # Production container for running analysis
   clausemate-prod:

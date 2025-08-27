@@ -1,8 +1,24 @@
-# ClauseMate Docker Development Guide
+# ClauseMate Docker Configurations
 
-This guide provides instructions for running ClauseMate in Docker containers for development and testing.
+This repository provides multiple Docker configurations for different use cases:
 
-## Quick Start
+## 🐳 Docker Files Overview
+
+### 1. `Dockerfile` (Production)
+- **Purpose**: Production deployment and CI/CD
+- **Features**: Multi-stage build with testing, minimal runtime image
+- **User**: `app` (non-root)
+- **Command**: `python src/main.py`
+- **Use Case**: Deploy ClauseMate for analysis in production environments
+
+### 2. `Dockerfile.dev` (Development)
+- **Purpose**: Local development with full tooling
+- **Features**: Jupyter Lab, development packages, debugging tools
+- **User**: `clausemate` (non-root with proper home directory)
+- **Command**: `bash` (interactive) or Jupyter Lab
+- **Use Case**: Development, research, interactive analysis
+
+## 🚀 Quick Start
 
 ### Option 1: Docker Compose (Recommended)
 

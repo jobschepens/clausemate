@@ -15,11 +15,12 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Create a non-root user with proper home directory
+# Create a non-root user with proper home directory and permissions
 RUN groupadd -r clausemate && \
     useradd -r -g clausemate -m -d /home/clausemate clausemate && \
-    mkdir -p /home/clausemate/.jupyter /home/clausemate/.local/share/jupyter && \
-    chown -R clausemate:clausemate /home/clausemate
+    mkdir -p /home/clausemate/.jupyter /home/clausemate/.local/share/jupyter /home/clausemate/.local && \
+    chown -R clausemate:clausemate /home/clausemate && \
+    chmod -R 755 /home/clausemate
 
 # Set working directory
 WORKDIR /workspace
@@ -49,8 +50,9 @@ COPY . .
 RUN pip install -e .
 
 # Create Jupyter runtime directories and set permissions
-RUN mkdir -p /workspace/.jupyter /tmp/jupyter && \
-    chown -R clausemate:clausemate /workspace /tmp/jupyter
+RUN mkdir -p /workspace/.jupyter /tmp/jupyter /home/clausemate/.cache && \
+    chown -R clausemate:clausemate /workspace /tmp/jupyter /home/clausemate/.cache && \
+    chmod -R 755 /home/clausemate
 
 # Switch to non-root user
 USER clausemate
