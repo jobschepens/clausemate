@@ -26,7 +26,7 @@ RUN groupadd -r clausemate && \
 WORKDIR /workspace
 
 # Copy dependency files first for better caching
-COPY requirements.txt pyproject.toml ./
+COPY config/requirements.txt pyproject.toml ./
 
 # Install Python dependencies including Jupyter (Linux-compatible only)
 RUN pip install --no-cache-dir -r requirements.txt && \

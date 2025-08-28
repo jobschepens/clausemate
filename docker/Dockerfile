@@ -17,7 +17,8 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 COPY pyproject.toml README.md ./
-COPY requirements.txt requirements-dev-docker.txt ./
+COPY config/requirements-dev-docker.txt ./
+COPY config/requirements.txt ./
 
 RUN pip install --no-cache-dir -r requirements-dev-docker.txt
 

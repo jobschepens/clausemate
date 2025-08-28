@@ -326,13 +326,6 @@ python-json-logger==3.3.0
     # via jupyter-events
 pytz==2025.2
     # via pandas
-pywin32==311
-    # via jupyter-core
-pywinpty==3.0.0
-    # via
-    #   jupyter-server
-    #   jupyter-server-terminals
-    #   terminado
 pyyaml==6.0.2
     # via
     #   bandit

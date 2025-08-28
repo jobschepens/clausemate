@@ -4,11 +4,11 @@ services:
   # Development container with bash access
   clausemate-dev:
     build:
-      context: .
-      dockerfile: Dockerfile.dev
+      context: ..
+      dockerfile: docker/Dockerfile.dev
     container_name: clausemate-dev
     volumes:
-      - .:/workspace
+      - ..:/workspace
       - jupyter-data:/workspace/.jupyter
     ports:
       - "8888:8888"
@@ -20,11 +20,11 @@ services:
   # Jupyter container that auto-starts Jupyter Lab
   clausemate-jupyter:
     build:
-      context: .
-      dockerfile: Dockerfile.dev
+      context: ..
+      dockerfile: docker/Dockerfile.dev
     container_name: clausemate-jupyter
     volumes:
-      - .:/workspace
+      - ..:/workspace
       - jupyter-data:/workspace/.jupyter
     ports:
       - "8889:8888"
@@ -44,12 +44,12 @@ services:
   # Production container for running analysis
   clausemate-prod:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: docker/Dockerfile
       target: production
     container_name: clausemate-prod
     volumes:
-      - ./data:/app/data
+      - ../data:/app/data
     working_dir: /app
     command: python -m src.main
 

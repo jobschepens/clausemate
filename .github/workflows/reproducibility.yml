@@ -34,7 +34,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r config/requirements.txt
         pip install pytest pytest-cov coverage codecov
         # Install the package in development mode with all optional dependencies
         pip install -e ".[dev,benchmark]"
@@ -205,7 +205,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r config/requirements.txt
         pip install -e ".[dev,benchmark]"
 
     - name: Generate baseline outputs
@@ -278,7 +278,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r config/requirements.txt
         # Install with benchmark dependencies which includes psutil and memory-profiler
         pip install -e ".[dev,benchmark]"
 

@@ -8,7 +8,7 @@
   <a href="https://pypi.org/project/clausemate/">
     <img src="https://img.shields.io/pypi/pyversions/clausemate.svg" alt="Python versions">
   </a>
-  <a href="https://mybinder.org/v2/gh/jobschepens/clausemate/HEAD">
+  <a href="https://mybinder.org/v2/gh/jobschepens/clausemate/HEAD?urlpath=lab/tree/notebooks/demo.ipynb">
     <img src="https://mybinder.org/badge_logo.svg" alt="Launch Binder">
   </a>
   <a href="https://github.com/jobschepens/clausemate/actions">
@@ -171,11 +171,11 @@ This tool analyzes German pronouns and their clause mates in annotated linguisti
 # Quick start with Docker Compose
 git clone https://github.com/jobschepens/clausemate.git
 cd clausemate
-docker-compose -f docker-compose.dev.yml up -d
+docker-compose -f docker/docker-compose.yml up clausemate-dev -d
 docker exec -it clausemate-dev bash
 
 # Inside container:
-python test_docker_setup.py  # Verify setup
+python tools/test_environment.py  # Verify setup
 python scripts/run_multi_file_analysis.py --verbose
 ```
 
@@ -216,7 +216,7 @@ pip install clausemate
 ## Quick Start
 
 ### 🚀 Try Online (No Installation Required)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jobschepens/clausemate/HEAD?urlpath=lab/tree/notebooks/demo_analysis.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jobschepens/clausemate/HEAD?urlpath=lab/tree/notebooks/demo.ipynb)
 
 Click the Binder badge above to launch an interactive Jupyter environment with ClauseMate pre-installed and automatically open the demo notebook to explore the tool's capabilities.
 
