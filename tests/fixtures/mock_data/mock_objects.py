@@ -4,7 +4,7 @@ This module provides mock objects and test data for isolated unit testing
 of individual components without requiring full file parsing.
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 # Import the actual data models
 try:
@@ -44,7 +44,7 @@ class MockDataFactory:
         sentence_num: int = 1,
         grammatical_role: str = "nsubj",
         thematic_role: str = "agent",
-        coreference_link: Optional[str] = None,
+        coreference_link: str | None = None,
         is_critical_pronoun: bool = False,
     ) -> Token:
         """Create a mock Token object."""
@@ -106,9 +106,9 @@ class MockDataFactory:
     def create_mock_sentence_context(
         sentence_id: str = "1",
         sentence_num: int = 1,
-        tokens: Optional[List[Token]] = None,
-        critical_pronouns: Optional[List[Token]] = None,
-        coreference_phrases: Optional[List[CoreferencePhrase]] = None,
+        tokens: list[Token] | None = None,
+        critical_pronouns: list[Token] | None = None,
+        coreference_phrases: list[CoreferencePhrase] | None = None,
     ) -> SentenceContext:
         """Create a mock SentenceContext object."""
         if tokens is None:
@@ -139,10 +139,10 @@ class MockDataFactory:
     def create_mock_relationship(
         sentence_id: str = "1",
         sentence_num: int = 1,
-        pronoun: Optional[Token] = None,
-        clause_mate: Optional[Phrase] = None,
+        pronoun: Token | None = None,
+        clause_mate: Phrase | None = None,
         num_clause_mates: int = 1,
-        antecedent_info: Optional[AntecedentInfo] = None,
+        antecedent_info: AntecedentInfo | None = None,
     ) -> ClauseMateRelationship:
         """Create a mock ClauseMateRelationship object."""
         if pronoun is None:
@@ -225,7 +225,7 @@ class MockTSVData:
     ]
 
     @staticmethod
-    def get_sample_row(format_type: str = "standard") -> List[str]:
+    def get_sample_row(format_type: str = "standard") -> list[str]:
         """Get a sample data row for the specified format."""
         base_row = [
             "1-1",
@@ -260,7 +260,7 @@ class MockParserResults:
     @staticmethod
     def create_mock_parser_result(
         format_type: str = "standard", relationship_count: int = 2
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Create mock parser results."""
         return {
             "format_detected": format_type,

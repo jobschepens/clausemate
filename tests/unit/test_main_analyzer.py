@@ -101,15 +101,13 @@ class TestClauseMateAnalyzer:
         mock_contexts = [mock_context]
 
         # Mock the parser's parse_sentence_streaming method
-        with patch.object(
-            analyzer.parser, "parse_sentence_streaming"
-        ) as mock_parse, patch.object(
-            analyzer, "coreference_extractor"
-        ) as mock_coref, patch.object(
-            analyzer, "pronoun_extractor"
-        ) as mock_pronoun, patch.object(
-            analyzer, "phrase_extractor"
-        ) as mock_phrase, patch.object(analyzer, "relationship_extractor") as mock_rel:
+        with (
+            patch.object(analyzer.parser, "parse_sentence_streaming") as mock_parse,
+            patch.object(analyzer, "coreference_extractor") as mock_coref,
+            patch.object(analyzer, "pronoun_extractor") as mock_pronoun,
+            patch.object(analyzer, "phrase_extractor") as mock_phrase,
+            patch.object(analyzer, "relationship_extractor") as mock_rel,
+        ):
             # Setup parser and extractor returns
             mock_parse.return_value = iter(mock_contexts)
             mock_coref.extract_coreference_chains.return_value = []

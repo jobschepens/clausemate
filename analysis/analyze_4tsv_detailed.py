@@ -9,10 +9,10 @@ This script compares 4.tsv with working files to identify:
 """
 
 import os
-from typing import Any, Dict, List
+from typing import Any
 
 
-def extract_preamble(file_path: str) -> List[str]:
+def extract_preamble(file_path: str) -> list[str]:
     """Extract preamble lines from a TSV file."""
     preamble_lines = []
     try:
@@ -33,7 +33,7 @@ def extract_preamble(file_path: str) -> List[str]:
     return preamble_lines
 
 
-def analyze_preamble_structure(preamble: List[str]) -> Dict[str, Any]:
+def analyze_preamble_structure(preamble: list[str]) -> dict[str, Any]:
     """Analyze preamble structure and extract annotation information."""
     analysis = {
         "total_lines": len(preamble),
@@ -72,7 +72,7 @@ def analyze_preamble_structure(preamble: List[str]) -> Dict[str, Any]:
     return analysis
 
 
-def sample_data_rows(file_path: str, num_rows: int = 10) -> List[List[str]]:
+def sample_data_rows(file_path: str, num_rows: int = 10) -> list[list[str]]:
     """Sample first few data rows from TSV file."""
     data_rows = []
     try:
@@ -102,7 +102,7 @@ def sample_data_rows(file_path: str, num_rows: int = 10) -> List[List[str]]:
     return data_rows
 
 
-def analyze_column_structure(data_rows: List[List[str]]) -> Dict[str, Any]:
+def analyze_column_structure(data_rows: list[list[str]]) -> dict[str, Any]:
     """Analyze column structure from data rows."""
     if not data_rows:
         return {"error": "No data rows available"}
@@ -143,7 +143,7 @@ def analyze_column_structure(data_rows: List[List[str]]) -> Dict[str, Any]:
     return analysis
 
 
-def compare_files_detailed(files_info: Dict[str, str]) -> Dict[str, Any]:
+def compare_files_detailed(files_info: dict[str, str]) -> dict[str, Any]:
     """Compare all files in detail."""
     comparison = {
         "files_analyzed": {},
@@ -186,7 +186,7 @@ def compare_files_detailed(files_info: Dict[str, str]) -> Dict[str, Any]:
     return comparison
 
 
-def generate_compatibility_report(comparison: Dict[str, Any]) -> str:
+def generate_compatibility_report(comparison: dict[str, Any]) -> str:
     """Generate detailed compatibility report."""
     report = []
     report.append("# 4.tsv Compatibility Analysis Report")

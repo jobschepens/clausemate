@@ -10,7 +10,7 @@ Date: 2025-07-28
 """
 
 from dataclasses import dataclass
-from typing import Any, Dict, Optional
+from typing import Any
 
 from ..data.models import ClauseMateRelationship
 
@@ -29,7 +29,7 @@ class UnifiedClauseMateRelationship(ClauseMateRelationship):
     chapter_number: int = 0
     global_sentence_id: str = ""
     cross_chapter_relationship: bool = False
-    chapter_boundary_context: Optional[str] = None
+    chapter_boundary_context: str | None = None
 
     def __post_init__(self):
         """Post-initialization processing."""
@@ -52,7 +52,7 @@ class UnifiedClauseMateRelationship(ClauseMateRelationship):
         """Get unified identifier for this relationship."""
         return f"{self.chapter_number}_{self.sentence_id}_{self.pronoun.idx}"
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary representation with multi-file metadata."""
         # Get base dictionary from parent
         base_dict = super().to_dict()

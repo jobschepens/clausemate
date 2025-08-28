@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """Pronoun identification module for the clause mate extraction script."""
 
-from typing import Any, Dict, Optional
+from typing import Any
 
 from .config import Constants, PronounSets
 from .utils import extract_coreference_type
 
 
-def is_critical_pronoun(token_data: Dict[str, Any]) -> bool:
+def is_critical_pronoun(token_data: dict[str, Any]) -> bool:
     """Determine if a token is a critical pronoun.
 
     Args:
@@ -40,7 +40,7 @@ def is_critical_pronoun(token_data: Dict[str, Any]) -> bool:
     )
 
 
-def _is_third_person_pronoun(animate_type: Optional[str], token_lower: str) -> bool:
+def _is_third_person_pronoun(animate_type: str | None, token_lower: str) -> bool:
     """Check if token is a third person personal pronoun."""
     return (
         animate_type == Constants.PERSONAL_PRONOUN_TYPE
@@ -49,7 +49,7 @@ def _is_third_person_pronoun(animate_type: Optional[str], token_lower: str) -> b
 
 
 def _is_d_pronoun(
-    animate_type: Optional[str], inanimate_type: Optional[str], token_lower: str
+    animate_type: str | None, inanimate_type: str | None, token_lower: str
 ) -> bool:
     """Check if token is a D-pronoun."""
     return (
@@ -58,7 +58,7 @@ def _is_d_pronoun(
     ) and token_lower in PronounSets.D_PRONOUNS
 
 
-def _is_demonstrative_pronoun(animate_type: Optional[str], token_lower: str) -> bool:
+def _is_demonstrative_pronoun(animate_type: str | None, token_lower: str) -> bool:
     """Check if token is a demonstrative pronoun."""
     return (
         animate_type == Constants.DEMONSTRATIVE_PRONOUN_TYPE

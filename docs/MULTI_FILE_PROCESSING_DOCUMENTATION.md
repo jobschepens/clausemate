@@ -1,4 +1,5 @@
 # Multi-File Processing Documentation
+
 ## Clause Mates Analyzer - Unified Cross-Chapter Analysis
 
 ### Overview
@@ -18,12 +19,14 @@ The Multi-File Processing system enables the Clause Mates Analyzer to process mu
 **Purpose**: Coordinates the processing of multiple related TSV files, managing file discovery, format detection, and unified analysis orchestration.
 
 **Key Features**:
+
 - **Automatic File Discovery**: Handles distributed file structure (main directory + later/ subdirectory)
 - **Format Detection**: Identifies TSV format variation for each file (Extended, Standard, Legacy, Incomplete)
 - **Fresh Instance Pattern**: Creates new analyzer instances to prevent state corruption
 - **Error Handling**: Comprehensive error handling with detailed logging
 
 **Usage Example**:
+
 ```python
 from src.multi_file import MultiFileBatchProcessor
 
@@ -41,6 +44,7 @@ print(f"Extracted {len(unified_relationships)} unified relationships")
 ```
 
 **Key Methods**:
+
 - [`discover_files()`](src/multi_file/multi_file_batch_processor.py:45): Automatic file discovery
 - [`process_files()`](src/multi_file/multi_file_batch_processor.py:89): Main processing pipeline
 - [`_analyze_single_file()`](src/multi_file/multi_file_batch_processor.py:134): Individual file analysis
@@ -52,12 +56,14 @@ print(f"Extracted {len(unified_relationships)} unified relationships")
 **Purpose**: Manages global sentence numbering across multiple files, ensuring consistent sentence identification throughout the unified dataset.
 
 **Key Features**:
+
 - **Global Sentence Mapping**: Maps local sentence IDs to global unified sequence
 - **Chapter Boundary Tracking**: Maintains metadata about file transitions
 - **Fallback Mechanisms**: Handles missing or invalid sentence data gracefully
 - **Conflict Resolution**: Resolves sentence ID conflicts between files
 
 **Usage Example**:
+
 ```python
 from src.multi_file import UnifiedSentenceManager
 
@@ -73,6 +79,7 @@ print(f"Chapter transitions at sentences: {boundaries}")
 ```
 
 **Key Methods**:
+
 - [`map_sentence_id()`](src/multi_file/unified_sentence_manager.py:32): Map local to global sentence IDs
 - [`get_chapter_boundaries()`](src/multi_file/unified_sentence_manager.py:58): Retrieve chapter transition points
 - [`validate_sentence_ranges()`](src/multi_file/unified_sentence_manager.py:68): Validate sentence continuity
@@ -84,12 +91,14 @@ print(f"Chapter transitions at sentences: {boundaries}")
 **Purpose**: Resolves coreference chains that span multiple files using graph-based connected component analysis.
 
 **Key Features**:
+
 - **Multiple Connection Strategies**: Exact ID match, text similarity, positional proximity
 - **Graph-Based Resolution**: Uses connected components to merge related chains
 - **Chain Statistics**: Provides detailed statistics about cross-chapter connections
 - **Validation**: Comprehensive validation of chain merging results
 
 **Usage Example**:
+
 ```python
 from src.multi_file import CrossFileCoreferenceResolver
 
@@ -111,6 +120,7 @@ print(f"Cross-chapter connections: {stats['total_connections']}")
 ```
 
 **Key Methods**:
+
 - [`add_file_chains()`](src/multi_file/cross_file_coreference_resolver.py:35): Add chains from individual files
 - [`resolve_cross_file_chains()`](src/multi_file/cross_file_coreference_resolver.py:48): Main resolution algorithm
 - [`get_resolution_statistics()`](src/multi_file/cross_file_coreference_resolver.py:156): Detailed resolution statistics
@@ -122,12 +132,14 @@ print(f"Cross-chapter connections: {stats['total_connections']}")
 **Purpose**: Extended relationship data model that includes multi-file metadata and cross-chapter information.
 
 **Key Features**:
+
 - **Source File Tracking**: Records which file each relationship originated from
 - **Cross-Chapter Indicators**: Flags relationships that span chapter boundaries
 - **Global Sentence IDs**: Uses unified sentence numbering system
 - **Factory Methods**: Convenient creation methods for unified relationships
 
 **Data Model**:
+
 ```python
 @dataclass
 class UnifiedClauseMateRelationship(ClauseMateRelationship):
@@ -141,6 +153,7 @@ class UnifiedClauseMateRelationship(ClauseMateRelationship):
 ```
 
 **Usage Example**:
+
 ```python
 from src.multi_file import UnifiedClauseMateRelationship
 
@@ -169,6 +182,7 @@ print(f"Cross-chapter: {relationship.cross_file_relationship}")
 **Purpose**: Production-ready command-line interface for unified multi-file processing.
 
 **Features**:
+
 - **Automatic File Discovery**: Finds all compatible TSV files
 - **Timestamped Outputs**: Creates unique output directories with timestamps
 - **Multiple Formats**: Exports to both CSV and JSON formats
@@ -176,6 +190,7 @@ print(f"Cross-chapter: {relationship.cross_file_relationship}")
 - **Error Handling**: Robust error handling with informative messages
 
 **Usage**:
+
 ```bash
 # Run unified analysis on all discovered files
 python run_multi_file_analysis.py
@@ -188,6 +203,7 @@ python run_multi_file_analysis.py --verbose
 ```
 
 **Output Structure**:
+
 ```
 data/output/unified_analysis_YYYYMMDD_HHMMSS/
 ├── unified_relationships.csv          # Main CSV output
@@ -211,6 +227,7 @@ The multi-file processing system integrates seamlessly with the existing Clause 
 ## Processing Pipeline
 
 ### 1. File Discovery Phase
+
 ```mermaid
 graph TD
     A[Start] --> B[Scan Current Directory]
@@ -221,6 +238,7 @@ graph TD
 ```
 
 ### 2. Format Detection Phase
+
 ```mermaid
 graph TD
     A[File List] --> B[Read File Headers]
@@ -231,6 +249,7 @@ graph TD
 ```
 
 ### 3. Individual File Analysis
+
 ```mermaid
 graph TD
     A[File + Format] --> B[Create Fresh Analyzer]
@@ -241,6 +260,7 @@ graph TD
 ```
 
 ### 4. Unified Processing Phase
+
 ```mermaid
 graph TD
     A[All File Results] --> B[Unified Sentence Manager]
@@ -256,6 +276,7 @@ graph TD
 ## Performance Characteristics
 
 ### Processing Metrics (4 Chapter Files)
+
 - **Total Processing Time**: ~11.77 seconds
 - **Memory Usage**: Efficient with proper cleanup
 - **File Discovery**: <0.1 seconds
@@ -264,6 +285,7 @@ graph TD
 - **Output Generation**: <0.5 seconds
 
 ### Scalability Considerations
+
 - **Memory**: Linear scaling with file size
 - **Processing Time**: Near-linear scaling with number of files
 - **Disk I/O**: Optimized with streaming where possible
@@ -299,6 +321,7 @@ class MultiFileConfig:
 ```
 
 ### File Discovery Settings
+
 ```python
 class FileDiscoveryConfig:
     """Configuration for automatic file discovery."""
@@ -320,29 +343,37 @@ class FileDiscoveryConfig:
 ### Common Issues and Solutions
 
 #### 1. File Discovery Issues
+
 **Problem**: Not all expected files are found
 **Solution**:
+
 - Check file permissions and accessibility
 - Verify file naming conventions match expected patterns
 - Ensure files are in expected directories (main directory or later/ subdirectory)
 
 #### 2. Format Detection Failures
+
 **Problem**: Files are not recognized as valid TSV format
 **Solution**:
+
 - Verify files have proper WebAnno TSV structure
 - Check for corrupted or truncated files
 - Ensure files have required minimum columns
 
 #### 3. Cross-Chapter Resolution Issues
+
 **Problem**: Expected cross-chapter chains are not found
 **Solution**:
+
 - Verify coreference chain IDs are consistent across files
 - Check similarity thresholds in configuration
 - Review chain validation logs for filtering reasons
 
 #### 4. Memory Issues with Large Files
+
 **Problem**: Out of memory errors during processing
 **Solution**:
+
 - Process files individually first to identify problematic files
 - Increase system memory allocation
 - Consider processing subsets of files
@@ -357,6 +388,7 @@ The system provides comprehensive logging at multiple levels:
 **ERROR Level**: Processing failures and error conditions
 
 **Log Locations**:
+
 - Console output during processing
 - `processing_log.txt` in output directory
 - Individual component logs in debug mode
@@ -368,11 +400,13 @@ The system provides comprehensive logging at multiple levels:
 ### Test Suite Structure
 
 **File**: [`test_multi_file_processing.py`](test_multi_file_processing.py:1)
+
 - Basic multi-file processing functionality
 - Component integration testing
 - Error handling validation
 
 **File**: [`test_all_chapters.py`](test_all_chapters.py:1)
+
 - Comprehensive end-to-end testing
 - All 4 chapter files processing
 - Output validation and verification
@@ -457,6 +491,7 @@ class CrossFileCoreferenceResolver:
 The Multi-File Processing system successfully transforms the Clause Mates Analyzer into a comprehensive narrative analysis tool capable of processing entire books with cross-chapter relationship detection. The system maintains full backward compatibility while adding powerful new capabilities for linguistic research.
 
 **Key Achievements**:
+
 - ✅ Unified processing of all 4 chapter files
 - ✅ Cross-chapter coreference chain resolution
 - ✅ Production-ready command-line interface

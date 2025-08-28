@@ -1,9 +1,7 @@
 """Utilities package for the clause mates analyzer."""
 
 # Import utility functions from the parent utils.py file
-import sys
 from pathlib import Path
-from typing import Optional
 
 # Add parent directory to path to import utils.py
 utils_path = Path(__file__).parent.parent / "utils.py"
@@ -25,41 +23,137 @@ if utils_path.exists():
         extract_coref_link_numbers = utils_module.extract_coref_link_numbers
     else:
         # Fallback if spec creation fails
-        def extract_coreference_id(value: str) -> Optional[str]:
+        def extract_coreference_id(value: str) -> str | None:
+            """Extract coreference ID from a value string.
+
+            Args:
+                value: The value string to extract from.
+
+            Returns:
+                The extracted coreference ID or None if not found.
+            """
             return None
 
-        def extract_full_coreference_id(value: str) -> Optional[str]:
+        def extract_full_coreference_id(value: str) -> str | None:
+            """Extract full coreference ID from a value string.
+
+            Args:
+                value: The value string to extract from.
+
+            Returns:
+                The extracted full coreference ID or None if not found.
+            """
             return None
 
-        def extract_coreference_type(value: str) -> Optional[str]:
+        def extract_coreference_type(value: str) -> str | None:
+            """Extract coreference type from a value string.
+
+            Args:
+                value: The value string to extract from.
+
+            Returns:
+                The extracted coreference type or None if not found.
+            """
             return None
 
         def determine_givenness(value: str) -> str:
+            """Determine givenness from a value string.
+
+            Args:
+                value: The value string to analyze.
+
+            Returns:
+                The givenness value.
+            """
             return "_"
 
         def extract_coref_base_and_occurrence(value: str):
+            """Extract coreference base and occurrence numbers from a value string.
+
+            Args:
+                value: The value string to extract from.
+
+            Returns:
+                A tuple of (base_number, occurrence_number) or (None, None) if not found.
+            """
             return None, None
 
         def extract_coref_link_numbers(value: str):
+            """Extract coreference link numbers from a value string.
+
+            Args:
+                value: The value string to extract from.
+
+            Returns:
+                A tuple of (base_number, occurrence_number) or (None, None) if not found.
+            """
             return None, None
 else:
     # Fallback if utils.py doesn't exist
-    def extract_coreference_id(value: str) -> Optional[str]:
+    def extract_coreference_id(value: str) -> str | None:
+        """Extract coreference ID from a value string.
+
+        Args:
+            value: The value string to extract from.
+
+        Returns:
+            The extracted coreference ID or None if not found.
+        """
         return None
 
-    def extract_full_coreference_id(value: str) -> Optional[str]:
+    def extract_full_coreference_id(value: str) -> str | None:
+        """Extract full coreference ID from a value string.
+
+        Args:
+            value: The value string to extract from.
+
+        Returns:
+            The extracted full coreference ID or None if not found.
+        """
         return None
 
-    def extract_coreference_type(value: str) -> Optional[str]:
+    def extract_coreference_type(value: str) -> str | None:
+        """Extract coreference type from a value string.
+
+        Args:
+            value: The value string to extract from.
+
+        Returns:
+            The extracted coreference type or None if not found.
+        """
         return None
 
     def determine_givenness(value: str) -> str:
+        """Determine givenness from a value string.
+
+        Args:
+            value: The value string to analyze.
+
+        Returns:
+            The givenness value.
+        """
         return "_"
 
     def extract_coref_base_and_occurrence(value: str):
+        """Extract coreference base and occurrence numbers from a value string.
+
+        Args:
+            value: The value string to extract from.
+
+        Returns:
+            A tuple of (base_number, occurrence_number) or (None, None) if not found.
+        """
         return None, None
 
     def extract_coref_link_numbers(value: str):
+        """Extract coreference link numbers from a value string.
+
+        Args:
+            value: The value string to extract from.
+
+        Returns:
+            A tuple of (base_number, occurrence_number) or (None, None) if not found.
+        """
         return None, None
 
 

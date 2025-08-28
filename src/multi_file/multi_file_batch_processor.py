@@ -14,7 +14,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 from ..main import ClauseMateAnalyzer
 from .cross_file_coreference_resolver import CrossFileCoreferenceResolver
@@ -31,7 +31,7 @@ class ChapterInfo:
     format_type: str
     columns: int
     relationships_count: int
-    sentence_range: Tuple[int, int]
+    sentence_range: tuple[int, int]
     compatibility_score: float
 
 
@@ -39,13 +39,13 @@ class ChapterInfo:
 class MultiFileProcessingResult:
     """Result of multi-file processing operation."""
 
-    unified_relationships: List[UnifiedClauseMateRelationship]
-    chapter_info: List[ChapterInfo]
-    cross_chapter_chains: Dict[str, List[str]]
-    processing_stats: Dict[str, Any]
+    unified_relationships: list[UnifiedClauseMateRelationship]
+    chapter_info: list[ChapterInfo]
+    cross_chapter_chains: dict[str, list[str]]
+    processing_stats: dict[str, Any]
     processing_time: float
     success: bool
-    error_message: Optional[str] = None
+    error_message: str | None = None
 
 
 class MultiFileBatchProcessor:
@@ -72,16 +72,16 @@ class MultiFileBatchProcessor:
         self.cross_file_resolver = CrossFileCoreferenceResolver()
 
         # Processing state
-        self.chapter_files: List[str] = []
-        self.chapter_analyzers: Dict[str, ClauseMateAnalyzer] = {}
-        self.chapter_info: List[ChapterInfo] = []
+        self.chapter_files: list[str] = []
+        self.chapter_analyzers: dict[str, ClauseMateAnalyzer] = {}
+        self.chapter_info: list[ChapterInfo] = []
 
         self.logger.info(
             "MultiFileBatchProcessor initialized with cross-chapter resolution: %s",
             enable_cross_chapter_resolution,
         )
 
-    def discover_chapter_files(self, input_path: str) -> List[str]:
+    def discover_chapter_files(self, input_path: str) -> list[str]:
         """Discover and validate chapter files for processing.
 
         Args:
@@ -154,7 +154,7 @@ class MultiFileBatchProcessor:
         )
         return chapter_files
 
-    def analyze_chapter_files(self) -> List[ChapterInfo]:
+    def analyze_chapter_files(self) -> list[ChapterInfo]:
         """Analyze discovered chapter files to gather metadata.
 
         Returns:
@@ -372,7 +372,7 @@ class MultiFileBatchProcessor:
                 error_message=str(e),
             )
 
-    def get_processing_summary(self) -> Dict[str, Any]:
+    def get_processing_summary(self) -> dict[str, Any]:
         """Get summary of current processing state.
 
         Returns:
@@ -396,9 +396,9 @@ class MultiFileBatchProcessor:
 
     def _build_cross_chapter_lookup(
         self,
-        cross_chapter_chains: Dict[str, List[str]],
-        chapter_relationships: Dict[str, List],
-    ) -> Dict[str, str]:
+        cross_chapter_chains: dict[str, list[str]],
+        chapter_relationships: dict[str, list],
+    ) -> dict[str, str]:
         """Build lookup table for relationships that participate in cross-chapter chains using chain IDs.
 
         Args:

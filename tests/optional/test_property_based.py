@@ -1,14 +1,14 @@
 """Property-based tests for data validation and edge cases using Hypothesis."""
 
+import importlib.util
+import string
+
 import pytest
 
 # Check for hypothesis availability before any other imports
-try:
-    import hypothesis
-except ImportError:
+if importlib.util.find_spec("hypothesis") is None:
     pytest.skip("hypothesis not available", allow_module_level=True)
 
-import string
 from hypothesis import HealthCheck, assume, given, settings
 from hypothesis import strategies as st
 from hypothesis.strategies import composite

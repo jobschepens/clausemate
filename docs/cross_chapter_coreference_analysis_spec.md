@@ -15,6 +15,7 @@ The files represent sequential book chapters in numerical order, and coreference
 **File Processing Order**: 1.tsv → 2.tsv → 3.tsv → 4.tsv
 
 **Key Analysis Points**:
+
 - Extract the highest sentence number from each file
 - Identify potential sentence numbering gaps or overlaps
 - Analyze narrative continuity indicators
@@ -22,12 +23,14 @@ The files represent sequential book chapters in numerical order, and coreference
 ### 2. Coreference Chain Analysis
 
 **Chain Extraction Strategy**:
+
 - Extract all coreference chains from each file individually
 - Identify chain IDs and their sentence ranges
 - Look for chains that end near chapter boundaries
 - Look for chains that begin near chapter boundaries
 
 **Cross-Chapter Indicators**:
+
 - Chains ending in the last sentences of a chapter
 - Chains beginning in the first sentences of the next chapter
 - Shared character references across chapter boundaries
@@ -36,11 +39,13 @@ The files represent sequential book chapters in numerical order, and coreference
 ### 3. Character Continuity Analysis
 
 **Character Tracking**:
+
 - Extract character mentions (especially "Amerikaner", "Amerikanerin", proper names)
 - Track character introductions vs. continued references
 - Identify pronouns referring to characters introduced in previous chapters
 
 **Narrative Elements**:
+
 - Location references (Zell, Amerika)
 - Temporal continuity markers
 - Plot element continuity
@@ -122,6 +127,7 @@ class CrossChapterAnalyzer:
 ### Key Analysis Functions
 
 #### 1. Sentence Range Analysis
+
 ```python
 def analyze_sentence_ranges(self):
     """
@@ -139,6 +145,7 @@ def analyze_sentence_ranges(self):
 ```
 
 #### 2. Coreference Chain Extraction
+
 ```python
 def extract_coreference_chains(self, file_path: str):
     """
@@ -152,6 +159,7 @@ def extract_coreference_chains(self, file_path: str):
 ```
 
 #### 3. Cross-Chapter Evidence Detection
+
 ```python
 def detect_cross_chapter_evidence(self):
     """
@@ -213,13 +221,15 @@ CONFIDENCE LEVEL: [HIGH/MEDIUM/LOW]
 
 ## Validation Criteria
 
-### Positive Evidence for Cross-Chapter Chains:
+### Positive Evidence for Cross-Chapter Chains
+
 1. **Chain ID Continuity**: Same chain IDs appearing in consecutive chapters
 2. **Character Reference Gaps**: Pronouns referring to characters introduced in previous chapters
 3. **Narrative Continuity**: Plot elements, locations, or temporal references spanning chapters
 4. **Sentence Numbering**: Sequential sentence numbering across files
 
-### Negative Evidence (Separate Chapters):
+### Negative Evidence (Separate Chapters)
+
 1. **Independent Sentence Numbering**: Each file starts from sentence 1
 2. **Self-Contained Chains**: All coreference chains complete within each file
 3. **Character Reintroductions**: Characters reintroduced in each chapter
@@ -228,12 +238,14 @@ CONFIDENCE LEVEL: [HIGH/MEDIUM/LOW]
 ## Implementation Priority
 
 **High Priority Analysis**:
+
 1. Sentence numbering patterns across files
 2. Character mention analysis (especially "Amerika" references)
 3. Coreference chain boundary analysis
 4. Chain ID overlap detection
 
 **Medium Priority Analysis**:
+
 1. Narrative continuity indicators
 2. Temporal reference analysis
 3. Location reference continuity
@@ -242,6 +254,7 @@ CONFIDENCE LEVEL: [HIGH/MEDIUM/LOW]
 ## Success Metrics
 
 **Script Success Criteria**:
+
 - ✅ Processes all 4 chapter files successfully
 - ✅ Extracts sentence ranges and coreference data
 - ✅ Identifies potential cross-chapter relationships
@@ -249,6 +262,7 @@ CONFIDENCE LEVEL: [HIGH/MEDIUM/LOW]
 - ✅ Provides confidence level for findings
 
 **Analysis Success Criteria**:
+
 - ✅ Clear determination of cross-chapter chain existence
 - ✅ Specific examples of cross-chapter relationships (if found)
 - ✅ Quantified evidence supporting conclusions
@@ -257,12 +271,14 @@ CONFIDENCE LEVEL: [HIGH/MEDIUM/LOW]
 ## Next Steps After Analysis
 
 **If Cross-Chapter Chains Detected**:
+
 1. Proceed with unified multi-file processing implementation
 2. Design cross-chapter coreference resolution system
 3. Implement global sentence numbering
 4. Create unified output format
 
 **If No Cross-Chapter Chains Detected**:
+
 1. Modify plan to focus on batch processing with separate outputs
 2. Implement file aggregation without cross-chain resolution
 3. Create combined output with chapter metadata

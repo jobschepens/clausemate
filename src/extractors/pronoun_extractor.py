@@ -7,7 +7,6 @@ in the original script.
 
 import sys
 from pathlib import Path
-from typing import Dict, List
 
 from src.data.models import ExtractionResult, SentenceContext, Token
 from src.extractors.base import BasePronounExtractor
@@ -68,7 +67,7 @@ class PronounExtractor(BasePronounExtractor):
         # Can extract if any token could potentially be a pronoun
         return len(context.tokens) > 0
 
-    def extract_pronouns(self, context: SentenceContext) -> List[Token]:
+    def extract_pronouns(self, context: SentenceContext) -> list[Token]:
         """Extract all critical pronouns from a sentence context.
 
         Args:
@@ -89,7 +88,7 @@ class PronounExtractor(BasePronounExtractor):
 
     def classify_pronoun(
         self, pronoun: Token, context: SentenceContext
-    ) -> Dict[str, str]:
+    ) -> dict[str, str]:
         """Classify a pronoun's linguistic properties.
 
         Args:

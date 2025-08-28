@@ -7,7 +7,7 @@ operations, ensuring consistent behavior and easy extensibility.
 import sys
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 from src.data.models import (
     ClauseMateRelationship,
@@ -27,7 +27,7 @@ class BaseAnalyzer(ABC):
     """
 
     @abstractmethod
-    def analyze(self, extraction_result: ExtractionResult) -> Dict[str, Any]:
+    def analyze(self, extraction_result: ExtractionResult) -> dict[str, Any]:
         """Analyze extracted linguistic features.
 
         Args:
@@ -60,8 +60,8 @@ class BaseStatisticalAnalyzer(BaseAnalyzer):
 
     @abstractmethod
     def compute_descriptive_statistics(
-        self, relationships: List[ClauseMateRelationship]
-    ) -> Dict[str, float]:
+        self, relationships: list[ClauseMateRelationship]
+    ) -> dict[str, float]:
         """Compute descriptive statistics for clause mate relationships.
 
         Args:
@@ -73,8 +73,8 @@ class BaseStatisticalAnalyzer(BaseAnalyzer):
 
     @abstractmethod
     def compute_frequency_distributions(
-        self, relationships: List[ClauseMateRelationship]
-    ) -> Dict[str, Dict[str, int]]:
+        self, relationships: list[ClauseMateRelationship]
+    ) -> dict[str, dict[str, int]]:
         """Compute frequency distributions for various features.
 
         Args:
@@ -86,8 +86,8 @@ class BaseStatisticalAnalyzer(BaseAnalyzer):
 
     @abstractmethod
     def compute_correlations(
-        self, relationships: List[ClauseMateRelationship]
-    ) -> Dict[Tuple[str, str], float]:
+        self, relationships: list[ClauseMateRelationship]
+    ) -> dict[tuple[str, str], float]:
         """Compute correlations between different features.
 
         Args:
@@ -106,8 +106,8 @@ class BaseCoreferenceAnalyzer(BaseAnalyzer):
 
     @abstractmethod
     def analyze_coreference_patterns(
-        self, chains: List[CoreferenceChain]
-    ) -> Dict[str, Any]:
+        self, chains: list[CoreferenceChain]
+    ) -> dict[str, Any]:
         """Analyze patterns in coreference chains.
 
         Args:
@@ -119,8 +119,8 @@ class BaseCoreferenceAnalyzer(BaseAnalyzer):
 
     @abstractmethod
     def compute_chain_statistics(
-        self, chains: List[CoreferenceChain]
-    ) -> Dict[str, float]:
+        self, chains: list[CoreferenceChain]
+    ) -> dict[str, float]:
         """Compute statistics about coreference chains.
 
         Args:
@@ -132,8 +132,8 @@ class BaseCoreferenceAnalyzer(BaseAnalyzer):
 
     @abstractmethod
     def analyze_animacy_patterns(
-        self, chains: List[CoreferenceChain]
-    ) -> Dict[str, Any]:
+        self, chains: list[CoreferenceChain]
+    ) -> dict[str, Any]:
         """Analyze animacy patterns in coreference chains.
 
         Args:
@@ -151,7 +151,7 @@ class BasePronounAnalyzer(BaseAnalyzer):
     """
 
     @abstractmethod
-    def analyze_pronoun_distribution(self, pronouns: List[Token]) -> Dict[str, int]:
+    def analyze_pronoun_distribution(self, pronouns: list[Token]) -> dict[str, int]:
         """Analyze the distribution of different pronoun types.
 
         Args:
@@ -163,8 +163,8 @@ class BasePronounAnalyzer(BaseAnalyzer):
 
     @abstractmethod
     def analyze_pronoun_contexts(
-        self, relationships: List[ClauseMateRelationship]
-    ) -> Dict[str, Any]:
+        self, relationships: list[ClauseMateRelationship]
+    ) -> dict[str, Any]:
         """Analyze contexts in which pronouns appear.
 
         Args:
@@ -176,8 +176,8 @@ class BasePronounAnalyzer(BaseAnalyzer):
 
     @abstractmethod
     def analyze_antecedent_patterns(
-        self, relationships: List[ClauseMateRelationship]
-    ) -> Dict[str, Any]:
+        self, relationships: list[ClauseMateRelationship]
+    ) -> dict[str, Any]:
         """Analyze patterns in antecedent relationships.
 
         Args:
@@ -196,8 +196,8 @@ class BaseClauseMateAnalyzer(BaseAnalyzer):
 
     @abstractmethod
     def analyze_clause_mate_distribution(
-        self, relationships: List[ClauseMateRelationship]
-    ) -> Dict[str, int]:
+        self, relationships: list[ClauseMateRelationship]
+    ) -> dict[str, int]:
         """Analyze the distribution of clause mate types.
 
         Args:
@@ -209,8 +209,8 @@ class BaseClauseMateAnalyzer(BaseAnalyzer):
 
     @abstractmethod
     def analyze_syntactic_patterns(
-        self, relationships: List[ClauseMateRelationship]
-    ) -> Dict[str, Any]:
+        self, relationships: list[ClauseMateRelationship]
+    ) -> dict[str, Any]:
         """Analyze syntactic patterns in clause mate relationships.
 
         Args:
@@ -222,8 +222,8 @@ class BaseClauseMateAnalyzer(BaseAnalyzer):
 
     @abstractmethod
     def analyze_thematic_role_patterns(
-        self, relationships: List[ClauseMateRelationship]
-    ) -> Dict[str, Any]:
+        self, relationships: list[ClauseMateRelationship]
+    ) -> dict[str, Any]:
         """Analyze thematic role patterns in clause mate relationships.
 
         Args:
@@ -243,7 +243,7 @@ class BaseValidationAnalyzer(BaseAnalyzer):
     @abstractmethod
     def validate_data_consistency(
         self, extraction_result: ExtractionResult
-    ) -> List[str]:
+    ) -> list[str]:
         """Validate consistency of extracted data.
 
         Args:
@@ -256,7 +256,7 @@ class BaseValidationAnalyzer(BaseAnalyzer):
     @abstractmethod
     def check_completeness(
         self, extraction_result: ExtractionResult
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """Check completeness of extracted data.
 
         Args:
@@ -268,8 +268,8 @@ class BaseValidationAnalyzer(BaseAnalyzer):
 
     @abstractmethod
     def identify_anomalies(
-        self, relationships: List[ClauseMateRelationship]
-    ) -> List[Dict[str, Any]]:
+        self, relationships: list[ClauseMateRelationship]
+    ) -> list[dict[str, Any]]:
         """Identify potential anomalies in the data.
 
         Args:

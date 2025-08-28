@@ -5,7 +5,8 @@ but still contain usable linguistic data including coreference information.
 """
 
 import logging
-from typing import Any, Dict, Iterator, Optional
+from collections.abc import Iterator
+from typing import Any
 
 from ..data.models import SentenceContext, Token
 from ..parsers.base import BaseTokenProcessor
@@ -16,9 +17,7 @@ from .preamble_parser import PreambleParser, extract_preamble_from_file
 class IncompleteFormatParser(AdaptiveTSVParser):
     """Parser for handling incomplete TSV formats with graceful degradation."""
 
-    def __init__(
-        self, processor: BaseTokenProcessor, limitations: Optional[list] = None
-    ):
+    def __init__(self, processor: BaseTokenProcessor, limitations: list | None = None):
         """Initialize incomplete format parser.
 
         Args:
@@ -314,18 +313,20 @@ class IncompleteFormatParser(AdaptiveTSVParser):
                         first_words=current_first_words or "",
                     )
 
-        except FileNotFoundError:
+        except FileNotFoundError as exc:
             from ..exceptions import FileProcessingError
 
-            raise FileProcessingError(f"File not found: {file_path}")
-        except PermissionError:
+            raise FileProcessingError(f"File not found: {file_path}") from exc
+        except PermissionError as exc:
             from ..exceptions import FileProcessingError
 
-            raise FileProcessingError(f"Permission denied: {file_path}")
+            raise FileProcessingError(f"Permission denied: {file_path}") from exc
         except Exception as e:
             from ..exceptions import FileProcessingError
 
-            raise FileProcessingError(f"Error processing file {file_path}: {str(e)}")
+            raise FileProcessingError(
+                f"Error processing file {file_path}: {str(e)}"
+            ) from e
 
     def _extract_first_words(self, line: str) -> str:
         """Extract the first three words from the sentence boundary line."""
@@ -335,7 +336,7 @@ class IncompleteFormatParser(AdaptiveTSVParser):
             return "_".join(words).replace(",", "").replace(".", "")
         return ""
 
-    def _create_token_from_row(self, row: list, sentence_id: str) -> Optional[Token]:
+    def _create_token_from_row(self, row: list, sentence_id: str) -> Token | None:
         """Create token from row with graceful handling of missing columns."""
         try:
             # Ensure we have minimum required columns
@@ -415,7 +416,7 @@ class IncompleteFormatParser(AdaptiveTSVParser):
 
         return limitations
 
-    def get_compatibility_info(self) -> Dict[str, Any]:
+    def get_compatibility_info(self) -> dict[str, Any]:
         """Get compatibility information for this format."""
         return {
             "format_type": "incomplete",

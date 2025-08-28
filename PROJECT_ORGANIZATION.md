@@ -38,7 +38,9 @@ clausemate/
 ## Quick Commands
 
 ### Windows PATH Setup (One-time)
+
 If you get warnings about Python scripts not being on PATH, add the user scripts directory:
+
 ```powershell
 # Temporary (current session only)
 $env:PATH += ";C:\Users\Job\AppData\Roaming\Python\Python313\Scripts"
@@ -48,6 +50,7 @@ Add-Content -Path $PROFILE -Value '$env:PATH += ";C:\Users\Job\AppData\Roaming\P
 ```
 
 ### Development with Docker
+
 ```bash
 # Start development environment
 cd docker
@@ -63,6 +66,7 @@ docker-compose up clausemate-prod
 ```
 
 ### Local Development
+
 ```bash
 # Install dependencies
 pip install -r config/requirements.txt

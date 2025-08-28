@@ -11,6 +11,7 @@ This document outlines the Docker implementation plan for the Clause Mates Analy
 ### Current System Status ✅
 
 The Clause Mates Analyzer has achieved **Phase 2 completion** with:
+
 - **100% File Format Compatibility**: All 4 WebAnno TSV format variations supported
 - **Adaptive Parsing System**: Automatic format detection and parser selection
 - **Production-Ready Architecture**: Robust, tested, and documented system
@@ -19,6 +20,7 @@ The Clause Mates Analyzer has achieved **Phase 2 completion** with:
 ### Docker Implementation Goals
 
 **Primary Objectives:**
+
 - **Containerized Deployment**: Reproducible environment across platforms
 - **Simplified Setup**: One-command installation and execution
 - **Development Support**: Containerized development environment
@@ -32,6 +34,7 @@ The Clause Mates Analyzer has achieved **Phase 2 completion** with:
 ### 1. Multi-stage Build Strategy
 
 **Build Stages:**
+
 ```dockerfile
 # Stage 1: Base Python environment
 FROM python:3.9-slim as base
@@ -47,6 +50,7 @@ FROM base as production
 ```
 
 **Benefits:**
+
 - **Reduced Image Size**: Production images without development dependencies
 - **Security**: Minimal attack surface in production
 - **Flexibility**: Different configurations for different use cases
@@ -55,6 +59,7 @@ FROM base as production
 ### 2. Container Structure
 
 **Directory Layout:**
+
 ```
 /app/
 ├── src/                    # Application source code
@@ -69,6 +74,7 @@ FROM base as production
 ```
 
 **Volume Mounts:**
+
 - **Data Volume**: `/app/data` for input/output files
 - **Config Volume**: `/app/config` for custom configurations
 - **Results Volume**: `/app/results` for persistent output storage
@@ -235,6 +241,7 @@ CMD ["bash"]
 #### 2.2 Development Workflow ✅ READY
 
 **Development Commands:**
+
 ```bash
 # Start development container
 docker-compose run --rm clausemate-dev
@@ -250,6 +257,7 @@ docker-compose run --rm clausemate-dev bash
 ```
 
 **Development Features:**
+
 - **Live Code Reloading**: Volume mounts for real-time development
 - **Interactive Shell**: Full bash environment for debugging
 - **Testing Environment**: Complete test suite execution
@@ -282,6 +290,7 @@ ENTRYPOINT ["./docker-entrypoint.sh"]
 #### 3.2 Image Optimization ✅ READY
 
 **Optimization Strategies:**
+
 - **Multi-stage Builds**: Separate development and production images
 - **Layer Caching**: Optimize layer order for better caching
 - **Minimal Base**: Use slim Python images
@@ -289,6 +298,7 @@ ENTRYPOINT ["./docker-entrypoint.sh"]
 - **Health Checks**: Container health monitoring
 
 **Expected Image Sizes:**
+
 - **Development Image**: ~800MB (with all tools)
 - **Production Image**: ~300MB (minimal runtime)
 - **Base Layer**: ~200MB (shared across stages)
@@ -344,6 +354,7 @@ jobs:
 #### 4.2 Automated Testing ✅ READY
 
 **Test Matrix:**
+
 ```yaml
 strategy:
   matrix:
@@ -360,6 +371,7 @@ steps:
 ```
 
 **Validation Tests:**
+
 - **Format Compatibility**: All 4 formats process successfully
 - **Relationship Counts**: Expected relationship counts validated
 - **Performance**: Processing time within acceptable limits
@@ -373,6 +385,7 @@ steps:
 ### 1. Quick Start ✅ READY
 
 **Installation:**
+
 ```bash
 # Clone repository
 git clone https://github.com/jobschepens/clausemate.git
@@ -386,6 +399,7 @@ docker run --rm -v $(pwd)/data:/app/data clausemate data/input/gotofiles/2.tsv
 ```
 
 **Docker Compose:**
+
 ```bash
 # Start with docker-compose
 docker-compose up clausemate
@@ -400,6 +414,7 @@ docker-compose run --rm clausemate-test
 ### 2. Advanced Usage ✅ READY
 
 **Custom Configuration:**
+
 ```bash
 # Mount custom configuration
 docker run --rm \
@@ -409,6 +424,7 @@ docker run --rm \
 ```
 
 **Batch Processing:**
+
 ```bash
 # Process multiple files
 for file in data/input/gotofiles/later/*.tsv; do
@@ -417,6 +433,7 @@ done
 ```
 
 **Development Workflow:**
+
 ```bash
 # Interactive development
 docker-compose run --rm clausemate-dev bash
@@ -431,6 +448,7 @@ docker-compose run --rm clausemate-dev ruff check src/
 ### 3. Production Deployment ✅ READY
 
 **Production Configuration:**
+
 ```yaml
 # docker-compose.prod.yml
 version: '3.8'
@@ -453,6 +471,7 @@ services:
 ```
 
 **Monitoring:**
+
 ```bash
 # Container health
 docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
@@ -471,6 +490,7 @@ docker logs -f clausemate
 ### 1. Performance Optimization ✅
 
 **Resource Limits:**
+
 ```yaml
 services:
   clausemate:
@@ -485,11 +505,13 @@ services:
 ```
 
 **Caching Strategy:**
+
 - **Layer Caching**: Optimize Dockerfile for better layer reuse
 - **Build Cache**: Use BuildKit for improved build performance
 - **Registry Cache**: Pull base images from local registry when possible
 
 **Performance Metrics:**
+
 - **Build Time**: < 5 minutes for full build
 - **Image Size**: < 300MB for production image
 - **Startup Time**: < 10 seconds for container startup
@@ -498,6 +520,7 @@ services:
 ### 2. Security Considerations ✅
 
 **Security Features:**
+
 - **Non-root User**: All processes run as non-root user
 - **Minimal Base**: Slim base images with minimal attack surface
 - **No Secrets**: No hardcoded secrets or credentials
@@ -505,6 +528,7 @@ services:
 - **Security Scanning**: Automated vulnerability scanning in CI/CD
 
 **Security Configuration:**
+
 ```dockerfile
 # Security hardening
 RUN useradd --create-home --shell /bin/bash --uid 1000 clausemate
@@ -521,12 +545,14 @@ VOLUME ["/tmp", "/app/data/output"]
 ### 1. Health Monitoring ✅
 
 **Health Checks:**
+
 ```dockerfile
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD python -c "import src.main; print('OK')" || exit 1
 ```
 
 **Monitoring Metrics:**
+
 - **Container Health**: Health check status
 - **Resource Usage**: CPU, memory, disk usage
 - **Processing Metrics**: Files processed, success rate
@@ -535,6 +561,7 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
 ### 2. Maintenance Procedures ✅
 
 **Update Process:**
+
 ```bash
 # Pull latest changes
 git pull origin main
@@ -548,6 +575,7 @@ docker-compose up -d
 ```
 
 **Backup Procedures:**
+
 - **Data Backup**: Regular backup of input/output data
 - **Configuration Backup**: Version control for configurations
 - **Image Backup**: Tagged images for rollback capability
@@ -559,6 +587,7 @@ docker-compose up -d
 ### 1. Advanced Features
 
 **Planned Enhancements:**
+
 - **Kubernetes Support**: Helm charts for Kubernetes deployment
 - **Distributed Processing**: Multi-container processing for large corpora
 - **Web Interface**: Containerized web UI for interactive analysis
@@ -568,6 +597,7 @@ docker-compose up -d
 ### 2. Integration Opportunities
 
 **External Integrations:**
+
 - **Cloud Deployment**: AWS/GCP/Azure container services
 - **CI/CD Pipelines**: Integration with various CI/CD platforms
 - **Data Pipelines**: Integration with data processing workflows
@@ -578,24 +608,28 @@ docker-compose up -d
 ## Implementation Timeline
 
 ### Phase 1: Basic Containerization (Week 1)
+
 - [ ] Create base Dockerfile
 - [ ] Implement Docker Compose configuration
 - [ ] Create entry point script
 - [ ] Test basic functionality
 
 ### Phase 2: Development Environment (Week 2)
+
 - [ ] Implement development Dockerfile
 - [ ] Create development workflow documentation
 - [ ] Test development environment
 - [ ] Validate testing in containers
 
 ### Phase 3: Production Optimization (Week 3)
+
 - [ ] Optimize production Dockerfile
 - [ ] Implement security hardening
 - [ ] Performance testing and optimization
 - [ ] Create production deployment guide
 
 ### Phase 4: CI/CD Integration (Week 4)
+
 - [ ] Implement GitHub Actions workflow
 - [ ] Create automated testing pipeline
 - [ ] Set up image registry
@@ -608,18 +642,21 @@ docker-compose up -d
 ### Benefits of Docker Implementation
 
 **Development Benefits:**
+
 - **Consistent Environment**: Same environment across all development machines
 - **Easy Setup**: One-command installation and execution
 - **Isolated Dependencies**: No conflicts with host system
 - **Reproducible Builds**: Consistent builds across different environments
 
 **Production Benefits:**
+
 - **Scalable Deployment**: Easy horizontal scaling
 - **Resource Efficiency**: Optimal resource utilization
 - **Security**: Isolated execution environment
 - **Maintenance**: Simplified updates and rollbacks
 
 **Research Benefits:**
+
 - **Reproducible Research**: Exact environment replication
 - **Cross-platform Compatibility**: Runs on any Docker-supported platform
 - **Collaboration**: Easy sharing of complete analysis environment

@@ -16,7 +16,7 @@ import json
 import logging
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 # For generating HTML visualizations
 HTML_TEMPLATE = """
@@ -78,8 +78,8 @@ class InteractiveVisualizer:
 
     def create_cross_chapter_network_visualization(
         self,
-        cross_chapter_chains: Dict[str, List[str]],
-        relationships_data: List[Dict[str, Any]],
+        cross_chapter_chains: dict[str, list[str]],
+        relationships_data: list[dict[str, Any]],
         output_filename: str = "cross_chapter_network.html",
     ) -> str:
         """Create interactive cross-chapter coreference network visualization.
@@ -317,8 +317,8 @@ class InteractiveVisualizer:
 
     def create_chapter_analysis_reports(
         self,
-        relationships_data: List[Dict[str, Any]],
-        processing_stats: Dict[str, Any],
+        relationships_data: list[dict[str, Any]],
+        processing_stats: dict[str, Any],
         output_filename: str = "chapter_analysis_reports.html",
     ) -> str:
         """Create comprehensive chapter-by-chapter analysis reports.
@@ -497,9 +497,9 @@ class InteractiveVisualizer:
 
     def create_comparative_dashboard(
         self,
-        relationships_data: List[Dict[str, Any]],
-        cross_chapter_chains: Dict[str, List[str]],
-        processing_stats: Dict[str, Any],
+        relationships_data: list[dict[str, Any]],
+        cross_chapter_chains: dict[str, list[str]],
+        processing_stats: dict[str, Any],
         output_filename: str = "comparative_dashboard.html",
     ) -> str:
         """Create comprehensive comparative analysis dashboard.
@@ -549,7 +549,7 @@ class InteractiveVisualizer:
 
             # Distance analysis
             distance = rel.get("pronoun_most_recent_antecedent_distance", 0)
-            if isinstance(distance, (int, float)) and distance > 0:
+            if isinstance(distance, int | float) and distance > 0:
                 chapter_metrics[chapter]["avg_distance"].append(distance)
 
             # Givenness analysis

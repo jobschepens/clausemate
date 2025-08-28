@@ -3,6 +3,7 @@
 
 
 def check_file_format():
+    """Check the format of the gotofiles/2.tsv file."""
     try:
         with open("data/input/gotofiles/2.tsv", encoding="utf-8") as f:
             lines = f.readlines()

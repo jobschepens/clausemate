@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Configuration module for clause mate extraction script.
+
 Contains all constants, column definitions, and configuration settings.
 """
-
-from typing import Set
 
 
 class TSVColumns:
@@ -64,9 +63,9 @@ class Constants:
 class PronounSets:
     """Sets of critical pronouns."""
 
-    THIRD_PERSON_PRONOUNS: Set[str] = {"er", "sie", "es", "ihm", "ihr", "ihn", "ihnen"}
+    THIRD_PERSON_PRONOUNS: set[str] = {"er", "sie", "es", "ihm", "ihr", "ihn", "ihnen"}
 
-    D_PRONOUNS: Set[str] = {
+    D_PRONOUNS: set[str] = {
         "der",
         "die",
         "das",
@@ -77,7 +76,7 @@ class PronounSets:
         "derer",
     }
 
-    DEMONSTRATIVE_PRONOUNS: Set[str] = {"dieser", "diese", "dieses", "diesem", "diesen"}
+    DEMONSTRATIVE_PRONOUNS: set[str] = {"dieser", "diese", "dieses", "diesem", "diesen"}
 
 
 # Combined critical pronouns for backwards compatibility

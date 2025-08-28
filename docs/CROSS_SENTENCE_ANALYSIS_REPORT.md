@@ -10,8 +10,8 @@
 - **Total clause mates in sentence**: 5
 
 **MOST RECENT ANTECEDENT**: "Die Polizei" (distance: 24 tokens)
-  - Found in **Sentence 15**: "Die Polizei hat es ja schon Ende Jänner aufgegeben gehabt."
 
+- Found in **Sentence 15**: "Die Polizei hat es ja schon Ende Jänner aufgegeben gehabt."
 
 - **Antecedent choices available**: 1
 - **Coreference links**: animate: *->129-2, inanimate: nan
@@ -26,10 +26,12 @@
 - **Total clause mates in sentence**: 1
 
 **MOST RECENT ANTECEDENT**: "Die Toten" (distance: 18 tokens)
-  - Found in **Sentence 25**: "Die Toten sind ja die amerikanischen Schwiegereltern vom Vergolder Antretter gewesen."
+
+- Found in **Sentence 25**: "Die Toten sind ja die amerikanischen Schwiegereltern vom Vergolder Antretter gewesen."
 
 **FIRST ANTECEDENT**: "Die beiden Amerikaner" (distance: 270 tokens)
-  - Found in **Sentence 5**: "Die beiden Amerikaner sind Ende Dezember am Sessellift in Zell erfroren."
+
+- Found in **Sentence 5**: "Die beiden Amerikaner sind Ende Dezember am Sessellift in Zell erfroren."
 
 - **Antecedent choices available**: 4
 - **Coreference links**: animate: *->110-5, inanimate: nan
@@ -44,10 +46,12 @@
 - **Total clause mates in sentence**: 3
 
 **MOST RECENT ANTECEDENT**: "der Brenner" (distance: 103 tokens)
-  - Found in **Sentence 22**: "Und Anfang März taucht der Brenner auf einmal wieder auf."
+
+- Found in **Sentence 22**: "Und Anfang März taucht der Brenner auf einmal wieder auf."
 
 **FIRST ANTECEDENT**: "ein Detektiv" (distance: 354 tokens)
-  - Found in **Sentence 2**: "Aber vom Pinzgau aus gesehen: vierzig Hotels, neun Schulen, dreißig Dreitausender, achtundfünfzig Lifte, ein See, ein Detektiv."
+
+- Found in **Sentence 2**: "Aber vom Pinzgau aus gesehen: vierzig Hotels, neun Schulen, dreißig Dreitausender, achtundfünfzig Lifte, ein See, ein Detektiv."
 
 - **Antecedent choices available**: 14
 - **Coreference links**: animate: *->127-15, inanimate: nan
@@ -62,8 +66,8 @@
 - **Total clause mates in sentence**: 3
 
 **MOST RECENT ANTECEDENT**: "der amerikanischen Versicherung" (distance: 23 tokens)
-  - Found in **Sentence 31**: "Dann hat sich herausgestellt, daß es eine Versicherungsgeschichte war, von der amerikanischen Versicherung aus, weil es da ja um viel, viel Geld gegangen ist."
 
+- Found in **Sentence 31**: "Dann hat sich herausgestellt, daß es eine Versicherungsgeschichte war, von der amerikanischen Versicherung aus, weil es da ja um viel, viel Geld gegangen ist."
 
 - **Antecedent choices available**: 1
 - **Coreference links**: animate: *->115-2, inanimate: nan
@@ -78,10 +82,12 @@
 - **Total clause mates in sentence**: 1
 
 **MOST RECENT ANTECEDENT**: "ihren" (distance: 27 tokens)
-  - Found in **Sentence 33**: "Die haben aber nicht ihren eigenen Detektiv aus Amerika herübergeschickt, weil erstens Sprachprobleme, und zweitens ist es ja viel einfacher."
+
+- Found in **Sentence 33**: "Die haben aber nicht ihren eigenen Detektiv aus Amerika herübergeschickt, weil erstens Sprachprobleme, und zweitens ist es ja viel einfacher."
 
 **FIRST ANTECEDENT**: "der amerikanischen Versicherung" (distance: 54 tokens)
-  - Found in **Sentence 31**: "Dann hat sich herausgestellt, daß es eine Versicherungsgeschichte war, von der amerikanischen Versicherung aus, weil es da ja um viel, viel Geld gegangen ist."
+
+- Found in **Sentence 31**: "Dann hat sich herausgestellt, daß es eine Versicherungsgeschichte war, von der amerikanischen Versicherung aus, weil es da ja um viel, viel Geld gegangen ist."
 
 - **Antecedent choices available**: 3
 - **Coreference links**: animate: *->115-4, inanimate: nan
@@ -96,10 +102,12 @@
 - **Total clause mates in sentence**: 5
 
 **MOST RECENT ANTECEDENT**: "der" (distance: 16 tokens)
-  - Found in **Sentence 28**: "Ist ja schon der Vergolder selber steinreich, bestimmt der reichste Mann in Zell, weit vor dem Eder, weit vor dem Bürgermeister und meilenweit vor dem Fürstauer."
+
+- Found in **Sentence 28**: "Ist ja schon der Vergolder selber steinreich, bestimmt der reichste Mann in Zell, weit vor dem Eder, weit vor dem Bürgermeister und meilenweit vor dem Fürstauer."
 
 **FIRST ANTECEDENT**: "ein Detektiv" (distance: 498 tokens)
-  - Found in **Sentence 2**: "Aber vom Pinzgau aus gesehen: vierzig Hotels, neun Schulen, dreißig Dreitausender, achtundfünfzig Lifte, ein See, ein Detektiv."
+
+- Found in **Sentence 2**: "Aber vom Pinzgau aus gesehen: vierzig Hotels, neun Schulen, dreißig Dreitausender, achtundfünfzig Lifte, ein See, ein Detektiv."
 
 - **Antecedent choices available**: 19
 - **Coreference links**: animate: *->127-20, inanimate: nan
@@ -114,10 +122,12 @@
 - **Total clause mates in sentence**: 6
 
 **MOST RECENT ANTECEDENT**: "der" (distance: 25 tokens)
-  - Found in **Sentence 31**: "Dann hat sich herausgestellt, daß es eine Versicherungsgeschichte war, von der amerikanischen Versicherung aus, weil es da ja um viel, viel Geld gegangen ist."
+
+- Found in **Sentence 31**: "Dann hat sich herausgestellt, daß es eine Versicherungsgeschichte war, von der amerikanischen Versicherung aus, weil es da ja um viel, viel Geld gegangen ist."
 
 **FIRST ANTECEDENT**: "ein Detektiv" (distance: 570 tokens)
-  - Found in **Sentence 2**: "Aber vom Pinzgau aus gesehen: vierzig Hotels, neun Schulen, dreißig Dreitausender, achtundfünfzig Lifte, ein See, ein Detektiv."
+
+- Found in **Sentence 2**: "Aber vom Pinzgau aus gesehen: vierzig Hotels, neun Schulen, dreißig Dreitausender, achtundfünfzig Lifte, ein See, ein Detektiv."
 
 - **Antecedent choices available**: 25
 - **Coreference links**: animate: *->127-26, inanimate: nan
@@ -132,10 +142,12 @@
 - **Total clause mates in sentence**: 2
 
 **MOST RECENT ANTECEDENT**: "er" (distance: 20 tokens)
-  - Found in **Sentence 38**: "Aber er hat es nie richtig weit gebracht bei der Kripo."
+
+- Found in **Sentence 38**: "Aber er hat es nie richtig weit gebracht bei der Kripo."
 
 **FIRST ANTECEDENT**: "ein Detektiv" (distance: 695 tokens)
-  - Found in **Sentence 2**: "Aber vom Pinzgau aus gesehen: vierzig Hotels, neun Schulen, dreißig Dreitausender, achtundfünfzig Lifte, ein See, ein Detektiv."
+
+- Found in **Sentence 2**: "Aber vom Pinzgau aus gesehen: vierzig Hotels, neun Schulen, dreißig Dreitausender, achtundfünfzig Lifte, ein See, ein Detektiv."
 
 - **Antecedent choices available**: 28
 - **Coreference links**: animate: *->127-29, inanimate: nan

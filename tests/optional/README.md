@@ -2,14 +2,16 @@
 
 This directory contains tests that require optional dependencies that may not be available in all environments, particularly CI/CD pipelines.
 
-## Tests in this directory:
+## Tests in this directory
 
 ### `test_property_based.py`
+
 - **Requires**: `hypothesis` package
 - **Purpose**: Property-based testing for data validation and edge cases
 - **Install**: `pip install hypothesis` or `pip install -e ".[dev]"`
 
 ### `test_benchmark.py`
+
 - **Requires**: `psutil` package
 - **Purpose**: Performance benchmarking and system resource monitoring tests
 - **Install**: `pip install psutil` or `pip install -e ".[benchmark]"`

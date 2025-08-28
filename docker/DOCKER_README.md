@@ -5,6 +5,7 @@ This repository provides multiple Docker configurations for different use cases:
 ## 🐳 Docker Files Overview
 
 ### 1. `Dockerfile` (Production)
+
 - **Purpose**: Production deployment and CI/CD
 - **Features**: Multi-stage build with testing, minimal runtime image
 - **User**: `app` (non-root)
@@ -12,6 +13,7 @@ This repository provides multiple Docker configurations for different use cases:
 - **Use Case**: Deploy ClauseMate for analysis in production environments
 
 ### 2. `Dockerfile.dev` (Development)
+
 - **Purpose**: Local development with full tooling
 - **Features**: Jupyter Lab, development packages, debugging tools
 - **User**: `clausemate` (non-root with proper home directory)
@@ -99,17 +101,20 @@ jupyter nbconvert --to notebook --execute notebooks/demo_analysis.ipynb
 The following issues have been resolved:
 
 #### ✅ ModuleNotFoundError Fix
+
 ```bash
 # This now works from any directory
 python scripts/run_multi_file_analysis.py --verbose
 ```
 
 #### ✅ Binder Auto-Open Fix
+
 - Updated README.md Binder badge URL
 - Enhanced demo notebook with robust installation
 - Improved .binder/postBuild script
 
 #### ✅ Docker Development Environment
+
 - Created Dockerfile.dev for development
 - Added docker-compose.dev.yml for easy setup
 - Included .dockerignore.dev for optimized builds
@@ -127,19 +132,23 @@ Run `python test_docker_setup.py` to verify:
 ## Troubleshooting
 
 ### Import Errors
+
 If you encounter import errors, ensure you're running from the project root:
+
 ```bash
 cd /workspace  # In Docker container
 python scripts/run_multi_file_analysis.py
 ```
 
 ### Missing Dependencies
+
 ```bash
 # Install additional packages if needed
 pip install pandas matplotlib jupyter
 ```
 
 ### Permission Issues
+
 ```bash
 # Fix permissions if needed
 chown -R clausemate:clausemate /workspace

@@ -31,6 +31,7 @@ def get_sentence_text(sentence_num, data_file="data/input/gotofiles/2.tsv"):
 
 
 def main():
+    """Analyze Phase 2 cross-sentence antecedent detection results."""
     # Load results
     df = pd.read_csv("phase2_cross_sentence_test.csv")
 
@@ -190,7 +191,7 @@ def main():
             diverse_examples = []
             seen_combinations = set()
 
-            for idx, (_i, row) in enumerate(high_distance.iterrows()):
+            for _idx, (_i, row) in enumerate(high_distance.iterrows()):
                 # Create a key for diversity: pronoun_text + sentence_id + antecedent_text
                 key = (
                     row["pronoun_text"],

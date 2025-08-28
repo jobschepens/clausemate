@@ -4,7 +4,7 @@ import hashlib
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any
 
 import pandas as pd
 
@@ -22,6 +22,11 @@ class DataVersionManager:
     """Manage data versions and provenance."""
 
     def __init__(self, data_dir: Path = Path("data")):
+        """Initialize the DataVersionManager.
+
+        Args:
+            data_dir: Path to the data directory. Defaults to "data".
+        """
         self.data_dir = data_dir
         self.metadata_file = data_dir / "metadata.json"
 
@@ -37,9 +42,9 @@ class DataVersionManager:
         self,
         input_file: Path,
         output_file: Path,
-        processing_config: Dict[str, Any],
+        processing_config: dict[str, Any],
         phase: str = "phase2",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Create metadata for a processing run."""
         metadata = {
             "timestamp": datetime.now().isoformat(),
@@ -85,7 +90,7 @@ class DataVersionManager:
 
         return metadata
 
-    def save_metadata(self, metadata: Dict[str, Any]):
+    def save_metadata(self, metadata: dict[str, Any]):
         """Save metadata to file."""
         # Load existing metadata
         existing_metadata = []
@@ -107,9 +112,7 @@ class DataVersionManager:
         new_hash = self.compute_file_hash(new_output_file)
         return original_hash == new_hash
 
-    def get_latest_metadata(
-        self, phase: Optional[str] = None
-    ) -> Optional[Dict[str, Any]]:
+    def get_latest_metadata(self, phase: str | None = None) -> dict[str, Any] | None:
         """Get latest metadata for a specific phase."""
         if not self.metadata_file.exists():
             return None
@@ -123,7 +126,7 @@ class DataVersionManager:
         return metadata_list[-1] if metadata_list else None
 
 
-def create_processing_config() -> Dict[str, Any]:
+def create_processing_config() -> dict[str, Any]:
     """Create configuration dictionary for current processing run."""
     import platform
     import sys

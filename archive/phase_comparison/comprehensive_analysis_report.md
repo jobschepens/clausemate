@@ -30,6 +30,7 @@ This comprehensive analysis compares Phase 1 and Phase 2 implementations of the 
 ### Sorting Analysis
 
 The analysis reveals that both phases process the same data but with different internal sorting:
+
 - Phase 1 processes sentences in the order they appear in the original output
 - Phase 2 processes sentences in numeric order
 
@@ -38,6 +39,7 @@ When normalized by sentence number and token index, both phases show identical p
 ### Performance Comparison
 
 Phase 2 demonstrates superior efficiency:
+
 - Smaller file size (-23.7%)
 - Higher relationship density per KB (+26.8%)
 - Faster execution time (40% improvement)
@@ -45,11 +47,11 @@ Phase 2 demonstrates superior efficiency:
 ### Compatibility Status
 
 ✅ **Perfect compatibility achieved** - Both phases now support:
+
 - Identical 38-column structure
 - Dual sentence ID formats (numeric and prefixed)
 - Enhanced features (pronoun_coref_ids, first_words)
 - Complete data coverage
-
 
 ## Warnings/Errors
 

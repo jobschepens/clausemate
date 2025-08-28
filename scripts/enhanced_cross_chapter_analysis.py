@@ -10,7 +10,6 @@ import sys
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Set, Tuple
 
 # Add src to path for imports
 sys.path.append(str(Path(__file__).parent / "src"))
@@ -25,9 +24,9 @@ class ChainAnalysis:
     file_path: str
     chapter_num: int
     relationships_count: int
-    chains_by_id: Dict[str, List[Dict]]  # chain_id -> mentions
-    chain_texts: Dict[str, Set[str]]  # chain_id -> unique texts
-    sentence_range: Tuple[int, int]
+    chains_by_id: dict[str, list[dict]]  # chain_id -> mentions
+    chain_texts: dict[str, set[str]]  # chain_id -> unique texts
+    sentence_range: tuple[int, int]
 
 
 class EnhancedCrossChapterAnalyzer:
@@ -41,7 +40,7 @@ class EnhancedCrossChapterAnalyzer:
             ("data/input/gotofiles/later/3.tsv", 3),  # Chapter 3
             ("data/input/gotofiles/later/4.tsv", 4),  # Chapter 4
         ]
-        self.chapter_analyses: List[ChainAnalysis] = []
+        self.chapter_analyses: list[ChainAnalysis] = []
 
     def run_analysis(self):
         """Main analysis method."""

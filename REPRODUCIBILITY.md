@@ -7,6 +7,7 @@ This document provides step-by-step instructions for reproducing the results of 
 The Clause Mates Analyzer has achieved **100% compatibility** across different WebAnno TSV format variations through adaptive parsing technology. The system automatically detects file formats and selects appropriate parsers to ensure consistent results.
 
 ### Current Capabilities
+
 - **4 supported file formats** with different column structures (12-38 columns)
 - **Adaptive parsing** with automatic format detection
 - **Preamble-based column mapping** from WebAnno metadata
@@ -16,6 +17,7 @@ The Clause Mates Analyzer has achieved **100% compatibility** across different W
 ## Quick Start
 
 ### Prerequisites
+
 - Python 3.8 or higher
 - Git (for cloning the repository)
 - 8GB+ RAM recommended for processing large files
@@ -23,6 +25,7 @@ The Clause Mates Analyzer has achieved **100% compatibility** across different W
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/jobschepens/clausemate.git
    cd clausemate
@@ -31,17 +34,20 @@ The Clause Mates Analyzer has achieved **100% compatibility** across different W
 2. **Set up environment (Choose one method)**
 
    **Method A: Using Conda (Recommended)**
+
    ```bash
    conda env create -f environment.yml
    conda activate clausemate
    ```
 
    **Method B: Using pip**
+
    ```bash
    pip install -e ".[dev]"
    ```
 
 3. **Validate installation**
+
    ```bash
    python src/main.py --help
    ```
@@ -91,6 +97,7 @@ data/output/
 ### Sample Output Verification
 
 **Expected columns in `clause_mates_analysis.csv`:**
+
 - `sentence_id`: Sentence identifier
 - `pronoun_token_idx`: Position of pronoun in sentence
 - `pronoun_token`: The pronoun text
@@ -106,11 +113,13 @@ data/output/
 ### Step 1: Environment Setup
 
 1. **Verify Python version**
+
    ```bash
    python --version  # Should be 3.11+
    ```
 
 2. **Create isolated environment**
+
    ```bash
    # Using conda
    conda create -n clausemate-repro python=3.11
@@ -123,6 +132,7 @@ data/output/
    ```
 
 3. **Install dependencies**
+
    ```bash
    pip install pandas>=1.3.0
    ```
@@ -130,6 +140,7 @@ data/output/
 ### Step 2: Data Preparation
 
 1. **Verify input files exist**
+
    ```bash
    ls -la data/input/gotofiles/2.tsv
    ls -la data/input/gotofiles/later/1.tsv
@@ -138,6 +149,7 @@ data/output/
    ```
 
 2. **Check file formats**
+
    ```bash
    head -20 data/input/gotofiles/2.tsv
    ```
@@ -145,6 +157,7 @@ data/output/
 ### Step 3: Run Analysis
 
 1. **Test with standard format first**
+
    ```bash
    python src/main.py data/input/gotofiles/2.tsv --verbose
    ```
@@ -155,6 +168,7 @@ data/output/
    - Confirm all expected output files are present
 
 3. **Test all formats**
+
    ```bash
    # Run each format and verify relationship counts
    python src/main.py data/input/gotofiles/later/1.tsv --verbose  # Expect 234
@@ -165,18 +179,21 @@ data/output/
 ### Step 4: Validate Results
 
 1. **Check relationship counts**
+
    ```bash
    # Count relationships in each output file
    wc -l data/output/*/clause_mates_analysis.csv
    ```
 
 2. **Verify format detection**
+
    ```bash
    # Check format detection logs
    grep "Format detected" data/output/*/processing_log.txt
    ```
 
 3. **Compare with expected results**
+
    ```bash
    # Verify key statistics match expected values
    python -c "
@@ -193,16 +210,19 @@ data/output/
 ### Running the Complete Test Suite
 
 1. **Install development dependencies**
+
    ```bash
    pip install -e ".[dev]"
    ```
 
 2. **Run all tests**
+
    ```bash
    python -m pytest tests/ -v
    ```
 
 3. **Run integration tests**
+
    ```bash
    python -m pytest tests/test_integration.py -v
    ```
@@ -210,11 +230,13 @@ data/output/
 ### Performance Benchmarking
 
 1. **Time analysis runs**
+
    ```bash
    time python src/main.py data/input/gotofiles/2.tsv
    ```
 
 2. **Memory usage monitoring**
+
    ```bash
    # Using memory_profiler (install with: pip install memory-profiler)
    mprof run python src/main.py data/input/gotofiles/2.tsv
@@ -224,6 +246,7 @@ data/output/
 ### Batch Processing
 
 1. **Process all files at once**
+
    ```bash
    # Create batch processing script
    for file in data/input/gotofiles/2.tsv data/input/gotofiles/later/*.tsv; do
@@ -233,6 +256,7 @@ data/output/
    ```
 
 2. **Compare batch results**
+
    ```bash
    # Compare relationship counts across all runs
    find data/output -name "clause_mates_analysis.csv" -exec wc -l {} \;
@@ -243,6 +267,7 @@ data/output/
 ### Common Issues
 
 1. **Import errors**
+
    ```bash
    # Ensure you're in the project root directory
    pwd  # Should end with 'clausemate'
@@ -252,18 +277,21 @@ data/output/
    ```
 
 2. **File not found errors**
+
    ```bash
    # Verify file paths are correct
    find . -name "*.tsv" -type f
    ```
 
 3. **Memory issues with large files**
+
    ```bash
    # Monitor memory usage
    python src/main.py data/input/gotofiles/2.tsv --verbose
    ```
 
 4. **Inconsistent results**
+
    ```bash
    # Check for file modifications
    ls -la data/input/gotofiles/2.tsv
@@ -275,11 +303,13 @@ data/output/
 ### Debugging Steps
 
 1. **Enable verbose logging**
+
    ```bash
    python src/main.py data/input/gotofiles/2.tsv --verbose
    ```
 
 2. **Check format detection**
+
    ```bash
    python -c "
    from src.utils.format_detector import FormatDetector
@@ -290,6 +320,7 @@ data/output/
    ```
 
 3. **Validate input file structure**
+
    ```bash
    python -c "
    import pandas as pd
@@ -302,6 +333,7 @@ data/output/
 ## System Requirements
 
 ### Minimum Requirements
+
 - **OS**: Windows 10, macOS 10.14, or Linux (Ubuntu 18.04+)
 - **Python**: 3.8 or higher
 - **RAM**: 4GB minimum, 8GB recommended
@@ -309,12 +341,14 @@ data/output/
 - **CPU**: Any modern processor (multi-core recommended for large files)
 
 ### Recommended Environment
+
 - **Python**: 3.9 or 3.10
 - **RAM**: 16GB for processing multiple large files
 - **Storage**: 5GB for development and testing
 - **OS**: Linux or macOS for best performance
 
 ### Dependencies
+
 ```
 pandas>=1.3.0        # Core data processing
 python>=3.11         # Minimum Python version
@@ -330,6 +364,7 @@ mypy>=1.0.0          # Type checking
 Use this checklist to verify successful reproduction:
 
 ### Basic Functionality
+
 - [ ] Installation completed without errors
 - [ ] All input files are accessible
 - [ ] Basic analysis runs successfully on 2.tsv
@@ -337,6 +372,7 @@ Use this checklist to verify successful reproduction:
 - [ ] Expected number of relationships found (448 for 2.tsv)
 
 ### Format Compatibility
+
 - [ ] 1.tsv processes successfully (234 relationships)
 - [ ] 3.tsv processes successfully (527 relationships)
 - [ ] 4.tsv processes successfully (695 relationships)
@@ -344,6 +380,7 @@ Use this checklist to verify successful reproduction:
 - [ ] No parsing errors or warnings
 
 ### Output Quality
+
 - [ ] All expected output files are generated
 - [ ] CSV files contain expected columns
 - [ ] Processing logs show successful completion
@@ -351,6 +388,7 @@ Use this checklist to verify successful reproduction:
 - [ ] Results are consistent across multiple runs
 
 ### Advanced Features
+
 - [ ] Verbose mode provides detailed logging
 - [ ] Legacy mode (--disable-adaptive) works correctly
 - [ ] Test suite passes (if development dependencies installed)
@@ -359,12 +397,14 @@ Use this checklist to verify successful reproduction:
 ## Getting Help
 
 ### Documentation Resources
+
 - **Format Specifications**: See `data/input/FORMAT_OVERVIEW.md`
 - **API Documentation**: See docstrings in source code
 - **Development Guide**: See `CONTRIBUTING.md`
 - **Project Roadmap**: See `ROADMAP.md`
 
 ### Support Channels
+
 - **GitHub Issues**: Report bugs or ask questions
 - **GitHub Discussions**: Community support and discussions
 - **Email**: Contact maintainers for urgent issues
@@ -374,6 +414,7 @@ Use this checklist to verify successful reproduction:
 When reporting reproduction issues, please include:
 
 1. **System information**
+
    ```bash
    python --version
    pip list | grep pandas

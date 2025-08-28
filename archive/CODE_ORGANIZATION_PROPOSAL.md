@@ -5,6 +5,7 @@
 This proposal has been fully implemented. The repository has been successfully reorganized using **Option B: Research-Friendly** structure.
 
 ## Original Issues - RESOLVED ✅
+
 - ~~`phase1/` folder suggests incomplete migration to Phase 2~~ → **Moved to `archive/phase1/`**
 - ~~`old/` folder contains many experimental files and duplicates~~ → **Externally backed up and removed**
 - ~~Multiple CSV outputs scattered in root directory~~ → **Organized in `data/output/`**
@@ -13,6 +14,7 @@ This proposal has been fully implemented. The repository has been successfully r
 ## Proposed Structure
 
 ### Option A: Git-Based (Recommended for Production)
+
 ```
 src/                    # Current active development
 ├── main.py             # Phase 2 main entry point
@@ -80,21 +82,25 @@ The final implemented structure (Option B: Research-Friendly):
 ## IMPLEMENTATION COMPLETED ✅
 
 ### ✅ Phase 1: Handle Reference Files (COMPLETED)
+
 1. ✅ **External backup created** - `old/` folder safely preserved outside repository
 2. ✅ **Repository cleaned** - `old/` folder removed from tracking
 3. ✅ **Documentation updated** - All changes documented
 
 ### ✅ Phase 2: Create New Structure (COMPLETED)
+
 1. ✅ **New folder structure created** - archive/, data/, docs/, tools/ directories
 2. ✅ **Files moved** to new locations according to plan
 3. ✅ **Phase 2 tested** - Confirmed working with new file paths
 
 ### ✅ Phase 3: Verification (COMPLETED)
+
 1. ✅ **Functionality verified** - Phase 2 successfully processes data with new structure
 2. ✅ **Dependencies installed** - Python environment properly configured
 3. ✅ **Output validated** - 448 relationships extracted from test run
 
 ### ✅ Phase 4: Optional Cleanup (COMPLETED)
+
 1. ✅ Updated `.gitignore` to exclude data/output from future commits
 2. ✅ Updated pylint workflow to exclude archive folders and use new paths
 3. ✅ Tested GitHub Actions with new file paths (pylint passes 10.0/10)
@@ -103,10 +109,12 @@ The final implemented structure (Option B: Research-Friendly):
 ## Detailed Migration Plan
 
 ### ✅ Step 1: Reference Files Preserved (COMPLETED)
+
 - External backup created and stored safely
 - Ready to remove `old/` folder from repository
 
 ### Step 2: Remove Old Files and Create Structure
+
 ```bash
 # Remove old folder from repository (safe since backed up)
 git rm -r old/
@@ -122,6 +130,7 @@ echo "Backup contains experimental and reference files from development process"
 ```
 
 ### Step 3: Move Files to New Structure
+
 ```bash
 # Move phase1 to archive (keep as working reference)
 mv phase1/ archive/
@@ -153,6 +162,7 @@ mv verify_pronoun_coref_ids.py tools/
 ```
 
 ### Step 4: Update Configurations and Paths
+
 ```bash
 # Update .gitignore to exclude outputs and cache
 cat >> .gitignore << EOF
@@ -179,11 +189,13 @@ EOF
 ```
 
 ### Step 5: Update Import Paths (If Needed)
+
 - Check if any scripts reference moved files
 - Update file paths in Phase 2 configuration if needed
 - Test that `python src/run_phase2.py` still works
 
 ### Step 6: Update Documentation
+
 - Update README.md with new project structure
 - Update any hardcoded paths in documentation
 - Commit all changes
@@ -234,16 +246,19 @@ python src/run_phase2.py --help
 ## Handling the `old/` Folder
 
 ### ✅ COMPLETED: External Preservation
+
 - ✅ **External backup created** and stored safely
 - ✅ **Reference files preserved** outside repository
 - **Ready for removal** from active repository
 
 ### Next Steps
+
 1. **Remove from repo**: `git rm -r old/ && rm -rf old/`
 2. **Document preservation**: Create `OLD_FOLDER_REFERENCE.md`
 3. **Clean repository**: Proceed with reorganization
 
 ### Benefits Now Achievable
+
 - ✅ **Reference files safely preserved**
 - 🔄 **Cleaner repository** (after removal)
 - 🔄 **Faster operations** (fewer files to scan)
@@ -255,20 +270,24 @@ python src/run_phase2.py --help
 **Now that external backup is complete:**
 
 ### ✅ Priority 1: Reference Files (COMPLETED)
+
 - ✅ **External backup created** and stored safely
 - **Next**: Remove `old/` folder from repository
 
 ### Priority 2: Execute Reorganization (Ready to Go)
+
 - **Run the ready-to-execute commands** provided above
 - **Test** that Phase 2 functionality remains intact
 - **One-by-one approach** recommended for safety
 
 ### Priority 3: Update Configurations (Low Risk)
+
 - **Update `.gitignore`** for new structure
 - **Update GitHub Actions** paths
 - **Update README** with new project structure
 
 ### Priority 4: Validate and Document (Final Step)
+
 - **Test all functionality** works with new paths
 - **Update any hardcoded paths** in scripts
 - **Commit reorganized structure**

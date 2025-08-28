@@ -1,11 +1,13 @@
 # Clause Mates Analysis - Phase 1 Export Documentation
 
 ## Project Overview
+
 This documents the Phase 1 (monolithic version) clause mate extraction that analyzes relationships for German pronouns to test whether the presence and linguistic features of clause mates affect pronoun usage patterns.
 
 ## Files in This Phase 1 Export
 
 ### 📊 **Data Files**
+
 - **`clause_mates_phase1_export.csv`** - Main Phase 1 dataset with clause mate relationships
   - 35 columns covering pronoun features, clause mate features, and antecedent information
   - 463 total relationships across 222 sentences
@@ -13,6 +15,7 @@ This documents the Phase 1 (monolithic version) clause mate extraction that anal
   - UTF-8 encoded CSV format
 
 ### 📋 **Documentation**
+
 - **`clause_mates_data_documentation.md`** - Comprehensive Phase 1 data documentation
   - Column descriptions and data types for 35-column output
   - Usage examples and interpretation guide
@@ -25,6 +28,7 @@ This documents the Phase 1 (monolithic version) clause mate extraction that anal
   - Analysis recommendations
 
 ### 🔧 **Source Code**
+
 - **`clause_mates_complete.py`** - Main Phase 1 extraction script
   - Self-contained monolithic implementation
   - Full implementation with phrase-level antecedent detection
@@ -32,11 +36,13 @@ This documents the Phase 1 (monolithic version) clause mate extraction that anal
   - Numeric conversion of string variables
 
 ### 📝 **Project Specification**
+
 - **`task.md`** - Original task requirements and specifications
 
 ## Quick Start Guide
 
 ### 1. **Loading the Data**
+
 ```python
 import pandas as pd
 
@@ -52,11 +58,13 @@ print(f"Total relationships: {len(df)}")  # Should be 463
 ### 2. **Key Research Variables**
 
 **Dependent Variables (Pronoun Behavior):**
+
 - `pronoun_text` - Which pronoun was used
 - `pronoun_grammatical_role` - Grammatical role of pronoun
 - `pronoun_most_recent_antecedent_distance` - Distance to antecedent
 
 **Independent Variables (Clause Mate Features):**
+
 - `clause_mate_coreference_type` - Linguistic form of clause mate
 - `clause_mate_grammatical_role` - Grammatical role of clause mate
 - `clause_mate_animacy` - Animate vs inanimate clause mate
@@ -87,16 +95,19 @@ animacy_analysis = df.groupby(['pronoun_text', 'clause_mate_animacy']).size()
 ## Key Features
 
 ### 🎯 **Antecedent Detection**
+
 - **Most Recent**: Closest mention before pronoun (linear distance)
 - **First in Chain**: First mention in coreference chain (occurrence number)
 - **Antecedent Choice**: Number of compatible alternatives in antecedent's sentence
 
 ### 🏷️ **Linguistic Annotation**
+
 - **Animacy**: Determined by coreference layer (animate/inanimate)
 - **Givenness**: New (first mention) vs Given (subsequent mention)
 - **Roles**: Grammatical and thematic roles for both pronouns and clause mates
 
 ### 🔢 **Statistical Ready**
+
 - All string variables have numeric counterparts
 - Missing values properly handled
 - Data types optimized for analysis
@@ -122,7 +133,9 @@ This dataset enables investigation of:
    - What role do thematic roles play in clause mate distribution?
 
 ## Citation
+
 When using this dataset, please reference:
+
 - Source: WebAnno TSV annotations (Chapter 2)
 - Processing: clause_mates_complete.py
 - Date: June 27, 2025

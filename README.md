@@ -167,6 +167,7 @@ This tool analyzes German pronouns and their clause mates in annotated linguisti
 ## Installation
 
 ### **Option 1: Docker (Recommended for Development)**
+
 ```bash
 # Quick start with Docker Compose
 git clone https://github.com/jobschepens/clausemate.git
@@ -182,6 +183,7 @@ python scripts/run_multi_file_analysis.py --verbose
 See [DOCKER_README.md](DOCKER_README.md) for detailed Docker instructions.
 
 ### **Option 2: Install from PyPI**
+
 ```bash
 pip install clausemate
 ```
@@ -189,6 +191,7 @@ pip install clausemate
 ### **Option 3: Development Installation**
 
 1. **Clone the repository**:
+
     ```bash
     git clone https://github.com/jobschepens/clausemate.git
     cd clausemate
@@ -197,6 +200,7 @@ pip install clausemate
 2. **Set up environment** (choose one):
 
     **Option A: pip (recommended)**
+
     ```bash
     python -m venv .venv
     # Windows:
@@ -208,6 +212,7 @@ pip install clausemate
     ```
 
     **Option B: conda**
+
     ```bash
     conda env create -f environment.yml
     conda activate clausemate
@@ -216,11 +221,13 @@ pip install clausemate
 ## Quick Start
 
 ### 🚀 Try Online (No Installation Required)
+
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jobschepens/clausemate/HEAD?urlpath=lab/tree/notebooks/demo.ipynb)
 
 Click the Binder badge above to launch an interactive Jupyter environment with ClauseMate pre-installed and automatically open the demo notebook to explore the tool's capabilities.
 
 ### 💻 Local Installation
+
 ```bash
 # Install the package
 pip install clausemate
@@ -266,6 +273,7 @@ python scripts/run_multi_file_analysis.py --output-dir custom_output
 ```
 
 **Output**: Single unified file with all 1,904 relationships + 36 cross-chapter chains
+
 - Creates timestamped directory: `data/output/unified_analysis_YYYYMMDD_HHMMSS/`
 - **unified_relationships.csv**: Main CSV output with source file metadata
 - **unified_relationships.json**: JSON format with complete relationship data

@@ -8,7 +8,6 @@ import re
 import sys
 from collections import defaultdict
 from pathlib import Path
-from typing import List, Set
 
 from src.data.models import (
     AnimacyType,
@@ -83,8 +82,8 @@ class CoreferenceExtractor(BaseCoreferenceExtractor):
         )
 
     def extract_coreference_chains(
-        self, contexts: List[SentenceContext]
-    ) -> List[CoreferenceChain]:
+        self, contexts: list[SentenceContext]
+    ) -> list[CoreferenceChain]:
         """Extract coreference chains from multiple sentences.
 
         Args:
@@ -119,7 +118,7 @@ class CoreferenceExtractor(BaseCoreferenceExtractor):
 
         return chains
 
-    def find_mentions(self, context: SentenceContext) -> List[Token]:
+    def find_mentions(self, context: SentenceContext) -> list[Token]:
         """Find all mentions in a sentence that could participate in coreference.
 
         Args:
@@ -138,8 +137,8 @@ class CoreferenceExtractor(BaseCoreferenceExtractor):
         return mentions
 
     def link_mentions(
-        self, mentions: List[Token], existing_chains: List[CoreferenceChain]
-    ) -> List[CoreferenceChain]:
+        self, mentions: list[Token], existing_chains: list[CoreferenceChain]
+    ) -> list[CoreferenceChain]:
         """Link new mentions to existing coreference chains.
 
         Args:
@@ -170,7 +169,7 @@ class CoreferenceExtractor(BaseCoreferenceExtractor):
 
         return list(chains_dict.values())
 
-    def extract_all_ids_from_token(self, token: Token) -> Set[str]:
+    def extract_all_ids_from_token(self, token: Token) -> set[str]:
         """Extract all coreference IDs from a token.
 
         This is the centralized implementation that replaces the duplicated
@@ -210,7 +209,7 @@ class CoreferenceExtractor(BaseCoreferenceExtractor):
 
         return ids
 
-    def _extract_ids_from_string(self, text: str) -> Set[str]:
+    def _extract_ids_from_string(self, text: str) -> set[str]:
         """Extract coreference IDs from a string using regex patterns.
 
         Args:
@@ -239,7 +238,7 @@ class CoreferenceExtractor(BaseCoreferenceExtractor):
             ]
         )
 
-    def _build_local_chains(self, mentions: List[Token]) -> List[CoreferenceChain]:
+    def _build_local_chains(self, mentions: list[Token]) -> list[CoreferenceChain]:
         """Build coreference chains from mentions in a single sentence."""
         chains_dict = defaultdict(list)
 
@@ -260,7 +259,7 @@ class CoreferenceExtractor(BaseCoreferenceExtractor):
 
         return chains
 
-    def _determine_chain_animacy(self, mentions: List[Token]) -> AnimacyType:
+    def _determine_chain_animacy(self, mentions: list[Token]) -> AnimacyType:
         """Determine the animacy of a coreference chain based on its mentions.
 
         Args:
@@ -287,7 +286,7 @@ class CoreferenceExtractor(BaseCoreferenceExtractor):
         """Determine animacy for a single token."""
         return self._determine_chain_animacy([token])
 
-    def _extract_all_ids_from_context(self, context: SentenceContext) -> Set[str]:
+    def _extract_all_ids_from_context(self, context: SentenceContext) -> set[str]:
         """Extract all coreference IDs present in a sentence context."""
         all_ids = set()
 

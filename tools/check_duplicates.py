@@ -5,6 +5,7 @@ import pandas as pd
 
 
 def main():
+    """Check for duplicate rows in the Phase 2 output."""
     df = pd.read_csv("phase2_cross_sentence_test.csv")
 
     # Check sentence 17 specifically
@@ -19,7 +20,7 @@ def main():
 
         # Show clause mates for this pronoun
         print("    Clause mates:")
-        for i, row in pronoun_rows.iterrows():
+        for _i, row in pronoun_rows.iterrows():
             print(f'      - "{row["clause_mate_text"]}"')
         print()
 

@@ -7,6 +7,7 @@ Phase 2 focuses on **Structural Improvements** to transform our well-functioning
 ## Current State Assessment
 
 ### ✅ Phase 1 Achievements
+
 - **Constants extracted** to `config.py` (✓ Complete)
 - **Type hints added** throughout codebase (✓ Complete)
 - **Error handling implemented** with custom exceptions (✓ Complete)
@@ -14,6 +15,7 @@ Phase 2 focuses on **Structural Improvements** to transform our well-functioning
 - **Clean workspace** with Phase 1 files properly archived
 
 ### 📊 Current Architecture
+
 ```
 Current Structure:
 ├── clause_mates_complete.py    # Main script (600+ lines)
@@ -28,6 +30,7 @@ Current Structure:
 ## Phase 2 Goals & Objectives
 
 ### 🎯 Primary Objectives
+
 1. **Split monolithic script** into focused, single-responsibility modules
 2. **Eliminate code duplication** through abstraction and reusable components
 3. **Add comprehensive unit tests** to ensure refactoring safety
@@ -35,6 +38,7 @@ Current Structure:
 5. **Improve code maintainability** and readability
 
 ### 📈 Success Metrics
+
 - **Reduce main script** from 600+ lines to <200 lines
 - **Achieve <5% code duplication** (currently ~30%)
 - **Reach >80% test coverage** for core functionality
@@ -46,6 +50,7 @@ Current Structure:
 ### **Task 1: Modular Architecture Design** (Week 1)
 
 #### 1.1 Create Module Structure
+
 ```
 src/
 ├── __init__.py
@@ -75,6 +80,7 @@ src/
 ```
 
 #### 1.2 Define Module Interfaces
+
 Create clear interfaces between modules using abstract base classes:
 
 ```python
@@ -99,6 +105,7 @@ class BaseExtractor(ABC):
 ### **Task 2: Data Structure Optimization** (Week 1-2)
 
 #### 2.1 Create Structured Data Models
+
 Replace dictionaries with typed data classes:
 
 ```python
@@ -146,6 +153,7 @@ class ClauseMateRelationship:
 ```
 
 #### 2.2 Simplified Data Processing
+
 Replace complex data structures with clean, readable implementations:
 
 ```python
@@ -175,6 +183,7 @@ def parse_file_completely(file_path: str) -> Dict[str, List[Token]]:
 ### **Task 3: Code Duplication Elimination** (Week 2)
 
 #### 3.1 Abstract Coreference Processing
+
 Currently, coreference ID extraction logic appears 6+ times. Create single source of truth:
 
 ```python
@@ -212,6 +221,7 @@ class CoreferenceExtractor:
 ```
 
 #### 3.2 Abstract Token Processing Patterns
+
 ```python
 # src/analyzers/token_analyzer.py
 class TokenAnalyzer:
@@ -233,6 +243,7 @@ class TokenAnalyzer:
 ### **Task 4: Comprehensive Testing** (Week 2-3)
 
 #### 4.1 Unit Test Suite
+
 ```python
 # tests/test_parsers.py
 import pytest
@@ -266,6 +277,7 @@ class TestTSVParser:
 ```
 
 #### 4.2 Integration Tests
+
 ```python
 # tests/test_integration.py
 class TestEndToEnd:
@@ -281,6 +293,7 @@ class TestEndToEnd:
 ```
 
 #### 4.3 Functional Tests
+
 ```python
 # tests/test_functionality.py
 class TestFunctionality:
@@ -305,6 +318,7 @@ class TestFunctionality:
 ### **Task 5: Clean Module Integration** (Week 3)
 
 #### 5.1 Simplified Processing Pipeline
+
 ```python
 # src/main.py
 class ClauseMateAnalyzer:
@@ -330,6 +344,7 @@ class ClauseMateAnalyzer:
 ```
 
 #### 5.2 Clear Configuration Management
+
 ```python
 # src/config_manager.py
 class ConfigurationManager:
@@ -353,6 +368,7 @@ class ConfigurationManager:
 ### **Task 6: Main Script Refactoring** (Week 4)
 
 #### 6.1 Slim Main Script
+
 ```python
 # clause_mates_complete.py (refactored)
 #!/usr/bin/env python3
@@ -387,6 +403,7 @@ if __name__ == "__main__":
 ```
 
 #### 6.2 CLI Interface Enhancement
+
 ```python
 # src/cli.py
 import argparse
@@ -409,21 +426,25 @@ def create_parser() -> argparse.ArgumentParser:
 ## Implementation Timeline
 
 ### **Week 1: Architecture Foundation**
+
 - **Days 1-2**: Design module structure and interfaces
 - **Days 3-4**: Create data models and base classes
 - **Day 5**: Implement basic parsing module
 
 ### **Week 2: Core Refactoring**
+
 - **Days 1-2**: Extract and abstract coreference processing
 - **Days 3-4**: Implement relationship extraction module
 - **Day 5**: Create comprehensive unit tests
 
 ### **Week 3: Testing & Integration**
+
 - **Days 1-2**: Complete test suite development
 - **Days 3-4**: Module integration and validation
 - **Day 5**: Documentation and code cleanup
 
 ### **Week 4: Final Integration**
+
 - **Days 1-2**: Refactor main script and CLI interface
 - **Days 3-4**: End-to-end testing and validation
 - **Day 5**: Final documentation and cleanup
@@ -431,11 +452,13 @@ def create_parser() -> argparse.ArgumentParser:
 ## Risk Mitigation
 
 ### **Technical Risks**
+
 1. **Breaking existing functionality** → Comprehensive test suite before refactoring
 2. **Complex refactoring** → Incremental changes with validation at each step
 3. **Module integration issues** → Clear interfaces and integration testing
 
 ### **Mitigation Strategies**
+
 - **Keep backup** of working Phase 1 code
 - **Incremental development** with frequent testing
 - **Parallel development** - new modules alongside existing code
@@ -444,6 +467,7 @@ def create_parser() -> argparse.ArgumentParser:
 ## Quality Assurance
 
 ### **Code Quality Gates**
+
 - **100% test coverage** for new modules
 - **Type checking** with mypy passes
 - **Linting** with flake8/black passes
@@ -451,6 +475,7 @@ def create_parser() -> argparse.ArgumentParser:
 - **Code organization** - clear module boundaries and responsibilities
 
 ### **Validation Criteria**
+
 - **Functional equivalence** - identical output to Phase 1 script
 - **Maintainability** - reduced cyclomatic complexity
 - **Testability** - isolated, mockable components
@@ -459,18 +484,21 @@ def create_parser() -> argparse.ArgumentParser:
 ## Expected Outcomes
 
 ### **Technical Benefits**
+
 - **Modular architecture** enables easy testing and maintenance
 - **Clear code organization** improves readability and understanding
 - **Comprehensive testing** ensures reliability and confidence
 - **Better error handling** with specific, actionable error messages
 
 ### **Development Benefits**
+
 - **Faster debugging** through isolated components
 - **Easier feature addition** via clear module boundaries
 - **Better collaboration** through well-defined interfaces
 - **Confident refactoring** backed by comprehensive tests
 
 ### **Long-term Value**
+
 - **Foundation for Phase 3** advanced features
 - **Maintainable architecture** for future requirements
 - **Production-ready codebase** suitable for deployment
@@ -479,12 +507,14 @@ def create_parser() -> argparse.ArgumentParser:
 ## Next Steps After Phase 2
 
 ### **Immediate Validation**
+
 1. **Run full test suite** and ensure 100% pass rate
 2. **Output validation** - byte-for-byte comparison with existing results
 3. **Code review** and documentation completion
 4. **Module integration verification**
 
 ### **Preparation for Phase 3**
+
 1. **Plugin architecture** foundation in place
 2. **Configuration system** ready for external config files
 3. **Logging infrastructure** prepared for advanced features

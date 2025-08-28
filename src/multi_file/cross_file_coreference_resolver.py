@@ -12,7 +12,7 @@ Date: 2025-07-28
 import logging
 import re
 from collections import defaultdict
-from typing import Any, Dict, List, Set, Tuple
+from typing import Any
 
 
 class CrossFileCoreferenceResolver:
@@ -29,17 +29,17 @@ class CrossFileCoreferenceResolver:
         self.logger = logging.getLogger(__name__)
 
         # Cross-chapter chain mappings
-        self.cross_chapter_chains: Dict[str, List[str]] = {}
-        self.chain_connections: Dict[str, Set[str]] = defaultdict(set)
+        self.cross_chapter_chains: dict[str, list[str]] = {}
+        self.chain_connections: dict[str, set[str]] = defaultdict(set)
 
         # Chapter-specific chain data
-        self.chapter_chains: Dict[str, Dict[str, List[str]]] = {}
+        self.chapter_chains: dict[str, dict[str, list[str]]] = {}
 
         self.logger.info("CrossFileCoreferenceResolver initialized")
 
     def resolve_cross_chapter_chains(
-        self, chapter_relationships: Dict[str, List]
-    ) -> Dict[str, List[str]]:
+        self, chapter_relationships: dict[str, list]
+    ) -> dict[str, list[str]]:
         """Resolve coreference chains that span across multiple chapters.
 
         Args:
@@ -68,7 +68,7 @@ class CrossFileCoreferenceResolver:
 
         return unified_chains
 
-    def _extract_chapter_chains(self, chapter_relationships: Dict[str, List]) -> None:
+    def _extract_chapter_chains(self, chapter_relationships: dict[str, list]) -> None:
         """Extract coreference chains from each chapter using actual chain IDs."""
         self.logger.info("Extracting coreference chains from individual chapters")
 
@@ -112,7 +112,7 @@ class CrossFileCoreferenceResolver:
                 len(chapter_chains),
             )
 
-    def _identify_cross_chapter_connections(self) -> List[Tuple[str, str, str, str]]:
+    def _identify_cross_chapter_connections(self) -> list[tuple[str, str, str, str]]:
         """Identify connections between chains across chapters using chain IDs.
 
         Returns:
@@ -148,7 +148,7 @@ class CrossFileCoreferenceResolver:
         return connections
 
     def _chains_are_connected(
-        self, chain_id1: str, entities1: List[str], chain_id2: str, entities2: List[str]
+        self, chain_id1: str, entities1: list[str], chain_id2: str, entities2: list[str]
     ) -> bool:
         """Determine if two chains from different chapters are connected.
 
@@ -186,8 +186,8 @@ class CrossFileCoreferenceResolver:
         )
 
     def _merge_connected_chains(
-        self, connections: List[Tuple[str, str, str, str]]
-    ) -> Dict[str, List[str]]:
+        self, connections: list[tuple[str, str, str, str]]
+    ) -> dict[str, list[str]]:
         """Merge connected chains into unified cross-chapter chains.
 
         Args:
@@ -261,8 +261,8 @@ class CrossFileCoreferenceResolver:
         return unified_chains
 
     def _dfs_connected_chains(
-        self, start_ref: str, graph: Dict[str, Set[str]], visited: Set[str]
-    ) -> Set[str]:
+        self, start_ref: str, graph: dict[str, set[str]], visited: set[str]
+    ) -> set[str]:
         """Find all chains connected to the starting chain using DFS.
 
         Args:
@@ -310,7 +310,7 @@ class CrossFileCoreferenceResolver:
         match = re.search(r"(\d+)", filename)
         return int(match.group(1)) if match else 1
 
-    def get_cross_chapter_summary(self) -> Dict[str, Any]:
+    def get_cross_chapter_summary(self) -> dict[str, Any]:
         """Get summary of cross-chapter resolution results.
 
         Returns:

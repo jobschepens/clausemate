@@ -14,9 +14,26 @@ class TestTokenProcessor(BaseTokenProcessor):
     """Simple test processor."""
 
     def validate_token(self, token):
+        """Validate a token.
+
+        Args:
+            token: The token to validate.
+
+        Returns:
+            True if the token is valid, False otherwise.
+        """
         return True
 
     def enrich_token(self, token, context):
+        """Enrich a token with additional information.
+
+        Args:
+            token: The token to enrich.
+            context: The context for enrichment.
+
+        Returns:
+            The enriched token.
+        """
         return token
 
 

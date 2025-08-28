@@ -3,7 +3,7 @@
 import random
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from tests.fixtures.mock_data.mock_objects import MockDataFactory
 
@@ -24,7 +24,7 @@ class TSVGenerationConfig:
 class SyntheticTSVGenerator:
     """Generator for synthetic TSV files with controlled characteristics."""
 
-    def __init__(self, config: Optional[TSVGenerationConfig] = None):
+    def __init__(self, config: TSVGenerationConfig | None = None):
         """Initialize the generator with configuration."""
         self.config = config or TSVGenerationConfig()
         self.mock_factory = MockDataFactory()
@@ -112,7 +112,7 @@ class SyntheticTSVGenerator:
 
     def generate_sentence_tokens(
         self, sentence_num: int, num_tokens: int
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Generate tokens for a single sentence."""
         tokens = []
         coreference_id = None
@@ -205,7 +205,7 @@ class SyntheticTSVGenerator:
         }
         return role_mapping.get(word_type, "OTHER")
 
-    def _get_extended_columns(self, word_type: str) -> Dict[str, Any]:
+    def _get_extended_columns(self, word_type: str) -> dict[str, Any]:
         """Get additional columns for extended format."""
         return {
             "animacy": "ANIMATE" if word_type in ["noun", "pronoun"] else "INANIMATE",
@@ -257,7 +257,7 @@ class SyntheticTSVGenerator:
 
         return "\n".join(lines)
 
-    def _format_token_line(self, token: Dict[str, Any], sentence_num: int) -> str:
+    def _format_token_line(self, token: dict[str, Any], sentence_num: int) -> str:
         """Format a token as a TSV line."""
         # Base columns for all formats
         columns = [
@@ -339,7 +339,7 @@ class SyntheticTSVGenerator:
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(content, encoding="utf-8")
 
-    def generate_test_suite(self, output_dir: Path) -> Dict[str, Path]:
+    def generate_test_suite(self, output_dir: Path) -> dict[str, Path]:
         """Generate a complete test suite with different file types."""
         output_dir.mkdir(parents=True, exist_ok=True)
         generated_files = {}

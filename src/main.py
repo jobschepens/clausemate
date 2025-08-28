@@ -6,7 +6,7 @@ coordinating between parsers, extractors, and analyzers in a clean, modular way.
 
 import logging
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 # Import dependencies - handle both module and script execution
 try:
@@ -109,7 +109,7 @@ class ClauseMateAnalyzer:
             "phrases_found": 0,
         }
 
-    def analyze_file(self, file_path: str) -> List[ClauseMateRelationship]:
+    def analyze_file(self, file_path: str) -> list[ClauseMateRelationship]:
         """Analyze a TSV file and extract clause mate relationships.
 
         Args:
@@ -139,7 +139,7 @@ class ClauseMateAnalyzer:
                 f"Failed to analyze file {file_path}: {str(e)}"
             ) from e
 
-    def _analyze_complete(self, file_path: str) -> List[ClauseMateRelationship]:
+    def _analyze_complete(self, file_path: str) -> list[ClauseMateRelationship]:
         """Analyze file by loading all sentences into memory.
 
         This approach prioritizes simplicity and maintainability over memory efficiency.
@@ -193,7 +193,7 @@ class ClauseMateAnalyzer:
         self.logger.info(f"Analysis complete. Statistics: {self.stats}")
         return relationships
 
-    def _analyze_streaming(self, file_path: str) -> List[ClauseMateRelationship]:
+    def _analyze_streaming(self, file_path: str) -> list[ClauseMateRelationship]:
         """Analyze file using streaming for memory efficiency.
 
         This approach processes sentences one at a time to handle large files.
@@ -225,7 +225,7 @@ class ClauseMateAnalyzer:
         return all_relationships
 
     def export_results(
-        self, relationships: List[ClauseMateRelationship], output_path: str
+        self, relationships: list[ClauseMateRelationship], output_path: str
     ) -> None:
         """Export analysis results to a CSV file.
 
@@ -319,7 +319,7 @@ class ClauseMateAnalyzer:
         self.logger.info(f"Created timestamped output directory: {timestamped_dir}")
         return str(new_path)
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get analysis statistics.
 
         Returns:

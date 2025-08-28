@@ -70,12 +70,14 @@ tests/
 **Purpose**: Test individual components in isolation
 
 **Characteristics**:
+
 - Fast execution (< 1ms per test)
 - No external dependencies
 - Use mocking for dependencies
 - Focus on single responsibility
 
 **Example**:
+
 ```python
 @pytest.mark.unit
 def test_token_creation_valid():
@@ -91,12 +93,14 @@ def test_token_creation_valid():
 **Purpose**: Test component interactions and workflows
 
 **Characteristics**:
+
 - Moderate execution time (< 1s per test)
 - Test realistic scenarios
 - Use real data when possible
 - Validate end-to-end functionality
 
 **Example**:
+
 ```python
 @pytest.mark.integration
 def test_format_detection_and_processing():
@@ -111,12 +115,14 @@ def test_format_detection_and_processing():
 **Purpose**: Test system properties with generated data
 
 **Characteristics**:
+
 - Use Hypothesis for data generation
 - Test invariants and properties
 - Discover edge cases automatically
 - Validate assumptions
 
 **Example**:
+
 ```python
 @pytest.mark.property
 @given(valid_token_data())
@@ -132,12 +138,14 @@ def test_token_creation_always_valid(token_data):
 **Purpose**: Validate performance characteristics
 
 **Characteristics**:
+
 - Measure execution time and memory usage
 - Establish performance baselines
 - Detect performance regressions
 - Test scalability
 
 **Example**:
+
 ```python
 @pytest.mark.performance
 def test_processing_performance(analyzer, sample_files):
@@ -153,6 +161,7 @@ def test_processing_performance(analyzer, sample_files):
 **Purpose**: Tests that take significant time to execute
 
 **Characteristics**:
+
 - Execution time > 5 seconds
 - Comprehensive integration scenarios
 - Large dataset processing
@@ -195,6 +204,7 @@ def test_processing_performance(analyzer, sample_files):
    - Keep mocks simple and focused
 
 3. **Mock Patterns**:
+
 ```python
 # Mock external dependencies
 @patch('src.main.pandas.DataFrame')
@@ -221,6 +231,7 @@ with patch.object(analyzer.parser, 'parse_file') as mock_parse:
    - Consider using `assert_that()` for complex validations
 
 3. **Custom Assertions**:
+
 ```python
 def assert_valid_relationship(relationship):
     """Assert that a relationship object is valid."""
@@ -301,6 +312,7 @@ markers = [
    - `session`: Shared across entire test session
 
 2. **Fixture Dependencies**:
+
 ```python
 @pytest.fixture
 def sample_data():
@@ -377,6 +389,7 @@ The project uses GitHub Actions for automated testing:
 ### Writing Effective Tests
 
 1. **Test Naming**:
+
 ```python
 # Good: Descriptive and specific
 def test_token_creation_with_valid_data_succeeds():
@@ -394,6 +407,7 @@ def test_error():
 ```
 
 2. **Test Structure**:
+
 ```python
 def test_feature():
     # Arrange: Set up test data and conditions
@@ -408,6 +422,7 @@ def test_feature():
 ```
 
 3. **Parameterized Tests**:
+
 ```python
 @pytest.mark.parametrize("input_value,expected", [
     ("valid_input", "expected_output"),
@@ -443,6 +458,7 @@ def test_function_with_various_inputs(input_value, expected):
 ### Common Issues
 
 1. **Import Errors**:
+
 ```python
 # Solution: Add src to Python path
 import sys
@@ -450,6 +466,7 @@ sys.path.append('src')
 ```
 
 2. **Fixture Not Found**:
+
 ```python
 # Solution: Check conftest.py location and fixture scope
 @pytest.fixture(scope="session")
@@ -458,6 +475,7 @@ def shared_fixture():
 ```
 
 3. **Mock Not Working**:
+
 ```python
 # Solution: Patch at the right location
 # Patch where the function is used, not where it's defined
@@ -473,18 +491,21 @@ def shared_fixture():
 ### Debugging Tests
 
 1. **Verbose Output**:
+
 ```bash
 pytest -v -s  # Verbose with print statements
 pytest --tb=long  # Detailed tracebacks
 ```
 
 2. **Debug Mode**:
+
 ```python
 import pytest
 pytest.set_trace()  # Debugger breakpoint
 ```
 
 3. **Test Isolation**:
+
 ```bash
 pytest tests/unit/test_specific.py::TestClass::test_method
 ```

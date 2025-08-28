@@ -63,13 +63,23 @@ def save_unified_results(result, output_dir: Path) -> None:
         # Import the standardized column order from config
         try:
             from src.config import ExportColumns
+
             standard_columns = ExportColumns.STANDARD_ORDER
         except ImportError:
             # Fallback if config import fails - use basic column order
             standard_columns = [
-                "sentence_id", "pronoun_text", "pronoun_token_idx", "pronoun_start_idx",
-                "pronoun_end_idx", "clause_mate_text", "clause_mate_start_idx", "clause_mate_end_idx",
-                "relationship_type", "distance", "sentence_text", "layer"
+                "sentence_id",
+                "pronoun_text",
+                "pronoun_token_idx",
+                "pronoun_start_idx",
+                "pronoun_end_idx",
+                "clause_mate_text",
+                "clause_mate_start_idx",
+                "clause_mate_end_idx",
+                "relationship_type",
+                "distance",
+                "sentence_text",
+                "layer",
             ]
 
         # Write header using standardized column order plus multi-file specific columns

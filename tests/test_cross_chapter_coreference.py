@@ -11,7 +11,6 @@ import sys
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 # Add src to path for imports
 sys.path.append(str(Path(__file__).parent / "src"))
@@ -27,11 +26,11 @@ class ChapterAnalysis:
 
     file_path: str
     chapter_num: int
-    relationships: List[ClauseMateRelationship]
-    sentence_range: Tuple[int, int]  # (min, max)
+    relationships: list[ClauseMateRelationship]
+    sentence_range: tuple[int, int]  # (min, max)
     total_sentences: int
-    coreference_chains: Dict[str, List[Dict]]  # chain_id -> mentions
-    chain_boundaries: Dict[str, Tuple[int, int]]  # chain_id -> (first_sent, last_sent)
+    coreference_chains: dict[str, list[dict]]  # chain_id -> mentions
+    chain_boundaries: dict[str, tuple[int, int]]  # chain_id -> (first_sent, last_sent)
 
 
 class CrossChapterCoreferenceAnalyzer:
@@ -47,8 +46,8 @@ class CrossChapterCoreferenceAnalyzer:
         ]
         self.analyzer = ClauseMateAnalyzer(enable_adaptive_parsing=True)
         self.format_detector = TSVFormatDetector()
-        self.chapter_analyses: List[ChapterAnalysis] = []
-        self.cross_chapter_evidence: List[Dict] = []
+        self.chapter_analyses: list[ChapterAnalysis] = []
+        self.cross_chapter_evidence: list[dict] = []
 
     def run_analysis(self):
         """Main analysis method."""

@@ -9,7 +9,7 @@ import csv
 import logging
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -20,16 +20,16 @@ class TSVFormatInfo:
 
     file_path: str
     total_columns: int
-    sample_rows: List[List[str]]
-    sentence_boundaries: List[str]
+    sample_rows: list[list[str]]
+    sentence_boundaries: list[str]
     token_count: int
     sentence_count: int
     has_required_columns: bool
-    required_column_positions: Dict[str, int]
-    additional_columns: List[str]
+    required_column_positions: dict[str, int]
+    additional_columns: list[str]
     format_type: str  # "standard" or "extended"
     compatibility_score: float  # 0.0 to 1.0
-    issues: List[str]
+    issues: list[str]
 
 
 @dataclass
@@ -149,8 +149,8 @@ class TSVFormatDetector:
     def _analyze_format(
         self,
         file_path: str,
-        sample_rows: List[List[str]],
-        sentence_boundaries: List[str],
+        sample_rows: list[list[str]],
+        sentence_boundaries: list[str],
         token_count: int,
         sentence_count: int,
         total_columns: int,
@@ -322,7 +322,7 @@ class TSVFormatDetector:
         has_required_columns: bool,
         format_type: str,
         total_columns: int,
-        issues: List[str],
+        issues: list[str],
     ) -> float:
         """Calculate a compatibility score from 0.0 to 1.0."""
         score = 0.0
@@ -353,7 +353,7 @@ class TSVFormatDetector:
 
         return max(0.0, min(1.0, score))
 
-    def compare_formats(self, format_infos: List[TSVFormatInfo]) -> Dict[str, Any]:
+    def compare_formats(self, format_infos: list[TSVFormatInfo]) -> dict[str, Any]:
         """Compare multiple format analyses and provide recommendations.
 
         Args:
@@ -411,7 +411,7 @@ class TSVFormatDetector:
         }
 
 
-def analyze_directory(directory_path: str, pattern: str = "*.tsv") -> Dict[str, Any]:
+def analyze_directory(directory_path: str, pattern: str = "*.tsv") -> dict[str, Any]:
     """Analyze all TSV files in a directory.
 
     Args:

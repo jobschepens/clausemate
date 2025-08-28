@@ -6,8 +6,8 @@ specifically for parsing TSV files with linguistic annotations.
 
 import csv
 import sys
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Dict, Iterator, List
 
 from src.data.models import SentenceContext, Token
 from src.parsers.base import BaseParser, BaseTokenProcessor
@@ -39,7 +39,7 @@ class TSVParser(BaseParser):
 
         self.columns = TSVColumns()
 
-    def parse_file(self, file_path: str) -> Dict[str, List[Token]]:
+    def parse_file(self, file_path: str) -> dict[str, list[Token]]:
         """Parse a TSV file and return all sentences with their tokens.
 
         Args:
@@ -57,12 +57,14 @@ class TSVParser(BaseParser):
         try:
             for sentence_context in self.parse_sentence_streaming(file_path):
                 sentences[sentence_context.sentence_id] = sentence_context.tokens
-        except FileNotFoundError:
-            raise FileProcessingError(f"File not found: {file_path}")
-        except PermissionError:
-            raise FileProcessingError(f"Permission denied: {file_path}")
+        except FileNotFoundError as exc:
+            raise FileProcessingError(f"File not found: {file_path}") from exc
+        except PermissionError as exc:
+            raise FileProcessingError(f"Permission denied: {file_path}") from exc
         except Exception as e:
-            raise FileProcessingError(f"Error reading file {file_path}: {str(e)}")
+            raise FileProcessingError(
+                f"Error reading file {file_path}: {str(e)}"
+            ) from e
 
         return sentences
 
@@ -155,7 +157,7 @@ class TSVParser(BaseParser):
                     except ParseError:
                         raise
                     except Exception as e:
-                        raise ParseError(f"Line {line_num}: {str(e)}")
+                        raise ParseError(f"Line {line_num}: {str(e)}") from e
                 # Yield last sentence
                 if current_tokens and current_sentence_id is not None:
                     if not current_first_words and first_token_texts:
@@ -174,14 +176,16 @@ class TSVParser(BaseParser):
                         tokens=current_tokens,
                         first_words=current_first_words or "",
                     )
-        except FileNotFoundError:
-            raise FileProcessingError(f"File not found: {file_path}")
-        except PermissionError:
-            raise FileProcessingError(f"Permission denied: {file_path}")
+        except FileNotFoundError as exc:
+            raise FileProcessingError(f"File not found: {file_path}") from exc
+        except PermissionError as exc:
+            raise FileProcessingError(f"Permission denied: {file_path}") from exc
         except Exception as e:
-            if isinstance(e, (ParseError, FileProcessingError)):
+            if isinstance(e, ParseError | FileProcessingError):
                 raise
-            raise FileProcessingError(f"Error processing file {file_path}: {str(e)}")
+            raise FileProcessingError(
+                f"Error processing file {file_path}: {str(e)}"
+            ) from e
 
     def parse_token_line(self, line: str) -> Token:
         """Parse a single TSV line into a Token object.
@@ -279,7 +283,9 @@ class TSVParser(BaseParser):
             )
 
         except (ValueError, IndexError) as e:
-            raise ParseError(f"Invalid token line format: {line}. Error: {str(e)}")
+            raise ParseError(
+                f"Invalid token line format: {line}. Error: {str(e)}"
+            ) from e
 
     def is_sentence_boundary(self, line: str) -> bool:
         """Check if a line represents a sentence boundary.
@@ -350,7 +356,7 @@ class TSVParser(BaseParser):
         return ""
 
     def _create_sentence_context(
-        self, sentence_id: str, sentence_num: int, tokens: List[Token], first_words: str
+        self, sentence_id: str, sentence_num: int, tokens: list[Token], first_words: str
     ) -> SentenceContext:
         """Create a SentenceContext with enriched tokens."""
         for token in tokens:
@@ -393,14 +399,7 @@ class DefaultTokenProcessor(BaseTokenProcessor):
         """
         try:
             # Basic validation
-            if token.idx < 1:
-                return False
-            if not token.text or not token.text.strip():
-                return False
-
-            # Additional validation can be added here
-            return True
-
+            return token.idx >= 1 and bool(token.text and token.text.strip())
         except Exception:
             return False
 

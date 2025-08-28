@@ -7,6 +7,7 @@ Thank you for your interest in contributing to the Clause Mates Analyzer project
 The Clause Mates Analyzer is a research tool for analyzing pronoun-antecedent relationships in German text using WebAnno TSV format data. The project has achieved unified multi-file processing with cross-chapter coreference resolution and professional deliverable package creation.
 
 ### Current System Capabilities
+
 - **Adaptive Parsing**: Automatic format detection and parser selection
 - **100% File Compatibility**: Supports 4 different WebAnno TSV format variations (12-38 columns)
 - **Unified Multi-File Processing**: Process all 4 chapters as single comprehensive dataset
@@ -19,6 +20,7 @@ The Clause Mates Analyzer is a research tool for analyzing pronoun-antecedent re
 ## Development Setup
 
 ### Prerequisites
+
 - Python 3.8 or higher
 - Git
 - Either Conda or pip for package management
@@ -26,6 +28,7 @@ The Clause Mates Analyzer is a research tool for analyzing pronoun-antecedent re
 ### Quick Start
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/jobschepens/clausemate.git
    cd clausemate
@@ -34,22 +37,26 @@ The Clause Mates Analyzer is a research tool for analyzing pronoun-antecedent re
 2. **Set up development environment**
 
    **Option A: Using Conda (Recommended)**
+
    ```bash
    conda env create -f environment.yml
    conda activate clausemate
    ```
 
    **Option B: Using pip**
+
    ```bash
    pip install -e ".[dev]"
    ```
 
 3. **Install development tools**
+
    ```bash
    make dev-setup  # Installs pre-commit hooks
    ```
 
 4. **Validate setup**
+
    ```bash
    make validate-setup
    make test
@@ -96,6 +103,7 @@ We maintain high code quality through automated tools:
 ### Making Changes
 
 1. **Create a feature branch**
+
    ```bash
    git checkout -b feature/your-feature-name
    ```
@@ -106,6 +114,7 @@ We maintain high code quality through automated tools:
    - Update documentation as needed
 
 3. **Run quality checks**
+
    ```bash
    make lint      # Run ruff linting
    make format    # Format code with ruff
@@ -114,6 +123,7 @@ We maintain high code quality through automated tools:
    ```
 
 4. **Commit your changes**
+
    ```bash
    git add .
    git commit -m "feat: add new feature description"
@@ -127,6 +137,7 @@ We maintain high code quality through automated tools:
    - `refactor:` for code refactoring
 
 5. **Push and create pull request**
+
    ```bash
    git push origin feature/your-feature-name
    ```
@@ -134,6 +145,7 @@ We maintain high code quality through automated tools:
 ### Testing Guidelines
 
 #### Running Tests
+
 ```bash
 # Run all tests
 make test
@@ -149,6 +161,7 @@ make test-integration
 ```
 
 #### Writing Tests
+
 - Place tests in the `tests/` directory
 - Use descriptive test names: `test_adaptive_parser_handles_extended_format`
 - Include both unit tests and integration tests
@@ -156,6 +169,7 @@ make test-integration
 - Maintain test coverage above 80%
 
 #### Test Structure
+
 ```python
 import pytest
 from src.parsers.adaptive_tsv_parser import AdaptiveTSVParser
@@ -177,6 +191,7 @@ class TestAdaptiveTSVParser:
 ### Code Style Guidelines
 
 #### Python Style
+
 - Follow PEP 8 conventions
 - Use type hints for all function parameters and return values
 - Write docstrings for all public functions and classes
@@ -184,6 +199,7 @@ class TestAdaptiveTSVParser:
 - Use meaningful variable and function names
 
 #### Example Code Style
+
 ```python
 from typing import List, Optional, Dict, Any
 from dataclasses import dataclass
@@ -215,6 +231,7 @@ def detect_format(file_path: str) -> TSVFormatInfo:
 ```
 
 #### Documentation Style
+
 - Use Google-style docstrings
 - Include type information in docstrings
 - Provide examples for complex functions
@@ -223,26 +240,31 @@ def detect_format(file_path: str) -> TSVFormatInfo:
 ## Contributing Areas
 
 ### 1. Core Parser Development
+
 - **Adaptive Parsing**: Enhance format detection algorithms
 - **New Format Support**: Add support for additional WebAnno variations
 - **Performance Optimization**: Improve parsing speed for large files
 
 ### 2. Linguistic Features
+
 - **Morphological Analysis**: Extract pronoun type and gender information
 - **Enhanced Antecedent Detection**: Improve antecedent choice algorithms
 - **Discourse Analysis**: Add information structure features
 
 ### 3. Testing & Quality Assurance
+
 - **Test Coverage**: Expand test suite for edge cases
 - **Integration Tests**: Add end-to-end testing scenarios
 - **Performance Testing**: Benchmark parsing performance
 
 ### 4. Documentation
+
 - **User Guides**: Create tutorials for different use cases
 - **API Documentation**: Document all public interfaces
 - **Format Specifications**: Document supported file formats
 
 ### 5. Tools & Utilities
+
 - **Analysis Scripts**: Create tools for data exploration
 - **Validation Tools**: Build format validation utilities
 - **Visualization**: Add data visualization capabilities
@@ -250,21 +272,27 @@ def detect_format(file_path: str) -> TSVFormatInfo:
 ## Submitting Issues
 
 ### Bug Reports
+
 When reporting bugs, please include:
+
 - Python version and operating system
 - Complete error message and stack trace
 - Minimal code example that reproduces the issue
 - Input file format details (if applicable)
 
 ### Feature Requests
+
 For feature requests, please provide:
+
 - Clear description of the proposed feature
 - Use case and motivation
 - Suggested implementation approach (if any)
 - Potential impact on existing functionality
 
 ### Issue Templates
+
 Use the provided issue templates:
+
 - **Bug Report**: For reporting problems
 - **Feature Request**: For suggesting enhancements
 - **Documentation**: For documentation improvements
@@ -272,7 +300,9 @@ Use the provided issue templates:
 ## Code Review Process
 
 ### Review Criteria
+
 All contributions are reviewed for:
+
 - **Functionality**: Does the code work as intended?
 - **Code Quality**: Is the code well-structured and readable?
 - **Testing**: Are there adequate tests for the changes?
@@ -280,6 +310,7 @@ All contributions are reviewed for:
 - **Compatibility**: Does it maintain backward compatibility?
 
 ### Review Timeline
+
 - Initial review within 48 hours
 - Follow-up reviews within 24 hours
 - Merge after approval from at least one maintainer
@@ -287,12 +318,15 @@ All contributions are reviewed for:
 ## Release Process
 
 ### Version Numbering
+
 We use semantic versioning (SemVer):
+
 - **Major** (X.0.0): Breaking changes
 - **Minor** (0.X.0): New features, backward compatible
 - **Patch** (0.0.X): Bug fixes, backward compatible
 
 ### Release Checklist
+
 - [ ] All tests pass
 - [ ] Documentation updated
 - [ ] Version number bumped
@@ -303,17 +337,21 @@ We use semantic versioning (SemVer):
 ## Getting Help
 
 ### Communication Channels
+
 - **GitHub Issues**: For bug reports and feature requests
 - **GitHub Discussions**: For questions and general discussion
 - **Email**: Contact maintainers for sensitive issues
 
 ### Resources
+
 - **Project Documentation**: See `docs/` directory
 - **Format Specifications**: See `data/input/FORMAT_OVERVIEW.md`
 - **Development Tools**: See `Makefile` for available commands
 
 ### Mentorship
+
 New contributors are welcome! We provide:
+
 - Code review feedback and guidance
 - Help with development environment setup
 - Assistance with understanding the codebase
@@ -322,13 +360,17 @@ New contributors are welcome! We provide:
 ## Recognition
 
 ### Contributors
+
 All contributors are recognized in:
+
 - `CONTRIBUTORS.md` file
 - Release notes
 - Project documentation
 
 ### Types of Contributions
+
 We value all types of contributions:
+
 - Code contributions
 - Documentation improvements
 - Bug reports and testing
@@ -348,6 +390,7 @@ This project follows a code of conduct to ensure a welcoming environment for all
 ## Quick Reference
 
 ### Common Commands
+
 ```bash
 # Development setup
 make dev-setup
@@ -366,6 +409,7 @@ make clean
 ```
 
 ### File Locations
+
 - **Source code**: `src/`
 - **Tests**: `tests/`
 - **Documentation**: `docs/` and root `.md` files
@@ -373,6 +417,7 @@ make clean
 - **Data**: `data/input/` and `data/output/`
 
 ### Key Concepts
+
 - **Adaptive Parsing**: Automatic format detection and parser selection
 - **Preamble-based Mapping**: Column mapping from WebAnno metadata
 - **Format Compatibility**: Support for multiple TSV variations

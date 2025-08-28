@@ -6,8 +6,8 @@ between different parts of the parsing system.
 
 import sys
 from abc import ABC, abstractmethod
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Dict, Iterator, List
 
 from src.data.models import SentenceContext, Token
 
@@ -23,7 +23,7 @@ class BaseParser(ABC):
     """
 
     @abstractmethod
-    def parse_file(self, file_path: str) -> Dict[str, List[Token]]:
+    def parse_file(self, file_path: str) -> dict[str, list[Token]]:
         """Parse a file and return all sentences with their tokens.
 
         Args:

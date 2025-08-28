@@ -18,7 +18,7 @@ import logging
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 from ..data.models import ClauseMateRelationship
 
@@ -33,8 +33,8 @@ class ChapterMetadata:
     file_format: str
     total_relationships: int
     total_sentences: int
-    sentence_range: Tuple[int, int]
-    global_sentence_range: Tuple[int, int]
+    sentence_range: tuple[int, int]
+    global_sentence_range: tuple[int, int]
     coreference_chains: int
     processing_time: float
     file_size_bytes: int
@@ -51,7 +51,7 @@ class CrossChapterConnection:
     connection_type: str  # "same_chain_id", "similar_mentions", "unified_chain"
     strength: float  # 0.0 to 1.0
     mentions_count: int
-    sentence_span: Tuple[int, int]  # global sentence IDs
+    sentence_span: tuple[int, int]  # global sentence IDs
 
 
 @dataclass
@@ -65,13 +65,13 @@ class ProcessingStatistics:
     cross_chapter_chains: int
     cross_chapter_relationships: int
     processing_time_seconds: float
-    memory_usage_mb: Optional[float]
+    memory_usage_mb: float | None
 
     # Per-chapter breakdown
-    chapter_breakdown: List[ChapterMetadata]
+    chapter_breakdown: list[ChapterMetadata]
 
     # Cross-chapter analysis
-    cross_chapter_connections: List[CrossChapterConnection]
+    cross_chapter_connections: list[CrossChapterConnection]
 
     # Quality metrics
     average_relationships_per_sentence: float
@@ -94,9 +94,9 @@ class EnhancedOutputSystem:
 
     def create_enhanced_csv_output(
         self,
-        relationships: List[ClauseMateRelationship],
-        chapter_metadata: List[ChapterMetadata],
-        cross_chapter_connections: List[CrossChapterConnection],
+        relationships: list[ClauseMateRelationship],
+        chapter_metadata: list[ChapterMetadata],
+        cross_chapter_connections: list[CrossChapterConnection],
         output_filename: str = "enhanced_unified_relationships.csv",
     ) -> str:
         """Create enhanced CSV output with comprehensive metadata.
@@ -278,9 +278,9 @@ class EnhancedOutputSystem:
 
     def create_comprehensive_statistics(
         self,
-        relationships: List[ClauseMateRelationship],
-        chapter_metadata: List[ChapterMetadata],
-        cross_chapter_connections: List[CrossChapterConnection],
+        relationships: list[ClauseMateRelationship],
+        chapter_metadata: list[ChapterMetadata],
+        cross_chapter_connections: list[CrossChapterConnection],
         processing_time: float,
         output_filename: str = "comprehensive_statistics.json",
     ) -> str:
@@ -350,8 +350,8 @@ class EnhancedOutputSystem:
 
     def create_chapter_boundary_report(
         self,
-        chapter_metadata: List[ChapterMetadata],
-        cross_chapter_connections: List[CrossChapterConnection],
+        chapter_metadata: list[ChapterMetadata],
+        cross_chapter_connections: list[CrossChapterConnection],
         output_filename: str = "chapter_boundary_analysis.json",
     ) -> str:
         """Create detailed chapter boundary analysis report.
@@ -473,8 +473,8 @@ class EnhancedOutputSystem:
     def _analyze_cross_chapter_relationship(
         self,
         relationship: ClauseMateRelationship,
-        cross_chapter_connections: List[CrossChapterConnection],
-    ) -> Dict[str, Any]:
+        cross_chapter_connections: list[CrossChapterConnection],
+    ) -> dict[str, Any]:
         """Analyze cross-chapter aspects of a relationship."""
         # Check if this relationship is part of a cross-chapter chain
         pronoun_coref_ids = getattr(relationship, "pronoun_coref_ids", [])
@@ -498,8 +498,8 @@ class EnhancedOutputSystem:
     def _calculate_analysis_scores(
         self,
         relationship: ClauseMateRelationship,
-        chapter_meta: Optional[ChapterMetadata],
-    ) -> Dict[str, float]:
+        chapter_meta: ChapterMetadata | None,
+    ) -> dict[str, float]:
         """Calculate enhanced analysis scores for a relationship."""
         # Narrative position (0.0 to 1.0 based on position in chapter)
         narrative_position = 0.0
@@ -524,7 +524,7 @@ class EnhancedOutputSystem:
         recent_distance = getattr(
             relationship.pronoun, "most_recent_antecedent_distance", None
         )
-        if recent_distance and isinstance(recent_distance, (int, float)):
+        if recent_distance and isinstance(recent_distance, int | float):
             # Closer antecedents indicate better coherence
             discourse_coherence_score = max(
                 0.1, min(1.0, 1.0 / (1.0 + recent_distance / 10.0))
@@ -551,7 +551,7 @@ class EnhancedOutputSystem:
     def _create_boundary_marker(
         self,
         relationship: ClauseMateRelationship,
-        chapter_metadata: List[ChapterMetadata],
+        chapter_metadata: list[ChapterMetadata],
     ) -> str:
         """Create a boundary marker for the relationship."""
         # Handle both UnifiedClauseMateRelationship and base ClauseMateRelationship
@@ -581,7 +581,7 @@ class EnhancedOutputSystem:
         self,
         current_chapter: ChapterMetadata,
         next_chapter: ChapterMetadata,
-        connections: List[CrossChapterConnection],
+        connections: list[CrossChapterConnection],
     ) -> float:
         """Calculate narrative continuity score between chapters."""
         if not connections:

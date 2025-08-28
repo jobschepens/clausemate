@@ -45,6 +45,7 @@ The WebAnno schema implementation has been **fully completed**, achieving all pl
 | **Incomplete** | 4.tsv | Partial | 12 | No | ✅ Complete |
 
 **Schema Layer Analysis:**
+
 ```
 Standard Schema (2.tsv):
 ├── Token layer: Basic token information
@@ -78,6 +79,7 @@ Incomplete Schema (4.tsv):
 ### 2. Preamble Structure Analysis ✅
 
 **WebAnno Preamble Format:**
+
 ```
 #FORMAT=WebAnno TSV 3.3
 #T_SP=webanno.custom.Referent|entity|referentType
@@ -89,6 +91,7 @@ Incomplete Schema (4.tsv):
 ```
 
 **Preamble Parsing Implementation:**
+
 ```python
 # src/utils/preamble_parser.py
 class PreambleParser:
@@ -127,6 +130,7 @@ class PreambleParser:
 ### 1. Schema Detection System ✅
 
 **Format Detection with Schema Awareness:**
+
 ```python
 # src/utils/format_detector.py
 class FormatDetector:
@@ -169,6 +173,7 @@ class FormatDetector:
 ```
 
 **Schema Layer Detection:**
+
 ```python
 def _parse_layer_definition(self, layer_def: str) -> LayerInfo:
     """Parse individual layer definition from preamble."""
@@ -192,6 +197,7 @@ def _parse_layer_definition(self, layer_def: str) -> LayerInfo:
 ### 2. Dynamic Column Mapping ✅
 
 **Schema-aware Column Configuration:**
+
 ```python
 # src/parsers/adaptive_tsv_parser.py
 class AdaptiveTSVParser:
@@ -238,6 +244,7 @@ class AdaptiveTSVParser:
 ```
 
 **Column Validation:**
+
 ```python
 def validate_schema_columns(self, df: pd.DataFrame) -> ValidationResult:
     """Validate that DataFrame matches expected schema."""
@@ -269,6 +276,7 @@ def validate_schema_columns(self, df: pd.DataFrame) -> ValidationResult:
 ### 3. Schema-aware Processing ✅
 
 **Adaptive Feature Extraction:**
+
 ```python
 def extract_features_by_schema(self, df: pd.DataFrame) -> pd.DataFrame:
     """Extract features based on detected schema layers."""
@@ -314,6 +322,7 @@ def _extract_morphological_features(self, df: pd.DataFrame, layer: LayerInfo) ->
 ### 1. Processing Results ✅
 
 **Schema Processing Performance:**
+
 ```
 Schema Compatibility Results:
 ├── Standard Schema (2.tsv): ✅ 448 relationships extracted
@@ -327,6 +336,7 @@ Processing Success Rate: 100% (0 failures)
 ```
 
 **Schema Layer Detection:**
+
 ```
 Layer Detection Results:
 ├── Standard Schema: 6 layers detected (token, pos, lemma, dependency, coreference, segment)
@@ -341,6 +351,7 @@ Morphological Layer Detection: 100% (1/1 extended schema)
 ### 2. Feature Extraction Results ✅
 
 **Morphological Feature Extraction (Extended Schema):**
+
 ```
 Morphological Features Extracted from 1.tsv:
 ├── Pronoun Types: 15 different types identified
@@ -354,6 +365,7 @@ Morphological Parsing Accuracy: 98.5%
 ```
 
 **Schema-specific Processing:**
+
 ```
 Processing Adaptations by Schema:
 ├── Standard: Basic relationship extraction with standard columns
@@ -372,6 +384,7 @@ Cross-schema Consistency: Validated
 ### 1. Schema Information Classes ✅
 
 **Data Structures:**
+
 ```python
 @dataclass
 class LayerInfo:
@@ -403,6 +416,7 @@ class TSVFormatInfo:
 ### 2. Schema Validation Framework ✅
 
 **Validation System:**
+
 ```python
 class SchemaValidator:
     """Validate WebAnno TSV files against expected schemas."""
@@ -446,6 +460,7 @@ class SchemaValidator:
 ### 3. Error Handling and Recovery ✅
 
 **Schema Error Recovery:**
+
 ```python
 def handle_schema_errors(self, file_path: str, validation_result: ValidationResult) -> TSVFormatInfo:
     """Handle schema validation errors with graceful recovery."""
@@ -482,6 +497,7 @@ def handle_schema_errors(self, file_path: str, validation_result: ValidationResu
 ### 1. Schema Testing Framework ✅
 
 **Comprehensive Test Suite:**
+
 ```python
 class TestSchemaImplementation:
     """Test suite for WebAnno schema implementation."""
@@ -533,6 +549,7 @@ class TestSchemaImplementation:
 ```
 
 **Test Results:**
+
 ```
 Schema Testing Results:
 ├── test_preamble_parsing: ✅ PASSED (4/4 schemas)
@@ -549,6 +566,7 @@ Total: 25/25 tests passing (100% success rate)
 ### 2. Integration Testing ✅
 
 **End-to-end Schema Processing:**
+
 ```python
 def test_end_to_end_schema_processing(self):
     """Test complete processing pipeline for all schemas."""
@@ -598,12 +616,14 @@ def test_end_to_end_schema_processing(self):
 ### 1. Enhanced Linguistic Analysis ✅
 
 **Schema-aware Feature Extraction:**
+
 - **Morphological Analysis**: Detailed pronoun type classification from extended schemas
 - **Syntactic Enhancement**: Improved dependency parsing from schema-specific layers
 - **Semantic Integration**: Semantic role information from comprehensive schemas
 - **Discourse Analysis**: Information structure features from discourse layers
 
 **Cross-schema Comparative Studies:**
+
 - **Annotation Completeness**: Compare results across different schema complexities
 - **Feature Impact**: Analyze impact of morphological features on relationship extraction
 - **Schema Evolution**: Study annotation scheme development over time
@@ -612,12 +632,14 @@ def test_end_to_end_schema_processing(self):
 ### 2. Methodological Contributions ✅
 
 **Technical Innovations:**
+
 - **Preamble-based Detection**: Automatic schema identification from WebAnno metadata
 - **Dynamic Column Mapping**: Schema-aware column configuration
 - **Adaptive Feature Extraction**: Schema-specific processing strategies
 - **Graceful Schema Degradation**: Robust handling of incomplete schemas
 
 **Research Methodology:**
+
 - **Schema Documentation**: Complete specification of all supported schemas
 - **Validation Framework**: Systematic schema validation and error recovery
 - **Cross-schema Consistency**: Consistent processing across schema variations
@@ -630,6 +652,7 @@ def test_end_to_end_schema_processing(self):
 ### 1. Advanced Schema Support
 
 **Planned Extensions:**
+
 - **Custom Schema Support**: User-defined schema configurations
 - **Schema Migration**: Automatic conversion between schema versions
 - **Multi-language Schemas**: Support for non-German WebAnno schemas
@@ -638,6 +661,7 @@ def test_end_to_end_schema_processing(self):
 ### 2. Enhanced Feature Extraction
 
 **Advanced Features:**
+
 - **Semantic Role Labeling**: Extract semantic roles from comprehensive schemas
 - **Discourse Markers**: Identify discourse connectives and markers
 - **Information Structure**: Extract topic/focus information

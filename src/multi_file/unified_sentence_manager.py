@@ -10,7 +10,6 @@ Date: 2025-07-28
 
 import logging
 from pathlib import Path
-from typing import Dict, Tuple
 
 
 class UnifiedSentenceManager:
@@ -26,10 +25,10 @@ class UnifiedSentenceManager:
         self.logger = logging.getLogger(__name__)
 
         # Mapping from file path to sentence range
-        self.chapter_sentence_ranges: Dict[str, Tuple[int, int]] = {}
+        self.chapter_sentence_ranges: dict[str, tuple[int, int]] = {}
 
         # Mapping from (file_path, local_sentence_id) to global_sentence_id
-        self.sentence_mapping: Dict[Tuple[str, str], str] = {}
+        self.sentence_mapping: dict[tuple[str, str], str] = {}
 
         # Global sentence counter
         self.global_sentence_counter = 0
@@ -126,7 +125,7 @@ class UnifiedSentenceManager:
 
             return fallback_id
 
-    def get_chapter_sentence_range(self, file_path: str) -> Tuple[int, int]:
+    def get_chapter_sentence_range(self, file_path: str) -> tuple[int, int]:
         """Get global sentence range for a chapter.
 
         Args:
@@ -141,7 +140,7 @@ class UnifiedSentenceManager:
         """Get total number of sentences across all chapters."""
         return self.global_sentence_counter
 
-    def get_chapter_summary(self) -> Dict[str, Dict[str, int]]:
+    def get_chapter_summary(self) -> dict[str, dict[str, int]]:
         """Get summary of sentence ranges for all chapters.
 
         Returns:

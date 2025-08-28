@@ -1,15 +1,14 @@
 """Tests for the benchmark module."""
 
+import importlib.util
+import sys
+from pathlib import Path
+
 import pytest
 
 # Check for psutil availability before any other imports
-try:
-    import psutil
-except ImportError:
+if importlib.util.find_spec("psutil") is None:
     pytest.skip("psutil not available", allow_module_level=True)
-
-import sys
-from pathlib import Path
 
 # Add the src directory to the Python path
 sys.path.insert(0, str(Path(__file__).parent.parent))

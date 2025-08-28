@@ -6,7 +6,6 @@ coreference phrases based on the original clause mate analysis patterns.
 
 import sys
 from pathlib import Path
-from typing import Dict, List
 
 from src.data.models import CoreferencePhrase, ExtractionResult, SentenceContext, Token
 from src.extractors.base import BasePhraseExtractor
@@ -76,7 +75,7 @@ class PhraseExtractor(BasePhraseExtractor):
             for token in context.tokens
         )
 
-    def extract_phrases(self, context: SentenceContext) -> List[CoreferencePhrase]:
+    def extract_phrases(self, context: SentenceContext) -> list[CoreferencePhrase]:
         """Extract all coreference phrases from a sentence context.
 
         Groups tokens by their coreference IDs to form phrases.
@@ -98,7 +97,7 @@ class PhraseExtractor(BasePhraseExtractor):
                 coreference_tokens.append((token, entity_id))
 
         # Group tokens by entity ID
-        entity_groups: Dict[str, List[Token]] = {}
+        entity_groups: dict[str, list[Token]] = {}
         for token, entity_id in coreference_tokens:
             if entity_id not in entity_groups:
                 entity_groups[entity_id] = []
@@ -123,7 +122,7 @@ class PhraseExtractor(BasePhraseExtractor):
 
         return phrases
 
-    def group_tokens_by_entity(self, tokens: List[Token]) -> Dict[str, List[Token]]:
+    def group_tokens_by_entity(self, tokens: list[Token]) -> dict[str, list[Token]]:
         """Group tokens by their entity ID.
 
         Args:
@@ -157,7 +156,7 @@ class PhraseExtractor(BasePhraseExtractor):
         # Boundary exists if no entity IDs overlap
         return not bool(set(entities1) & set(entities2))
 
-    def _get_coreference_ids(self, token: Token) -> List[str]:
+    def _get_coreference_ids(self, token: Token) -> list[str]:
         """Get all coreference IDs for a token from various sources.
 
         Args:
@@ -197,7 +196,7 @@ class PhraseExtractor(BasePhraseExtractor):
 
         return ids
 
-    def _build_phrase_text(self, tokens: List[Token]) -> str:
+    def _build_phrase_text(self, tokens: list[Token]) -> str:
         """Build the text representation of a phrase from its tokens.
 
         Args:

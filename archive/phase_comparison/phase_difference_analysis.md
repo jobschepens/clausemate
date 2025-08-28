@@ -2,20 +2,21 @@
 
 **Generated:** 2025-07-23 23:15:49
 
-##  COMPREHENSIVE DIFFERENCE ANALYSIS
+## COMPREHENSIVE DIFFERENCE ANALYSIS
 
 ---
 
+### BASIC STATISTICS
 
-###  BASIC STATISTICS:
 Phase 1: 448 relationships, 38 columns
 Phase 2: 448 relationships, 38 columns
 Difference: +0 relationships
 
-###  COLUMN DIFFERENCES:
+### COLUMN DIFFERENCES
+
 Common columns: 38
 
-###  SENTENCE ID PATTERN ANALYSIS:
+### SENTENCE ID PATTERN ANALYSIS
 
 ---
 
@@ -34,7 +35,7 @@ Numeric sentence ID comparison:
   Phase 2 unique numeric IDs: 101
   Common numeric IDs: 101
 
-###  PROCESSING ORDER ANALYSIS:
+### PROCESSING ORDER ANALYSIS
 
 ---
 
@@ -62,7 +63,7 @@ Phase 2: First 10 sentences by numeric sentence ID:
       9. Sent  30: 6 relationships, tokens: [10, 10, 10, 23, 23, 23]
      10. Sent  33: 3 relationships, tokens: [1, 1, 1]
 
-###  SORTING PATTERN ANALYSIS:
+### SORTING PATTERN ANALYSIS
 
 ---
 
@@ -92,7 +93,7 @@ Phase 2 - First 10 rows after sorting by sentence_id_numeric:
 
 ✓ All sentences present in both phases when using numeric IDs
 
-###  DATA CONTENT ANALYSIS:
+### DATA CONTENT ANALYSIS
 
 ---
 
@@ -107,7 +108,8 @@ Missing value analysis:
   clause_mate_text: Phase1=0, Phase2=0
   pronoun_coref_ids: Phase1=0, Phase2=0
 
-###  PRONOUN ANALYSIS:
+### PRONOUN ANALYSIS
+
 Phase 1 unique pronouns: 16
 Phase 2 unique pronouns: 16
 
@@ -118,33 +120,39 @@ Top 5 pronouns in Phase 1:
   ihn: 36 → 36 (Δ+0)
   ihm: 31 → 31 (Δ+0)
 
-###  SENTENCE ANALYSIS:
+### SENTENCE ANALYSIS
+
 Phase 1 unique sentences: 101
 Phase 2 unique sentences: 101
 
-###  SAMPLE RELATIONSHIP COMPARISON:
+### SAMPLE RELATIONSHIP COMPARISON
+
 First 3 relationships in Phase 1:
+
   1. Sent 4: 'Der' → 'der Liftgeschichte'
   2. Sent 7: 'er' → 'das Gefühl'
   3. Sent 7: 'er' → 'er'
 
 First 3 relationships in Phase 2:
+
   1. Sent 4: 'Der' → 'der Liftgeschichte'
   2. Sent 7: 'er' → 'das Gefühl'
   3. Sent 7: 'er' → 'er'
 
-###  FILE SIZE ANALYSIS:
+### FILE SIZE ANALYSIS
+
 Phase 1: 102,655 bytes (0.10 MB)
 Phase 2: 94,311 bytes (0.09 MB)
 Size difference: -8,344 bytes (-0.01 MB)
 Size change: -8.1%
 
-###  EFFICIENCY METRICS:
+### EFFICIENCY METRICS
+
 Phase 1: 4.5 relationships per KB
 Phase 2: 4.9 relationships per KB
 Efficiency change: +8.8%
 
-###  KEY FINDINGS SUMMARY:
+### KEY FINDINGS SUMMARY
 
 ---
 
@@ -153,7 +161,6 @@ Efficiency change: +8.8%
 3. Sentence ID format: Phase 1 uses prefixed, Phase 2 uses numeric
 4. Performance: Phase 2 is 1.1x more efficient
 5. Missing sentences: 0 sentences have different relationship counts
-
 
 ---
 *Analysis completed at 2025-07-23 23:15:49*

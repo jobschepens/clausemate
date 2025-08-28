@@ -6,7 +6,7 @@ replacing dictionaries with typed dataclasses for better maintainability and saf
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
 
 class AnimacyType(Enum):
@@ -29,16 +29,16 @@ class Token:
     sentence_num: int
     grammatical_role: str
     thematic_role: str
-    coreference_link: Optional[str] = None
-    coreference_type: Optional[str] = None
-    inanimate_coreference_link: Optional[str] = None
-    inanimate_coreference_type: Optional[str] = None
+    coreference_link: str | None = None
+    coreference_type: str | None = None
+    inanimate_coreference_link: str | None = None
+    inanimate_coreference_type: str | None = None
     is_critical_pronoun: bool = False
 
     # Additional fields for phrase extraction
-    entity_id: Optional[str] = None
+    entity_id: str | None = None
     token_position: int = 0
-    columns: Optional[List[str]] = None
+    columns: list[str] | None = None
 
     def __post_init__(self) -> None:
         """Validate token data after initialization."""
@@ -117,7 +117,7 @@ class CoreferencePhrase:
     """
 
     entity_id: str
-    tokens: List[Token]
+    tokens: list[Token]
     phrase_text: str
     start_position: int
     end_position: int
@@ -172,17 +172,17 @@ class ClauseMateRelationship:
     first_words: str = ""
 
     # Pronoun coreference IDs (for compatibility with Phase 1)
-    pronoun_coref_ids: Optional[List[str]] = None
+    pronoun_coref_ids: list[str] | None = None
 
     # Derived numeric fields for analysis
-    pronoun_coref_base_num: Optional[int] = None
-    pronoun_coref_occurrence_num: Optional[int] = None
-    clause_mate_coref_base_num: Optional[int] = None
-    clause_mate_coref_occurrence_num: Optional[int] = None
-    pronoun_coref_link_base_num: Optional[int] = None
-    pronoun_coref_link_occurrence_num: Optional[int] = None
-    pronoun_inanimate_coref_link_base_num: Optional[int] = None
-    pronoun_inanimate_coref_link_occurrence_num: Optional[int] = None
+    pronoun_coref_base_num: int | None = None
+    pronoun_coref_occurrence_num: int | None = None
+    clause_mate_coref_base_num: int | None = None
+    clause_mate_coref_occurrence_num: int | None = None
+    pronoun_coref_link_base_num: int | None = None
+    pronoun_coref_link_occurrence_num: int | None = None
+    pronoun_inanimate_coref_link_base_num: int | None = None
+    pronoun_inanimate_coref_link_occurrence_num: int | None = None
 
     def __post_init__(self) -> None:
         """Validate relationship data."""
@@ -193,7 +193,7 @@ class ClauseMateRelationship:
         if not self.sentence_id:
             raise ValueError("Sentence ID cannot be empty")
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert the relationship to a dictionary for CSV export.
 
         This method flattens the nested structure into a flat dictionary
@@ -328,9 +328,9 @@ class SentenceContext:
 
     sentence_id: str
     sentence_num: int
-    tokens: List[Token]
-    critical_pronouns: List[Token]
-    coreference_phrases: List[CoreferencePhrase]
+    tokens: list[Token]
+    critical_pronouns: list[Token]
+    coreference_phrases: list[CoreferencePhrase]
     first_words: str = ""
 
     def __post_init__(self) -> None:
@@ -361,7 +361,7 @@ class CoreferenceChain:
     """
 
     chain_id: str
-    mentions: List[Token]
+    mentions: list[Token]
     animacy: AnimacyType
 
     def __post_init__(self) -> None:
@@ -389,11 +389,11 @@ class ExtractionResult:
     Provides a structured way to return multiple types of extracted information.
     """
 
-    pronouns: List[Token]
-    phrases: Union[List[Phrase], List[CoreferencePhrase]]
-    relationships: List[ClauseMateRelationship]
-    coreference_chains: List[CoreferenceChain]
-    features: Dict[str, Any]
+    pronouns: list[Token]
+    phrases: list[Phrase] | list[CoreferencePhrase]
+    relationships: list[ClauseMateRelationship]
+    coreference_chains: list[CoreferenceChain]
+    features: dict[str, Any]
 
     def __post_init__(self) -> None:
         """Initialize empty collections if None."""

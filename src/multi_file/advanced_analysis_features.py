@@ -18,7 +18,7 @@ from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from ..data.models import ClauseMateRelationship
 from .enhanced_output_system import ChapterMetadata, CrossChapterConnection
@@ -45,12 +45,12 @@ class CharacterProfile:
 
     character_id: str
     primary_name: str
-    alternative_names: List[str]
+    alternative_names: list[str]
     first_appearance_chapter: int
     last_appearance_chapter: int
     total_mentions: int
-    chapters_present: List[int]
-    mentions: List[CharacterMention]
+    chapters_present: list[int]
+    mentions: list[CharacterMention]
 
     # Analysis metrics
     narrative_prominence: float  # 0.0 to 1.0
@@ -70,7 +70,7 @@ class NarrativeFlowSegment:
     character_density: float  # characters per sentence
     coreference_density: float  # coreference links per sentence
     narrative_tension: float  # 0.0 to 1.0
-    key_characters: List[str]
+    key_characters: list[str]
 
 
 @dataclass
@@ -83,9 +83,9 @@ class CrossChapterTransition:
     thematic_continuity: float  # 0.0 to 1.0
     temporal_gap_indicator: float  # 0.0 to 1.0
     narrative_coherence: float  # 0.0 to 1.0
-    shared_characters: List[str]
-    new_characters: List[str]
-    dropped_characters: List[str]
+    shared_characters: list[str]
+    new_characters: list[str]
+    dropped_characters: list[str]
 
 
 @dataclass
@@ -93,8 +93,8 @@ class PerformanceMetrics:
     """Comprehensive performance metrics for multi-file processing."""
 
     total_processing_time: float
-    per_chapter_times: Dict[int, float]
-    memory_usage_peak: Optional[float]
+    per_chapter_times: dict[int, float]
+    memory_usage_peak: float | None
     relationships_per_second: float
     cross_chapter_resolution_time: float
 
@@ -123,10 +123,10 @@ class AdvancedAnalysisEngine:
 
     def analyze_character_tracking(
         self,
-        relationships: List[ClauseMateRelationship],
-        chapter_metadata: List[ChapterMetadata],
-        cross_chapter_connections: List[CrossChapterConnection],
-    ) -> Dict[str, CharacterProfile]:
+        relationships: list[ClauseMateRelationship],
+        chapter_metadata: list[ChapterMetadata],
+        cross_chapter_connections: list[CrossChapterConnection],
+    ) -> dict[str, CharacterProfile]:
         """Perform comprehensive character tracking across chapters.
 
         Args:
@@ -175,10 +175,10 @@ class AdvancedAnalysisEngine:
 
     def analyze_narrative_flow(
         self,
-        relationships: List[ClauseMateRelationship],
-        chapter_metadata: List[ChapterMetadata],
-        character_profiles: Dict[str, CharacterProfile],
-    ) -> List[NarrativeFlowSegment]:
+        relationships: list[ClauseMateRelationship],
+        chapter_metadata: list[ChapterMetadata],
+        character_profiles: dict[str, CharacterProfile],
+    ) -> list[NarrativeFlowSegment]:
         """Analyze narrative flow patterns across chapters.
 
         Args:
@@ -213,10 +213,10 @@ class AdvancedAnalysisEngine:
 
     def analyze_cross_chapter_transitions(
         self,
-        chapter_metadata: List[ChapterMetadata],
-        character_profiles: Dict[str, CharacterProfile],
-        cross_chapter_connections: List[CrossChapterConnection],
-    ) -> List[CrossChapterTransition]:
+        chapter_metadata: list[ChapterMetadata],
+        character_profiles: dict[str, CharacterProfile],
+        cross_chapter_connections: list[CrossChapterConnection],
+    ) -> list[CrossChapterTransition]:
         """Analyze transitions between chapters.
 
         Args:
@@ -250,9 +250,9 @@ class AdvancedAnalysisEngine:
 
     def generate_coreference_visualization_data(
         self,
-        relationships: List[ClauseMateRelationship],
-        character_profiles: Dict[str, CharacterProfile],
-        cross_chapter_connections: List[CrossChapterConnection],
+        relationships: list[ClauseMateRelationship],
+        character_profiles: dict[str, CharacterProfile],
+        cross_chapter_connections: list[CrossChapterConnection],
         output_filename: str = "coreference_visualization.json",
     ) -> str:
         """Generate data for coreference chain visualization.
@@ -332,9 +332,9 @@ class AdvancedAnalysisEngine:
 
     def calculate_performance_metrics(
         self,
-        processing_stats: Dict[str, Any],
-        chapter_metadata: List[ChapterMetadata],
-        relationships: List[ClauseMateRelationship],
+        processing_stats: dict[str, Any],
+        chapter_metadata: list[ChapterMetadata],
+        relationships: list[ClauseMateRelationship],
     ) -> PerformanceMetrics:
         """Calculate comprehensive performance metrics.
 
@@ -393,9 +393,9 @@ class AdvancedAnalysisEngine:
 
     def create_comprehensive_analysis_report(
         self,
-        character_profiles: Dict[str, CharacterProfile],
-        narrative_segments: List[NarrativeFlowSegment],
-        transitions: List[CrossChapterTransition],
+        character_profiles: dict[str, CharacterProfile],
+        narrative_segments: list[NarrativeFlowSegment],
+        transitions: list[CrossChapterTransition],
         performance_metrics: PerformanceMetrics,
         output_filename: str = "comprehensive_analysis_report.json",
     ) -> str:
@@ -468,8 +468,8 @@ class AdvancedAnalysisEngine:
     def _extract_character_mentions(
         self,
         relationship: ClauseMateRelationship,
-        chapter_meta: Optional[ChapterMetadata],
-        character_mentions: Dict[str, List[CharacterMention]],
+        chapter_meta: ChapterMetadata | None,
+        character_mentions: dict[str, list[CharacterMention]],
     ) -> None:
         """Extract character mentions from a relationship."""
         chapter_num = getattr(relationship, "chapter_number", 1)
@@ -559,8 +559,8 @@ class AdvancedAnalysisEngine:
     def _build_character_profile(
         self,
         char_id: str,
-        mentions: List[CharacterMention],
-        cross_chapter_connections: List[CrossChapterConnection],
+        mentions: list[CharacterMention],
+        cross_chapter_connections: list[CrossChapterConnection],
     ) -> CharacterProfile:
         """Build a comprehensive character profile."""
         # Sort mentions by chapter and sentence
@@ -605,7 +605,7 @@ class AdvancedAnalysisEngine:
         )
 
     def _calculate_character_consistency(
-        self, mentions: List[CharacterMention]
+        self, mentions: list[CharacterMention]
     ) -> float:
         """Calculate character consistency score."""
         if len(mentions) < 2:
@@ -626,7 +626,7 @@ class AdvancedAnalysisEngine:
         return max(0.0, consistency)
 
     def _calculate_cross_chapter_continuity(
-        self, char_id: str, cross_chapter_connections: List[CrossChapterConnection]
+        self, char_id: str, cross_chapter_connections: list[CrossChapterConnection]
     ) -> float:
         """Calculate cross-chapter continuity score."""
         # Check if character appears in cross-chapter connections
@@ -643,7 +643,7 @@ class AdvancedAnalysisEngine:
         )
         return avg_strength
 
-    def _calculate_dialogue_frequency(self, mentions: List[CharacterMention]) -> float:
+    def _calculate_dialogue_frequency(self, mentions: list[CharacterMention]) -> float:
         """Calculate dialogue frequency (simplified estimation)."""
         # This is a simplified calculation - in practice would need more sophisticated analysis
         dialogue_indicators = sum(
@@ -655,10 +655,10 @@ class AdvancedAnalysisEngine:
 
     def _segment_chapter_narrative(
         self,
-        chapter_relationships: List[ClauseMateRelationship],
+        chapter_relationships: list[ClauseMateRelationship],
         chapter_meta: ChapterMetadata,
-        character_profiles: Dict[str, CharacterProfile],
-    ) -> List[NarrativeFlowSegment]:
+        character_profiles: dict[str, CharacterProfile],
+    ) -> list[NarrativeFlowSegment]:
         """Segment a chapter into narrative flow segments."""
         # Simplified segmentation - divide chapter into quarters
         sentence_range = chapter_meta.sentence_range
@@ -729,8 +729,8 @@ class AdvancedAnalysisEngine:
         self,
         current_chapter: ChapterMetadata,
         next_chapter: ChapterMetadata,
-        character_profiles: Dict[str, CharacterProfile],
-        cross_chapter_connections: List[CrossChapterConnection],
+        character_profiles: dict[str, CharacterProfile],
+        cross_chapter_connections: list[CrossChapterConnection],
     ) -> CrossChapterTransition:
         """Analyze transition between two chapters."""
         # Find characters in each chapter
@@ -797,8 +797,8 @@ class AdvancedAnalysisEngine:
             return "#96CEB4"  # Green for background characters
 
     def _calculate_character_statistics(
-        self, character_profiles: Dict[str, CharacterProfile]
-    ) -> Dict[str, Any]:
+        self, character_profiles: dict[str, CharacterProfile]
+    ) -> dict[str, Any]:
         """Calculate character analysis statistics."""
         if not character_profiles:
             return {}
@@ -818,8 +818,8 @@ class AdvancedAnalysisEngine:
         }
 
     def _calculate_narrative_statistics(
-        self, narrative_segments: List[NarrativeFlowSegment]
-    ) -> Dict[str, Any]:
+        self, narrative_segments: list[NarrativeFlowSegment]
+    ) -> dict[str, Any]:
         """Calculate narrative analysis statistics."""
         if not narrative_segments:
             return {}
@@ -840,8 +840,8 @@ class AdvancedAnalysisEngine:
         }
 
     def _calculate_transition_statistics(
-        self, transitions: List[CrossChapterTransition]
-    ) -> Dict[str, Any]:
+        self, transitions: list[CrossChapterTransition]
+    ) -> dict[str, Any]:
         """Calculate transition analysis statistics."""
         if not transitions:
             return {}
@@ -859,11 +859,11 @@ class AdvancedAnalysisEngine:
 
     def _generate_analysis_recommendations(
         self,
-        character_profiles: Dict[str, CharacterProfile],
-        narrative_segments: List[NarrativeFlowSegment],
-        transitions: List[CrossChapterTransition],
+        character_profiles: dict[str, CharacterProfile],
+        narrative_segments: list[NarrativeFlowSegment],
+        transitions: list[CrossChapterTransition],
         performance_metrics: PerformanceMetrics,
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate analysis recommendations based on findings."""
         recommendations = []
 

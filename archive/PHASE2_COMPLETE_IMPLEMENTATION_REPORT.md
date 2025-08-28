@@ -8,6 +8,7 @@ Phase 2 has been successfully completed with a modular architecture and full fun
 ## ✅ What's Complete
 
 ### Core Features
+
 - ✅ **Modular architecture** - Clean separation of concerns
 - ✅ **Relationship extraction** - 448 relationships, 34 columns
 - ✅ **Givenness determination** - Implemented and working
@@ -15,6 +16,7 @@ Phase 2 has been successfully completed with a modular architecture and full fun
 - ✅ **Testing** - 6/6 verification tests passing
 
 ### Output
+
 - **File**: `clause_mates_chap2_export.csv`
 - **Relationships**: 448
 - **Columns**: 34

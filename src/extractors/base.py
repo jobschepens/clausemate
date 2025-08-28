@@ -7,7 +7,7 @@ operations, ensuring consistent behavior and easy extensibility.
 import sys
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Any, Dict, List, Set
+from typing import Any
 
 from src.data.models import (
     ClauseMateRelationship,
@@ -63,8 +63,8 @@ class BaseCoreferenceExtractor(BaseExtractor):
 
     @abstractmethod
     def extract_coreference_chains(
-        self, contexts: List[SentenceContext]
-    ) -> List[CoreferenceChain]:
+        self, contexts: list[SentenceContext]
+    ) -> list[CoreferenceChain]:
         """Extract coreference chains from multiple sentences.
 
         Args:
@@ -75,7 +75,7 @@ class BaseCoreferenceExtractor(BaseExtractor):
         """
 
     @abstractmethod
-    def find_mentions(self, context: SentenceContext) -> List[Token]:
+    def find_mentions(self, context: SentenceContext) -> list[Token]:
         """Find all mentions in a sentence that could participate in coreference.
 
         Args:
@@ -87,8 +87,8 @@ class BaseCoreferenceExtractor(BaseExtractor):
 
     @abstractmethod
     def link_mentions(
-        self, mentions: List[Token], existing_chains: List[CoreferenceChain]
-    ) -> List[CoreferenceChain]:
+        self, mentions: list[Token], existing_chains: list[CoreferenceChain]
+    ) -> list[CoreferenceChain]:
         """Link new mentions to existing coreference chains.
 
         Args:
@@ -107,7 +107,7 @@ class BasePronounExtractor(BaseExtractor):
     """
 
     @abstractmethod
-    def extract_pronouns(self, context: SentenceContext) -> List[Token]:
+    def extract_pronouns(self, context: SentenceContext) -> list[Token]:
         """Extract all pronouns from a sentence context.
 
         Args:
@@ -120,7 +120,7 @@ class BasePronounExtractor(BaseExtractor):
     @abstractmethod
     def classify_pronoun(
         self, pronoun: Token, context: SentenceContext
-    ) -> Dict[str, str]:
+    ) -> dict[str, str]:
         """Classify a pronoun's linguistic properties.
 
         Args:
@@ -152,7 +152,7 @@ class BaseClauseMateExtractor(BaseExtractor):
     @abstractmethod
     def extract_clause_mates(
         self, context: SentenceContext
-    ) -> List[ClauseMateRelationship]:
+    ) -> list[ClauseMateRelationship]:
         """Extract clause mate relationships from a sentence.
 
         Args:
@@ -163,7 +163,7 @@ class BaseClauseMateExtractor(BaseExtractor):
         """
 
     @abstractmethod
-    def find_clause_boundaries(self, context: SentenceContext) -> List[int]:
+    def find_clause_boundaries(self, context: SentenceContext) -> list[int]:
         """Identify clause boundaries in a sentence.
 
         Args:
@@ -176,7 +176,7 @@ class BaseClauseMateExtractor(BaseExtractor):
     @abstractmethod
     def group_tokens_by_clause(
         self, context: SentenceContext
-    ) -> Dict[int, List[Token]]:
+    ) -> dict[int, list[Token]]:
         """Group tokens by their clause membership.
 
         Args:
@@ -196,7 +196,7 @@ class BaseFeatureExtractor(BaseExtractor):
     @abstractmethod
     def extract_features(
         self, token: Token, context: SentenceContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Extract linguistic features from a token in context.
 
         Args:
@@ -208,7 +208,7 @@ class BaseFeatureExtractor(BaseExtractor):
         """
 
     @abstractmethod
-    def get_supported_features(self) -> Set[str]:
+    def get_supported_features(self) -> set[str]:
         """Get the set of features this extractor can provide.
 
         Returns:
@@ -224,7 +224,7 @@ class BasePhraseExtractor(BaseExtractor):
     """
 
     @abstractmethod
-    def extract_phrases(self, context: SentenceContext) -> List[CoreferencePhrase]:
+    def extract_phrases(self, context: SentenceContext) -> list[CoreferencePhrase]:
         """Extract all coreference phrases from a sentence context.
 
         Args:
@@ -235,7 +235,7 @@ class BasePhraseExtractor(BaseExtractor):
         """
 
     @abstractmethod
-    def group_tokens_by_entity(self, tokens: List[Token]) -> Dict[str, List[Token]]:
+    def group_tokens_by_entity(self, tokens: list[Token]) -> dict[str, list[Token]]:
         """Group tokens by their entity ID.
 
         Args:
@@ -268,7 +268,7 @@ class BaseRelationshipExtractor(BaseExtractor):
     @abstractmethod
     def extract_relationships(
         self, context: SentenceContext
-    ) -> List[ClauseMateRelationship]:
+    ) -> list[ClauseMateRelationship]:
         """Extract all clause mate relationships from a sentence context.
 
         Args:
@@ -281,7 +281,7 @@ class BaseRelationshipExtractor(BaseExtractor):
     @abstractmethod
     def find_clause_mates(
         self, pronoun: Token, context: SentenceContext
-    ) -> List[CoreferencePhrase]:
+    ) -> list[CoreferencePhrase]:
         """Find all clause mates for a given pronoun in a sentence.
 
         Args:

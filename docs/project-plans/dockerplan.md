@@ -1,6 +1,7 @@
 # Plan to Fix ClauseMate Binder and Script Issues
 
 ## Problem Analysis
+
 1. **Binder auto-open failure**: Missing demo notebook and incorrect URL parameters
 2. **ModuleNotFoundError**: Python path issues when running scripts outside project root
 3. **Development environment**: Need WSL/Docker setup for consistent development
@@ -8,9 +9,11 @@
 ## Execution Plan
 
 ### Phase 1: Create Demo Notebook Infrastructure
+
 **Goal**: Enable Binder to automatically open a functional demo notebook
 
 #### Task 1.1: Create Demo Notebook Generator
+
 ````python
 #!/usr/bin/env python3
 """Generate ClauseMate demo notebook for Binder."""
@@ -21,19 +24,19 @@ import json
 
 def create_demo_notebook():
     """Create a comprehensive demo notebook showcasing ClauseMate capabilities."""
-    
+
     # Ensure notebooks directory exists
     notebooks_dir = Path(__file__).resolve().parents[1] / "notebooks"
     notebooks_dir.mkdir(exist_ok=True)
-    
+
     # Create new notebook
     nb = nbf.v4.new_notebook()
-    
+
     # Add metadata for better Binder experience
     nb.metadata = {
         "kernelspec": {
             "display_name": "Python 3",
-            "language": "python", 
+            "language": "python",
             "name": "python3"
         },
         "language_info": {
@@ -41,7 +44,7 @@ def create_demo_notebook():
             "version": "3.8+"
         }
     }
-    
+
     # Notebook cells
     cells = [
         nbf.v4.new_markdown_cell("""# ClauseMate: German Clause Mate Analysis Demo
@@ -53,7 +56,7 @@ ClauseMate is a research tool that investigates whether pronouns appear at more 
 
 ### Key Features:
 - **94.4% antecedent detection** across sentence boundaries
-- **Cross-sentence coreference tracking** with chain analysis  
+- **Cross-sentence coreference tracking** with chain analysis
 - **German-specific pronoun classification** (3rd person, D-pronouns, demonstratives)
 - **WebAnno TSV 3.3 format** support for linguistic annotations"""),
 
@@ -90,7 +93,7 @@ if data_dir.exists():
     print(f"Found {len(tsv_files)} TSV files for analysis:")
     for file in tsv_files[:3]:  # Show first 3
         print(f"  - {file.name}")
-    
+
     if tsv_files:
         sample_file = tsv_files[0]
         print(f"\\nUsing sample file: {sample_file.name}")
@@ -110,7 +113,7 @@ if Path("data/input/gotofiles").exists() and list(Path("data/input/gotofiles").g
         result = subprocess.run([
             sys.executable, "-m", "src.main"
         ], capture_output=True, text=True, timeout=60)
-        
+
         if result.returncode == 0:
             print("✓ Phase 2 analysis completed successfully!")
             print("\\nOutput preview:")
@@ -118,7 +121,7 @@ if Path("data/input/gotofiles").exists() and list(Path("data/input/gotofiles").g
         else:
             print(f"❌ Analysis failed with return code {result.returncode}")
             print(f"Error: {result.stderr}")
-            
+
     except subprocess.TimeoutExpired:
         print("⏱️ Analysis timed out (60s limit in demo)")
     except Exception as e:
@@ -133,7 +136,7 @@ ClauseMate generates CSV files with detailed linguistic relationships:
 
 ### Key Columns:
 - **pronoun_text**: The critical pronoun being analyzed
-- **clause_mate_count**: Number of referential clause mates in same sentence  
+- **clause_mate_count**: Number of referential clause mates in same sentence
 - **most_recent_antecedent_distance**: Linear distance to nearest mention in coreference chain
 - **first_antecedent_distance**: Distance to chain's initial mention
 - **givenness**: `neu` (first mention) vs `bekannt` (subsequent)
@@ -151,14 +154,14 @@ output_files = list(Path("data/output").glob("*.csv")) if Path("data/output").ex
 if output_files:
     latest_output = max(output_files, key=lambda p: p.stat().st_mtime)
     print(f"Latest output file: {latest_output.name}")
-    
+
     # Show sample of results
     df = pd.read_csv(latest_output)
     print(f"\\nDataset shape: {df.shape}")
     print(f"\\nColumns: {list(df.columns)}")
     print(f"\\nSample relationships:")
     print(df.head(3).to_string(index=False))
-    
+
     # Basic statistics
     print(f"\\n📊 Quick Statistics:")
     print(f"  - Total relationships: {len(df)}")
@@ -197,18 +200,18 @@ python src/run_phase2.py
 ### Research Applications
 ClauseMate supports German linguistic research on:
 - Pronoun resolution strategies
-- Discourse coherence patterns  
+- Discourse coherence patterns
 - Referential accessibility hierarchies
 - Cross-sentence coreference tracking""")
     ]
-    
+
     nb.cells = cells
-    
+
     # Write notebook
     demo_path = notebooks_dir / "demo.ipynb"
     with open(demo_path, "w", encoding="utf-8") as f:
         nbf.write(nb, f)
-    
+
     print(f"✓ Created demo notebook: {demo_path}")
     return demo_path
 
@@ -217,6 +220,7 @@ if __name__ == "__main__":
 ````
 
 #### Task 1.2: Update README Binder Badge
+
 ````markdown
 # ...existing content...
 
@@ -226,9 +230,11 @@ if __name__ == "__main__":
 ````
 
 ### Phase 2: Fix Module Import Issues
+
 **Goal**: Ensure scripts run from any location without ModuleNotFoundError
 
 #### Task 2.1: Create Package Installation Script
+
 ````python
 #!/usr/bin/env python3
 """Setup development environment for ClauseMate."""
@@ -239,27 +245,27 @@ from pathlib import Path
 
 def setup_environment():
     """Install ClauseMate in editable mode for development."""
-    
+
     project_root = Path(__file__).resolve().parents[1]
-    
+
     print("Setting up ClauseMate development environment...")
     print(f"Project root: {project_root}")
-    
+
     # Install in editable mode
     try:
         subprocess.check_call([
             sys.executable, "-m", "pip", "install", "-e", "."
         ], cwd=project_root)
         print("✓ ClauseMate installed in editable mode")
-        
+
         # Verify imports work
         subprocess.check_call([
-            sys.executable, "-c", 
+            sys.executable, "-c",
             "from src.main import main; print('✓ Import verification successful')"
         ], cwd=project_root)
-        
+
         return True
-        
+
     except subprocess.CalledProcessError as e:
         print(f"❌ Setup failed: {e}")
         return False
@@ -270,7 +276,8 @@ if __name__ == "__main__":
 ````
 
 #### Task 2.2: Add Robust Path Handling to Scripts
-````python  
+
+````python
 #!/usr/bin/env python3
 """
 Multi-file analysis script with robust path handling.
@@ -296,9 +303,11 @@ except ImportError as e:
 ````
 
 ### Phase 3: Development Environment Setup
+
 **Goal**: Provide clear setup instructions for WSL/Docker environments
 
 #### Task 3.1: WSL Development Guide
+
 ````markdown
 # ClauseMate WSL Development Setup
 
@@ -379,6 +388,7 @@ docker run --rm -p 8888:8888 \
 ````
 
 #### Task 3.2: Create Dockerfile for Development
+
 ````dockerfile
 FROM python:3.11-slim
 
@@ -404,9 +414,11 @@ CMD ["python", "-m", "src.main"]
 ````
 
 ### Phase 4: Testing and Validation
+
 **Goal**: Ensure all fixes work across environments
 
 #### Task 4.1: Environment Test Script
+
 ````python
 #!/usr/bin/env python3
 """Test ClauseMate setup across different environments."""
@@ -430,13 +442,13 @@ def test_imports():
 def test_script_execution():
     """Test that scripts can run from different locations."""
     project_root = Path(__file__).resolve().parents[1]
-    
+
     # Test from project root
     try:
         result = subprocess.run([
             sys.executable, "-m", "src.main", "--help"
         ], cwd=project_root, capture_output=True, text=True, timeout=10)
-        
+
         if result.returncode == 0:
             print("✓ Script execution from project root works")
             return True
@@ -465,21 +477,21 @@ def test_notebook_creation():
 def main():
     """Run all environment tests."""
     print("Testing ClauseMate environment setup...")
-    
+
     tests = [
         ("Import test", test_imports),
-        ("Script execution", test_script_execution), 
+        ("Script execution", test_script_execution),
         ("Notebook creation", test_notebook_creation)
     ]
-    
+
     results = []
     for name, test_func in tests:
         print(f"\n{name}:")
         results.append(test_func())
-    
+
     success_count = sum(results)
     print(f"\n📊 Results: {success_count}/{len(tests)} tests passed")
-    
+
     if success_count == len(tests):
         print("🎉 All tests passed! Environment is ready.")
         return True
@@ -495,16 +507,19 @@ if __name__ == "__main__":
 ## Execution Timeline
 
 ### Immediate (Next 30 minutes)
+
 1. ✅ Run `python tools/create_demo_notebook.py` to create demo notebook
-2. ✅ Update README.md with correct Binder badge URL 
+2. ✅ Update README.md with correct Binder badge URL
 3. ✅ Run `python tools/setup_dev_environment.py` to fix import issues
 
-### Short-term (Next 2 hours)  
+### Short-term (Next 2 hours)
+
 4. ✅ Test script execution: `python run_multi_file_analysis.py --verbose`
 5. ✅ Create WSL setup documentation
 6. ✅ Test Binder functionality with new demo notebook
 
 ### Medium-term (Next day)
+
 7. ✅ Create Dockerfile for containerized development
 8. ✅ Validate all environments with test script
 9. ✅ Update main README with complete setup instructions
@@ -513,7 +528,7 @@ if __name__ == "__main__":
 
 - [ ] **Binder auto-opens demo notebook** showing ClauseMate capabilities
 - [ ] **Scripts run without ModuleNotFoundError** from any directory
-- [ ] **WSL environment** supports full development workflow  
+- [ ] **WSL environment** supports full development workflow
 - [ ] **Docker container** provides reproducible analysis environment
 - [ ] **All tests pass** in environment validation script
 

@@ -96,10 +96,11 @@ class TestFormatProcessing:
 
         # Check if at least one format processed without errors (even if no relationships found)
         processed_formats = [
-            name for name, result in results.items()
+            name
+            for name, result in results.items()
             if result["error"] is None or "File not found" not in result["error"]
         ]
-        
+
         if len(processed_formats) == 0:
             pytest.skip(f"All test files failed to process: {results}")
 
@@ -107,7 +108,7 @@ class TestFormatProcessing:
         successful_formats = [
             name for name, result in results.items() if result["success"]
         ]
-        
+
         # If no successful processing but files were processed, that's still a failure
         if len(successful_formats) == 0 and len(processed_formats) > 0:
             pytest.fail(f"All processed formats failed: {results}")

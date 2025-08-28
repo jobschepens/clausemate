@@ -6,7 +6,7 @@ relationships between critical pronouns and their clause mates within sentences.
 
 import sys
 from pathlib import Path
-from typing import Any, List, Optional, Set
+from typing import Any
 
 from src.data.models import (
     AntecedentInfo,
@@ -39,7 +39,7 @@ class RelationshipExtractor(BaseRelationshipExtractor):
     def extract(
         self,
         context: SentenceContext,
-        all_contexts: Optional[List[SentenceContext]] = None,
+        all_contexts: list[SentenceContext] | None = None,
     ) -> ExtractionResult:
         """Extract relationship features from a sentence context.
 
@@ -83,12 +83,14 @@ class RelationshipExtractor(BaseRelationshipExtractor):
     def extract_relationships(
         self,
         context: SentenceContext,
-        all_contexts: Optional[List[SentenceContext]] = None,
-    ) -> List[ClauseMateRelationship]:
+        all_contexts: list[SentenceContext] | None = None,
+    ) -> list[ClauseMateRelationship]:
         """Extract all clause mate relationships from a sentence context.
 
         Args:
             context: The sentence context to analyze
+            all_contexts: Optional list of all sentence contexts for cross-sentence
+                antecedent analysis
 
         Returns:
             List of clause mate relationships
@@ -165,7 +167,7 @@ class RelationshipExtractor(BaseRelationshipExtractor):
 
     def find_clause_mates(
         self, pronoun: Token, context: SentenceContext
-    ) -> List[CoreferencePhrase]:
+    ) -> list[CoreferencePhrase]:
         """Find all clause mates for a given pronoun in a sentence.
 
         Args:
@@ -205,7 +207,7 @@ class RelationshipExtractor(BaseRelationshipExtractor):
 
         return not relationship.sentence_num < 1
 
-    def _get_pronoun_coreference_ids(self, pronoun: Token) -> Set[str]:
+    def _get_pronoun_coreference_ids(self, pronoun: Token) -> set[str]:
         """Get all coreference IDs for a pronoun.
 
         Args:
@@ -309,7 +311,7 @@ class RelationshipExtractor(BaseRelationshipExtractor):
         self,
         pronoun: Token,
         context: SentenceContext,
-        all_contexts: Optional[List[SentenceContext]] = None,
+        all_contexts: list[SentenceContext] | None = None,
     ) -> AntecedentInfo:
         """Analyze antecedents for a given pronoun with cross-sentence context.
 
@@ -480,14 +482,12 @@ class RelationshipExtractor(BaseRelationshipExtractor):
         Returns:
             Dictionary with all extracted coreference numbers
         """
-        from typing import Dict, Optional
-
         from ..utils import (
             extract_coref_base_and_occurrence,
             extract_coref_link_numbers,
         )
 
-        result: Dict[str, Optional[int]] = {
+        result: dict[str, int | None] = {
             "pronoun_coref_base_num": None,
             "pronoun_coref_occurrence_num": None,
             "clause_mate_coref_base_num": None,

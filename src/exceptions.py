@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """Custom exceptions for the clause mate extraction script."""
 
-from typing import Optional
-
 
 class ClauseMateExtractionError(Exception):
     """Base exception for clause mate extraction errors."""
@@ -14,9 +12,16 @@ class ParseError(ClauseMateExtractionError):
     def __init__(
         self,
         message: str,
-        line_number: Optional[int] = None,
-        raw_data: Optional[str] = None,
+        line_number: int | None = None,
+        raw_data: str | None = None,
     ):
+        """Initialize the ParseError.
+
+        Args:
+            message: Error message.
+            line_number: Line number where the error occurred.
+            raw_data: Raw data that caused the error.
+        """
         self.line_number = line_number
         self.raw_data = raw_data
 
