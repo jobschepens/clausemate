@@ -1,0 +1,3 @@
+[submodule "data/input/private"]
+	path = data/input/private
+	url = https://github.com/jobschepens/clausemate-private-data.git
