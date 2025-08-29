@@ -177,8 +177,13 @@ class TestAdvancedAnalysisEngine:
                 [relationship], [chapter_meta], []
             )
 
-        # Should be empty because character only has 1 mention (filtered out)
-        assert profiles == {}
+        # Character has 2 mentions (pronoun + clause mate), so should NOT be filtered out
+        assert len(profiles) == 1
+        assert "115" in profiles
+        profile = profiles["115"]
+        assert profile.character_id == "115"
+        assert profile.primary_name == "Karl"
+        assert profile.total_mentions == 2  # pronoun + clause mate
 
     def test_analyze_narrative_flow(self):
         """Test narrative flow analysis."""

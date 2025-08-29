@@ -319,22 +319,26 @@ class TestIncompleteFormatParser:
 
     def test_parse_sentence_streaming_file_not_found(self):
         """Test parsing with file not found error."""
+        from src.exceptions import FileProcessingError
+
         with (
             patch(
                 "src.parsers.incomplete_format_parser.open",
                 side_effect=FileNotFoundError,
             ),
-            pytest.raises(FileNotFoundError),
+            pytest.raises(FileProcessingError),
         ):
             list(self.parser._parse_incomplete_format_streaming("nonexistent.tsv"))
 
     def test_parse_sentence_streaming_permission_error(self):
         """Test parsing with permission error."""
+        from src.exceptions import FileProcessingError
+
         with (
             patch(
                 "src.parsers.incomplete_format_parser.open", side_effect=PermissionError
             ),
-            pytest.raises(PermissionError),
+            pytest.raises(FileProcessingError),
         ):
             list(self.parser._parse_incomplete_format_streaming("protected.tsv"))
 

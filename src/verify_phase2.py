@@ -25,6 +25,12 @@ def test_imports():
     print("Testing imports...")
 
     try:
+        # Test importing key modules
+        import_module("data.models")
+        import_module("parsers.tsv_parser")
+        import_module("extractors.coreference_extractor")
+        import_module("main")
+
         print("✓ All imports successful")
         return True
     except ImportError as e:

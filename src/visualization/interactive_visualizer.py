@@ -668,7 +668,7 @@ class InteractiveVisualizer:
                     <div class="stat-label">Relationships/Second</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value">{(total_time / len(chapter_metrics)):.2f}s</div>
+                    <div class="stat-value">{(total_time / max(len(chapter_metrics), 1)):.2f}s</div>
                     <div class="stat-label">Avg Time/Chapter</div>
                 </div>
             </div>

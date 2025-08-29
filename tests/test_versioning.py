@@ -139,13 +139,33 @@ class TestDataVersionManager:
         input_file = self.temp_dir / "input.txt"
         output_file = self.temp_dir / "output.csv"
         input_file.write_text("input content")
+        output_file.write_text(
+            "col1,col2,sentence_id,pronoun_text\n1,2,sent1,er\n3,4,sent2,sie"
+        )  # Create actual CSV
 
-        # Mock DataFrame
-        mock_df = mock_read_csv.return_value
-        mock_df.__len__ = lambda: 100
+        # Mock DataFrame with proper behavior
+        from unittest.mock import MagicMock
+
+        mock_df = MagicMock()
+        mock_df.__len__ = MagicMock(return_value=2)
         mock_df.columns = ["col1", "col2", "sentence_id", "pronoun_text"]
-        mock_df.__getitem__ = lambda self, key: mock_df
-        mock_df.nunique = lambda: 50
+
+        # Mock column access using side_effect
+        mock_sentence_series = MagicMock()
+        mock_sentence_series.nunique.return_value = 2
+
+        mock_pronoun_series = MagicMock()
+        mock_pronoun_series.nunique.return_value = 2
+
+        def mock_getitem(key):
+            if key == "sentence_id":
+                return mock_sentence_series
+            elif key == "pronoun_text":
+                return mock_pronoun_series
+            return mock_df
+
+        mock_df.__getitem__.side_effect = mock_getitem
+        mock_read_csv.return_value = mock_df
 
         processing_config = {"test": "config"}
 
@@ -157,10 +177,10 @@ class TestDataVersionManager:
 
         assert "statistics" in metadata["output"]
         stats = metadata["output"]["statistics"]
-        assert stats["rows"] == 100
+        assert stats["rows"] == 2
         assert stats["columns"] == 4
-        assert stats["unique_sentences"] == 50
-        assert stats["unique_pronouns"] == 50
+        assert stats["unique_sentences"] == 2
+        assert stats["unique_pronouns"] == 2
 
     def test_save_metadata_new_file(self):
         """Test saving metadata to a new file."""

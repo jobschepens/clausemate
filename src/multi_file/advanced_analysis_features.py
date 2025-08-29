@@ -571,13 +571,47 @@ class AdvancedAnalysisEngine:
         first_chapter = min(chapters_present)
         last_chapter = max(chapters_present)
 
-        # Find primary name (most common mention text)
-        mention_texts = [m.mention_text for m in mentions]
-        text_counts = Counter(mention_texts)
-        primary_name = text_counts.most_common(1)[0][0]
-        alternative_names = [
-            text for text, count in text_counts.items() if text != primary_name
-        ]
+        # Find primary name (prioritize clause mate mentions over pronouns)
+        clause_mate_texts = []
+        pronoun_texts = []
+
+        for mention in mentions:
+            # Check if this is likely a clause mate mention (longer, more descriptive text)
+            # vs pronoun mention (short, generic like "er", "sie", etc.)
+            if len(mention.mention_text) > 3 and mention.mention_text.lower() not in [
+                "er",
+                "sie",
+                "es",
+                "wir",
+                "ihr",
+                "sie",
+                "ich",
+                "du",
+                "der",
+                "die",
+                "das",
+            ]:
+                clause_mate_texts.append(mention.mention_text)
+            else:
+                pronoun_texts.append(mention.mention_text)
+
+        # Use clause mate texts first, then fall back to pronouns
+        if clause_mate_texts:
+            text_counts = Counter(clause_mate_texts)
+            primary_name = text_counts.most_common(1)[0][0]
+            alternative_names = [
+                text for text, count in text_counts.items() if text != primary_name
+            ]
+            # Add pronoun texts as additional alternatives
+            alternative_names.extend(set(pronoun_texts))
+        else:
+            # Fallback to original logic if no clause mate texts
+            mention_texts = [m.mention_text for m in mentions]
+            text_counts = Counter(mention_texts)
+            primary_name = text_counts.most_common(1)[0][0]
+            alternative_names = [
+                text for text, count in text_counts.items() if text != primary_name
+            ]
 
         # Calculate analysis metrics
         narrative_prominence = min(
@@ -682,11 +716,14 @@ class AdvancedAnalysisEngine:
             ]
 
             # Calculate segment metrics
+            # Flatten all coref IDs from all relationships to get unique characters
+            all_coref_ids = []
+            for rel in segment_rels:
+                coref_ids = getattr(rel, "pronoun_coref_ids", [])
+                if coref_ids:
+                    all_coref_ids.extend(coref_ids)
             character_density = (
-                len({getattr(rel, "pronoun_coref_ids", []) for rel in segment_rels})
-                / len(segment_rels)
-                if segment_rels
-                else 0
+                len(set(all_coref_ids)) / len(segment_rels) if segment_rels else 0
             )
             coreference_density = (
                 sum(len(getattr(rel, "pronoun_coref_ids", [])) for rel in segment_rels)

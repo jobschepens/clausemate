@@ -426,6 +426,7 @@ class TestEnhancedOutputSystem:
         """Test boundary marker creation for chapter beginning."""
         mock_relationship = MagicMock()
         mock_relationship.sentence_num = 3  # Near beginning
+        mock_relationship.chapter_number = 1  # Set chapter number for lookup
 
         mock_chapter_meta = MagicMock()
         mock_chapter_meta.chapter_number = 1
@@ -441,6 +442,7 @@ class TestEnhancedOutputSystem:
         """Test boundary marker creation for chapter end."""
         mock_relationship = MagicMock()
         mock_relationship.sentence_num = 48  # Near end
+        mock_relationship.chapter_number = 1  # Set chapter number for lookup
 
         mock_chapter_meta = MagicMock()
         mock_chapter_meta.chapter_number = 1
@@ -456,6 +458,7 @@ class TestEnhancedOutputSystem:
         """Test boundary marker creation for chapter middle."""
         mock_relationship = MagicMock()
         mock_relationship.sentence_num = 25  # Middle
+        mock_relationship.chapter_number = 1  # Set chapter number for lookup
 
         mock_chapter_meta = MagicMock()
         mock_chapter_meta.chapter_number = 1

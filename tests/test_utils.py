@@ -1,5 +1,7 @@
 """Tests for utils.py."""
 
+from unittest.mock import MagicMock, patch
+
 from src.utils import (
     determine_givenness,
     extract_coref_base_and_occurrence,
@@ -218,3 +220,154 @@ class TestExtractCorefLinkNumbers:
         base, occurrence = extract_coref_link_numbers("_")
         assert base is None
         assert occurrence is None
+
+
+class TestUtilsInitFallbackFunctions:
+    """Test the fallback functions in utils/__init__.py."""
+
+    @patch("importlib.util.spec_from_file_location")
+    def test_fallback_functions_when_spec_creation_fails(self, mock_spec_from_file):
+        """Test fallback functions when spec creation fails."""
+        # Mock spec_from_file_location to return None
+        mock_spec_from_file.return_value = None
+
+        # Force reimport of the module to trigger fallback
+        import sys
+
+        if "src.utils" in sys.modules:
+            del sys.modules["src.utils"]
+
+        # Import with mocked spec
+        with patch("pathlib.Path.exists", return_value=True):
+            import src.utils as utils_module
+
+        # Test fallback functions
+        assert utils_module.extract_coreference_id("test") is None
+        assert utils_module.extract_full_coreference_id("test") is None
+        assert utils_module.extract_coreference_type("test") is None
+        assert utils_module.determine_givenness("test") == "_"
+
+        base, occurrence = utils_module.extract_coref_base_and_occurrence("test")
+        assert base is None
+        assert occurrence is None
+
+        base, occurrence = utils_module.extract_coref_link_numbers("test")
+        assert base is None
+        assert occurrence is None
+
+    @patch("pathlib.Path.exists")
+    def test_fallback_functions_when_utils_file_not_exists(self, mock_exists):
+        """Test fallback functions when utils.py file doesn't exist."""
+        # Mock Path.exists to return False
+        mock_exists.return_value = False
+
+        # Force reimport of the module to trigger fallback
+        import sys
+
+        if "src.utils" in sys.modules:
+            del sys.modules["src.utils"]
+
+        # Import with mocked file existence
+        import src.utils as utils_module
+
+        # Test fallback functions
+        assert utils_module.extract_coreference_id("test") is None
+        assert utils_module.extract_full_coreference_id("test") is None
+        assert utils_module.extract_coreference_type("test") is None
+        assert utils_module.determine_givenness("test") == "_"
+
+        base, occurrence = utils_module.extract_coref_base_and_occurrence("test")
+        assert base is None
+        assert occurrence is None
+
+        base, occurrence = utils_module.extract_coref_link_numbers("test")
+        assert base is None
+        assert occurrence is None
+
+    @patch("importlib.util.spec_from_file_location")
+    def test_fallback_functions_when_spec_loader_is_none(self, mock_spec_from_file):
+        """Test fallback functions when spec loader is None."""
+        # Mock spec with None loader
+        mock_spec = MagicMock()
+        mock_spec.loader = None
+        mock_spec_from_file.return_value = mock_spec
+
+        # Force reimport of the module to trigger fallback
+        import sys
+
+        if "src.utils" in sys.modules:
+            del sys.modules["src.utils"]
+
+        # Import with mocked spec loader
+        with patch("pathlib.Path.exists", return_value=True):
+            import src.utils as utils_module
+
+        # Test fallback functions
+        assert utils_module.extract_coreference_id("test") is None
+        assert utils_module.extract_full_coreference_id("test") is None
+        assert utils_module.extract_coreference_type("test") is None
+        assert utils_module.determine_givenness("test") == "_"
+
+        base, occurrence = utils_module.extract_coref_base_and_occurrence("test")
+        assert base is None
+        assert occurrence is None
+
+        base, occurrence = utils_module.extract_coref_link_numbers("test")
+        assert base is None
+        assert occurrence is None
+
+    def test_fallback_function_signatures(self):
+        """Test that fallback functions have correct signatures and behavior."""
+        # Force reimport to ensure we're testing fallback functions
+        import sys
+
+        if "src.utils" in sys.modules:
+            del sys.modules["src.utils"]
+
+        # Mock to force fallback path
+        with patch("pathlib.Path.exists", return_value=False):
+            import src.utils as utils_module
+
+        # Test extract_coreference_id
+        assert utils_module.extract_coreference_id("any_value") is None
+        assert utils_module.extract_coreference_id("") is None
+
+        # Test extract_full_coreference_id
+        assert utils_module.extract_full_coreference_id("any_value") is None
+        assert utils_module.extract_full_coreference_id("") is None
+
+        # Test extract_coreference_type
+        assert utils_module.extract_coreference_type("any_value") is None
+        assert utils_module.extract_coreference_type("") is None
+
+        # Test determine_givenness
+        assert utils_module.determine_givenness("any_value") == "_"
+        assert utils_module.determine_givenness("") == "_"
+
+        # Test extract_coref_base_and_occurrence
+        base, occurrence = utils_module.extract_coref_base_and_occurrence("any_value")
+        assert base is None
+        assert occurrence is None
+
+        # Test extract_coref_link_numbers
+        base, occurrence = utils_module.extract_coref_link_numbers("any_value")
+        assert base is None
+        assert occurrence is None
+
+    def test_utils_init_all_exports(self):
+        """Test that __all__ exports are properly defined."""
+        import src.utils as utils_module
+
+        # Check that all expected functions are in __all__
+        expected_exports = [
+            "extract_coreference_id",
+            "extract_full_coreference_id",
+            "extract_coreference_type",
+            "determine_givenness",
+            "extract_coref_base_and_occurrence",
+            "extract_coref_link_numbers",
+        ]
+
+        for export in expected_exports:
+            assert hasattr(utils_module, export), f"Missing export: {export}"
+            assert export in utils_module.__all__, f"Export not in __all__: {export}"
