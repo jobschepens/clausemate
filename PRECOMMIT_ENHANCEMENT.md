@@ -41,18 +41,21 @@ The pre-commit configuration has been significantly enhanced with additional qua
 ## 🎯 **Benefits of Enhanced Pre-Commit**
 
 ### **Code Quality Improvements**
+
 - **Type Safety**: mypy ensures type annotations are correct
 - **Security**: bandit scans for security vulnerabilities
 - **Consistency**: isort and pyupgrade maintain consistent code style
 - **Syntax Validation**: Multiple checkers prevent syntax errors
 
 ### **Development Workflow**
+
 - **Early Detection**: Issues caught before commit instead of in CI
 - **Automatic Fixes**: Many issues auto-corrected (imports, formatting)
 - **Faster Feedback**: Immediate feedback vs waiting for CI pipeline
 - **Learning Tool**: Helps developers learn best practices
 
 ### **Project Maintainability**
+
 - **Modern Python**: pyupgrade keeps code modern and efficient
 - **Documentation Quality**: Better formatted docs and configs
 - **Security Awareness**: Regular security scanning
@@ -61,6 +64,7 @@ The pre-commit configuration has been significantly enhanced with additional qua
 ## 🚀 **Usage Instructions**
 
 ### **Install Pre-Commit**
+
 ```bash
 # Install pre-commit hooks
 pre-commit install
@@ -75,16 +79,19 @@ pre-commit run mypy --all-files
 ### **Hook Categories**
 
 **Fast Hooks** (run every commit):
+
 - trailing-whitespace, end-of-file-fixer
 - ruff (linting + formatting)
 - check-ast, check-json, check-yaml
 
 **Analysis Hooks** (may take longer):
+
 - mypy (type checking)
 - bandit (security scanning)
 - isort (import sorting)
 
 **Formatting Hooks** (auto-fix):
+
 - ruff-format, prettier
 - pyupgrade (syntax modernization)
 
@@ -104,19 +111,23 @@ pre-commit run mypy --all-files
 ## 🔧 **Configuration Details**
 
 ### **Exclusions**
+
 - `archive/` directory excluded from most checks (legacy code)
 - `tests/` excluded from mypy and bandit (different standards)
 
 ### **mypy Configuration**
+
 - Strict mode enabled for maximum type safety
 - pandas-stubs included for DataFrame type hints
 - Only applies to `src/` directory
 
 ### **bandit Configuration**
+
 - Medium and high severity only (-ll flag)
 - Focuses on real security issues vs false positives
 
 ### **isort Configuration**
+
 - Black-compatible profile
 - Line length 88 characters
 - Consistent with ruff formatting
@@ -143,6 +154,7 @@ This enhanced pre-commit setup demonstrates:
 ## 🎓 **Learning Opportunities**
 
 Students can learn about:
+
 - **Static Analysis**: How tools analyze code without running it
 - **Security Scanning**: Automated vulnerability detection
 - **Type Systems**: Benefits of static typing in Python

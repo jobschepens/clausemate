@@ -8,46 +8,18 @@ import logging
 from pathlib import Path
 from typing import Any
 
-# Import dependencies - handle both module and script execution
-try:
-    # When run as module (python -m src.main)
-    from .config import FilePaths
-    from .exceptions import ClauseMateExtractionError
-except ImportError:
-    # When run as script (python src/main.py)
-    import sys
-
-    sys.path.append(str(Path(__file__).parent.parent))
-    from src.config import FilePaths
-    from src.exceptions import ClauseMateExtractionError
-
-# Import from the modular components
-try:
-    # Try relative imports first (when run as module)
-    from .data.models import ClauseMateRelationship
-    from .extractors.coreference_extractor import CoreferenceExtractor
-    from .extractors.phrase_extractor import PhraseExtractor
-    from .extractors.pronoun_extractor import PronounExtractor
-    from .extractors.relationship_extractor import RelationshipExtractor
-    from .parsers.adaptive_tsv_parser import AdaptiveTSVParser
-    from .parsers.incomplete_format_parser import IncompleteFormatParser
-    from .parsers.tsv_parser import DefaultTokenProcessor, TSVParser
-    from .utils.format_detector import TSVFormatDetector
-except ImportError:
-    # Fall back to absolute imports (when run directly)
-    import sys
-
-    sys.path.append(str(Path(__file__).parent.parent))
-
-    from src.data.models import ClauseMateRelationship
-    from src.extractors.coreference_extractor import CoreferenceExtractor
-    from src.extractors.phrase_extractor import PhraseExtractor
-    from src.extractors.pronoun_extractor import PronounExtractor
-    from src.extractors.relationship_extractor import RelationshipExtractor
-    from src.parsers.adaptive_tsv_parser import AdaptiveTSVParser
-    from src.parsers.incomplete_format_parser import IncompleteFormatParser
-    from src.parsers.tsv_parser import DefaultTokenProcessor, TSVParser
-    from src.utils.format_detector import TSVFormatDetector
+# Clean relative imports - assumes proper package execution
+from .config import FilePaths
+from .data.models import ClauseMateRelationship
+from .exceptions import ClauseMateExtractionError
+from .extractors.coreference_extractor import CoreferenceExtractor
+from .extractors.phrase_extractor import PhraseExtractor
+from .extractors.pronoun_extractor import PronounExtractor
+from .extractors.relationship_extractor import RelationshipExtractor
+from .parsers.adaptive_tsv_parser import AdaptiveTSVParser
+from .parsers.incomplete_format_parser import IncompleteFormatParser
+from .parsers.tsv_parser import DefaultTokenProcessor, TSVParser
+from .utils.format_detector import TSVFormatDetector
 
 
 class ClauseMateAnalyzer:
@@ -287,7 +259,6 @@ class ClauseMateAnalyzer:
             Modified output path with timestamped directory, or original path if it's a simple filename
         """
         from datetime import datetime
-        from pathlib import Path
 
         output_path_obj = Path(output_path)
 

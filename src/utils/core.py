@@ -1,20 +1,11 @@
 #!/usr/bin/env python3
-"""Utility functions for the clause mate extraction script."""
+"""Core utility functions for the clause mate extraction script."""
 
 import re
 from pathlib import Path
 
-try:
-    from .config import Constants, RegexPatterns
-    from .exceptions import ParseError, ValidationError
-except ImportError:
-    # Fallback for direct execution
-    import sys
-    from pathlib import Path
-
-    sys.path.append(str(Path(__file__).parent))
-    from config import Constants, RegexPatterns
-    from exceptions import ParseError, ValidationError
+from ..config import Constants, RegexPatterns
+from ..exceptions import ParseError, ValidationError
 
 
 def validate_file_path(file_path: str | Path) -> Path:

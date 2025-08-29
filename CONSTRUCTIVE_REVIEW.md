@@ -10,7 +10,12 @@
 
 ## Executive Summary: **A-** Grade - Exemplary Educational Exploration
 
-This project represents an outstanding example of **educational software engineering** that successfully demonstrates the application of advanced software engineering principles to computational linguistics research. The ClauseMate project serves as a comprehensive learning laboratory for exploring modern software architecture patterns, computational reproducibility, and research infrastructure development.
+This project represents an outstanding example of **educational software
+engineering** that successfully demonstrates the application of advanced
+software engineering principles to computational linguistics research. The
+ClauseMate project serves as a comprehensive learning laboratory for exploring
+modern software architecture patterns, computational reproducibility, and
+research infrastructure development.
 
 **Key Strengths:**
 

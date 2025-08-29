@@ -11,15 +11,15 @@ repos:
       - id: check-merge-conflict
       - id: debug-statements
         exclude: ^archive/
-      - id: check-ast  # Check Python AST syntax
-      - id: check-builtin-literals  # Check for builtin literals used as variables
-      - id: check-docstring-first  # Check docstring is first in module
-      - id: check-json  # Check JSON files for syntax errors
-      - id: check-toml  # Check TOML files for syntax errors
-      - id: detect-private-key  # Detect private keys
-      - id: mixed-line-ending  # Check for mixed line endings
-      - id: name-tests-test  # Check test files are named correctly
-        args: ['--pytest-test-first']
+      - id: check-ast # Check Python AST syntax
+      - id: check-builtin-literals # Check for builtin literals used as variables
+      - id: check-docstring-first # Check docstring is first in module
+      - id: check-json # Check JSON files for syntax errors
+      - id: check-toml # Check TOML files for syntax errors
+      - id: detect-private-key # Detect private keys
+      - id: mixed-line-ending # Check for mixed line endings
+      - id: name-tests-test # Check test files are named correctly
+        args: ["--pytest-test-first"]
 
   # Python code quality and formatting
   - repo: https://github.com/astral-sh/ruff-pre-commit
@@ -38,7 +38,8 @@ repos:
     rev: v1.11.2
     hooks:
       - id: mypy
-        additional_dependencies: [types-all, pandas-stubs]
+        additional_dependencies:
+          [types-requests, types-setuptools, pandas-stubs]
         args: [--strict, --ignore-missing-imports]
         exclude: ^(archive/|tests/)
         files: ^src/
@@ -48,7 +49,7 @@ repos:
     rev: 1.8.0
     hooks:
       - id: bandit
-        args: [-r, -ll]  # Only medium and high severity
+        args: [-r, -ll] # Only medium and high severity
         exclude: ^(archive/|tests/)
 
   # Import sorting

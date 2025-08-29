@@ -1,11 +1,6 @@
 """Tests for coreference_extractor.py."""
 
-from src.data.models import (
-    AnimacyType,
-    CoreferenceChain,
-    SentenceContext,
-    Token,
-)
+from src.data.models import AnimacyType, CoreferenceChain, SentenceContext, Token
 from src.extractors.coreference_extractor import CoreferenceExtractor
 
 

@@ -2,9 +2,9 @@ name: Reproducibility Test
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -16,178 +16,178 @@ jobs:
         python-version: ["3.11"]
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python-version }}
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
 
-    - name: Cache pip dependencies
-      uses: actions/cache@v3
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r config/requirements.txt
-        pip install pytest pytest-cov coverage codecov
-        # Install the package in development mode with all optional dependencies
-        pip install -e ".[dev,benchmark]"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r config/requirements.txt
+          pip install pytest pytest-cov coverage codecov
+          # Install the package in development mode with all optional dependencies
+          pip install -e ".[dev,benchmark]"
 
-    - name: Verify project structure
-      run: |
-        echo "=== Project Structure ==="
-        find . -name "*.py" -path "./src/*" | head -20
-        echo "=== Data Input Files ==="
-        ls -la data/input/gotofiles/ || echo "Input directory not found"
-        ls -la data/input/gotofiles/later/ || echo "Later directory not found"
-        echo "=== Test Fixtures ==="
-        ls -la tests/fixtures/ || echo "Test fixtures not found"
+      - name: Verify project structure
+        run: |
+          echo "=== Project Structure ==="
+          find . -name "*.py" -path "./src/*" | head -20
+          echo "=== Data Input Files ==="
+          ls -la data/input/gotofiles/ || echo "Input directory not found"
+          ls -la data/input/gotofiles/later/ || echo "Later directory not found"
+          echo "=== Test Fixtures ==="
+          ls -la tests/fixtures/ || echo "Test fixtures not found"
 
-    - name: Test single chapter analysis
-      run: |
-        echo "=== Testing Single Chapter Analysis ==="
-        python -c "
-        import os
-        from src.main import ClauseMateAnalyzer
+      - name: Test single chapter analysis
+        run: |
+          echo "=== Testing Single Chapter Analysis ==="
+          python -c "
+          import os
+          from src.main import ClauseMateAnalyzer
 
-        # Check if test data exists
-        test_file = 'data/input/gotofiles/2.tsv'
-        if not os.path.exists(test_file):
-            print('⚠️ Test data file not found, skipping single chapter analysis test')
-            print('✅ Single chapter analysis test skipped (no test data)')
-        else:
-            analyzer = ClauseMateAnalyzer(enable_adaptive_parsing=True)
-            try:
-                relationships = analyzer.analyze_file(test_file)
-                print(f'✅ Chapter 2: {len(relationships)} relationships extracted')
-                assert len(relationships) > 0, 'No relationships found in Chapter 2'
-            except Exception as e:
-                print(f'❌ Chapter 2 failed: {e}')
-                import traceback
-                traceback.print_exc()
-                sys.exit(1)
-        "
+          # Check if test data exists
+          test_file = 'data/input/gotofiles/2.tsv'
+          if not os.path.exists(test_file):
+              print('⚠️ Test data file not found, skipping single chapter analysis test')
+              print('✅ Single chapter analysis test skipped (no test data)')
+          else:
+              analyzer = ClauseMateAnalyzer(enable_adaptive_parsing=True)
+              try:
+                  relationships = analyzer.analyze_file(test_file)
+                  print(f'✅ Chapter 2: {len(relationships)} relationships extracted')
+                  assert len(relationships) > 0, 'No relationships found in Chapter 2'
+              except Exception as e:
+                  print(f'❌ Chapter 2 failed: {e}')
+                  import traceback
+                  traceback.print_exc()
+                  sys.exit(1)
+          "
 
-    - name: Test multi-file analysis
-      run: |
-        echo "=== Testing Multi-File Analysis ==="
-        python -c "
-        import os
-        from src.multi_file.multi_file_batch_processor import MultiFileBatchProcessor
+      - name: Test multi-file analysis
+        run: |
+          echo "=== Testing Multi-File Analysis ==="
+          python -c "
+          import os
+          from src.multi_file.multi_file_batch_processor import MultiFileBatchProcessor
 
-        # Check if test data directory exists
-        test_dir = 'data/input/gotofiles'
-        if not os.path.exists(test_dir) or not any(f.endswith('.tsv') for f in os.listdir(test_dir) if os.path.isfile(os.path.join(test_dir, f))):
-            print('⚠️ Test data directory not found or no TSV files, skipping multi-file analysis test')
-            print('✅ Multi-file analysis test skipped (no test data)')
-        else:
-            try:
-                processor = MultiFileBatchProcessor()
-                result = processor.process_files(test_dir)
-                print(f'✅ Multi-file analysis: {len(result.unified_relationships)} total relationships')
-                print(f'✅ Cross-chapter chains: {len(result.cross_chapter_chains)} chains identified')
-                assert len(result.unified_relationships) > 0, 'No unified relationships found'
-            except Exception as e:
-                print(f'❌ Multi-file analysis failed: {e}')
-                import traceback
-                traceback.print_exc()
-                sys.exit(1)
-        "
+          # Check if test data directory exists
+          test_dir = 'data/input/gotofiles'
+          if not os.path.exists(test_dir) or not any(f.endswith('.tsv') for f in os.listdir(test_dir) if os.path.isfile(os.path.join(test_dir, f))):
+              print('⚠️ Test data directory not found or no TSV files, skipping multi-file analysis test')
+              print('✅ Multi-file analysis test skipped (no test data)')
+          else:
+              try:
+                  processor = MultiFileBatchProcessor()
+                  result = processor.process_files(test_dir)
+                  print(f'✅ Multi-file analysis: {len(result.unified_relationships)} total relationships')
+                  print(f'✅ Cross-chapter chains: {len(result.cross_chapter_chains)} chains identified')
+                  assert len(result.unified_relationships) > 0, 'No unified relationships found'
+              except Exception as e:
+                  print(f'❌ Multi-file analysis failed: {e}')
+                  import traceback
+                  traceback.print_exc()
+                  sys.exit(1)
+          "
 
-    - name: Test advanced analysis features
-      run: |
-        echo "=== Testing Advanced Analysis Features ==="
-        python generate_advanced_analysis_simple.py || echo "Advanced analysis script not available"
+      - name: Test advanced analysis features
+        run: |
+          echo "=== Testing Advanced Analysis Features ==="
+          python generate_advanced_analysis_simple.py || echo "Advanced analysis script not available"
 
-    - name: Test visualization generation
-      run: |
-        echo "=== Testing Visualization Generation ==="
-        python generate_visualizations.py || echo "Visualization script not available"
+      - name: Test visualization generation
+        run: |
+          echo "=== Testing Visualization Generation ==="
+          python generate_visualizations.py || echo "Visualization script not available"
 
-    - name: Verify output structure
-      run: |
-        echo "=== Verifying Output Structure ==="
-        # Check for expected output directories
-        if [ -d "data/output" ]; then
-          echo "✅ Output directory exists"
-          find data/output -name "*.csv" -o -name "*.json" -o -name "*.html" | head -10
-        else
-          echo "❌ Output directory not found"
-        fi
+      - name: Verify output structure
+        run: |
+          echo "=== Verifying Output Structure ==="
+          # Check for expected output directories
+          if [ -d "data/output" ]; then
+            echo "✅ Output directory exists"
+            find data/output -name "*.csv" -o -name "*.json" -o -name "*.html" | head -10
+          else
+            echo "❌ Output directory not found"
+          fi
 
-    - name: Run comprehensive system test with coverage
-      run: |
-        echo "=== Comprehensive System Test with Coverage ==="
-        # Clean pytest cache to avoid import file mismatch errors
-        find . -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
-        find . -name "*.pyc" -delete 2>/dev/null || true
-        # Exclude duplicate test files to avoid import conflicts
-        pytest --cov=src --cov-report=xml --cov-report=term-missing -v --ignore=tests/property/test_property_based.py || echo "No pytest tests found, running manual coverage test"
+      - name: Run comprehensive system test with coverage
+        run: |
+          echo "=== Comprehensive System Test with Coverage ==="
+          # Clean pytest cache to avoid import file mismatch errors
+          find . -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
+          find . -name "*.pyc" -delete 2>/dev/null || true
+          # Exclude duplicate test files to avoid import conflicts
+          pytest --cov=src --cov-report=xml --cov-report=term-missing -v --ignore=tests/property/test_property_based.py || echo "No pytest tests found, running manual coverage test"
 
-        # Manual coverage test if pytest fails
-        python -m coverage run --source=src -m pytest -v --ignore=tests/property/test_property_based.py || coverage run --source=src -c "
-        import os
+          # Manual coverage test if pytest fails
+          python -m coverage run --source=src -m pytest -v --ignore=tests/property/test_property_based.py || coverage run --source=src -c "
+          import os
 
-        # Test the complete pipeline with graceful handling of missing data
-        try:
-            print('🧪 Running system tests...')
+          # Test the complete pipeline with graceful handling of missing data
+          try:
+              print('🧪 Running system tests...')
 
-            # Test basic imports
-            from src.main import ClauseMateAnalyzer
-            from src.multi_file.multi_file_batch_processor import MultiFileBatchProcessor
-            print('✅ Core modules imported successfully')
+              # Test basic imports
+              from src.main import ClauseMateAnalyzer
+              from src.multi_file.multi_file_batch_processor import MultiFileBatchProcessor
+              print('✅ Core modules imported successfully')
 
-            # Test with data if available
-            test_file = 'data/input/gotofiles/2.tsv'
-            if os.path.exists(test_file):
-                analyzer = ClauseMateAnalyzer(enable_adaptive_parsing=True)
-                relationships = analyzer.analyze_file(test_file)
-                print(f'✅ Single file: {len(relationships)} relationships')
+              # Test with data if available
+              test_file = 'data/input/gotofiles/2.tsv'
+              if os.path.exists(test_file):
+                  analyzer = ClauseMateAnalyzer(enable_adaptive_parsing=True)
+                  relationships = analyzer.analyze_file(test_file)
+                  print(f'✅ Single file: {len(relationships)} relationships')
 
-                processor = MultiFileBatchProcessor()
-                result = processor.process_files('data/input/gotofiles')
-                print(f'✅ Multi-file: {len(result.unified_relationships)} relationships')
-                print(f'✅ Cross-chapter: {len(result.cross_chapter_chains)} chains')
-            else:
-                print('⚠️ Test data not available, skipping data processing tests')
-                print('✅ Core functionality verified (imports successful)')
+                  processor = MultiFileBatchProcessor()
+                  result = processor.process_files('data/input/gotofiles')
+                  print(f'✅ Multi-file: {len(result.unified_relationships)} relationships')
+                  print(f'✅ Cross-chapter: {len(result.cross_chapter_chains)} chains')
+              else:
+                  print('⚠️ Test data not available, skipping data processing tests')
+                  print('✅ Core functionality verified (imports successful)')
 
-            print('🎉 All available tests passed successfully!')
+              print('🎉 All available tests passed successfully!')
 
-        except Exception as e:
-            print(f'❌ System test failed: {e}')
-            import traceback
-            traceback.print_exc()
-            sys.exit(1)
-        "
+          except Exception as e:
+              print(f'❌ System test failed: {e}')
+              import traceback
+              traceback.print_exc()
+              sys.exit(1)
+          "
 
-        # Generate coverage report
-        python -m coverage xml || echo "Coverage XML generation failed"
-        python -m coverage report || echo "Coverage report generation failed"
+          # Generate coverage report
+          python -m coverage xml || echo "Coverage XML generation failed"
+          python -m coverage report || echo "Coverage report generation failed"
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        file: ./coverage.xml
-        flags: unittests
-        name: codecov-umbrella
-        fail_ci_if_error: false
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
 
-    - name: Generate test report
-      run: |
-        echo "=== Test Report ==="
-        echo "Python version: $(python --version)"
-        echo "Test timestamp: $(date)"
-        echo "Repository: ${{ github.repository }}"
-        echo "Commit: ${{ github.sha }}"
-        echo "Branch: ${{ github.ref }}"
+      - name: Generate test report
+        run: |
+          echo "=== Test Report ==="
+          echo "Python version: $(python --version)"
+          echo "Test timestamp: $(date)"
+          echo "Repository: ${{ github.repository }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Branch: ${{ github.ref }}"
 
   test-output-reproducibility:
     runs-on: ubuntu-latest
@@ -195,72 +195,72 @@ jobs:
     needs: test-reproducibility
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up Python 3.11
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r config/requirements.txt
-        pip install -e ".[dev,benchmark]"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r config/requirements.txt
+          pip install -e ".[dev,benchmark]"
 
-    - name: Generate baseline outputs
-      run: |
-        echo "=== Generating Baseline Outputs ==="
-        python -c "
-        import os
-        from src.multi_file.multi_file_batch_processor import MultiFileBatchProcessor
+      - name: Generate baseline outputs
+        run: |
+          echo "=== Generating Baseline Outputs ==="
+          python -c "
+          import os
+          from src.multi_file.multi_file_batch_processor import MultiFileBatchProcessor
 
-        # Check if test data exists
-        test_dir = 'data/input/gotofiles'
-        if not os.path.exists(test_dir) or not any(f.endswith('.tsv') for f in os.listdir(test_dir) if os.path.isfile(os.path.join(test_dir, f))):
-            print('⚠️ Test data not available, creating minimal baseline metrics')
-            with open('baseline_metrics.txt', 'w') as f:
-                f.write('total_relationships=0\n')
-                f.write('cross_chapter_chains=0\n')
-                f.write('chapters_processed=0\n')
-                f.write('status=no_test_data\n')
-            print('✅ Minimal baseline metrics saved')
-        else:
-            # Generate reproducible output
-            processor = MultiFileBatchProcessor()
-            result = processor.process_files(test_dir)
+          # Check if test data exists
+          test_dir = 'data/input/gotofiles'
+          if not os.path.exists(test_dir) or not any(f.endswith('.tsv') for f in os.listdir(test_dir) if os.path.isfile(os.path.join(test_dir, f))):
+              print('⚠️ Test data not available, creating minimal baseline metrics')
+              with open('baseline_metrics.txt', 'w') as f:
+                  f.write('total_relationships=0\n')
+                  f.write('cross_chapter_chains=0\n')
+                  f.write('chapters_processed=0\n')
+                  f.write('status=no_test_data\n')
+              print('✅ Minimal baseline metrics saved')
+          else:
+              # Generate reproducible output
+              processor = MultiFileBatchProcessor()
+              result = processor.process_files(test_dir)
 
-            # Save key metrics for comparison
-            with open('baseline_metrics.txt', 'w') as f:
-                f.write(f'total_relationships={len(result.unified_relationships)}\n')
-                f.write(f'cross_chapter_chains={len(result.cross_chapter_chains)}\n')
-                f.write(f'chapters_processed={len(result.chapter_info)}\n')
-                f.write('status=success\n')
-            print('✅ Baseline metrics saved')
-        "
+              # Save key metrics for comparison
+              with open('baseline_metrics.txt', 'w') as f:
+                  f.write(f'total_relationships={len(result.unified_relationships)}\n')
+                  f.write(f'cross_chapter_chains={len(result.cross_chapter_chains)}\n')
+                  f.write(f'chapters_processed={len(result.chapter_info)}\n')
+                  f.write('status=success\n')
+              print('✅ Baseline metrics saved')
+          "
 
-    - name: Verify output consistency
-      run: |
-        echo "=== Verifying Output Consistency ==="
-        if [ -f "baseline_metrics.txt" ]; then
-          echo "✅ Baseline metrics generated:"
-          cat baseline_metrics.txt
-        else
-          echo "❌ Baseline metrics not found"
-          exit 1
-        fi
+      - name: Verify output consistency
+        run: |
+          echo "=== Verifying Output Consistency ==="
+          if [ -f "baseline_metrics.txt" ]; then
+            echo "✅ Baseline metrics generated:"
+            cat baseline_metrics.txt
+          else
+            echo "❌ Baseline metrics not found"
+            exit 1
+          fi
 
-    - name: Upload test artifacts
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: test-outputs-${{ matrix.python-version }}
-        path: |
-          baseline_metrics.txt
-          data/output/**/*.csv
-          data/output/**/*.json
-          data/output/**/*.html
-        retention-days: 7
+      - name: Upload test artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-outputs-${{ matrix.python-version }}
+          path: |
+            baseline_metrics.txt
+            data/output/**/*.csv
+            data/output/**/*.json
+            data/output/**/*.html
+          retention-days: 7
 
   performance-benchmark:
     runs-on: ubuntu-latest
@@ -268,74 +268,74 @@ jobs:
     needs: test-reproducibility
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up Python 3.11
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r config/requirements.txt
-        # Install with benchmark dependencies which includes psutil and memory-profiler
-        pip install -e ".[dev,benchmark]"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r config/requirements.txt
+          # Install with benchmark dependencies which includes psutil and memory-profiler
+          pip install -e ".[dev,benchmark]"
 
-    - name: Performance benchmark
-      run: |
-        echo "=== Performance Benchmark ==="
-        python -c "
-        import sys
-        import time
-        import psutil
-        import os
+      - name: Performance benchmark
+        run: |
+          echo "=== Performance Benchmark ==="
+          python -c "
+          import sys
+          import time
+          import psutil
+          import os
 
-        # Memory and time tracking
-        process = psutil.Process(os.getpid())
-        start_memory = process.memory_info().rss / 1024 / 1024  # MB
-        start_time = time.time()
+          # Memory and time tracking
+          process = psutil.Process(os.getpid())
+          start_memory = process.memory_info().rss / 1024 / 1024  # MB
+          start_time = time.time()
 
-        try:
-            from src.multi_file.multi_file_batch_processor import MultiFileBatchProcessor
+          try:
+              from src.multi_file.multi_file_batch_processor import MultiFileBatchProcessor
 
-            # Check if test data exists
-            test_dir = 'data/input/gotofiles'
-            if not os.path.exists(test_dir) or not any(f.endswith('.tsv') for f in os.listdir(test_dir) if os.path.isfile(os.path.join(test_dir, f))):
-                print('⚠️ Test data not available, running minimal performance test')
-                processor = MultiFileBatchProcessor()
-                end_time = time.time()
-                processing_time = end_time - start_time
-                print(f'⏱️  Initialization time: {processing_time:.2f} seconds')
-                print('✅ Performance benchmark completed (minimal test)')
-            else:
-                processor = MultiFileBatchProcessor()
-                result = processor.process_files(test_dir)
+              # Check if test data exists
+              test_dir = 'data/input/gotofiles'
+              if not os.path.exists(test_dir) or not any(f.endswith('.tsv') for f in os.listdir(test_dir) if os.path.isfile(os.path.join(test_dir, f))):
+                  print('⚠️ Test data not available, running minimal performance test')
+                  processor = MultiFileBatchProcessor()
+                  end_time = time.time()
+                  processing_time = end_time - start_time
+                  print(f'⏱️  Initialization time: {processing_time:.2f} seconds')
+                  print('✅ Performance benchmark completed (minimal test)')
+              else:
+                  processor = MultiFileBatchProcessor()
+                  result = processor.process_files(test_dir)
 
-                end_time = time.time()
-                end_memory = process.memory_info().rss / 1024 / 1024  # MB
+                  end_time = time.time()
+                  end_memory = process.memory_info().rss / 1024 / 1024  # MB
 
-                processing_time = end_time - start_time
-                memory_used = end_memory - start_memory
-                relationships_per_second = len(result.unified_relationships) / processing_time if processing_time > 0 else 0
+                  processing_time = end_time - start_time
+                  memory_used = end_memory - start_memory
+                  relationships_per_second = len(result.unified_relationships) / processing_time if processing_time > 0 else 0
 
-                print(f'⏱️  Processing time: {processing_time:.2f} seconds')
-                print(f'💾 Memory used: {memory_used:.2f} MB')
-                print(f'🚀 Relationships/second: {relationships_per_second:.1f}')
-                print(f'📊 Total relationships: {len(result.unified_relationships)}')
-                print(f'🔗 Cross-chapter chains: {len(result.cross_chapter_chains)}')
+                  print(f'⏱️  Processing time: {processing_time:.2f} seconds')
+                  print(f'💾 Memory used: {memory_used:.2f} MB')
+                  print(f'🚀 Relationships/second: {relationships_per_second:.1f}')
+                  print(f'📊 Total relationships: {len(result.unified_relationships)}')
+                  print(f'🔗 Cross-chapter chains: {len(result.cross_chapter_chains)}')
 
-                # Performance thresholds
-                if processing_time > 60:  # 1 minute threshold
-                    print('⚠️  Warning: Processing time exceeds 60 seconds')
-                if memory_used > 500:  # 500MB threshold
-                    print('⚠️  Warning: Memory usage exceeds 500MB')
+                  # Performance thresholds
+                  if processing_time > 60:  # 1 minute threshold
+                      print('⚠️  Warning: Processing time exceeds 60 seconds')
+                  if memory_used > 500:  # 500MB threshold
+                      print('⚠️  Warning: Memory usage exceeds 500MB')
 
-                print('✅ Performance benchmark completed')
+                  print('✅ Performance benchmark completed')
 
-        except Exception as e:
-            print(f'❌ Performance benchmark failed: {e}')
-            import traceback
-            traceback.print_exc()
-            sys.exit(1)
-        "
+          except Exception as e:
+              print(f'❌ Performance benchmark failed: {e}')
+              import traceback
+              traceback.print_exc()
+              sys.exit(1)
+          "

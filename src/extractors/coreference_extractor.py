@@ -5,23 +5,17 @@ from parsed linguistic data, following the patterns established in the original 
 """
 
 import re
-import sys
 from collections import defaultdict
-from pathlib import Path
 
-from src.data.models import (
+from ..config import PronounSets
+from ..data.models import (
     AnimacyType,
     CoreferenceChain,
     ExtractionResult,
     SentenceContext,
     Token,
 )
-from src.extractors.base import BaseCoreferenceExtractor
-
-from ..config import PronounSets
-
-# Add the parent directory to the path to import from root
-sys.path.append(str(Path(__file__).parent.parent.parent))
+from .base import BaseCoreferenceExtractor
 
 
 class CoreferenceExtractor(BaseCoreferenceExtractor):

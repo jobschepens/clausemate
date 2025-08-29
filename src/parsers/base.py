@@ -4,15 +4,10 @@ This module defines abstract base classes that establish clear contracts
 between different parts of the parsing system.
 """
 
-import sys
 from abc import ABC, abstractmethod
 from collections.abc import Iterator
-from pathlib import Path
 
-from src.data.models import SentenceContext, Token
-
-# Add the parent directory to the path to import from root
-sys.path.append(str(Path(__file__).parent.parent.parent))
+from ..data.models import SentenceContext, Token
 
 
 class BaseParser(ABC):

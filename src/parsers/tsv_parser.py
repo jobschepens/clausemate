@@ -1,21 +1,15 @@
-import csv
-import sys
-from collections.abc import Iterator
-from pathlib import Path
-
-from src.data.models import SentenceContext, Token
-from src.parsers.base import BaseParser, BaseTokenProcessor
-
-from ..exceptions import FileProcessingError, ParseError
-
 """TSV parser implementation for clause mates data.
 
 This module provides a concrete implementation of the BaseParser interface
 specifically for parsing TSV files with linguistic annotations.
 """
 
-# Add the parent directory to the path to import from root
-sys.path.append(str(Path(__file__).parent.parent.parent))
+import csv
+from collections.abc import Iterator
+
+from ..data.models import SentenceContext, Token
+from ..exceptions import FileProcessingError, ParseError
+from .base import BaseParser, BaseTokenProcessor
 
 
 class TSVParser(BaseParser):

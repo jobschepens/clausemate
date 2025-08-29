@@ -4,12 +4,10 @@ This module defines abstract base classes for different types of extraction
 operations, ensuring consistent behavior and easy extensibility.
 """
 
-import sys
 from abc import ABC, abstractmethod
-from pathlib import Path
 from typing import Any
 
-from src.data.models import (
+from ..data.models import (
     ClauseMateRelationship,
     CoreferenceChain,
     CoreferencePhrase,
@@ -17,9 +15,6 @@ from src.data.models import (
     SentenceContext,
     Token,
 )
-
-# Add the parent directory to the path to import from root
-sys.path.append(str(Path(__file__).parent.parent.parent))
 
 
 class BaseExtractor(ABC):

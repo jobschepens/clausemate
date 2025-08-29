@@ -2,9 +2,9 @@ name: Coverage
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -13,71 +13,70 @@ jobs:
     timeout-minutes: 20
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up Python 3.11
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r config/requirements.txt
-        pip install coverage pytest pytest-cov
-        # Install with all optional dependencies to avoid import errors
-        pip install -e ".[dev,benchmark]"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r config/requirements.txt
+          pip install coverage pytest pytest-cov
+          # Install with all optional dependencies to avoid import errors
+          pip install -e ".[dev,benchmark]"
 
-    - name: Create test script
-      run: |
-        cat > test_coverage.py << 'EOF'
-        import sys
-        import os
+      - name: Create test script
+        run: |
+          cat > test_coverage.py << 'EOF'
+          import sys
+          import os
 
-        try:
-            from src.main import ClauseMateAnalyzer
-            analyzer = ClauseMateAnalyzer(enable_adaptive_parsing=True)
-            print('✅ Main module imported successfully')
+          try:
+              from src.main import ClauseMateAnalyzer
+              analyzer = ClauseMateAnalyzer(enable_adaptive_parsing=True)
+              print('✅ Main module imported successfully')
 
-            # Try to run a simple analysis if data exists
-            if os.path.exists('data/input/gotofiles/2.tsv'):
-                relationships = analyzer.analyze_file('data/input/gotofiles/2.tsv')
-                print(f'✅ Analysis completed: {len(relationships)} relationships found')
-            else:
-                print('⚠️ Test data not found, skipping analysis')
-                print('✅ Core functionality verified (imports successful)')
+              # Try to run a simple analysis if data exists
+              if os.path.exists('data/input/gotofiles/2.tsv'):
+                  relationships = analyzer.analyze_file('data/input/gotofiles/2.tsv')
+                  print(f'✅ Analysis completed: {len(relationships)} relationships found')
+              else:
+                  print('⚠️ Test data not found, skipping analysis')
+                  print('✅ Core functionality verified (imports successful)')
 
-        except Exception as e:
-            print(f'❌ Test failed: {e}')
-            import traceback
-            traceback.print_exc()
-            sys.exit(1)
-        EOF
+          except Exception as e:
+              print(f'❌ Test failed: {e}')
+              import traceback
+              traceback.print_exc()
+              sys.exit(1)
+          EOF
 
-    - name: Run tests with coverage
-      run: |
-        # Try pytest first, fallback to manual coverage if no tests exist
-        if [ -d "tests" ] && [ "$(find tests -name 'test_*.py' -type f | wc -l)" -gt 0 ]; then
-          echo "Running pytest with coverage..."
-          python -m pytest --cov=src --cov-report=xml --cov-report=term-missing --junitxml=junit.xml -v --ignore=tests/optional
-        else
-          echo "No pytest tests found, running coverage on main modules..."
-          python -m coverage run --source=src --omit="*/tests/*,*/test_*" test_coverage.py
-          python -m coverage xml
-        fi
+      - name: Run tests with coverage
+        run: |
+          # Try pytest first, fallback to manual coverage if no tests exist
+          if [ -d "tests" ] && [ "$(find tests -name 'test_*.py' -type f | wc -l)" -gt 0 ]; then
+            echo "Running pytest with coverage..."
+            python -m pytest --cov=src --cov-report=xml --cov-report=term-missing --junitxml=junit.xml -v --ignore=tests/optional
+          else
+            echo "No pytest tests found, running coverage on main modules..."
+            python -m coverage run --source=src --omit="*/tests/*,*/test_*" test_coverage.py
+            python -m coverage xml
+          fi
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v4
-      with:
-        token: ${{ secrets.CODECOV_TOKEN || '' }}
-        file: ./coverage.xml
-        flags: unittests
-        name: codecov-umbrella
-        fail_ci_if_error: false
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN || '' }}
+          file: ./coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
 
-
-    - name: Upload test results to Codecov
-      if: ${{ !cancelled() }}
-      uses: codecov/test-results-action@v1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN || '' }}
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN || '' }}

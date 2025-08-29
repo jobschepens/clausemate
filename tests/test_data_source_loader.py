@@ -5,10 +5,7 @@ import tempfile
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-from src.utils.data_source_loader import (
-    DataSourceLoader,
-    setup_data_source_for_main,
-)
+from src.utils.data_source_loader import DataSourceLoader, setup_data_source_for_main
 
 
 class TestDataSourceLoader:

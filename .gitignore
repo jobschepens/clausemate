@@ -116,3 +116,4 @@ private_data/
 config/local.py
 config/production.py
 secrets/
+scripts/optimize-extensions.ps1

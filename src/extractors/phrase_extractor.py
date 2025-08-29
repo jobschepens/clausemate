@@ -4,16 +4,9 @@ This module provides concrete implementations for grouping tokens into
 coreference phrases based on the original clause mate analysis patterns.
 """
 
-import sys
-from pathlib import Path
-
-from src.data.models import CoreferencePhrase, ExtractionResult, SentenceContext, Token
-from src.extractors.base import BasePhraseExtractor
-
+from ..data.models import CoreferencePhrase, ExtractionResult, SentenceContext, Token
 from ..utils import extract_coreference_id, extract_full_coreference_id
-
-# Add the parent directory to the path to import from root
-sys.path.append(str(Path(__file__).parent.parent.parent))
+from .base import BasePhraseExtractor
 
 
 class PhraseExtractor(BasePhraseExtractor):

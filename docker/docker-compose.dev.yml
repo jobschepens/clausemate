@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   clausemate-dev:
@@ -11,7 +11,7 @@ services:
       - /workspace/__pycache__
     working_dir: /workspace
     ports:
-      - "8888:8888"  # Jupyter Lab
+      - "8888:8888" # Jupyter Lab
     environment:
       - PYTHONPATH=/workspace
     command: bash
@@ -28,7 +28,7 @@ services:
       - /workspace/__pycache__
     working_dir: /workspace
     ports:
-      - "8889:8888"  # Jupyter Lab on different port
+      - "8889:8888" # Jupyter Lab on different port
     environment:
       - PYTHONPATH=/workspace
       - JUPYTER_RUNTIME_DIR=/tmp/jupyter

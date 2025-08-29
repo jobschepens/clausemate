@@ -5,17 +5,10 @@ critical pronouns from parsed linguistic data, following the patterns establishe
 in the original script.
 """
 
-import sys
-from pathlib import Path
-
-from src.data.models import ExtractionResult, SentenceContext, Token
-from src.extractors.base import BasePronounExtractor
-
 from ..config import PronounSets
+from ..data.models import ExtractionResult, SentenceContext, Token
 from ..pronoun_classifier import is_critical_pronoun
-
-# Add the parent directory to the path to import from root
-sys.path.append(str(Path(__file__).parent.parent.parent))
+from .base import BasePronounExtractor
 
 
 class PronounExtractor(BasePronounExtractor):

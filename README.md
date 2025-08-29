@@ -243,9 +243,17 @@ clausemate --help
 
 ### Command Line Interface
 
+The ClauseMate analyzer supports multiple execution methods for maximum flexibility:
+
 ```bash
-# Basic usage
+# Recommended: Use the installed command (after pip install)
 clausemate input_file.tsv
+
+# Alternative: Run as module
+python -m src.main input_file.tsv
+
+# Development: Run from source
+python -m src input_file.tsv
 
 # Specify output file
 clausemate input_file.tsv -o output.csv
@@ -255,6 +263,16 @@ clausemate input_file.tsv --verbose
 
 # Use streaming for large files
 clausemate input_file.tsv --streaming
+```
+
+### Installation & Setup
+
+```bash
+# Install in development mode
+pip install -e .
+
+# This enables the 'clausemate' command system-wide
+# and supports all import methods
 ```
 
 ### Multi-File Processing (Phase 3.1) - **RECOMMENDED**
@@ -425,3 +443,5 @@ Research project - please contact maintainers for usage permissions.
 ## Contact
 
 For questions about the linguistic methodology or data format, please refer to the project documentation or contact the research team.
+
+<!-- Testing pre-commit hooks with a small documentation update -->

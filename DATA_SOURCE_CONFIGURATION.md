@@ -1,6 +1,7 @@
 # Data Source Configuration for ClauseMate
 
 ## Overview
+
 The ClauseMate analyzer supports multiple data source configurations to handle both public test data and private research data securely.
 
 ## Configuration Options
@@ -14,7 +15,7 @@ Set environment variables to specify your data source:
 export CLAUSEMATE_DATA_SOURCE="local"
 export CLAUSEMATE_DATA_PATH="/path/to/your/private/data"
 
-# Option B: Secure remote source  
+# Option B: Secure remote source
 export CLAUSEMATE_DATA_SOURCE="remote"
 export CLAUSEMATE_DATA_URL="https://your-secure-server.com/data"
 export CLAUSEMATE_DATA_TOKEN="your-access-token"
@@ -26,6 +27,7 @@ export CLAUSEMATE_AWS_ACCESS_KEY="your-key"
 ```
 
 ### 2. Data Source Priority
+
 1. Environment variables (if set)
 2. Local `data/input/private/` directory (if exists)
 3. Default test data in `data/input/gotofiles/`
@@ -35,6 +37,7 @@ export CLAUSEMATE_AWS_ACCESS_KEY="your-key"
 ### Environment Variables Setup
 
 Create a `.env` file (ignored by git):
+
 ```bash
 # .env file (not committed to git)
 CLAUSEMATE_DATA_SOURCE=local
@@ -55,21 +58,25 @@ result = analyzer.analyze_directory()  # Works with any source
 ## Security Options
 
 ### Option A: Password-Protected ZIP
+
 - Store data in encrypted ZIP file
 - Program prompts for password at runtime
 - Can be stored locally or downloaded
 
 ### Option B: Private Git Repository
+
 - Create separate private repo for data
 - Use git submodules or manual sync
 - Full version control for data
 
 ### Option C: Secure Cloud Storage
+
 - AWS S3 with presigned URLs
 - Google Drive with API access
 - Dropbox with app tokens
 
 ### Option D: Local Network Share
+
 - Store on local network drive
 - Access via mapped drives or UNC paths
 - Good for institutional environments

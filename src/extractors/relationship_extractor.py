@@ -4,11 +4,9 @@ This module provides concrete implementations for extracting clause mate
 relationships between critical pronouns and their clause mates within sentences.
 """
 
-import sys
-from pathlib import Path
 from typing import Any
 
-from src.data.models import (
+from ..data.models import (
     AntecedentInfo,
     ClauseMateRelationship,
     CoreferencePhrase,
@@ -17,16 +15,12 @@ from src.data.models import (
     SentenceContext,
     Token,
 )
-from src.extractors.base import BaseRelationshipExtractor
-
 from ..utils import (
     determine_givenness,
     extract_coreference_id,
     extract_full_coreference_id,
 )
-
-# Add the parent directory to the path to import from root
-sys.path.append(str(Path(__file__).parent.parent.parent))
+from .base import BaseRelationshipExtractor
 
 
 class RelationshipExtractor(BaseRelationshipExtractor):
