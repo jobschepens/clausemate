@@ -1,4 +1,5 @@
 repos:
+  # Basic file formatting and safety checks
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
@@ -10,7 +11,17 @@ repos:
       - id: check-merge-conflict
       - id: debug-statements
         exclude: ^archive/
+      - id: check-ast  # Check Python AST syntax
+      - id: check-builtin-literals  # Check for builtin literals used as variables
+      - id: check-docstring-first  # Check docstring is first in module
+      - id: check-json  # Check JSON files for syntax errors
+      - id: check-toml  # Check TOML files for syntax errors
+      - id: detect-private-key  # Detect private keys
+      - id: mixed-line-ending  # Check for mixed line endings
+      - id: name-tests-test  # Check test files are named correctly
+        args: ['--pytest-test-first']
 
+  # Python code quality and formatting
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.12.4
     hooks:
@@ -22,9 +33,59 @@ repos:
       - id: ruff-format
         exclude: ^archive/
 
+  # Type checking with mypy
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.11.2
+    hooks:
+      - id: mypy
+        additional_dependencies: [types-all, pandas-stubs]
+        args: [--strict, --ignore-missing-imports]
+        exclude: ^(archive/|tests/)
+        files: ^src/
+
+  # Security scanning
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.8.0
+    hooks:
+      - id: bandit
+        args: [-r, -ll]  # Only medium and high severity
+        exclude: ^(archive/|tests/)
+
+  # Import sorting
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: [--profile, black, --line-length=88]
+        exclude: ^archive/
+
+  # Upgrade Python syntax
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.16.0
+    hooks:
+      - id: pyupgrade
+        args: [--py311-plus]
+        exclude: ^archive/
+
+  # Markdown formatting
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.45.0  # Use the latest release
+    rev: v0.45.0
     hooks:
       - id: markdownlint
         args: [--fix]
         files: \.(md|markdown)$
+
+  # YAML and JSON formatting
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v4.0.0-alpha.8
+    hooks:
+      - id: prettier
+        types_or: [yaml, json]
+        exclude: ^archive/
+
+  # Dockerfile linting
+  - repo: https://github.com/hadolint/hadolint
+    rev: v2.12.0
+    hooks:
+      - id: hadolint-docker
+        files: Dockerfile.*
