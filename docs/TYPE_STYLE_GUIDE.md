@@ -42,6 +42,7 @@ def handle_optional(value: Optional[str]) -> bool:
 ## Type Annotation Guidelines
 
 ### 1. Function Signatures
+
 Always annotate public function parameters and return types:
 
 ```python
@@ -55,6 +56,7 @@ def extract_relationships(
 ```
 
 ### 2. Class Attributes
+
 Use dataclasses with type annotations:
 
 ```python
@@ -65,13 +67,14 @@ class ProcessingResult:
     relationships: list[ClauseMateRelationship]
     metadata: dict[str, Any]
     errors: list[str] = None
-    
+
     def __post_init__(self) -> None:
         if self.errors is None:
             self.errors = []
 ```
 
 ### 3. Complex Types
+
 Define type aliases for complex or repeated types:
 
 ```python
@@ -91,6 +94,7 @@ def process_chapters(
 ```
 
 ### 4. Generic Classes
+
 Use proper generic syntax:
 
 ```python
@@ -106,6 +110,7 @@ class DataProcessor(Generic[T]):
 ## Tool Configuration
 
 ### Ruff Configuration
+
 Our `pyproject.toml` includes pyupgrade rules to enforce modern syntax:
 
 ```toml
@@ -117,6 +122,7 @@ select = [
 ```
 
 ### Pylance Configuration
+
 VS Code settings configured to prefer modern syntax:
 
 ```json
@@ -133,7 +139,7 @@ VS Code settings configured to prefer modern syntax:
 
 1. **New Code**: Always use modern syntax
 2. **Existing Code**: Use `ruff check --fix --select UP` to modernize
-3. **Scripts vs Libraries**: 
+3. **Scripts vs Libraries**:
    - Core library code (`src/`): Full type annotation coverage
    - Scripts (`scripts/`): Basic annotations, focus on functionality
    - Tools (`tools/`): Minimal annotations acceptable
@@ -147,6 +153,7 @@ VS Code settings configured to prefer modern syntax:
 ## Examples by Module Type
 
 ### Core Data Models (`src/data/models.py`)
+
 ```python
 @dataclass
 class ClauseMateRelationship:
@@ -154,13 +161,14 @@ class ClauseMateRelationship:
     pronoun: Token
     clause_mate: Phrase
     metadata: dict[str, Any] = None
-    
+
     def to_dict(self) -> dict[str, str | int | None]:
         """Convert to dictionary for export."""
         return {...}
 ```
 
 ### Analysis Scripts (`scripts/`)
+
 ```python
 def analyze_data(
     input_file: str,
@@ -172,6 +180,7 @@ def analyze_data(
 ```
 
 ### Utility Functions (`src/utils/`)
+
 ```python
 def extract_coreference_id(
     value: str,
