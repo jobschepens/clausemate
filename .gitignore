@@ -102,3 +102,17 @@ docs/_build/
 
 # PyPI credentials
 .pypirc
+
+# Data Source Security
+.env
+data/input/private/
+data/input/secure/
+*.zip
+*.encrypted
+research_data/
+private_data/
+
+# Sensitive configuration
+config/local.py
+config/production.py
+secrets/
