@@ -265,16 +265,15 @@ class TestIncompleteFormatParser:
     def test_get_compatibility_info(self):
         """Test compatibility info retrieval."""
         self.parser.column_mapping = {"token_id": 0, "token_text": 2}
-        self.parser.available_features = {
-            "basic_tokens": True,
-            "coreference": False,
-        }
+        # Ensure morphological key exists (it should already be initialized)
+        assert "morphological" in self.parser.available_features
 
         result = self.parser.get_compatibility_info()
 
         assert result["format_type"] == "incomplete"
         assert result["available_features"]["basic_tokens"] is True
         assert result["available_features"]["coreference"] is False
+        assert "morphological" in result["available_features"]
         assert len(result["limitations"]) >= 1
         assert "column_mapping" in result
         assert "recommended_actions" in result

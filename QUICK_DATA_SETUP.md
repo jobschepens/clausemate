@@ -1,24 +1,29 @@
 # ClauseMate Data Setup - Quick Start Guide
 
 ## Problem
+
 You need to use private/sensitive research data with ClauseMate without committing it to the public GitHub repository.
 
 ## Recommended Solutions (Pick One)
 
 ### Option 1: Simple Local Directory (Easiest)
+
 **Best for: Personal research, local development**
 
 1. Create a private data directory:
+
 ```bash
 mkdir -p data/input/private
 ```
 
 2. Copy your TSV files there:
+
 ```bash
 cp /path/to/your/research/*.tsv data/input/private/
 ```
 
 3. Run analyzer (it will automatically detect private data):
+
 ```bash
 python src/main.py
 python scripts/run_multi_file_analysis.py
@@ -28,14 +33,17 @@ python scripts/run_multi_file_analysis.py
 **Cons:** Manual file management
 
 ### Option 2: Environment Variables (Flexible)
+
 **Best for: Multiple environments, team development**
 
 1. Create `.env` file:
+
 ```bash
 cp .env.example .env
 ```
 
 2. Edit `.env` file:
+
 ```bash
 CLAUSEMATE_DATA_SOURCE=local_path
 CLAUSEMATE_DATA_PATH=/Users/yourname/Research/clausemate-data
@@ -47,9 +55,11 @@ CLAUSEMATE_DATA_PATH=/Users/yourname/Research/clausemate-data
 **Cons:** Requires environment setup
 
 ### Option 3: Password-Protected ZIP (Secure)
+
 **Best for: Sensitive data, sharing with collaborators**
 
 1. Create encrypted ZIP of your data:
+
 ```bash
 # Using 7zip (cross-platform)
 7z a -p"your-password" research_data.zip *.tsv
@@ -59,6 +69,7 @@ zip -e research_data.zip *.tsv
 ```
 
 2. Run the setup script:
+
 ```bash
 python scripts/setup_data_source.py
 # Choose option 2 (password-protected)
@@ -70,7 +81,21 @@ python scripts/setup_data_source.py
 **Pros:** Secure, portable, can be shared safely
 **Cons:** Requires password management
 
-### Option 4: Cloud Storage (Advanced)
+### Option 4: Private GitHub Repository (Professional)
+
+**Best for: Version control, collaboration, backup, professional research**
+
+1. Create a private GitHub repository for your data
+2. Set up as git submodule or symbolic link
+3. Get version control + backup + collaboration
+
+**Pros:** Version control, GitHub backup, team collaboration, professional workflow
+**Cons:** Requires git knowledge, GitHub account
+
+See `PRIVATE_REPO_SETUP.md` for detailed instructions.
+
+### Option 5: Cloud Storage (Advanced)
+
 **Best for: Remote access, large datasets, team collaboration**
 
 1. Upload data to secure cloud storage (S3, Google Drive, etc.)
@@ -83,6 +108,7 @@ python scripts/setup_data_source.py
 ## Current Status Check
 
 Run this to see what data is currently available:
+
 ```bash
 python src/utils/data_source_loader.py
 ```
@@ -90,6 +116,7 @@ python src/utils/data_source_loader.py
 ## Quick Setup Script
 
 For interactive setup:
+
 ```bash
 python scripts/setup_data_source.py
 ```
@@ -118,12 +145,14 @@ clausemate/
 ## Security Notes
 
 ✅ **Safe (ignored by git):**
+
 - `data/input/private/`
 - `.env` file
 - Any `*.zip` files
 - Any directories named `*private*` or `*secure*`
 
 ❌ **Avoid committing:**
+
 - Real research data
 - Passwords or tokens
 - Personal file paths

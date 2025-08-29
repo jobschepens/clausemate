@@ -1,0 +1,85 @@
+Required test coverage of 25% reached. Total coverage: 76.52%
+======================================================================================= short test summary info =======================================================================================
+FAILED tests/test_advanced_analysis_features.py::TestAdvancedAnalysisEngine::test_initialization_with_logger - AssertionError: expected call not found.
+FAILED tests/test_advanced_analysis_features.py::TestAdvancedAnalysisEngine::test_analyze_character_tracking_single_relationship - assert 0 == 1
+FAILED tests/test_advanced_analysis_features.py::TestAdvancedAnalysisEngine::test_create_comprehensive_analysis_report - TypeError: asdict() should be called on dataclass instances
+FAILED tests/test_advanced_analysis_features.py::TestAdvancedAnalysisEngine::test_calculate_character_statistics_with_profiles - assert 0 == 1
+FAILED tests/test_advanced_analysis_features.py::TestAdvancedAnalysisEngine::test_calculate_transition_statistics_with_transitions - assert 0.6000000000000001 == 0.6
+FAILED tests/test_benchmark.py::TestPerformanceBenchmark::test_compare_phases - AttributeError: module 'archive.phase1' has no attribute 'clause_mates_complete'
+FAILED tests/test_benchmark.py::TestPerformanceBenchmark::test_compare_phases_missing_files - ImportError: cannot import name 'extract_sentence_number' from 'utils' (C:\GitHub\clausemate\src\utils\__init__.py)
+FAILED tests/test_benchmark.py::TestPerformanceBenchmark::test_run_benchmarks - TypeError: unsupported format string passed to MagicMock.__format__
+FAILED tests/test_enhanced_output_system.py::TestEnhancedOutputSystem::test_initialization_with_logger - AssertionError: expected call not found.
+FAILED tests/test_enhanced_output_system.py::TestEnhancedOutputSystem::test_create_enhanced_csv_output_with_relationships - TypeError: '>' not supported between instances of 'MagicMock' and 'MagicMock'
+FAILED tests/test_enhanced_output_system.py::TestEnhancedOutputSystem::test_create_comprehensive_statistics_with_data - TypeError: Object of type MagicMock is not JSON serializable
+FAILED tests/test_enhanced_output_system.py::TestEnhancedOutputSystem::test_create_chapter_boundary_report_empty_data - assert -1 == 0
+FAILED tests/test_enhanced_output_system.py::TestEnhancedOutputSystem::test_create_boundary_marker_chapter_beginning - AssertionError: assert 'unknown' == 'chapter_beginning'
+FAILED tests/test_enhanced_output_system.py::TestEnhancedOutputSystem::test_create_boundary_marker_chapter_end - AssertionError: assert 'unknown' == 'chapter_end'
+FAILED tests/test_enhanced_output_system.py::TestEnhancedOutputSystem::test_create_boundary_marker_chapter_middle - AssertionError: assert 'unknown' == 'chapter_middle'
+FAILED tests/test_incomplete_format_parser.py::TestIncompleteFormatParser::test_get_compatibility_info - KeyError: 'morphological'
+FAILED tests/test_incomplete_format_parser.py::TestIncompleteFormatParser::test_parse_sentence_streaming_file_not_found - src.exceptions.FileProcessingError: File not found: nonexistent.tsv
+FAILED tests/test_incomplete_format_parser.py::TestIncompleteFormatParser::test_parse_sentence_streaming_permission_error - src.exceptions.FileProcessingError: Permission denied: protected.tsv
+FAILED tests/test_multi_file_batch_processor.py::TestMultiFileBatchProcessor::test_process_files_success - assert False is True
+FAILED tests/test_multi_file_batch_processor.py::TestMultiFileBatchProcessor::test_process_files_without_cross_chapter_resolution - assert False is True
+FAILED tests/test_pronoun_extractor.py::TestPronounExtractor::test_extract_basic - TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+FAILED tests/test_pronoun_extractor.py::TestPronounExtractor::test_can_extract_with_tokens - TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+FAILED tests/test_pronoun_extractor.py::TestPronounExtractor::test_can_extract_empty_tokens - TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+FAILED tests/test_pronoun_extractor.py::TestPronounExtractor::test_extract_pronouns_mixed_tokens - TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+FAILED tests/test_pronoun_extractor.py::TestPronounExtractor::test_classify_pronoun_personal_masculine - TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+FAILED tests/test_pronoun_extractor.py::TestPronounExtractor::test_classify_pronoun_personal_feminine - TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+FAILED tests/test_pronoun_extractor.py::TestPronounExtractor::test_classify_pronoun_personal_neuter - TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+FAILED tests/test_pronoun_extractor.py::TestPronounExtractor::test_classify_pronoun_personal_plural - TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+FAILED tests/test_pronoun_extractor.py::TestPronounExtractor::test_classify_pronoun_d_pronoun - TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+FAILED tests/test_pronoun_extractor.py::TestPronounExtractor::test_classify_pronoun_demonstrative - TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+FAILED tests/test_pronoun_extractor.py::TestPronounExtractor::test_classify_pronoun_with_coreference_animate - TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+FAILED tests/test_pronoun_extractor.py::TestPronounExtractor::test_classify_pronoun_with_inanimate_coreference - TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+FAILED tests/test_pronoun_extractor.py::TestPronounExtractor::test_classify_pronoun_unknown - TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+FAILED tests/test_pronoun_extractor.py::TestPronounExtractor::test_is_critical_pronoun - AssertionError: assert False is True
+FAILED tests/test_verify_phase2.py::TestVerifyPhase2::test_test_imports_failure - assert True is False
+FAILED tests/test_versioning.py::TestDataVersionManager::test_create_metadata_with_csv_statistics - AssertionError: assert 'statistics' in {'file': 'C:\\Users\\Job\\AppData\\Local\\Temp\\tmpuvdovwv1\\output.csv', 'hash': None, 'size_bytes': None}
+======================================================================= 36 failed, 367 passed, 8 skipped, 15 warnings in 34.49s =======================================================================
+nox > Command pytest tests/ --cov=src --cov-report=term-missing --cov-report=html --cov-fail-under=25 -v failed with exit code 1
+nox > Session test-3.11 failed.
+PS C:\GitHub\clausemate> coverage report --show-missing
+Name                                                Stmts   Miss  Cover   Missing
+---------------------------------------------------------------------------------
+src\__init__.py                                         4      0   100%
+src\analyzers\__init__.py                               2      0   100%
+src\analyzers\base.py                                  12      0   100%
+src\benchmark.py                                       78     18    77%   14-15, 56-57, 93-112, 161-164
+src\config.py                                          45      0   100%
+src\data\__init__.py                                    2      0   100%
+src\data\models.py                                    197     29    85%   129, 131, 133, 135, 140, 145, 154, 278-281, 288-291, 296-302, 309-315, 370, 372, 376-377, 382, 409
+src\data\versioning.py                                 50      0   100%
+src\exceptions.py                                      13      2    85%   29, 31
+src\extractors\__init__.py                              2      0   100%
+src\extractors\base.py                                 13      0   100%
+src\extractors\coreference_extractor.py               101     40    60%   53-58, 76, 152-170, 198-201, 205-208, 222, 243-260, 278-283, 287, 291-297
+src\extractors\phrase_extractor.py                     80     31    61%   64, 134-141, 153-157, 178-180, 185-187, 193-195, 209, 225-237
+src\extractors\pronoun_extractor.py                    68     28    59%   68, 101-144
+src\extractors\relationship_extractor.py              158     60    62%   79, 105, 180-187, 199-208, 232-234, 238-249, 300-308, 330, 346, 349, 367, 374, 386, 405-429, 450-457, 468-473, 524-528
+src\main.py                                           201     38    81%   201-225, 267, 303-304, 382-384, 430-462
+src\multi_file\__init__.py                              5      0   100%
+src\multi_file\advanced_analysis_features.py          287     70    76%   166-169, 197-207, 462-466, 517-531, 543, 547-548, 555, 567-592, 611-626, 633-644, 649-654, 664-726
+src\multi_file\cross_file_coreference_resolver.py     123      1    99%   277
+src\multi_file\enhanced_output_system.py              158     12    92%   207-274, 540, 570-578
+src\multi_file\multi_file_batch_processor.py          194     10    95%   187, 328-352
+src\multi_file\unified_relationship_model.py           27      8    70%   40-41, 45, 49, 53, 58-71
+src\multi_file\unified_sentence_manager.py             53      0   100%
+src\parsers\__init__.py                                 3      0   100%
+src\parsers\adaptive_tsv_parser.py                    235     99    58%   79-105, 122, 132, 140-142, 147, 161-177, 203, 214-251, 291-317, 331, 350-355, 369-370, 382-387, 409-416, 438, 445, 449-451, 503-504, 523, 540, 562-566, 600, 608-611
+src\parsers\base.py                                     8      0   100%
+src\parsers\incomplete_format_parser.py               199     25    87%   56-57, 78, 90-94, 97-99, 234, 262, 278, 285, 291-294, 299, 324-327, 361, 370, 383, 388
+src\parsers\preamble_parser.py                        139      8    94%   132-133, 141, 151-152, 160, 259, 275
+src\parsers\tsv_parser.py                             160     49    69%   55-69, 105-108, 145-146, 159-160, 182, 186, 206, 214-216, 245, 252, 259, 268, 285-286, 306-323, 331-341, 356, 403-404
+src\pronoun_classifier.py                              17      0   100%
+src\run_phase2.py                                       5      0   100%
+src\utils.py                                          110     43    61%   9, 34-52, 68-74, 89-102, 141, 191-192, 206-212, 260-261
+src\utils\__init__.py                                  40     24    40%   25-156
+src\utils\env_loader.py                                23      0   100%
+src\utils\format_detector.py                          192     60    69%   90, 167-168, 173-175, 179-181, 200-201, 212-246, 288-290, 340, 342, 348, 365-403, 424-444
+src\verify_phase2.py                                  108      3    97%   30-32
+src\visualization\__init__.py                           2      0   100%
+src\visualization\interactive_visualizer.py           114    100    12%   95-316, 334-496, 516-774
+---------------------------------------------------------------------------------
+TOTAL                                                3228    758    77%
+PS C:\GitHub\clausemate>

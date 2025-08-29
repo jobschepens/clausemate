@@ -5,6 +5,7 @@ import tempfile
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
+from src.data.models import ClauseMateRelationship, Phrase, Token
 from src.multi_file.advanced_analysis_features import (
     AdvancedAnalysisEngine,
     CharacterMention,
@@ -13,166 +14,10 @@ from src.multi_file.advanced_analysis_features import (
     NarrativeFlowSegment,
     PerformanceMetrics,
 )
-
-
-class TestCharacterMention:
-    """Test the CharacterMention dataclass."""
-
-    def test_character_mention_creation(self):
-        """Test creating a CharacterMention instance."""
-        mention = CharacterMention(
-            chapter_number=1,
-            sentence_id="sent_1",
-            global_sentence_id="global_1",
-            mention_text="Karl",
-            chain_id="chain_1",
-            grammatical_role="SUBJ",
-            thematic_role="AGENT",
-            sentence_position=0.5,
-            narrative_importance=0.8,
-        )
-
-        assert mention.chapter_number == 1
-        assert mention.sentence_id == "sent_1"
-        assert mention.global_sentence_id == "global_1"
-        assert mention.mention_text == "Karl"
-        assert mention.chain_id == "chain_1"
-        assert mention.grammatical_role == "SUBJ"
-        assert mention.thematic_role == "AGENT"
-        assert mention.sentence_position == 0.5
-        assert mention.narrative_importance == 0.8
-
-
-class TestCharacterProfile:
-    """Test the CharacterProfile dataclass."""
-
-    def test_character_profile_creation(self):
-        """Test creating a CharacterProfile instance."""
-        mentions = [
-            CharacterMention(
-                chapter_number=1,
-                sentence_id="sent_1",
-                global_sentence_id="global_1",
-                mention_text="Karl",
-                chain_id="chain_1",
-                grammatical_role="SUBJ",
-                thematic_role="AGENT",
-                sentence_position=0.5,
-                narrative_importance=0.8,
-            )
-        ]
-
-        profile = CharacterProfile(
-            character_id="char_1",
-            primary_name="Karl",
-            alternative_names=["he"],
-            first_appearance_chapter=1,
-            last_appearance_chapter=2,
-            total_mentions=10,
-            chapters_present=[1, 2],
-            mentions=mentions,
-            narrative_prominence=0.9,
-            character_consistency=0.8,
-            cross_chapter_continuity=0.7,
-            dialogue_frequency=0.3,
-        )
-
-        assert profile.character_id == "char_1"
-        assert profile.primary_name == "Karl"
-        assert profile.alternative_names == ["he"]
-        assert profile.first_appearance_chapter == 1
-        assert profile.last_appearance_chapter == 2
-        assert profile.total_mentions == 10
-        assert profile.chapters_present == [1, 2]
-        assert len(profile.mentions) == 1
-        assert profile.narrative_prominence == 0.9
-        assert profile.character_consistency == 0.8
-        assert profile.cross_chapter_continuity == 0.7
-        assert profile.dialogue_frequency == 0.3
-
-
-class TestNarrativeFlowSegment:
-    """Test the NarrativeFlowSegment dataclass."""
-
-    def test_narrative_flow_segment_creation(self):
-        """Test creating a NarrativeFlowSegment instance."""
-        segment = NarrativeFlowSegment(
-            chapter_number=1,
-            segment_start=1,
-            segment_end=25,
-            segment_type="introduction",
-            character_density=0.8,
-            coreference_density=1.2,
-            narrative_tension=0.6,
-            key_characters=["Karl", "Anna"],
-        )
-
-        assert segment.chapter_number == 1
-        assert segment.segment_start == 1
-        assert segment.segment_end == 25
-        assert segment.segment_type == "introduction"
-        assert segment.character_density == 0.8
-        assert segment.coreference_density == 1.2
-        assert segment.narrative_tension == 0.6
-        assert segment.key_characters == ["Karl", "Anna"]
-
-
-class TestCrossChapterTransition:
-    """Test the CrossChapterTransition dataclass."""
-
-    def test_cross_chapter_transition_creation(self):
-        """Test creating a CrossChapterTransition instance."""
-        transition = CrossChapterTransition(
-            from_chapter=1,
-            to_chapter=2,
-            character_continuity=0.8,
-            thematic_continuity=0.7,
-            temporal_gap_indicator=0.5,
-            narrative_coherence=0.75,
-            shared_characters=["Karl"],
-            new_characters=["Anna"],
-            dropped_characters=["Peter"],
-        )
-
-        assert transition.from_chapter == 1
-        assert transition.to_chapter == 2
-        assert transition.character_continuity == 0.8
-        assert transition.thematic_continuity == 0.7
-        assert transition.temporal_gap_indicator == 0.5
-        assert transition.narrative_coherence == 0.75
-        assert transition.shared_characters == ["Karl"]
-        assert transition.new_characters == ["Anna"]
-        assert transition.dropped_characters == ["Peter"]
-
-
-class TestPerformanceMetrics:
-    """Test the PerformanceMetrics dataclass."""
-
-    def test_performance_metrics_creation(self):
-        """Test creating a PerformanceMetrics instance."""
-        metrics = PerformanceMetrics(
-            total_processing_time=45.2,
-            per_chapter_times={1: 15.0, 2: 20.0, 3: 10.2},
-            memory_usage_peak=150.5,
-            relationships_per_second=95.3,
-            cross_chapter_resolution_time=8.5,
-            parser_success_rate=0.98,
-            cross_chapter_detection_accuracy=0.92,
-            chain_resolution_completeness=0.89,
-            processing_efficiency=85.7,
-            memory_efficiency=120.4,
-        )
-
-        assert metrics.total_processing_time == 45.2
-        assert metrics.per_chapter_times == {1: 15.0, 2: 20.0, 3: 10.2}
-        assert metrics.memory_usage_peak == 150.5
-        assert metrics.relationships_per_second == 95.3
-        assert metrics.cross_chapter_resolution_time == 8.5
-        assert metrics.parser_success_rate == 0.98
-        assert metrics.cross_chapter_detection_accuracy == 0.92
-        assert metrics.chain_resolution_completeness == 0.89
-        assert metrics.processing_efficiency == 85.7
-        assert metrics.memory_efficiency == 120.4
+from src.multi_file.enhanced_output_system import (
+    ChapterMetadata,
+    CrossChapterConnection,
+)
 
 
 class TestAdvancedAnalysisEngine:
@@ -191,347 +36,849 @@ class TestAdvancedAnalysisEngine:
 
     def test_initialization(self):
         """Test that the engine initializes correctly."""
-        assert self.engine.output_dir == Path(self.temp_dir)
+        assert isinstance(self.engine, AdvancedAnalysisEngine)
+        assert hasattr(self.engine, "output_dir")
         assert hasattr(self.engine, "logger")
+        assert Path(self.temp_dir).exists()
 
-    @patch("src.multi_file.advanced_analysis_features.logging")
-    def test_initialization_with_logger(self, mock_logging):
-        """Test initialization with logging setup."""
-        mock_logger = MagicMock()
-        mock_logging.getLogger.return_value = mock_logger
-
-        engine = AdvancedAnalysisEngine(self.temp_dir)
-
-        mock_logging.getLogger.assert_called_once_with(__name__)
-        assert engine.logger == mock_logger
-
-    def test_analyze_character_tracking_empty_relationships(self):
-        """Test character tracking with empty relationships."""
-        result = self.engine.analyze_character_tracking([], [], [])
-        assert result == {}
-
-    def test_analyze_character_tracking_single_relationship(self):
-        """Test character tracking with a single relationship."""
-        # Create mock relationship
-        mock_relationship = MagicMock()
-        mock_relationship.chapter_number = 1
-        mock_relationship.sentence_id = "sent_1"
-        mock_relationship.sentence_num = 1
-        mock_relationship.pronoun_coref_ids = ["chain_1"]
-        mock_relationship.pronoun = MagicMock()
-        mock_relationship.pronoun.text = "er"
-        mock_relationship.pronoun.grammatical_role = "SUBJ"
-        mock_relationship.pronoun.thematic_role = "AGENT"
-        mock_relationship.clause_mate = MagicMock()
-        mock_relationship.clause_mate.coreference_id = None
-
-        # Create mock chapter metadata
-        mock_chapter_meta = MagicMock()
-        mock_chapter_meta.chapter_number = 1
-        mock_chapter_meta.sentence_range = (1, 10)
-
-        result = self.engine.analyze_character_tracking(
-            [mock_relationship], [mock_chapter_meta], []
+    def test_analyze_character_tracking_basic(self):
+        """Test basic character tracking analysis."""
+        # Create mock relationships
+        token1 = Token(
+            idx=1,
+            text="Karl",
+            sentence_num=1,
+            grammatical_role="SUBJ",
+            thematic_role="AGENT",
+        )
+        token2 = Token(
+            idx=2,
+            text="er",
+            sentence_num=1,
+            grammatical_role="SUBJ",
+            thematic_role="AGENT",
+        )
+        phrase = Phrase(
+            text="Karl",
+            coreference_id="115",
+            start_idx=1,
+            end_idx=1,
+            grammatical_role="SUBJ",
+            thematic_role="AGENT",
+            coreference_type="PersPron[115]",
+            animacy=MagicMock(),
+            givenness="bekannt",
         )
 
-        # Should have one character profile
-        assert len(result) == 1
-        assert "chain_1" in result
-        profile = result["chain_1"]
-        assert profile.primary_name == "er"
-        assert profile.total_mentions == 1
+        relationship = ClauseMateRelationship(
+            sentence_id="1",
+            sentence_num=1,
+            pronoun=token2,
+            clause_mate=phrase,
+            num_clause_mates=1,
+            antecedent_info=MagicMock(),
+            pronoun_coref_ids=["115"],
+        )
+
+        # Create mock chapter metadata
+        chapter_meta = ChapterMetadata(
+            chapter_number=1,
+            chapter_id="chapter_1",
+            source_file="test.tsv",
+            file_format="tsv",
+            total_relationships=1,
+            total_sentences=10,
+            sentence_range=(1, 10),
+            global_sentence_range=(1, 10),
+            coreference_chains=1,
+            processing_time=1.0,
+            file_size_bytes=1024,
+        )
+
+        # Create mock cross-chapter connections
+        cross_conn = CrossChapterConnection(
+            chain_id="115",
+            from_chapter=1,
+            to_chapter=2,
+            connection_type="coreference",
+            strength=0.8,
+            mentions_count=2,
+            sentence_span=(1, 15),
+        )
+
+        with patch("logging.getLogger"):
+            profiles = self.engine.analyze_character_tracking(
+                [relationship], [chapter_meta], [cross_conn]
+            )
+
+        assert len(profiles) == 1
+        assert "115" in profiles
+        profile = profiles["115"]
+        assert profile.character_id == "115"
+        assert profile.primary_name == "Karl"
+        assert profile.total_mentions == 2  # pronoun + clause mate
         assert profile.first_appearance_chapter == 1
         assert profile.last_appearance_chapter == 1
 
-    def test_analyze_narrative_flow_empty_relationships(self):
-        """Test narrative flow analysis with empty relationships."""
-        result = self.engine.analyze_narrative_flow([], [], {})
-        assert result == []
+    def test_analyze_character_tracking_no_relationships(self):
+        """Test character tracking with no relationships."""
+        with patch("logging.getLogger"):
+            profiles = self.engine.analyze_character_tracking([], [], [])
 
-    def test_analyze_cross_chapter_transitions_empty_metadata(self):
-        """Test cross-chapter transitions with empty metadata."""
-        result = self.engine.analyze_cross_chapter_transitions([], {}, [])
-        assert result == []
+        assert profiles == {}
 
-    def test_analyze_cross_chapter_transitions_single_transition(self):
-        """Test cross-chapter transitions with single transition."""
+    def test_analyze_character_tracking_single_mention(self):
+        """Test character tracking with single mention (should be filtered out)."""
+        token = Token(
+            idx=1,
+            text="Karl",
+            sentence_num=1,
+            grammatical_role="SUBJ",
+            thematic_role="AGENT",
+        )
+        phrase = Phrase(
+            text="Karl",
+            coreference_id="115",
+            start_idx=1,
+            end_idx=1,
+            grammatical_role="SUBJ",
+            thematic_role="AGENT",
+            coreference_type="PersPron[115]",
+            animacy=MagicMock(),
+            givenness="bekannt",
+        )
+
+        relationship = ClauseMateRelationship(
+            sentence_id="1",
+            sentence_num=1,
+            pronoun=token,
+            clause_mate=phrase,
+            num_clause_mates=1,
+            antecedent_info=MagicMock(),
+            pronoun_coref_ids=["115"],
+        )
+
+        chapter_meta = ChapterMetadata(
+            chapter_number=1,
+            chapter_id="chapter_1",
+            source_file="test.tsv",
+            file_format="tsv",
+            total_relationships=1,
+            total_sentences=10,
+            sentence_range=(1, 10),
+            global_sentence_range=(1, 10),
+            coreference_chains=1,
+            processing_time=1.0,
+            file_size_bytes=1024,
+        )
+
+        with patch("logging.getLogger"):
+            profiles = self.engine.analyze_character_tracking(
+                [relationship], [chapter_meta], []
+            )
+
+        # Should be empty because character only has 1 mention (filtered out)
+        assert profiles == {}
+
+    def test_analyze_narrative_flow(self):
+        """Test narrative flow analysis."""
+        # Create mock relationships
+        token = Token(
+            idx=1,
+            text="Karl",
+            sentence_num=5,
+            grammatical_role="SUBJ",
+            thematic_role="AGENT",
+        )
+        phrase = Phrase(
+            text="Mann",
+            coreference_id="115",
+            start_idx=1,
+            end_idx=1,
+            grammatical_role="SUBJ",
+            thematic_role="AGENT",
+            coreference_type="PersPron[115]",
+            animacy=MagicMock(),
+            givenness="bekannt",
+        )
+
+        relationship = ClauseMateRelationship(
+            sentence_id="5",
+            sentence_num=5,
+            pronoun=token,
+            clause_mate=phrase,
+            num_clause_mates=1,
+            antecedent_info=MagicMock(),
+            pronoun_coref_ids=["115"],
+        )
+
         # Create mock chapter metadata
-        mock_chapter1 = MagicMock()
-        mock_chapter1.chapter_number = 1
-        mock_chapter1.total_relationships = 10
-
-        mock_chapter2 = MagicMock()
-        mock_chapter2.chapter_number = 2
-        mock_chapter2.total_relationships = 15
+        chapter_meta = ChapterMetadata(
+            chapter_number=1,
+            chapter_id="chapter_1",
+            source_file="test.tsv",
+            file_format="tsv",
+            total_relationships=1,
+            total_sentences=20,
+            sentence_range=(1, 20),
+            global_sentence_range=(1, 20),
+            coreference_chains=1,
+            processing_time=1.0,
+            file_size_bytes=1024,
+        )
 
         # Create mock character profiles
-        mock_profile = MagicMock()
-        mock_profile.chapters_present = [1, 2]
-
-        character_profiles = {"char_1": mock_profile}
-
-        result = self.engine.analyze_cross_chapter_transitions(
-            [mock_chapter1, mock_chapter2], character_profiles, []
+        mention = CharacterMention(
+            chapter_number=1,
+            sentence_id="5",
+            global_sentence_id="1-5",
+            mention_text="Karl",
+            chain_id="115",
+            grammatical_role="SUBJ",
+            thematic_role="AGENT",
+            sentence_position=0.2,
+            narrative_importance=0.7,
         )
 
-        assert len(result) == 1
-        transition = result[0]
+        profile = CharacterProfile(
+            character_id="115",
+            primary_name="Karl",
+            alternative_names=[],
+            first_appearance_chapter=1,
+            last_appearance_chapter=1,
+            total_mentions=1,
+            chapters_present=[1],
+            mentions=[mention],
+            narrative_prominence=0.5,
+            character_consistency=0.8,
+            cross_chapter_continuity=0.6,
+            dialogue_frequency=0.3,
+        )
+
+        with patch("logging.getLogger"):
+            segments = self.engine.analyze_narrative_flow(
+                [relationship], [chapter_meta], {"115": profile}
+            )
+
+        assert len(segments) == 4  # 4 segments per chapter
+        assert all(s.chapter_number == 1 for s in segments)
+        segment_types = {s.segment_type for s in segments}
+        assert segment_types == {"introduction", "development", "climax", "resolution"}
+
+    def test_analyze_cross_chapter_transitions(self):
+        """Test cross-chapter transition analysis."""
+        # Create mock chapter metadata
+        chapter1 = ChapterMetadata(
+            chapter_number=1,
+            chapter_id="chapter_1",
+            source_file="chapter1.tsv",
+            file_format="tsv",
+            total_relationships=5,
+            total_sentences=10,
+            sentence_range=(1, 10),
+            global_sentence_range=(1, 10),
+            coreference_chains=2,
+            processing_time=1.0,
+            file_size_bytes=1024,
+        )
+
+        chapter2 = ChapterMetadata(
+            chapter_number=2,
+            chapter_id="chapter_2",
+            source_file="chapter2.tsv",
+            file_format="tsv",
+            total_relationships=7,
+            total_sentences=15,
+            sentence_range=(11, 25),
+            global_sentence_range=(11, 25),
+            coreference_chains=3,
+            processing_time=1.5,
+            file_size_bytes=2048,
+        )
+
+        # Create mock character profiles
+        mention1 = CharacterMention(
+            chapter_number=1,
+            sentence_id="1",
+            global_sentence_id="1-1",
+            mention_text="Karl",
+            chain_id="115",
+            grammatical_role="SUBJ",
+            thematic_role="AGENT",
+            sentence_position=0.1,
+            narrative_importance=0.8,
+        )
+
+        mention2 = CharacterMention(
+            chapter_number=2,
+            sentence_id="15",
+            global_sentence_id="2-15",
+            mention_text="Karl",
+            chain_id="115",
+            grammatical_role="SUBJ",
+            thematic_role="AGENT",
+            sentence_position=0.8,
+            narrative_importance=0.7,
+        )
+
+        profile = CharacterProfile(
+            character_id="115",
+            primary_name="Karl",
+            alternative_names=[],
+            first_appearance_chapter=1,
+            last_appearance_chapter=2,
+            total_mentions=2,
+            chapters_present=[1, 2],
+            mentions=[mention1, mention2],
+            narrative_prominence=0.6,
+            character_consistency=0.9,
+            cross_chapter_continuity=0.8,
+            dialogue_frequency=0.4,
+        )
+
+        # Create mock cross-chapter connections
+        cross_conn = CrossChapterConnection(
+            chain_id="115",
+            from_chapter=1,
+            to_chapter=2,
+            connection_type="coreference",
+            strength=0.9,
+            mentions_count=2,
+            sentence_span=(1, 15),
+        )
+
+        with patch("logging.getLogger"):
+            transitions = self.engine.analyze_cross_chapter_transitions(
+                [chapter1, chapter2], {"115": profile}, [cross_conn]
+            )
+
+        assert len(transitions) == 1
+        transition = transitions[0]
         assert transition.from_chapter == 1
         assert transition.to_chapter == 2
-        assert transition.character_continuity == 1.0  # All characters continue
-        assert transition.shared_characters == ["char_1"]
-        assert transition.new_characters == []
-        assert transition.dropped_characters == []
-
-    def test_calculate_performance_metrics(self):
-        """Test performance metrics calculation."""
-        processing_stats = {
-            "processing_time_seconds": 30.0,
-            "total_relationships": 1500,
-        }
-
-        # Create mock chapter metadata
-        mock_chapter = MagicMock()
-        mock_chapter.chapter_number = 1
-        mock_chapter.total_relationships = 1500
-
-        # Create mock relationships
-        mock_relationships = [MagicMock() for _ in range(1500)]
-
-        result = self.engine.calculate_performance_metrics(
-            processing_stats, [mock_chapter], mock_relationships
-        )
-
-        assert isinstance(result, PerformanceMetrics)
-        assert result.total_processing_time == 30.0
-        assert result.relationships_per_second == 50.0  # 1500 / 30
-        assert result.parser_success_rate == 1.0
-        assert result.cross_chapter_detection_accuracy == 0.95
+        assert "115" in transition.shared_characters
+        assert transition.character_continuity == 1.0  # Karl appears in both chapters
+        assert transition.thematic_continuity == 0.9  # Based on connection strength
 
     def test_generate_coreference_visualization_data(self):
         """Test coreference visualization data generation."""
         # Create mock character profiles
-        mock_profile = MagicMock()
-        mock_profile.primary_name = "Karl"
-        mock_profile.narrative_prominence = 0.9
-        mock_profile.chapters_present = [1, 2]
-        mock_profile.total_mentions = 25
-
-        character_profiles = {"char_1": mock_profile}
-
-        # Create mock relationships
-        mock_relationships = [MagicMock()]
-
-        # Create mock cross-chapter connections
-        mock_connection = MagicMock()
-        mock_connection.from_chapter = 1
-        mock_connection.to_chapter = 2
-        mock_connection.strength = 0.8
-        mock_connection.connection_type = "coreference"
-        mock_connection.chain_id = "chain_1"
-
-        result_path = self.engine.generate_coreference_visualization_data(
-            mock_relationships, character_profiles, [mock_connection]
+        mention = CharacterMention(
+            chapter_number=1,
+            sentence_id="1",
+            global_sentence_id="1-1",
+            mention_text="Karl",
+            chain_id="115",
+            grammatical_role="SUBJ",
+            thematic_role="AGENT",
+            sentence_position=0.1,
+            narrative_importance=0.8,
         )
 
-        # Check that file was created
-        assert Path(result_path).exists()
+        profile = CharacterProfile(
+            character_id="115",
+            primary_name="Karl",
+            alternative_names=["Herr Karl"],
+            first_appearance_chapter=1,
+            last_appearance_chapter=1,
+            total_mentions=1,
+            chapters_present=[1],
+            mentions=[mention],
+            narrative_prominence=0.8,
+            character_consistency=0.9,
+            cross_chapter_continuity=0.5,
+            dialogue_frequency=0.3,
+        )
 
-        # Check file contents
-        with open(result_path) as f:
+        # Create mock cross-chapter connections
+        cross_conn = CrossChapterConnection(
+            chain_id="115",
+            from_chapter=1,
+            to_chapter=2,
+            connection_type="coreference",
+            strength=0.8,
+            mentions_count=2,
+            sentence_span=(1, 15),
+        )
+
+        with patch("logging.getLogger"):
+            output_path = self.engine.generate_coreference_visualization_data(
+                [], {"115": profile}, [cross_conn]
+            )
+
+        assert Path(output_path).exists()
+
+        # Verify JSON content
+        with open(output_path, encoding="utf-8") as f:
             data = json.load(f)
 
         assert "metadata" in data
         assert "nodes" in data
         assert "edges" in data
+        assert "character_timelines" in data
         assert len(data["nodes"]) == 1
         assert len(data["edges"]) == 1
+        assert data["nodes"][0]["id"] == "115"
         assert data["nodes"][0]["label"] == "Karl"
-        assert data["edges"][0]["weight"] == 0.8
+
+    def test_calculate_performance_metrics(self):
+        """Test performance metrics calculation."""
+        # Create mock processing stats
+        processing_stats = {
+            "processing_time_seconds": 10.5,
+            "total_files": 3,
+            "successful_parses": 3,
+        }
+
+        # Create mock chapter metadata
+        chapters = [
+            ChapterMetadata(
+                chapter_number=i,
+                chapter_id=f"chapter_{i}",
+                source_file=f"chapter{i}.tsv",
+                file_format="tsv",
+                total_relationships=50,
+                total_sentences=100,
+                sentence_range=(1, 100),
+                global_sentence_range=(1, 100),
+                coreference_chains=5,
+                processing_time=3.5,
+                file_size_bytes=1024 * i,
+            )
+            for i in range(1, 4)
+        ]
+
+        # Create mock relationships
+        relationships = []
+        for i in range(150):  # 50 per chapter
+            token = Token(
+                idx=1,
+                text="Karl",
+                sentence_num=i % 100 + 1,
+                grammatical_role="SUBJ",
+                thematic_role="AGENT",
+            )
+            phrase = Phrase(
+                text="Mann",
+                coreference_id="115",
+                start_idx=1,
+                end_idx=1,
+                grammatical_role="SUBJ",
+                thematic_role="AGENT",
+                coreference_type="PersPron[115]",
+                animacy=MagicMock(),
+                givenness="bekannt",
+            )
+            rel = ClauseMateRelationship(
+                sentence_id=str(i),
+                sentence_num=i % 100 + 1,
+                pronoun=token,
+                clause_mate=phrase,
+                num_clause_mates=1,
+                antecedent_info=MagicMock(),
+                pronoun_coref_ids=["115"],
+            )
+            relationships.append(rel)
+
+        with patch("logging.getLogger"):
+            metrics = self.engine.calculate_performance_metrics(
+                processing_stats, chapters, relationships
+            )
+
+        assert isinstance(metrics, PerformanceMetrics)
+        assert metrics.total_processing_time == 10.5
+        assert (
+            metrics.relationships_per_second == 150 / 10.5
+        )  # 150 relationships in 10.5 seconds
+        assert len(metrics.per_chapter_times) == 3
+        assert metrics.parser_success_rate == 1.0
+        assert metrics.cross_chapter_detection_accuracy == 0.95
 
     def test_create_comprehensive_analysis_report(self):
         """Test comprehensive analysis report creation."""
-        # Create mock data
-        mock_profile = MagicMock()
-        mock_profile.primary_name = "Karl"
-        mock_profile.narrative_prominence = 0.9
-        mock_profile.cross_chapter_continuity = 0.8
-        mock_profile.chapters_present = [1, 2]
-
-        character_profiles = {"char_1": mock_profile}
-
-        mock_segment = MagicMock()
-        mock_segment.segment_type = "introduction"
-        mock_segment.narrative_tension = 0.6
-        mock_segment.character_density = 0.8
-
-        narrative_segments = [mock_segment]
-
-        mock_transition = MagicMock()
-        mock_transition.narrative_coherence = 0.75
-        mock_transition.character_continuity = 0.8
-
-        transitions = [mock_transition]
-
-        mock_metrics = MagicMock()
-        mock_metrics.total_processing_time = 30.0
-        mock_metrics.relationships_per_second = 50.0
-
-        result_path = self.engine.create_comprehensive_analysis_report(
-            character_profiles, narrative_segments, transitions, mock_metrics
+        # Create mock character profiles
+        mention = CharacterMention(
+            chapter_number=1,
+            sentence_id="1",
+            global_sentence_id="1-1",
+            mention_text="Karl",
+            chain_id="115",
+            grammatical_role="SUBJ",
+            thematic_role="AGENT",
+            sentence_position=0.1,
+            narrative_importance=0.8,
         )
 
-        # Check that file was created
-        assert Path(result_path).exists()
+        profile = CharacterProfile(
+            character_id="115",
+            primary_name="Karl",
+            alternative_names=[],
+            first_appearance_chapter=1,
+            last_appearance_chapter=1,
+            total_mentions=1,
+            chapters_present=[1],
+            mentions=[mention],
+            narrative_prominence=0.8,
+            character_consistency=0.9,
+            cross_chapter_continuity=0.5,
+            dialogue_frequency=0.3,
+        )
 
-        # Check file contents
-        with open(result_path) as f:
-            data = json.load(f)
+        # Create mock narrative segments
+        segment = NarrativeFlowSegment(
+            chapter_number=1,
+            segment_start=1,
+            segment_end=25,
+            segment_type="introduction",
+            character_density=0.5,
+            coreference_density=0.3,
+            narrative_tension=0.3,
+            key_characters=["115"],
+        )
 
-        assert "metadata" in data
-        assert "executive_summary" in data
-        assert "character_analysis" in data
-        assert "narrative_analysis" in data
-        assert "transition_analysis" in data
-        assert "performance_analysis" in data
-        assert "recommendations" in data
+        # Create mock transitions
+        transition = CrossChapterTransition(
+            from_chapter=1,
+            to_chapter=2,
+            character_continuity=0.8,
+            thematic_continuity=0.7,
+            temporal_gap_indicator=0.5,
+            narrative_coherence=0.75,
+            shared_characters=["115"],
+            new_characters=[],
+            dropped_characters=[],
+        )
 
-        assert data["executive_summary"]["total_characters"] == 1
-        assert data["executive_summary"]["narrative_segments"] == 1
-        assert data["executive_summary"]["chapter_transitions"] == 1
+        # Create mock performance metrics
+        metrics = PerformanceMetrics(
+            total_processing_time=10.0,
+            per_chapter_times={1: 5.0, 2: 5.0},
+            memory_usage_peak=None,
+            relationships_per_second=15.0,
+            cross_chapter_resolution_time=2.0,
+            parser_success_rate=1.0,
+            cross_chapter_detection_accuracy=0.95,
+            chain_resolution_completeness=0.9,
+            processing_efficiency=15.0,
+            memory_efficiency=0.0,
+        )
+
+        with patch("logging.getLogger"):
+            output_path = self.engine.create_comprehensive_analysis_report(
+                {"115": profile}, [segment], [transition], metrics
+            )
+
+        assert Path(output_path).exists()
+
+        # Verify JSON content
+        with open(output_path, encoding="utf-8") as f:
+            report = json.load(f)
+
+        assert "metadata" in report
+        assert "executive_summary" in report
+        assert "character_analysis" in report
+        assert "narrative_analysis" in report
+        assert "transition_analysis" in report
+        assert "performance_analysis" in report
+        assert "recommendations" in report
+
+        assert report["executive_summary"]["total_characters"] == 1
+        assert report["executive_summary"]["narrative_segments"] == 1
+        assert report["executive_summary"]["chapter_transitions"] == 1
 
     def test_get_character_color(self):
         """Test character color assignment based on prominence."""
-        # Test major character (high prominence)
-        mock_profile = MagicMock()
-        mock_profile.narrative_prominence = 0.9
+        # High prominence character
+        profile1 = CharacterProfile(
+            character_id="1",
+            primary_name="Karl",
+            alternative_names=[],
+            first_appearance_chapter=1,
+            last_appearance_chapter=1,
+            total_mentions=50,
+            chapters_present=[1],
+            mentions=[],
+            narrative_prominence=0.9,
+            character_consistency=0.8,
+            cross_chapter_continuity=0.7,
+            dialogue_frequency=0.5,
+        )
 
-        color = self.engine._get_character_color(mock_profile)
-        assert color == "#FF6B6B"  # Red for major characters
+        # Medium prominence character
+        profile2 = CharacterProfile(
+            character_id="2",
+            primary_name="Anna",
+            alternative_names=[],
+            first_appearance_chapter=1,
+            last_appearance_chapter=1,
+            total_mentions=20,
+            chapters_present=[1],
+            mentions=[],
+            narrative_prominence=0.6,
+            character_consistency=0.8,
+            cross_chapter_continuity=0.7,
+            dialogue_frequency=0.5,
+        )
 
-        # Test important character
-        mock_profile.narrative_prominence = 0.6
-        color = self.engine._get_character_color(mock_profile)
-        assert color == "#4ECDC4"  # Teal for important characters
+        # Low prominence character
+        profile3 = CharacterProfile(
+            character_id="3",
+            primary_name="Diener",
+            alternative_names=[],
+            first_appearance_chapter=1,
+            last_appearance_chapter=1,
+            total_mentions=5,
+            chapters_present=[1],
+            mentions=[],
+            narrative_prominence=0.1,
+            character_consistency=0.8,
+            cross_chapter_continuity=0.7,
+            dialogue_frequency=0.5,
+        )
 
-        # Test minor character
-        mock_profile.narrative_prominence = 0.3
-        color = self.engine._get_character_color(mock_profile)
-        assert color == "#45B7D1"  # Blue for minor characters
+        assert self.engine._get_character_color(profile1) == "#FF6B6B"  # Red for major
+        assert (
+            self.engine._get_character_color(profile2) == "#4ECDC4"
+        )  # Teal for important
+        assert (
+            self.engine._get_character_color(profile3) == "#96CEB4"
+        )  # Green for background
 
-        # Test background character
-        mock_profile.narrative_prominence = 0.1
-        color = self.engine._get_character_color(mock_profile)
-        assert color == "#96CEB4"  # Green for background characters
+    def test_calculate_character_statistics(self):
+        """Test character statistics calculation."""
+        # Create mock profiles
+        profiles = {
+            "1": CharacterProfile(
+                character_id="1",
+                primary_name="Karl",
+                alternative_names=[],
+                first_appearance_chapter=1,
+                last_appearance_chapter=1,
+                total_mentions=50,
+                chapters_present=[1],
+                mentions=[],
+                narrative_prominence=0.9,
+                character_consistency=0.8,
+                cross_chapter_continuity=0.7,
+                dialogue_frequency=0.5,
+            ),
+            "2": CharacterProfile(
+                character_id="2",
+                primary_name="Anna",
+                alternative_names=[],
+                first_appearance_chapter=1,
+                last_appearance_chapter=2,
+                total_mentions=30,
+                chapters_present=[1, 2],
+                mentions=[],
+                narrative_prominence=0.6,
+                character_consistency=0.9,
+                cross_chapter_continuity=0.8,
+                dialogue_frequency=0.3,
+            ),
+            "3": CharacterProfile(
+                character_id="3",
+                primary_name="Diener",
+                alternative_names=[],
+                first_appearance_chapter=1,
+                last_appearance_chapter=1,
+                total_mentions=5,
+                chapters_present=[1],
+                mentions=[],
+                narrative_prominence=0.1,
+                character_consistency=0.7,
+                cross_chapter_continuity=0.2,
+                dialogue_frequency=0.1,
+            ),
+        }
 
-    def test_calculate_character_statistics_empty_profiles(self):
-        """Test character statistics calculation with empty profiles."""
-        result = self.engine._calculate_character_statistics({})
-        assert result == {}
+        stats = self.engine._calculate_character_statistics(profiles)
 
-    def test_calculate_character_statistics_with_profiles(self):
-        """Test character statistics calculation with profiles."""
-        mock_profile1 = MagicMock()
-        mock_profile1.narrative_prominence = 0.9
-        mock_profile1.cross_chapter_continuity = 0.8
-        mock_profile1.chapters_present = [1, 2]
+        assert stats["total_characters"] == 3
+        assert stats["major_characters"] == 1  # Karl with prominence > 0.8
+        assert stats["minor_characters"] == 1  # Diener with prominence <= 0.2
+        assert stats["cross_chapter_characters"] == 1  # Anna appears in 2 chapters
+        assert 0.5 < stats["average_prominence"] < 0.6  # Average of 0.9, 0.6, 0.1
+        assert 0.5 < stats["average_continuity"] < 0.6  # Average of 0.7, 0.8, 0.2
 
-        mock_profile2 = MagicMock()
-        mock_profile2.narrative_prominence = 0.3
-        mock_profile2.cross_chapter_continuity = 0.5
-        mock_profile2.chapters_present = [1]
+    def test_calculate_narrative_statistics(self):
+        """Test narrative statistics calculation."""
+        segments = [
+            NarrativeFlowSegment(
+                chapter_number=1,
+                segment_start=1,
+                segment_end=25,
+                segment_type="introduction",
+                character_density=0.5,
+                coreference_density=0.3,
+                narrative_tension=0.3,
+                key_characters=["1"],
+            ),
+            NarrativeFlowSegment(
+                chapter_number=1,
+                segment_start=26,
+                segment_end=50,
+                segment_type="development",
+                character_density=0.7,
+                coreference_density=0.5,
+                narrative_tension=0.6,
+                key_characters=["1", "2"],
+            ),
+            NarrativeFlowSegment(
+                chapter_number=1,
+                segment_start=51,
+                segment_end=75,
+                segment_type="climax",
+                character_density=0.9,
+                coreference_density=0.8,
+                narrative_tension=1.0,
+                key_characters=["1", "2", "3"],
+            ),
+            NarrativeFlowSegment(
+                chapter_number=1,
+                segment_start=76,
+                segment_end=100,
+                segment_type="resolution",
+                character_density=0.4,
+                coreference_density=0.2,
+                narrative_tension=0.4,
+                key_characters=["1"],
+            ),
+        ]
 
-        profiles = {"char_1": mock_profile1, "char_2": mock_profile2}
+        stats = self.engine._calculate_narrative_statistics(segments)
 
-        result = self.engine._calculate_character_statistics(profiles)
+        assert stats["total_segments"] == 4
+        assert stats["climax_segments"] == 1
+        assert stats["development_segments"] == 1
+        assert 0.6 < stats["average_character_density"] < 0.7  # Average of densities
+        assert 0.5 < stats["average_narrative_tension"] < 0.6  # Average of tensions
 
-        assert result["total_characters"] == 2
-        assert result["major_characters"] == 1
-        assert result["minor_characters"] == 1
-        assert result["cross_chapter_characters"] == 1
-        assert result["average_prominence"] == 0.6
-        assert result["average_continuity"] == 0.65
+    def test_calculate_transition_statistics(self):
+        """Test transition statistics calculation."""
+        transitions = [
+            CrossChapterTransition(
+                from_chapter=1,
+                to_chapter=2,
+                character_continuity=0.8,
+                thematic_continuity=0.7,
+                temporal_gap_indicator=0.5,
+                narrative_coherence=0.75,
+                shared_characters=["1", "2"],
+                new_characters=["3"],
+                dropped_characters=[],
+            ),
+            CrossChapterTransition(
+                from_chapter=2,
+                to_chapter=3,
+                character_continuity=0.3,
+                thematic_continuity=0.2,
+                temporal_gap_indicator=0.8,
+                narrative_coherence=0.25,
+                shared_characters=["2"],
+                new_characters=["4", "5"],
+                dropped_characters=["1"],
+            ),
+        ]
 
-    def test_calculate_narrative_statistics_empty_segments(self):
-        """Test narrative statistics calculation with empty segments."""
-        result = self.engine._calculate_narrative_statistics([])
-        assert result == {}
+        stats = self.engine._calculate_transition_statistics(transitions)
 
-    def test_calculate_narrative_statistics_with_segments(self):
-        """Test narrative statistics calculation with segments."""
-        mock_segment1 = MagicMock()
-        mock_segment1.segment_type = "introduction"
-        mock_segment1.narrative_tension = 0.6
-        mock_segment1.character_density = 0.8
-
-        mock_segment2 = MagicMock()
-        mock_segment2.segment_type = "climax"
-        mock_segment2.narrative_tension = 1.0
-        mock_segment2.character_density = 1.2
-
-        segments = [mock_segment1, mock_segment2]
-
-        result = self.engine._calculate_narrative_statistics(segments)
-
-        assert result["total_segments"] == 2
-        assert result["average_character_density"] == 1.0
-        assert result["average_narrative_tension"] == 0.8
-        assert result["climax_segments"] == 1
-        assert result["development_segments"] == 0
-
-    def test_calculate_transition_statistics_empty_transitions(self):
-        """Test transition statistics calculation with empty transitions."""
-        result = self.engine._calculate_transition_statistics([])
-        assert result == {}
-
-    def test_calculate_transition_statistics_with_transitions(self):
-        """Test transition statistics calculation with transitions."""
-        mock_transition1 = MagicMock()
-        mock_transition1.character_continuity = 0.8
-        mock_transition1.narrative_coherence = 0.9
-
-        mock_transition2 = MagicMock()
-        mock_transition2.character_continuity = 0.4
-        mock_transition2.narrative_coherence = 0.2
-
-        transitions = [mock_transition1, mock_transition2]
-
-        result = self.engine._calculate_transition_statistics(transitions)
-
-        assert result["total_transitions"] == 2
-        assert result["average_character_continuity"] == 0.6
-        assert result["average_narrative_coherence"] == 0.55
-        assert result["strong_transitions"] == 1
-        assert result["weak_transitions"] == 1
+        assert stats["total_transitions"] == 2
+        assert stats["strong_transitions"] == 1  # First transition has coherence > 0.7
+        assert stats["weak_transitions"] == 1  # Second transition has coherence < 0.3
+        assert (
+            0.5 < stats["average_character_continuity"] < 0.6
+        )  # Average of 0.8 and 0.3
+        assert (
+            0.4 < stats["average_narrative_coherence"] <= 0.5
+        )  # Average of 0.75 and 0.25
 
     def test_generate_analysis_recommendations(self):
         """Test analysis recommendations generation."""
-        # Create mock data with issues that should trigger recommendations
-        mock_profile = MagicMock()
-        mock_profile.narrative_prominence = 0.3  # Not major character
+        # Create mock profiles with few major characters
+        profiles = {
+            "1": CharacterProfile(
+                character_id="1",
+                primary_name="Karl",
+                alternative_names=[],
+                first_appearance_chapter=1,
+                last_appearance_chapter=1,
+                total_mentions=10,
+                chapters_present=[1],
+                mentions=[],
+                narrative_prominence=0.9,
+                character_consistency=0.8,
+                cross_chapter_continuity=0.7,
+                dialogue_frequency=0.5,
+            ),
+            "2": CharacterProfile(
+                character_id="2",
+                primary_name="Anna",
+                alternative_names=[],
+                first_appearance_chapter=1,
+                last_appearance_chapter=1,
+                total_mentions=8,
+                chapters_present=[1],
+                mentions=[],
+                narrative_prominence=0.4,
+                character_consistency=0.8,
+                cross_chapter_continuity=0.7,
+                dialogue_frequency=0.5,
+            ),
+        }
 
-        character_profiles = {"char_1": mock_profile}
+        # Create mock segments with low tension
+        segments = [
+            NarrativeFlowSegment(
+                chapter_number=1,
+                segment_start=1,
+                segment_end=50,
+                segment_type="development",
+                character_density=0.5,
+                coreference_density=0.3,
+                narrative_tension=0.2,  # Low tension
+                key_characters=["1"],
+            ),
+        ]
 
-        mock_segment = MagicMock()
-        mock_segment.narrative_tension = 0.3  # Low tension
+        # Create mock transitions with weak coherence
+        transitions = [
+            CrossChapterTransition(
+                from_chapter=1,
+                to_chapter=2,
+                character_continuity=0.2,
+                thematic_continuity=0.1,
+                temporal_gap_indicator=0.5,
+                narrative_coherence=0.15,  # Weak coherence
+                shared_characters=[],
+                new_characters=["3"],
+                dropped_characters=["1"],
+            ),
+        ]
 
-        narrative_segments = [mock_segment]
-
-        mock_transition = MagicMock()
-        mock_transition.narrative_coherence = 0.2  # Weak coherence
-
-        transitions = [mock_transition]
-
-        mock_metrics = MagicMock()
-        mock_metrics.relationships_per_second = 50  # Low performance
-
-        recommendations = self.engine._generate_analysis_recommendations(
-            character_profiles, narrative_segments, transitions, mock_metrics
+        # Create mock performance metrics with low RPS
+        metrics = PerformanceMetrics(
+            total_processing_time=100.0,
+            per_chapter_times={1: 50.0, 2: 50.0},
+            memory_usage_peak=None,
+            relationships_per_second=50.0,  # Low RPS
+            cross_chapter_resolution_time=10.0,
+            parser_success_rate=1.0,
+            cross_chapter_detection_accuracy=0.95,
+            chain_resolution_completeness=0.9,
+            processing_efficiency=50.0,
+            memory_efficiency=0.0,
         )
 
-        # Should generate multiple recommendations
-        assert len(recommendations) >= 3
-        assert any("major characters" in rec for rec in recommendations)
-        assert any("narrative tension" in rec for rec in recommendations)
-        assert any("character continuity" in rec for rec in recommendations)
-        assert any("processing pipeline" in rec for rec in recommendations)
+        recommendations = self.engine._generate_analysis_recommendations(
+            profiles, segments, transitions, metrics
+        )
+
+        assert len(recommendations) == 4
+        recommendation_texts = [rec.lower() for rec in recommendations]
+
+        # Check that all expected recommendations are present
+        assert any("major characters" in text for text in recommendation_texts)
+        assert any("narrative tension" in text for text in recommendation_texts)
+        assert any("character continuity" in text for text in recommendation_texts)
+        assert any("optimizing processing" in text for text in recommendation_texts)

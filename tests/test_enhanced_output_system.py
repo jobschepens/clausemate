@@ -162,7 +162,9 @@ class TestEnhancedOutputSystem:
 
         system = EnhancedOutputSystem(self.temp_dir)
 
-        mock_logging.getLogger.assert_called_once_with(__name__)
+        mock_logging.getLogger.assert_called_once_with(
+            "src.multi_file.enhanced_output_system"
+        )
         assert system.logger == mock_logger
 
     def test_create_enhanced_csv_output_empty_relationships(self):

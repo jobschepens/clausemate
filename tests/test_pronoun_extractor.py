@@ -40,6 +40,8 @@ class TestPronounExtractor:
             sentence_id="1",
             sentence_num=1,
             tokens=[token1, token2],
+            critical_pronouns=[],
+            coreference_phrases=[],
             first_words="Karl_sagte",
         )
 
@@ -88,6 +90,8 @@ class TestPronounExtractor:
             sentence_id="1",
             sentence_num=1,
             tokens=[MagicMock()],
+            critical_pronouns=[],
+            coreference_phrases=[],
             first_words="Karl_sagte",
         )
 
@@ -95,12 +99,26 @@ class TestPronounExtractor:
 
     def test_can_extract_empty_tokens(self):
         """Test can_extract with no tokens."""
+        # Create a minimal token for SentenceContext validation
+        dummy_token = Token(
+            idx=1,
+            text="dummy",
+            sentence_num=1,
+            grammatical_role="DUMMY",
+            thematic_role="DUMMY",
+        )
+
         context = SentenceContext(
             sentence_id="1",
             sentence_num=1,
-            tokens=[],
+            tokens=[dummy_token],  # Provide a token to satisfy validation
+            critical_pronouns=[],
+            coreference_phrases=[],
             first_words="Karl_sagte",
         )
+
+        # Mock the tokens to be empty for the actual test
+        context.tokens = []
 
         assert self.extractor.can_extract(context) is False
 
@@ -139,6 +157,8 @@ class TestPronounExtractor:
             sentence_id="1",
             sentence_num=1,
             tokens=[token1, token2, token3, token4],
+            critical_pronouns=[],
+            coreference_phrases=[],
             first_words="Karl_sagte",
         )
 
@@ -164,6 +184,8 @@ class TestPronounExtractor:
             sentence_id="1",
             sentence_num=1,
             tokens=[pronoun],
+            critical_pronouns=[],
+            coreference_phrases=[],
             first_words="Karl_sagte",
         )
 
@@ -189,6 +211,8 @@ class TestPronounExtractor:
             sentence_id="1",
             sentence_num=1,
             tokens=[pronoun],
+            critical_pronouns=[],
+            coreference_phrases=[],
             first_words="Karl_sagte",
         )
 
@@ -214,6 +238,8 @@ class TestPronounExtractor:
             sentence_id="1",
             sentence_num=1,
             tokens=[pronoun],
+            critical_pronouns=[],
+            coreference_phrases=[],
             first_words="Karl_sagte",
         )
 
@@ -239,6 +265,8 @@ class TestPronounExtractor:
             sentence_id="1",
             sentence_num=1,
             tokens=[pronoun],
+            critical_pronouns=[],
+            coreference_phrases=[],
             first_words="Karl_sagte",
         )
 
@@ -264,6 +292,8 @@ class TestPronounExtractor:
             sentence_id="1",
             sentence_num=1,
             tokens=[pronoun],
+            critical_pronouns=[],
+            coreference_phrases=[],
             first_words="Karl_sagte",
         )
 
@@ -287,6 +317,8 @@ class TestPronounExtractor:
             sentence_id="1",
             sentence_num=1,
             tokens=[pronoun],
+            critical_pronouns=[],
+            coreference_phrases=[],
             first_words="Karl_sagte",
         )
 
@@ -312,6 +344,8 @@ class TestPronounExtractor:
             sentence_id="1",
             sentence_num=1,
             tokens=[pronoun],
+            critical_pronouns=[],
+            coreference_phrases=[],
             first_words="Karl_sagte",
         )
 
@@ -335,6 +369,8 @@ class TestPronounExtractor:
             sentence_id="1",
             sentence_num=1,
             tokens=[pronoun],
+            critical_pronouns=[],
+            coreference_phrases=[],
             first_words="Karl_sagte",
         )
 
@@ -356,6 +392,8 @@ class TestPronounExtractor:
             sentence_id="1",
             sentence_num=1,
             tokens=[pronoun],
+            critical_pronouns=[],
+            coreference_phrases=[],
             first_words="Karl_sagte",
         )
 

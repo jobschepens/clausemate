@@ -131,7 +131,7 @@ jobs:
         pytest --cov=src --cov-report=xml --cov-report=term-missing -v --ignore=tests/property/test_property_based.py || echo "No pytest tests found, running manual coverage test"
 
         # Manual coverage test if pytest fails
-        python -m coverage run --source=src -m pytest -v --ignore=tests/property/test_property_based.py || python -m coverage run --source=src -c "
+        python -m coverage run --source=src -m pytest -v --ignore=tests/property/test_property_based.py || coverage run --source=src -c "
         import os
 
         # Test the complete pipeline with graceful handling of missing data

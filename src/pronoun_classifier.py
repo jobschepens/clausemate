@@ -42,10 +42,11 @@ def is_critical_pronoun(token_data: dict[str, Any]) -> bool:
 
 def _is_third_person_pronoun(animate_type: str | None, token_lower: str) -> bool:
     """Check if token is a third person personal pronoun."""
+    # Recognize third person pronouns either by coreference type OR by token text
     return (
         animate_type == Constants.PERSONAL_PRONOUN_TYPE
         and token_lower in PronounSets.THIRD_PERSON_PRONOUNS
-    )
+    ) or (animate_type is None and token_lower in PronounSets.THIRD_PERSON_PRONOUNS)
 
 
 def _is_d_pronoun(
