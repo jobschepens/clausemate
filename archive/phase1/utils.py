@@ -9,7 +9,7 @@ from config import Constants, RegexPatterns
 from exceptions import ParseError, ValidationError
 
 
-def validate_file_path(file_path: Union[str, Path]) -> Path:
+def validate_file_path(file_path: str | Path) -> Path:
     """Validate that the file path exists and is readable.
 
     Args:
@@ -44,7 +44,7 @@ def validate_file_path(file_path: Union[str, Path]) -> Path:
     return path
 
 
-def safe_get_column(row: List[str], column_index: int, default: str = Constants.MISSING_VALUE) -> str:
+def safe_get_column(row: list[str], column_index: int, default: str = Constants.MISSING_VALUE) -> str:
     """Safely extract a column value from a row.
 
     Args:
@@ -64,7 +64,7 @@ def safe_get_column(row: List[str], column_index: int, default: str = Constants.
         return default
 
 
-def parse_token_info(token_info: str) -> Tuple[int, int]:
+def parse_token_info(token_info: str) -> tuple[int, int]:
     """Parse token info string into sentence and token numbers.
 
     Args:
@@ -92,7 +92,7 @@ def parse_token_info(token_info: str) -> Tuple[int, int]:
         raise ParseError(f"Non-numeric values in token info: {token_info}") from e
 
 
-def extract_coreference_type(coreference_value: str) -> Optional[str]:
+def extract_coreference_type(coreference_value: str) -> str | None:
     """Extract the type from a coreference annotation.
 
     Args:
@@ -108,7 +108,7 @@ def extract_coreference_type(coreference_value: str) -> Optional[str]:
     return match.group(1) if match else None
 
 
-def extract_coreference_id(coreference_value: str) -> Optional[str]:
+def extract_coreference_id(coreference_value: str) -> str | None:
     """Extract the full coreference chain ID from a coreference annotation.
 
     Args:
@@ -133,7 +133,7 @@ def extract_coreference_id(coreference_value: str) -> Optional[str]:
     return None
 
 
-def extract_full_coreference_id(coreference_link: str) -> Optional[str]:
+def extract_full_coreference_id(coreference_link: str) -> str | None:
     """Extract the full coreference ID from a coreference link annotation.
 
     Args:
@@ -180,7 +180,7 @@ def determine_givenness(coreference_id: str) -> str:
     return Constants.MISSING_VALUE
 
 
-def extract_sentence_number(sentence_id: str) -> Optional[int]:
+def extract_sentence_number(sentence_id: str) -> int | None:
     """Extract numeric sentence number from sentence_id string.
 
     Args:
@@ -198,7 +198,7 @@ def extract_sentence_number(sentence_id: str) -> Optional[int]:
         return None
 
 
-def extract_coref_base_and_occurrence(coref_id: str) -> Tuple[Optional[int], Optional[int]]:
+def extract_coref_base_and_occurrence(coref_id: str) -> tuple[int | None, int | None]:
     """Extract base chain number and occurrence number from coreference ID.
 
     Args:
@@ -223,7 +223,7 @@ def extract_coref_base_and_occurrence(coref_id: str) -> Tuple[Optional[int], Opt
         return None, None
 
 
-def extract_coref_link_numbers(coref_link: str) -> Tuple[Optional[int], Optional[int]]:
+def extract_coref_link_numbers(coref_link: str) -> tuple[int | None, int | None]:
     """Extract base chain number and occurrence number from coreference link.
 
     Args:

@@ -67,7 +67,7 @@ def is_critical_pronoun_legacy(coreference_type: str, inanimate_coreference_type
     }
     return is_critical_pronoun(token_data)
 
-def group_tokens_into_phrases(tokens_data: List[Tuple[str, str, int, str, str, str, str]]) -> List[Dict[str, Any]]:
+def group_tokens_into_phrases(tokens_data: list[tuple[str, str, int, str, str, str, str]]) -> list[dict[str, Any]]:
     """Group tokens that belong to the same coreference entity into phrases.
     Uses Phase 2 logic: groups by entity ID rather than consecutive positioning.
 
@@ -81,7 +81,7 @@ def group_tokens_into_phrases(tokens_data: List[Tuple[str, str, int, str, str, s
         return []
 
     # Group tokens by entity ID (Phase 2 approach)
-    entity_groups: Dict[str, List[Tuple[str, str, int, str, str, str, str]]] = {}
+    entity_groups: dict[str, list[tuple[str, str, int, str, str, str, str]]] = {}
 
     for token_data in tokens_data:
         token_text, coreference_id, token_idx, grammatical_role, thematic_role, coreference_type, animacy = token_data
@@ -135,7 +135,7 @@ def extract_first_words(line: str) -> str:
     return ''
 
 
-def extract_clause_mates(file_path: str) -> List[Dict[str, Any]]:
+def extract_clause_mates(file_path: str) -> list[dict[str, Any]]:
     """Extract clause mate relationships from the TSV file.
 
     Args:
@@ -161,11 +161,11 @@ def extract_clause_mates(file_path: str) -> List[Dict[str, Any]]:
     logger.info(f"Read {len(lines)} lines from file")
 
     # First pass: collect all sentence tokens
-    all_sentence_tokens: Dict[int, List[Dict[str, Any]]] = {}
-    sentence_first_words: Dict[int, str] = {}  # Store first words for each sentence
-    current_sentence_tokens: List[Dict[str, Any]] = []
-    current_sentence_id: Optional[int] = None
-    current_first_words: Optional[str] = None
+    all_sentence_tokens: dict[int, list[dict[str, Any]]] = {}
+    sentence_first_words: dict[int, str] = {}  # Store first words for each sentence
+    current_sentence_tokens: list[dict[str, Any]] = []
+    current_sentence_id: int | None = None
+    current_first_words: str | None = None
 
     logger.info("First pass: collecting all tokens...")
 
@@ -250,7 +250,7 @@ def extract_clause_mates(file_path: str) -> List[Dict[str, Any]]:
 
     # Second pass: process sentences and extract relationships
     logger.info("Second pass: extracting relationships...")
-    relationships: List[Dict[str, Any]] = []
+    relationships: list[dict[str, Any]] = []
     sentence_count = 0
 
     for sentence_id in sorted(all_sentence_tokens.keys()):
@@ -268,7 +268,7 @@ def extract_clause_mates(file_path: str) -> List[Dict[str, Any]]:
 
     return relationships
 
-def process_sentence(sentence_tokens: List[Dict[str, Any]], sentence_id: int, all_sentence_tokens: Optional[Dict[int, List[Dict[str, Any]]]] = None, first_words: str = "") -> List[Dict[str, Any]]:
+def process_sentence(sentence_tokens: list[dict[str, Any]], sentence_id: int, all_sentence_tokens: dict[int, list[dict[str, Any]]] | None = None, first_words: str = "") -> list[dict[str, Any]]:
     """Process a single sentence to extract clause mate relationships.
 
     Args:
@@ -507,7 +507,7 @@ def process_sentence(sentence_tokens: List[Dict[str, Any]], sentence_id: int, al
 
     return relationships
 
-def calculate_antecedent_choice(pronoun_token: Dict[str, Any], antecedent_sentence_tokens: List[Dict[str, Any]], antecedent_sentence_id: int) -> int:
+def calculate_antecedent_choice(pronoun_token: dict[str, Any], antecedent_sentence_tokens: list[dict[str, Any]], antecedent_sentence_id: int) -> int:
     """Calculate the number of potential antecedents in the same sentence as the actual antecedent.
     Uses animacy-based matching: count referential expressions that match the pronoun's animacy requirements.
 
@@ -604,7 +604,7 @@ def calculate_antecedent_choice(pronoun_token: Dict[str, Any], antecedent_senten
 
     return compatible_antecedents
 
-def extract_sentence_number(sentence_id: str) -> Optional[int]:
+def extract_sentence_number(sentence_id: str) -> int | None:
     """Extract numeric sentence number from sentence_id string like 'sent_34'."""
     if not sentence_id or sentence_id == '_':
         return None
@@ -613,7 +613,7 @@ def extract_sentence_number(sentence_id: str) -> Optional[int]:
     except (ValueError, AttributeError):
         return None
 
-def extract_coref_base_and_occurrence(coref_id: str) -> Tuple[Optional[int], Optional[int]]:
+def extract_coref_base_and_occurrence(coref_id: str) -> tuple[int | None, int | None]:
     """Extract base chain number and occurrence number from coreference ID.
 
     Args:
@@ -640,7 +640,7 @@ def extract_coref_base_and_occurrence(coref_id: str) -> Tuple[Optional[int], Opt
 
 def extract_coref_link_numbers(
     coref_link: str
-) -> Tuple[Optional[int], Optional[int]]:
+) -> tuple[int | None, int | None]:
     """Extract base chain number and occurrence number from coreference link.
 
     Args:
@@ -662,7 +662,7 @@ def extract_coref_link_numbers(
     except (ValueError, AttributeError):
         return None, None
 
-def find_antecedent_and_distance(pronoun_token: Dict[str, Any], all_sentence_tokens: Dict[int, List[Dict[str, Any]]], current_sentence_id: int) -> Tuple[str, str, str, str, int]:
+def find_antecedent_and_distance(pronoun_token: dict[str, Any], all_sentence_tokens: dict[int, list[dict[str, Any]]], current_sentence_id: int) -> tuple[str, str, str, str, int]:
     """Find both the most recent and first antecedent phrases of a pronoun and calculate the linear distances to them.
 
     Args:
@@ -838,7 +838,7 @@ def find_antecedent_and_distance(pronoun_token: Dict[str, Any], all_sentence_tok
 
     return Constants.MISSING_VALUE, Constants.MISSING_VALUE, Constants.MISSING_VALUE, Constants.MISSING_VALUE, -1
 
-def main() -> Optional[pd.DataFrame]:
+def main() -> pd.DataFrame | None:
     """Main function to run the clause mate extraction."""
     # Use the configuration file path
     file_path = FilePaths.INPUT_FILE

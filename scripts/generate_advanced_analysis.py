@@ -15,8 +15,8 @@ from pathlib import Path
 sys.path.append("src")
 
 from src.data.models import (
-    AntecedentInfo,
     AnimacyType,
+    AntecedentInfo,
     ClauseMateRelationship,
     Phrase,
     Token,
@@ -62,8 +62,12 @@ def load_existing_data():
                 thematic_role=row["pronoun_thematic_role"],
                 coreference_link=row.get("pronoun_coreference_link"),
                 coreference_type=row.get("pronoun_coreference_type"),
-                inanimate_coreference_link=row.get("pronoun_inanimate_coreference_link"),
-                inanimate_coreference_type=row.get("pronoun_inanimate_coreference_type"),
+                inanimate_coreference_link=row.get(
+                    "pronoun_inanimate_coreference_link"
+                ),
+                inanimate_coreference_type=row.get(
+                    "pronoun_inanimate_coreference_type"
+                ),
                 is_critical_pronoun=True,
             )
 
@@ -158,7 +162,10 @@ def create_chapter_metadata(relationships):
         meta = ChapterMetadata(
             chapter_number=chapter_num,
             chapter_id=f"chapter_{chapter_num}",
-            source_file=f"data/input/gotofiles/{'later/' if chapter_num != 2 else ''}{chapter_num}.tsv",
+            source_file=(
+                f"data/input/gotofiles/{'later/' if chapter_num != 2 else ''}"
+                f"{chapter_num}.tsv"
+            ),
             file_format="tsv",
             total_relationships=data["relationships"],
             total_sentences=len(sentences),
@@ -214,7 +221,8 @@ def main():
     processing_stats, cross_chapter_chains, relationships = load_existing_data()
 
     print(
-        f"📊 Loaded {len(relationships)} relationships and {len(cross_chapter_chains)} cross-chapter chains"
+        f"📊 Loaded {len(relationships)} relationships and "
+        f"{len(cross_chapter_chains)} cross-chapter chains"
     )
 
     # Create metadata and connections
@@ -292,7 +300,8 @@ def main():
     print(f"   - Cross-chapter characters: {cross_chapter_chars}")
     print(f"   - Average narrative coherence: {avg_coherence:.2f}")
     print(
-        f"   - Processing rate: {performance_metrics.relationships_per_second:.1f} relationships/second"
+        f"   - Processing rate: {performance_metrics.relationships_per_second:.1f} "
+        f"relationships/second"
     )
 
 

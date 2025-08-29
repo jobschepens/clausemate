@@ -46,7 +46,7 @@ class PhaseComparator:
             return venv_python
         return sys.executable
 
-    def run_phase1(self) -> Dict[str, Any]:
+    def run_phase1(self) -> dict[str, Any]:
         """Run Phase 1 and collect performance metrics."""
         logger.info("🚀 Running Phase 1...")
 
@@ -96,7 +96,7 @@ class PhaseComparator:
                 "execution_time": time.time() - start_time,
             }
 
-    def run_phase2(self) -> Dict[str, Any]:
+    def run_phase2(self) -> dict[str, Any]:
         """Run Phase 2 and collect performance metrics."""
         logger.info("🚀 Running Phase 2...")
 
@@ -146,7 +146,7 @@ class PhaseComparator:
                 "execution_time": time.time() - start_time,
             }
 
-    def _parse_phase1_output(self, output_lines: List[str]) -> Dict[str, Any]:
+    def _parse_phase1_output(self, output_lines: list[str]) -> dict[str, Any]:
         """Parse Phase 1 output for statistics."""
         stats = {}
 
@@ -165,7 +165,7 @@ class PhaseComparator:
 
         return stats
 
-    def _parse_phase2_output(self, output_lines: List[str]) -> Dict[str, Any]:
+    def _parse_phase2_output(self, output_lines: list[str]) -> dict[str, Any]:
         """Parse Phase 2 output for statistics."""
         stats = {}
 
@@ -185,7 +185,7 @@ class PhaseComparator:
 
         return stats
 
-    def compare_csv_outputs(self) -> Dict[str, Any]:
+    def compare_csv_outputs(self) -> dict[str, Any]:
         """Compare the CSV outputs from both phases."""
         logger.info("📊 Comparing CSV outputs...")
 
@@ -261,7 +261,7 @@ class PhaseComparator:
             logger.error(f"❌ CSV comparison failed: {e}")
             return {"error": str(e)}
 
-    def run_comparison(self) -> Dict[str, Any]:
+    def run_comparison(self) -> dict[str, Any]:
         """Run complete comparison of both phases."""
         logger.info("🔄 Starting Phase Comparison...")
 
@@ -277,7 +277,7 @@ class PhaseComparator:
 
         return self.results
 
-    def generate_report(self, results: Dict[str, Any]) -> str:
+    def generate_report(self, results: dict[str, Any]) -> str:
         """Generate a human-readable comparison report."""
         report = []
         report.append("=" * 80)

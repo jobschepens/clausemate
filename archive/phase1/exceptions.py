@@ -11,7 +11,7 @@ class ClauseMateExtractionError(Exception):
 class ParseError(ClauseMateExtractionError):
     """Raised when parsing fails."""
 
-    def __init__(self, message: str, line_number: Optional[int] = None, raw_data: Optional[str] = None):
+    def __init__(self, message: str, line_number: int | None = None, raw_data: str | None = None):
         self.line_number = line_number
         self.raw_data = raw_data
 
