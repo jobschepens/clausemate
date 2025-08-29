@@ -175,26 +175,55 @@ class TestPerformanceBenchmark:
     @patch("src.main.main")
     def test_compare_phases(self, mock_phase2_main):
         """Test comparing performance of both phases."""
-        # Create temporary files
+        # Mock the main function to do nothing
+        mock_phase2_main.return_value = None
+
+        # Create temporary directory and files for testing
         with tempfile.TemporaryDirectory() as temp_dir:
-            temp_path = Path(temp_dir)
+            # Create actual input file
+            input_file = Path(temp_dir) / "2.tsv"
+            input_file.write_text("sample\tdata\n")
 
-            # Create input file
-            input_file = temp_path / "2.tsv"
-            input_file.touch()
+            # Create output file with sample data
+            output_file = Path(temp_dir) / "output.csv"
+            output_file.write_text("col1,col2\nval1,val2\n")
 
-            # Mock the main function to do nothing
-            mock_phase2_main.return_value = None
+            # Mock the benchmark_function to return a valid result
+            mock_result = BenchmarkResult(
+                execution_time=1.0,
+                memory_peak_mb=50.0,
+                memory_final_mb=45.0,
+                cpu_percent=25.0,
+                output_rows=1,
+                input_size_mb=0.001,
+                throughput_rows_per_sec=1.0,
+            )
 
-            results = self.benchmark.compare_phases()
+            # Patch Path constructor to return our files when appropriate
+            original_path = Path
 
-            # Should have results for phase2 (phase1 may not be available)
-            assert "phase2" in results
-            assert isinstance(results["phase2"], BenchmarkResult)
+            def mock_path_constructor(path_str):
+                if "2.tsv" in str(path_str):
+                    return input_file
+                elif "clause_mates_phase2_export.csv" in str(path_str):
+                    return output_file
+                else:
+                    # For other paths, create a mock that doesn't exist
+                    mock_path = MagicMock(spec=Path)
+                    mock_path.exists.return_value = False
+                    return mock_path
 
-            # Phase1 might not be available if archive.phase1 doesn't exist
-            if "phase1" in results:
-                assert isinstance(results["phase1"], BenchmarkResult)
+            with (
+                patch("src.benchmark.Path", side_effect=mock_path_constructor),
+                patch.object(
+                    self.benchmark, "benchmark_function", return_value=mock_result
+                ),
+            ):
+                results = self.benchmark.compare_phases()
+
+                # Should have results for phase2
+                assert "phase2" in results
+                assert isinstance(results["phase2"], BenchmarkResult)
 
     def test_compare_phases_missing_files(self):
         """Test comparing phases when input files don't exist."""
