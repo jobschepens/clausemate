@@ -8,7 +8,7 @@ import pandas as pd
 import pytest
 
 # Import mock data factory
-from tests.fixtures.mock_data.mock_objects import MockDataFactory
+from tests.fixtures.mock_data.mock_data_objects import MockDataFactory
 
 
 @pytest.fixture(scope="session")

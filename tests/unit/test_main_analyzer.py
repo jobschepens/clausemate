@@ -6,7 +6,7 @@ import pytest
 
 from src.exceptions import ClauseMateExtractionError
 from src.main import ClauseMateAnalyzer
-from tests.fixtures.mock_data.mock_objects import mock_relationship
+from tests.fixtures.mock_data.mock_data_objects import mock_relationship
 
 
 class TestClauseMateAnalyzer:

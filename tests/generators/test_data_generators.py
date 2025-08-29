@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from tests.fixtures.mock_data.mock_objects import MockDataFactory
+from tests.fixtures.mock_data.mock_data_objects import MockDataFactory
 
 
 @dataclass

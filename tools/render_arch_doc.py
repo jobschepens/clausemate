@@ -20,7 +20,7 @@ def render_architecture_doc():
 
         # Render the dot code to SVG using quickchart.io
         response = requests.post(
-            "https://quickchart.io/graphviz", json={"graph": dot_code}
+            "https://quickchart.io/graphviz", json={"graph": dot_code}, timeout=30
         )
 
         if response.status_code == 200:

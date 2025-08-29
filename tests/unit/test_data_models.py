@@ -10,7 +10,7 @@ from src.data.models import (
     SentenceContext,
     Token,
 )
-from tests.fixtures.mock_data.mock_objects import (
+from tests.fixtures.mock_data.mock_data_objects import (
     MockDataFactory,
     mock_antecedent_info,
     mock_phrase,

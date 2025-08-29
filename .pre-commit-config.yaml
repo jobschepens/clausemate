@@ -20,6 +20,7 @@ repos:
       - id: mixed-line-ending # Check for mixed line endings
       - id: name-tests-test # Check test files are named correctly
         args: ["--pytest-test-first"]
+        exclude: ^tests/fixtures/
 
   # Python code quality and formatting
   - repo: https://github.com/astral-sh/ruff-pre-commit
