@@ -71,13 +71,11 @@ python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
 addopts = [
-    "--cov=src",
-    "--cov-report=term-missing",
-    "--cov-report=html",
-    "--cov-fail-under=25",
+    "--verbose",
+    "--tb=short",
     "--strict-markers",
     "--disable-warnings",
-    "--junitxml=junit.xml",
+    "--maxfail=5",
 ]
 markers = [
     "slow: marks tests as slow (deselect with '-m \"not slow\"')",

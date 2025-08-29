@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="0.701" timestamp="2025-08-29T16:46:50.462736+02:00" hostname="IFL-NB-80"><testcase classname="pytest" name="internal" time="0.000"><error message="internal error">Traceback (most recent call last):
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="1.105" timestamp="2025-08-29T19:37:46.655456+02:00" hostname="IFL-NB-80"><testcase classname="pytest" name="internal" time="0.000"><error message="internal error">Traceback (most recent call last):
   File "c:\GitHub\clausemate\tests\test_coverage.py", line 7, in &lt;module&gt;
     from main import ClauseMateAnalyzer
   File "c:\GitHub\clausemate\src\main.py", line 12, in &lt;module&gt;

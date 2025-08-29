@@ -56,15 +56,9 @@ jobs:
 
       - name: Run tests with coverage
         run: |
-          # Try pytest first, fallback to manual coverage if no tests exist
-          if [ -d "tests" ] && [ "$(find tests -name 'test_*.py' -type f | wc -l)" -gt 0 ]; then
-            echo "Running pytest with coverage..."
-            python -m pytest --cov=src --cov-report=xml --cov-report=term-missing --junitxml=junit.xml -v --ignore=tests/optional
-          else
-            echo "No pytest tests found, running coverage on main modules..."
-            python -m coverage run --source=src --omit="*/tests/*,*/test_*" test_coverage.py
-            python -m coverage xml
-          fi
+          echo "Running pytest with coverage..."
+          # Run tests with explicit configuration to avoid conflicts
+          python -m pytest tests/ --cov=src --cov-report=xml --cov-report=term-missing --junitxml=junit.xml -v --ignore=tests/optional --maxfail=1
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
