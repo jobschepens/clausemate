@@ -1,13 +1,12 @@
+import importlib.util
+from pathlib import Path
+
 """Utilities package for the clause mates analyzer."""
 
-# Import utility functions from the parent utils.py file
-from pathlib import Path
 
 # Add parent directory to path to import utils.py
 utils_path = Path(__file__).parent.parent / "utils.py"
 if utils_path.exists():
-    import importlib.util
-
     spec = importlib.util.spec_from_file_location("utils_module", utils_path)
     if spec and spec.loader:
         utils_module = importlib.util.module_from_spec(spec)

@@ -1,1 +1,1118 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="8" tests="112" time="16.619" timestamp="2025-08-28T22:45:12.261820+02:00" hostname="IFL-NB-80"><properties><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedValidation::test_token_creation_always_valid" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRWYWxpZGF0aW9uOjp0ZXN0X3Rva2VuX2NyZWF0aW9uX2Fsd2F5c192YWxpZDoKCiAgLSBkdXJpbmcgZ2VuZXJhdGUgcGhhc2UgKDEuNDMgc2Vjb25kcyk6CiAgICAtIFR5cGljYWwgcnVudGltZXM6IH4gMS00IG1zLCBvZiB3aGljaCB+IDAtMiBtcyBpbiBkYXRhIGdlbmVyYXRpb24KICAgIC0gNTAgcGFzc2luZyBleGFtcGxlcywgMCBmYWlsaW5nIGV4YW1wbGVzLCAwIGludmFsaWQgZXhhbXBsZXMKCiAgLSBTdG9wcGVkIGJlY2F1c2Ugc2V0dGluZ3MubWF4X2V4YW1wbGVzPTUw" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedValidation::test_token_invalid_idx_always_fails" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRWYWxpZGF0aW9uOjp0ZXN0X3Rva2VuX2ludmFsaWRfaWR4X2Fsd2F5c19mYWlsczoKCiAgLSBkdXJpbmcgZ2VuZXJhdGUgcGhhc2UgKDAuMzUgc2Vjb25kcyk6CiAgICAtIFR5cGljYWwgcnVudGltZXM6IH4gMC00IG1zLCBvZiB3aGljaCA8IDFtcyBpbiBkYXRhIGdlbmVyYXRpb24KICAgIC0gMTAwIHBhc3NpbmcgZXhhbXBsZXMsIDAgZmFpbGluZyBleGFtcGxlcywgMCBpbnZhbGlkIGV4YW1wbGVzCgogIC0gU3RvcHBlZCBiZWNhdXNlIHNldHRpbmdzLm1heF9leGFtcGxlcz0xMDA=" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedValidation::test_token_empty_text_always_fails" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRWYWxpZGF0aW9uOjp0ZXN0X3Rva2VuX2VtcHR5X3RleHRfYWx3YXlzX2ZhaWxzOgoKICAtIGR1cmluZyBnZW5lcmF0ZSBwaGFzZSAoMC4wMCBzZWNvbmRzKToKICAgIC0gVHlwaWNhbCBydW50aW1lczogfiAxbXMsIG9mIHdoaWNoIDwgMW1zIGluIGRhdGEgZ2VuZXJhdGlvbgogICAgLSAxIHBhc3NpbmcgZXhhbXBsZXMsIDAgZmFpbGluZyBleGFtcGxlcywgMCBpbnZhbGlkIGV4YW1wbGVzCgogIC0gU3RvcHBlZCBiZWNhdXNlIG5vdGhpbmcgbGVmdCB0byBkbw==" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedValidation::test_phrase_creation_always_valid" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRWYWxpZGF0aW9uOjp0ZXN0X3BocmFzZV9jcmVhdGlvbl9hbHdheXNfdmFsaWQ6CgogIC0gZHVyaW5nIGdlbmVyYXRlIHBoYXNlICgwLjIwIHNlY29uZHMpOgogICAgLSBUeXBpY2FsIHJ1bnRpbWVzOiB+IDEtNyBtcywgb2Ygd2hpY2ggfiAxLTUgbXMgaW4gZGF0YSBnZW5lcmF0aW9uCiAgICAtIDUwIHBhc3NpbmcgZXhhbXBsZXMsIDAgZmFpbGluZyBleGFtcGxlcywgMCBpbnZhbGlkIGV4YW1wbGVzCgogIC0gU3RvcHBlZCBiZWNhdXNlIHNldHRpbmdzLm1heF9leGFtcGxlcz01MA==" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedValidation::test_phrase_invalid_indices_always_fail" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRWYWxpZGF0aW9uOjp0ZXN0X3BocmFzZV9pbnZhbGlkX2luZGljZXNfYWx3YXlzX2ZhaWw6CgogIC0gZHVyaW5nIGdlbmVyYXRlIHBoYXNlICgwLjI3IHNlY29uZHMpOgogICAgLSBUeXBpY2FsIHJ1bnRpbWVzOiB+IDAtMiBtcywgb2Ygd2hpY2ggPCAxbXMgaW4gZGF0YSBnZW5lcmF0aW9uCiAgICAtIDEwMCBwYXNzaW5nIGV4YW1wbGVzLCAwIGZhaWxpbmcgZXhhbXBsZXMsIDAgaW52YWxpZCBleGFtcGxlcwoKICAtIFN0b3BwZWQgYmVjYXVzZSBzZXR0aW5ncy5tYXhfZXhhbXBsZXM9MTAw" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedValidation::test_sentence_context_creation_always_valid" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRWYWxpZGF0aW9uOjp0ZXN0X3NlbnRlbmNlX2NvbnRleHRfY3JlYXRpb25fYWx3YXlzX3ZhbGlkOgoKICAtIGR1cmluZyBnZW5lcmF0ZSBwaGFzZSAoMC4yMCBzZWNvbmRzKToKICAgIC0gVHlwaWNhbCBydW50aW1lczogfiAxLTEzIG1zLCBvZiB3aGljaCB+IDEtMTEgbXMgaW4gZGF0YSBnZW5lcmF0aW9uCiAgICAtIDMwIHBhc3NpbmcgZXhhbXBsZXMsIDAgZmFpbGluZyBleGFtcGxlcywgMCBpbnZhbGlkIGV4YW1wbGVzCgogIC0gU3RvcHBlZCBiZWNhdXNlIHNldHRpbmdzLm1heF9leGFtcGxlcz0zMA==" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedValidation::test_sentence_context_invalid_sentence_num_always_fails" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRWYWxpZGF0aW9uOjp0ZXN0X3NlbnRlbmNlX2NvbnRleHRfaW52YWxpZF9zZW50ZW5jZV9udW1fYWx3YXlzX2ZhaWxzOgoKICAtIGR1cmluZyBnZW5lcmF0ZSBwaGFzZSAoMC4xNyBzZWNvbmRzKToKICAgIC0gVHlwaWNhbCBydW50aW1lczogfiAwLTMgbXMsIG9mIHdoaWNoIDwgMW1zIGluIGRhdGEgZ2VuZXJhdGlvbgogICAgLSAxMDAgcGFzc2luZyBleGFtcGxlcywgMCBmYWlsaW5nIGV4YW1wbGVzLCAwIGludmFsaWQgZXhhbXBsZXMKCiAgLSBTdG9wcGVkIGJlY2F1c2Ugc2V0dGluZ3MubWF4X2V4YW1wbGVzPTEwMA==" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedEdgeCases::test_whitespace_only_text_handling" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRFZGdlQ2FzZXM6OnRlc3Rfd2hpdGVzcGFjZV9vbmx5X3RleHRfaGFuZGxpbmc6CgogIC0gZHVyaW5nIGdlbmVyYXRlIHBoYXNlICgwLjIwIHNlY29uZHMpOgogICAgLSBUeXBpY2FsIHJ1bnRpbWVzOiB+IDAtMyBtcywgb2Ygd2hpY2ggPCAxbXMgaW4gZGF0YSBnZW5lcmF0aW9uCiAgICAtIDEwMCBwYXNzaW5nIGV4YW1wbGVzLCAwIGZhaWxpbmcgZXhhbXBsZXMsIDAgaW52YWxpZCBleGFtcGxlcwoKICAtIFN0b3BwZWQgYmVjYXVzZSBzZXR0aW5ncy5tYXhfZXhhbXBsZXM9MTAw" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedEdgeCases::test_large_indices_handling" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRFZGdlQ2FzZXM6OnRlc3RfbGFyZ2VfaW5kaWNlc19oYW5kbGluZzoKCiAgLSBkdXJpbmcgZ2VuZXJhdGUgcGhhc2UgKDAuMjMgc2Vjb25kcyk6CiAgICAtIFR5cGljYWwgcnVudGltZXM6IH4gMC0zIG1zLCBvZiB3aGljaCA8IDFtcyBpbiBkYXRhIGdlbmVyYXRpb24KICAgIC0gMTAwIHBhc3NpbmcgZXhhbXBsZXMsIDAgZmFpbGluZyBleGFtcGxlcywgMCBpbnZhbGlkIGV4YW1wbGVzCgogIC0gU3RvcHBlZCBiZWNhdXNlIHNldHRpbmdzLm1heF9leGFtcGxlcz0xMDA=" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedEdgeCases::test_special_characters_in_text" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRFZGdlQ2FzZXM6OnRlc3Rfc3BlY2lhbF9jaGFyYWN0ZXJzX2luX3RleHQ6CgogIC0gZHVyaW5nIGdlbmVyYXRlIHBoYXNlICgwLjE5IHNlY29uZHMpOgogICAgLSBUeXBpY2FsIHJ1bnRpbWVzOiB+IDAtMiBtcywgb2Ygd2hpY2ggPCAxbXMgaW4gZGF0YSBnZW5lcmF0aW9uCiAgICAtIDEwMCBwYXNzaW5nIGV4YW1wbGVzLCAwIGZhaWxpbmcgZXhhbXBsZXMsIDAgaW52YWxpZCBleGFtcGxlcwoKICAtIFN0b3BwZWQgYmVjYXVzZSBzZXR0aW5ncy5tYXhfZXhhbXBsZXM9MTAw" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedEdgeCases::test_token_sequence_properties" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRFZGdlQ2FzZXM6OnRlc3RfdG9rZW5fc2VxdWVuY2VfcHJvcGVydGllczoKCiAgLSBkdXJpbmcgZ2VuZXJhdGUgcGhhc2UgKDAuMjcgc2Vjb25kcyk6CiAgICAtIFR5cGljYWwgcnVudGltZXM6IH4gMC0yIG1zLCBvZiB3aGljaCB+IDAtMSBtcyBpbiBkYXRhIGdlbmVyYXRpb24KICAgIC0gMTAwIHBhc3NpbmcgZXhhbXBsZXMsIDAgZmFpbGluZyBleGFtcGxlcywgMTkgaW52YWxpZCBleGFtcGxlcwoKICAtIFN0b3BwZWQgYmVjYXVzZSBzZXR0aW5ncy5tYXhfZXhhbXBsZXM9MTAw" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedInvariants::test_token_equality_invariants" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRJbnZhcmlhbnRzOjp0ZXN0X3Rva2VuX2VxdWFsaXR5X2ludmFyaWFudHM6CgogIC0gZHVyaW5nIGdlbmVyYXRlIHBoYXNlICgwLjExIHNlY29uZHMpOgogICAgLSBUeXBpY2FsIHJ1bnRpbWVzOiB+IDEtNiBtcywgb2Ygd2hpY2ggfiAxLTMgbXMgaW4gZGF0YSBnZW5lcmF0aW9uCiAgICAtIDMwIHBhc3NpbmcgZXhhbXBsZXMsIDAgZmFpbGluZyBleGFtcGxlcywgMCBpbnZhbGlkIGV4YW1wbGVzCgogIC0gU3RvcHBlZCBiZWNhdXNlIHNldHRpbmdzLm1heF9leGFtcGxlcz0zMA==" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedInvariants::test_phrase_span_invariants" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRJbnZhcmlhbnRzOjp0ZXN0X3BocmFzZV9zcGFuX2ludmFyaWFudHM6CgogIC0gZHVyaW5nIGdlbmVyYXRlIHBoYXNlICgwLjExIHNlY29uZHMpOgogICAgLSBUeXBpY2FsIHJ1bnRpbWVzOiB+IDEtNiBtcywgb2Ygd2hpY2ggfiAwLTQgbXMgaW4gZGF0YSBnZW5lcmF0aW9uCiAgICAtIDMwIHBhc3NpbmcgZXhhbXBsZXMsIDAgZmFpbGluZyBleGFtcGxlcywgMCBpbnZhbGlkIGV4YW1wbGVzCgogIC0gU3RvcHBlZCBiZWNhdXNlIHNldHRpbmdzLm1heF9leGFtcGxlcz0zMA==" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedInvariants::test_sentence_context_invariants" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRJbnZhcmlhbnRzOjp0ZXN0X3NlbnRlbmNlX2NvbnRleHRfaW52YXJpYW50czoKCiAgLSBkdXJpbmcgZ2VuZXJhdGUgcGhhc2UgKDAuMTEgc2Vjb25kcyk6CiAgICAtIFR5cGljYWwgcnVudGltZXM6IH4gMS04IG1zLCBvZiB3aGljaCB+IDAtNiBtcyBpbiBkYXRhIGdlbmVyYXRpb24KICAgIC0gMjAgcGFzc2luZyBleGFtcGxlcywgMCBmYWlsaW5nIGV4YW1wbGVzLCAwIGludmFsaWQgZXhhbXBsZXMKCiAgLSBTdG9wcGVkIGJlY2F1c2Ugc2V0dGluZ3MubWF4X2V4YW1wbGVzPTIw" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedPerformance::test_token_creation_performance_scales_linearly" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRQZXJmb3JtYW5jZTo6dGVzdF90b2tlbl9jcmVhdGlvbl9wZXJmb3JtYW5jZV9zY2FsZXNfbGluZWFybHk6CgogIC0gZHVyaW5nIGdlbmVyYXRlIHBoYXNlICgwLjA5IHNlY29uZHMpOgogICAgLSBUeXBpY2FsIHJ1bnRpbWVzOiB+IDEtMjggbXMsIG9mIHdoaWNoIH4gMC0yNSBtcyBpbiBkYXRhIGdlbmVyYXRpb24KICAgIC0gMTAgcGFzc2luZyBleGFtcGxlcywgMCBmYWlsaW5nIGV4YW1wbGVzLCAxIGludmFsaWQgZXhhbXBsZXMKCiAgLSBTdG9wcGVkIGJlY2F1c2Ugc2V0dGluZ3MubWF4X2V4YW1wbGVzPTEw" /></properties><testcase classname="tests.integration.test_format_processing.TestFormatProcessing" name="test_format_detection_and_processing[standard]" time="0.007"><skipped type="pytest.skip" message="Test file C:\GitHub\clausemate\tests\fixtures\sample_tsvs\standard_15col.tsv not found">C:\GitHub\clausemate\tests\integration\test_format_processing.py:29: Test file C:\GitHub\clausemate\tests\fixtures\sample_tsvs\standard_15col.tsv not found</skipped></testcase><testcase classname="tests.integration.test_format_processing.TestFormatProcessing" name="test_format_detection_and_processing[extended]" time="0.003"><skipped type="pytest.skip" message="Test file C:\GitHub\clausemate\tests\fixtures\sample_tsvs\extended_37col.tsv not found">C:\GitHub\clausemate\tests\integration\test_format_processing.py:29: Test file C:\GitHub\clausemate\tests\fixtures\sample_tsvs\extended_37col.tsv not found</skipped></testcase><testcase classname="tests.integration.test_format_processing.TestFormatProcessing" name="test_format_detection_and_processing[legacy]" time="0.001"><skipped type="pytest.skip" message="Test file C:\GitHub\clausemate\tests\fixtures\sample_tsvs\legacy_14col.tsv not found">C:\GitHub\clausemate\tests\integration\test_format_processing.py:29: Test file C:\GitHub\clausemate\tests\fixtures\sample_tsvs\legacy_14col.tsv not found</skipped></testcase><testcase classname="tests.integration.test_format_processing.TestFormatProcessing" name="test_format_detection_and_processing[incomplete]" time="0.001"><skipped type="pytest.skip" message="Test file C:\GitHub\clausemate\tests\fixtures\sample_tsvs\incomplete_12col.tsv not found">C:\GitHub\clausemate\tests\integration\test_format_processing.py:29: Test file C:\GitHub\clausemate\tests\fixtures\sample_tsvs\incomplete_12col.tsv not found</skipped></testcase><testcase classname="tests.integration.test_format_processing.TestFormatProcessing" name="test_end_to_end_processing" time="0.002"><skipped type="pytest.skip" message="All test files failed to process: {'standard': {'success': False, 'relationships_count': 0, 'processing_time': 0, 'error': 'File not found: C:\\GitHub\\clausemate\\tests\\fixtures\\sample_tsvs\\standard_15col.tsv'}, 'extended': {'success': False, 'relationships_count': 0, 'processing_time': 0, 'error': 'File not found: C:\\GitHub\\clausemate\\tests\\fixtures\\sample_tsvs\\extended_37col.tsv'}, 'legacy': {'success': False, 'relationships_count': 0, 'processing_time': 0, 'error': 'File not found: C:\\GitHub\\clausemate\\tests\\fixtures\\sample_tsvs\\legacy_14col.tsv'}, 'incomplete': {'success': False, 'relationships_count': 0, 'processing_time': 0, 'error': 'File not found: C:\\GitHub\\clausemate\\tests\\fixtures\\sample_tsvs\\incomplete_12col.tsv'}}">C:\GitHub\clausemate\tests\integration\test_format_processing.py:105: All test files failed to process: {'standard': {'success': False, 'relationships_count': 0, 'processing_time': 0, 'error': 'File not found: C:\\GitHub\\clausemate\\tests\\fixtures\\sample_tsvs\\standard_15col.tsv'}, 'extended': {'success': False, 'relationships_count': 0, 'processing_time': 0, 'error': 'File not found: C:\\GitHub\\clausemate\\tests\\fixtures\\sample_tsvs\\extended_37col.tsv'}, 'legacy': {'success': False, 'relationships_count': 0, 'processing_time': 0, 'error': 'File not found: C:\\GitHub\\clausemate\\tests\\fixtures\\sample_tsvs\\legacy_14col.tsv'}, 'incomplete': {'success': False, 'relationships_count': 0, 'processing_time': 0, 'error': 'File not found: C:\\GitHub\\clausemate\\tests\\fixtures\\sample_tsvs\\incomplete_12col.tsv'}}</skipped></testcase><testcase classname="tests.integration.test_format_processing.TestFormatProcessing" name="test_adaptive_parsing_fallback" time="0.033" /><testcase classname="tests.integration.test_format_processing.TestFormatProcessing" name="test_statistics_tracking" time="0.005"><skipped type="pytest.skip" message="No valid test files available">C:\GitHub\clausemate\tests\integration\test_format_processing.py:146: No valid test files available</skipped></testcase><testcase classname="tests.integration.test_format_processing.TestFormatProcessing" name="test_export_functionality" time="0.006"><skipped type="pytest.skip" message="No valid test files available">C:\GitHub\clausemate\tests\integration\test_format_processing.py:180: No valid test files available</skipped></testcase><testcase classname="tests.integration.test_format_processing.TestErrorHandling" name="test_nonexistent_file" time="0.005" /><testcase classname="tests.integration.test_format_processing.TestErrorHandling" name="test_empty_file" time="0.008" /><testcase classname="tests.integration.test_format_processing.TestErrorHandling" name="test_invalid_tsv_format" time="0.020" /><testcase classname="tests.integration.test_format_processing.TestErrorHandling" name="test_export_to_readonly_location" time="0.009" /><testcase classname="tests.integration.test_format_processing.TestPerformanceBaseline" name="test_processing_performance" time="0.013" /><testcase classname="tests.integration.test_format_processing.TestPerformanceBaseline" name="test_memory_usage_baseline" time="0.010" /><testcase classname="tests.integration.test_format_processing.TestRegressionBaseline" name="test_relationship_extraction_consistency" time="0.006" /><testcase classname="tests.integration.test_format_processing.TestRegressionBaseline" name="test_output_format_consistency" time="0.014" /><testcase classname="tests.optional.test_benchmark.TestBenchmark" name="test_benchmark_imports" time="0.004" /><testcase classname="tests.optional.test_benchmark.TestBenchmark" name="test_benchmark_has_expected_functions" time="0.003" /><testcase classname="tests.optional.test_benchmark.TestBenchmark" name="test_benchmark_execution" time="0.006" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedValidation" name="test_token_creation_always_valid" time="1.442" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedValidation" name="test_token_invalid_idx_always_fails" time="0.355" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedValidation" name="test_token_empty_text_always_fails" time="5.870" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedValidation" name="test_phrase_creation_always_valid" time="0.211" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedValidation" name="test_phrase_invalid_indices_always_fail" time="0.276" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedValidation" name="test_sentence_context_creation_always_valid" time="0.207" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedValidation" name="test_sentence_context_invalid_sentence_num_always_fails" time="0.179" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedEdgeCases" name="test_whitespace_only_text_handling" time="0.213" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedEdgeCases" name="test_large_indices_handling" time="0.242" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedEdgeCases" name="test_special_characters_in_text" time="0.203" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedEdgeCases" name="test_token_sequence_properties" time="0.277" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedInvariants" name="test_token_equality_invariants" time="0.118" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedInvariants" name="test_phrase_span_invariants" time="0.113" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedInvariants" name="test_sentence_context_invariants" time="0.119" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedPerformance" name="test_token_creation_performance_scales_linearly" time="0.093" /><testcase classname="tests.property.test_property_based_tests.TestPropertyBased" name="test_placeholder" time="0.002" /><testcase classname="tests.test_4tsv_processing" name="test_4tsv_format_detection" time="0.003" /><testcase classname="tests.test_4tsv_processing" name="test_incomplete_parser_direct" time="0.012" /><testcase classname="tests.test_4tsv_processing" name="test_main_analyzer" time="0.009" /><testcase classname="tests.test_adaptive_parser" name="test_file_parsing[data/input/gotofiles/2.tsv-Standard format (15 columns \u2192 448 relationships)]" time="0.009" /><testcase classname="tests.test_adaptive_parser" name="test_file_parsing[data/input/gotofiles/later/1.tsv-Extended format (37 columns \u2192 234 relationships)]" time="0.008" /><testcase classname="tests.test_adaptive_parser" name="test_file_parsing[data/input/gotofiles/later/3.tsv-Legacy format (14 columns \u2192 527 relationships)]" time="0.015" /><testcase classname="tests.test_adaptive_parser" name="test_file_parsing[data/input/gotofiles/later/4.tsv-Incomplete format (12 columns \u2192 695 relationships)]" time="0.012" /><testcase classname="tests.test_all_chapters" name="test_all_chapters" time="0.014" /><testcase classname="tests.test_benchmark.TestBenchmark" name="test_benchmark_imports" time="0.005" /><testcase classname="tests.test_benchmark.TestBenchmark" name="test_benchmark_has_expected_functions" time="0.004" /><testcase classname="tests.test_benchmark.TestBenchmark" name="test_benchmark_execution" time="0.002" /><testcase classname="tests.test_cross_chapter_visualization" name="test_visualization" time="0.006" /><testcase classname="tests.test_integrated_system" name="test_format_detection" time="0.012" /><testcase classname="tests.test_integrated_system" name="test_adaptive_analyzer" time="0.006" /><testcase classname="tests.test_integrated_system" name="test_legacy_fallback" time="0.004" /><testcase classname="tests.test_integrated_system" name="test_command_line_interface" time="0.939" /><testcase classname="tests.test_multi_file_processing" name="test_multi_file_processing" time="0.003" /><testcase classname="tests.test_phase2_components.TestModularComponents" name="test_analyzer_initialization" time="0.003" /><testcase classname="tests.test_phase2_components.TestModularComponents" name="test_analyzer_with_test_file" time="0.013" /><testcase classname="tests.test_phase2_components.TestModularComponents" name="test_coreference_id_extraction" time="0.002" /><testcase classname="tests.test_phase2_components.TestModularComponents" name="test_sentence_boundary_detection" time="0.003"><skipped type="pytest.skip" message="Test expects different boundary detection behavior - needs review">C:\GitHub\clausemate\tests\test_phase2_components.py:82: Test expects different boundary detection behavior - needs review</skipped></testcase><testcase classname="tests.test_phase2_components.TestModularComponents" name="test_streaming_parser_with_content" time="0.013" /><testcase classname="tests.test_phase2_components.TestModularComponents" name="test_token_creation" time="0.003" /><testcase classname="tests.test_phase2_components.TestModularComponents" name="test_token_validation" time="0.004" /><testcase classname="tests.test_phase2_components.TestDataModels" name="test_sentence_context_creation" time="0.001" /><testcase classname="tests.test_preamble_parser" name="test_preamble_parser" time="0.008" /><testcase classname="tests.test_schema_aware_parser" name="test_schema_aware_parsing" time="0.012" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_verify_phase2_imports" time="0.003" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_verify_phase2_has_main_function" time="0.004" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_verification_process" time="0.002" /><testcase classname="tests.test_versioning.TestVersioning" name="test_versioning_imports" time="0.003" /><testcase classname="tests.test_versioning.TestVersioning" name="test_version_constants" time="0.004" /><testcase classname="tests.test_versioning.TestVersioning" name="test_versioning_functionality" time="0.006" /><testcase classname="tests.unit.test_data_models.TestToken" name="test_token_creation_valid" time="0.008" /><testcase classname="tests.unit.test_data_models.TestToken" name="test_token_validation_invalid_idx" time="0.003" /><testcase classname="tests.unit.test_data_models.TestToken" name="test_token_validation_negative_sentence_num" time="0.005" /><testcase classname="tests.unit.test_data_models.TestToken" name="test_token_validation_empty_text" time="0.004" /><testcase classname="tests.unit.test_data_models.TestToken" name="test_token_columns_initialization" time="0.004" /><testcase classname="tests.unit.test_data_models.TestPhrase" name="test_phrase_creation_valid" time="0.002" /><testcase classname="tests.unit.test_data_models.TestPhrase" name="test_phrase_validation_invalid_indices" time="0.007" /><testcase classname="tests.unit.test_data_models.TestPhrase" name="test_phrase_validation_zero_indices" time="0.005" /><testcase classname="tests.unit.test_data_models.TestPhrase" name="test_phrase_validation_empty_text" time="0.004" /><testcase classname="tests.unit.test_data_models.TestPhrase" name="test_phrase_validation_empty_coref_id" time="0.008" /><testcase classname="tests.unit.test_data_models.TestAntecedentInfo" name="test_antecedent_info_creation_valid" time="0.001" /><testcase classname="tests.unit.test_data_models.TestAntecedentInfo" name="test_antecedent_info_validation_negative_choice_count" time="0.004" /><testcase classname="tests.unit.test_data_models.TestSentenceContext" name="test_sentence_context_creation_valid" time="0.009" /><testcase classname="tests.unit.test_data_models.TestSentenceContext" name="test_sentence_context_validation_invalid_sentence_num" time="0.007" /><testcase classname="tests.unit.test_data_models.TestSentenceContext" name="test_sentence_context_validation_empty_sentence_id" time="0.002" /><testcase classname="tests.unit.test_data_models.TestSentenceContext" name="test_sentence_context_validation_no_tokens" time="0.008" /><testcase classname="tests.unit.test_data_models.TestClauseMateRelationship" name="test_relationship_creation_valid" time="0.002" /><testcase classname="tests.unit.test_data_models.TestClauseMateRelationship" name="test_relationship_validation_invalid_sentence_num" time="0.005" /><testcase classname="tests.unit.test_data_models.TestClauseMateRelationship" name="test_relationship_validation_invalid_clause_mates_count" time="0.005" /><testcase classname="tests.unit.test_data_models.TestClauseMateRelationship" name="test_relationship_validation_empty_sentence_id" time="0.003" /><testcase classname="tests.unit.test_data_models.TestClauseMateRelationship" name="test_relationship_to_dict_conversion" time="0.001" /><testcase classname="tests.unit.test_data_models.TestMockDataFactory" name="test_factory_creates_consistent_objects" time="0.003" /><testcase classname="tests.unit.test_data_models.TestMockDataFactory" name="test_factory_accepts_custom_parameters" time="0.002" /><testcase classname="tests.unit.test_data_models.TestMockDataFactory" name="test_factory_creates_valid_relationships" time="0.002" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_analyzer_initialization_default" time="0.005" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_analyzer_initialization_custom" time="0.002" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_analyze_file_success" time="0.021" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_analyze_file_streaming" time="0.010" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_analyze_file_exception_handling" time="0.020" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_analyze_complete_success" time="0.111" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_extract_sentence_number_valid" time="0.004" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_extract_sentence_number_no_match" time="0.004" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_export_results_success" time="0.012" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_export_results_empty_relationships" time="0.009" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_export_results_exception_handling" time="0.011" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_get_statistics" time="0.009" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_detect_and_configure_format_success" time="0.010" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_detect_and_configure_format_low_compatibility" time="0.011" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_detect_and_configure_format_incomplete" time="0.018" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_detect_and_configure_format_exception" time="0.013" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_ensure_timestamped_output_path_new" time="0.008" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_ensure_timestamped_output_path_existing" time="0.007" /><testcase classname="tests.unit.test_main_analyzer.TestAnalyzerIntegration" name="test_analyzer_with_mock_data" time="0.002" /><testcase classname="tests.unit.test_main_analyzer.TestAnalyzerIntegration" name="test_analyzer_statistics_tracking" time="0.014" /></testsuite></testsuites>
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="34" skipped="8" tests="411" time="12.309" timestamp="2025-08-29T00:06:40.891386+02:00" hostname="IFL-NB-80"><properties><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedValidation::test_token_creation_always_valid" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRWYWxpZGF0aW9uOjp0ZXN0X3Rva2VuX2NyZWF0aW9uX2Fsd2F5c192YWxpZDoKCiAgLSBkdXJpbmcgZ2VuZXJhdGUgcGhhc2UgKDIuMjMgc2Vjb25kcyk6CiAgICAtIFR5cGljYWwgcnVudGltZXM6IH4gMC00IG1zLCBvZiB3aGljaCB+IDAtMyBtcyBpbiBkYXRhIGdlbmVyYXRpb24KICAgIC0gNTAgcGFzc2luZyBleGFtcGxlcywgMCBmYWlsaW5nIGV4YW1wbGVzLCAwIGludmFsaWQgZXhhbXBsZXMKCiAgLSBTdG9wcGVkIGJlY2F1c2Ugc2V0dGluZ3MubWF4X2V4YW1wbGVzPTUw" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedValidation::test_token_invalid_idx_always_fails" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRWYWxpZGF0aW9uOjp0ZXN0X3Rva2VuX2ludmFsaWRfaWR4X2Fsd2F5c19mYWlsczoKCiAgLSBkdXJpbmcgZ2VuZXJhdGUgcGhhc2UgKDAuMDcgc2Vjb25kcyk6CiAgICAtIFR5cGljYWwgcnVudGltZXM6IDwgMW1zLCBvZiB3aGljaCA8IDFtcyBpbiBkYXRhIGdlbmVyYXRpb24KICAgIC0gMTAwIHBhc3NpbmcgZXhhbXBsZXMsIDAgZmFpbGluZyBleGFtcGxlcywgMCBpbnZhbGlkIGV4YW1wbGVzCgogIC0gU3RvcHBlZCBiZWNhdXNlIHNldHRpbmdzLm1heF9leGFtcGxlcz0xMDA=" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedValidation::test_token_empty_text_always_fails" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRWYWxpZGF0aW9uOjp0ZXN0X3Rva2VuX2VtcHR5X3RleHRfYWx3YXlzX2ZhaWxzOgoKICAtIGR1cmluZyBnZW5lcmF0ZSBwaGFzZSAoMC4wMCBzZWNvbmRzKToKICAgIC0gVHlwaWNhbCBydW50aW1lczogPCAxbXMsIG9mIHdoaWNoIDwgMW1zIGluIGRhdGEgZ2VuZXJhdGlvbgogICAgLSAxIHBhc3NpbmcgZXhhbXBsZXMsIDAgZmFpbGluZyBleGFtcGxlcywgMCBpbnZhbGlkIGV4YW1wbGVzCgogIC0gU3RvcHBlZCBiZWNhdXNlIG5vdGhpbmcgbGVmdCB0byBkbw==" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedValidation::test_phrase_creation_always_valid" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRWYWxpZGF0aW9uOjp0ZXN0X3BocmFzZV9jcmVhdGlvbl9hbHdheXNfdmFsaWQ6CgogIC0gZHVyaW5nIGdlbmVyYXRlIHBoYXNlICgwLjQyIHNlY29uZHMpOgogICAgLSBUeXBpY2FsIHJ1bnRpbWVzOiB+IDEtNDEgbXMsIG9mIHdoaWNoIH4gMC0yIG1zIGluIGRhdGEgZ2VuZXJhdGlvbgogICAgLSA1MCBwYXNzaW5nIGV4YW1wbGVzLCAwIGZhaWxpbmcgZXhhbXBsZXMsIDAgaW52YWxpZCBleGFtcGxlcwoKICAtIFN0b3BwZWQgYmVjYXVzZSBzZXR0aW5ncy5tYXhfZXhhbXBsZXM9NTA=" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedValidation::test_phrase_invalid_indices_always_fail" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRWYWxpZGF0aW9uOjp0ZXN0X3BocmFzZV9pbnZhbGlkX2luZGljZXNfYWx3YXlzX2ZhaWw6CgogIC0gZHVyaW5nIGdlbmVyYXRlIHBoYXNlICgwLjE1IHNlY29uZHMpOgogICAgLSBUeXBpY2FsIHJ1bnRpbWVzOiB+IDAtMSBtcywgb2Ygd2hpY2ggPCAxbXMgaW4gZGF0YSBnZW5lcmF0aW9uCiAgICAtIDEwMCBwYXNzaW5nIGV4YW1wbGVzLCAwIGZhaWxpbmcgZXhhbXBsZXMsIDAgaW52YWxpZCBleGFtcGxlcwoKICAtIFN0b3BwZWQgYmVjYXVzZSBzZXR0aW5ncy5tYXhfZXhhbXBsZXM9MTAw" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedValidation::test_sentence_context_creation_always_valid" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRWYWxpZGF0aW9uOjp0ZXN0X3NlbnRlbmNlX2NvbnRleHRfY3JlYXRpb25fYWx3YXlzX3ZhbGlkOgoKICAtIGR1cmluZyBnZW5lcmF0ZSBwaGFzZSAoMC4wOCBzZWNvbmRzKToKICAgIC0gVHlwaWNhbCBydW50aW1lczogfiAxLTMgbXMsIG9mIHdoaWNoIH4gMC0yIG1zIGluIGRhdGEgZ2VuZXJhdGlvbgogICAgLSAzMCBwYXNzaW5nIGV4YW1wbGVzLCAwIGZhaWxpbmcgZXhhbXBsZXMsIDAgaW52YWxpZCBleGFtcGxlcwoKICAtIFN0b3BwZWQgYmVjYXVzZSBzZXR0aW5ncy5tYXhfZXhhbXBsZXM9MzA=" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedValidation::test_sentence_context_invalid_sentence_num_always_fails" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRWYWxpZGF0aW9uOjp0ZXN0X3NlbnRlbmNlX2NvbnRleHRfaW52YWxpZF9zZW50ZW5jZV9udW1fYWx3YXlzX2ZhaWxzOgoKICAtIGR1cmluZyBnZW5lcmF0ZSBwaGFzZSAoMC4wNyBzZWNvbmRzKToKICAgIC0gVHlwaWNhbCBydW50aW1lczogPCAxbXMsIG9mIHdoaWNoIDwgMW1zIGluIGRhdGEgZ2VuZXJhdGlvbgogICAgLSAxMDAgcGFzc2luZyBleGFtcGxlcywgMCBmYWlsaW5nIGV4YW1wbGVzLCAwIGludmFsaWQgZXhhbXBsZXMKCiAgLSBTdG9wcGVkIGJlY2F1c2Ugc2V0dGluZ3MubWF4X2V4YW1wbGVzPTEwMA==" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedEdgeCases::test_whitespace_only_text_handling" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRFZGdlQ2FzZXM6OnRlc3Rfd2hpdGVzcGFjZV9vbmx5X3RleHRfaGFuZGxpbmc6CgogIC0gZHVyaW5nIGdlbmVyYXRlIHBoYXNlICgwLjExIHNlY29uZHMpOgogICAgLSBUeXBpY2FsIHJ1bnRpbWVzOiA8IDFtcywgb2Ygd2hpY2ggPCAxbXMgaW4gZGF0YSBnZW5lcmF0aW9uCiAgICAtIDEwMCBwYXNzaW5nIGV4YW1wbGVzLCAwIGZhaWxpbmcgZXhhbXBsZXMsIDAgaW52YWxpZCBleGFtcGxlcwoKICAtIFN0b3BwZWQgYmVjYXVzZSBzZXR0aW5ncy5tYXhfZXhhbXBsZXM9MTAw" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedEdgeCases::test_large_indices_handling" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRFZGdlQ2FzZXM6OnRlc3RfbGFyZ2VfaW5kaWNlc19oYW5kbGluZzoKCiAgLSBkdXJpbmcgZ2VuZXJhdGUgcGhhc2UgKDAuMDggc2Vjb25kcyk6CiAgICAtIFR5cGljYWwgcnVudGltZXM6IH4gMC0xIG1zLCBvZiB3aGljaCA8IDFtcyBpbiBkYXRhIGdlbmVyYXRpb24KICAgIC0gMTAwIHBhc3NpbmcgZXhhbXBsZXMsIDAgZmFpbGluZyBleGFtcGxlcywgMCBpbnZhbGlkIGV4YW1wbGVzCgogIC0gU3RvcHBlZCBiZWNhdXNlIHNldHRpbmdzLm1heF9leGFtcGxlcz0xMDA=" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedEdgeCases::test_special_characters_in_text" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRFZGdlQ2FzZXM6OnRlc3Rfc3BlY2lhbF9jaGFyYWN0ZXJzX2luX3RleHQ6CgogIC0gZHVyaW5nIGdlbmVyYXRlIHBoYXNlICgwLjI1IHNlY29uZHMpOgogICAgLSBUeXBpY2FsIHJ1bnRpbWVzOiB+IDAtMSBtcywgb2Ygd2hpY2ggPCAxbXMgaW4gZGF0YSBnZW5lcmF0aW9uCiAgICAtIDEwMCBwYXNzaW5nIGV4YW1wbGVzLCAwIGZhaWxpbmcgZXhhbXBsZXMsIDAgaW52YWxpZCBleGFtcGxlcwoKICAtIFN0b3BwZWQgYmVjYXVzZSBzZXR0aW5ncy5tYXhfZXhhbXBsZXM9MTAw" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedEdgeCases::test_token_sequence_properties" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRFZGdlQ2FzZXM6OnRlc3RfdG9rZW5fc2VxdWVuY2VfcHJvcGVydGllczoKCiAgLSBkdXJpbmcgZ2VuZXJhdGUgcGhhc2UgKDAuMTkgc2Vjb25kcyk6CiAgICAtIFR5cGljYWwgcnVudGltZXM6IH4gMC0yIG1zLCBvZiB3aGljaCB+IDAtMSBtcyBpbiBkYXRhIGdlbmVyYXRpb24KICAgIC0gMTAwIHBhc3NpbmcgZXhhbXBsZXMsIDAgZmFpbGluZyBleGFtcGxlcywgMTIgaW52YWxpZCBleGFtcGxlcwoKICAtIFN0b3BwZWQgYmVjYXVzZSBzZXR0aW5ncy5tYXhfZXhhbXBsZXM9MTAw" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedInvariants::test_token_equality_invariants" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRJbnZhcmlhbnRzOjp0ZXN0X3Rva2VuX2VxdWFsaXR5X2ludmFyaWFudHM6CgogIC0gZHVyaW5nIGdlbmVyYXRlIHBoYXNlICgwLjA3IHNlY29uZHMpOgogICAgLSBUeXBpY2FsIHJ1bnRpbWVzOiB+IDEtMiBtcywgb2Ygd2hpY2ggfiAwLTEgbXMgaW4gZGF0YSBnZW5lcmF0aW9uCiAgICAtIDMwIHBhc3NpbmcgZXhhbXBsZXMsIDAgZmFpbGluZyBleGFtcGxlcywgMCBpbnZhbGlkIGV4YW1wbGVzCgogIC0gU3RvcHBlZCBiZWNhdXNlIHNldHRpbmdzLm1heF9leGFtcGxlcz0zMA==" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedInvariants::test_phrase_span_invariants" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRJbnZhcmlhbnRzOjp0ZXN0X3BocmFzZV9zcGFuX2ludmFyaWFudHM6CgogIC0gZHVyaW5nIGdlbmVyYXRlIHBoYXNlICgwLjA3IHNlY29uZHMpOgogICAgLSBUeXBpY2FsIHJ1bnRpbWVzOiB+IDEtNCBtcywgb2Ygd2hpY2ggfiAwLTEgbXMgaW4gZGF0YSBnZW5lcmF0aW9uCiAgICAtIDMwIHBhc3NpbmcgZXhhbXBsZXMsIDAgZmFpbGluZyBleGFtcGxlcywgMCBpbnZhbGlkIGV4YW1wbGVzCgogIC0gU3RvcHBlZCBiZWNhdXNlIHNldHRpbmdzLm1heF9leGFtcGxlcz0zMA==" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedInvariants::test_sentence_context_invariants" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRJbnZhcmlhbnRzOjp0ZXN0X3NlbnRlbmNlX2NvbnRleHRfaW52YXJpYW50czoKCiAgLSBkdXJpbmcgZ2VuZXJhdGUgcGhhc2UgKDAuMDggc2Vjb25kcyk6CiAgICAtIFR5cGljYWwgcnVudGltZXM6IH4gMS01IG1zLCBvZiB3aGljaCB+IDAtNCBtcyBpbiBkYXRhIGdlbmVyYXRpb24KICAgIC0gMjAgcGFzc2luZyBleGFtcGxlcywgMCBmYWlsaW5nIGV4YW1wbGVzLCAwIGludmFsaWQgZXhhbXBsZXMKCiAgLSBTdG9wcGVkIGJlY2F1c2Ugc2V0dGluZ3MubWF4X2V4YW1wbGVzPTIw" /><property name="hypothesis-statistics-tests/optional/test_property_based.py::TestPropertyBasedPerformance::test_token_creation_performance_scales_linearly" value="dGVzdHMvb3B0aW9uYWwvdGVzdF9wcm9wZXJ0eV9iYXNlZC5weTo6VGVzdFByb3BlcnR5QmFzZWRQZXJmb3JtYW5jZTo6dGVzdF90b2tlbl9jcmVhdGlvbl9wZXJmb3JtYW5jZV9zY2FsZXNfbGluZWFybHk6CgogIC0gZHVyaW5nIGdlbmVyYXRlIHBoYXNlICgwLjA0IHNlY29uZHMpOgogICAgLSBUeXBpY2FsIHJ1bnRpbWVzOiB+IDEtOSBtcywgb2Ygd2hpY2ggfiAwLTggbXMgaW4gZGF0YSBnZW5lcmF0aW9uCiAgICAtIDEwIHBhc3NpbmcgZXhhbXBsZXMsIDAgZmFpbGluZyBleGFtcGxlcywgMCBpbnZhbGlkIGV4YW1wbGVzCgogIC0gU3RvcHBlZCBiZWNhdXNlIHNldHRpbmdzLm1heF9leGFtcGxlcz0xMA==" /></properties><testcase classname="tests.integration.test_format_processing.TestFormatProcessing" name="test_format_detection_and_processing[standard]" time="0.004"><skipped type="pytest.skip" message="Test file c:\GitHub\clausemate\tests\fixtures\sample_tsvs\standard_15col.tsv not found">c:\GitHub\clausemate\tests\integration\test_format_processing.py:29: Test file c:\GitHub\clausemate\tests\fixtures\sample_tsvs\standard_15col.tsv not found</skipped></testcase><testcase classname="tests.integration.test_format_processing.TestFormatProcessing" name="test_format_detection_and_processing[extended]" time="0.001"><skipped type="pytest.skip" message="Test file c:\GitHub\clausemate\tests\fixtures\sample_tsvs\extended_37col.tsv not found">c:\GitHub\clausemate\tests\integration\test_format_processing.py:29: Test file c:\GitHub\clausemate\tests\fixtures\sample_tsvs\extended_37col.tsv not found</skipped></testcase><testcase classname="tests.integration.test_format_processing.TestFormatProcessing" name="test_format_detection_and_processing[legacy]" time="0.001"><skipped type="pytest.skip" message="Test file c:\GitHub\clausemate\tests\fixtures\sample_tsvs\legacy_14col.tsv not found">c:\GitHub\clausemate\tests\integration\test_format_processing.py:29: Test file c:\GitHub\clausemate\tests\fixtures\sample_tsvs\legacy_14col.tsv not found</skipped></testcase><testcase classname="tests.integration.test_format_processing.TestFormatProcessing" name="test_format_detection_and_processing[incomplete]" time="0.002"><skipped type="pytest.skip" message="Test file c:\GitHub\clausemate\tests\fixtures\sample_tsvs\incomplete_12col.tsv not found">c:\GitHub\clausemate\tests\integration\test_format_processing.py:29: Test file c:\GitHub\clausemate\tests\fixtures\sample_tsvs\incomplete_12col.tsv not found</skipped></testcase><testcase classname="tests.integration.test_format_processing.TestFormatProcessing" name="test_end_to_end_processing" time="0.005"><skipped type="pytest.skip" message="All test files failed to process: {'standard': {'success': False, 'relationships_count': 0, 'processing_time': 0, 'error': 'File not found: c:\\GitHub\\clausemate\\tests\\fixtures\\sample_tsvs\\standard_15col.tsv'}, 'extended': {'success': False, 'relationships_count': 0, 'processing_time': 0, 'error': 'File not found: c:\\GitHub\\clausemate\\tests\\fixtures\\sample_tsvs\\extended_37col.tsv'}, 'legacy': {'success': False, 'relationships_count': 0, 'processing_time': 0, 'error': 'File not found: c:\\GitHub\\clausemate\\tests\\fixtures\\sample_tsvs\\legacy_14col.tsv'}, 'incomplete': {'success': False, 'relationships_count': 0, 'processing_time': 0, 'error': 'File not found: c:\\GitHub\\clausemate\\tests\\fixtures\\sample_tsvs\\incomplete_12col.tsv'}}">c:\GitHub\clausemate\tests\integration\test_format_processing.py:105: All test files failed to process: {'standard': {'success': False, 'relationships_count': 0, 'processing_time': 0, 'error': 'File not found: c:\\GitHub\\clausemate\\tests\\fixtures\\sample_tsvs\\standard_15col.tsv'}, 'extended': {'success': False, 'relationships_count': 0, 'processing_time': 0, 'error': 'File not found: c:\\GitHub\\clausemate\\tests\\fixtures\\sample_tsvs\\extended_37col.tsv'}, 'legacy': {'success': False, 'relationships_count': 0, 'processing_time': 0, 'error': 'File not found: c:\\GitHub\\clausemate\\tests\\fixtures\\sample_tsvs\\legacy_14col.tsv'}, 'incomplete': {'success': False, 'relationships_count': 0, 'processing_time': 0, 'error': 'File not found: c:\\GitHub\\clausemate\\tests\\fixtures\\sample_tsvs\\incomplete_12col.tsv'}}</skipped></testcase><testcase classname="tests.integration.test_format_processing.TestFormatProcessing" name="test_adaptive_parsing_fallback" time="0.047" /><testcase classname="tests.integration.test_format_processing.TestFormatProcessing" name="test_statistics_tracking" time="0.003"><skipped type="pytest.skip" message="No valid test files available">c:\GitHub\clausemate\tests\integration\test_format_processing.py:146: No valid test files available</skipped></testcase><testcase classname="tests.integration.test_format_processing.TestFormatProcessing" name="test_export_functionality" time="0.006"><skipped type="pytest.skip" message="No valid test files available">c:\GitHub\clausemate\tests\integration\test_format_processing.py:180: No valid test files available</skipped></testcase><testcase classname="tests.integration.test_format_processing.TestErrorHandling" name="test_nonexistent_file" time="0.002" /><testcase classname="tests.integration.test_format_processing.TestErrorHandling" name="test_empty_file" time="0.010" /><testcase classname="tests.integration.test_format_processing.TestErrorHandling" name="test_invalid_tsv_format" time="0.013" /><testcase classname="tests.integration.test_format_processing.TestErrorHandling" name="test_export_to_readonly_location" time="0.011" /><testcase classname="tests.integration.test_format_processing.TestPerformanceBaseline" name="test_processing_performance" time="0.001" /><testcase classname="tests.integration.test_format_processing.TestPerformanceBaseline" name="test_memory_usage_baseline" time="0.001" /><testcase classname="tests.integration.test_format_processing.TestRegressionBaseline" name="test_relationship_extraction_consistency" time="0.001" /><testcase classname="tests.integration.test_format_processing.TestRegressionBaseline" name="test_output_format_consistency" time="0.004" /><testcase classname="tests.optional.test_benchmark.TestBenchmark" name="test_benchmark_imports" time="0.004" /><testcase classname="tests.optional.test_benchmark.TestBenchmark" name="test_benchmark_has_expected_functions" time="0.005" /><testcase classname="tests.optional.test_benchmark.TestBenchmark" name="test_benchmark_execution" time="0.001" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedValidation" name="test_token_creation_always_valid" time="2.238" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedValidation" name="test_token_invalid_idx_always_fails" time="0.071" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedValidation" name="test_token_empty_text_always_fails" time="0.028" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedValidation" name="test_phrase_creation_always_valid" time="0.428" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedValidation" name="test_phrase_invalid_indices_always_fail" time="0.156" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedValidation" name="test_sentence_context_creation_always_valid" time="0.086" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedValidation" name="test_sentence_context_invalid_sentence_num_always_fails" time="0.077" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedEdgeCases" name="test_whitespace_only_text_handling" time="0.112" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedEdgeCases" name="test_large_indices_handling" time="0.082" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedEdgeCases" name="test_special_characters_in_text" time="0.257" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedEdgeCases" name="test_token_sequence_properties" time="0.197" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedInvariants" name="test_token_equality_invariants" time="0.068" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedInvariants" name="test_phrase_span_invariants" time="0.077" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedInvariants" name="test_sentence_context_invariants" time="0.082" /><testcase classname="tests.optional.test_property_based.TestPropertyBasedPerformance" name="test_token_creation_performance_scales_linearly" time="0.047" /><testcase classname="tests.property.test_property_based_tests.TestPropertyBased" name="test_placeholder" time="0.001" /><testcase classname="tests.test_4tsv_processing" name="test_4tsv_format_detection" time="0.002" /><testcase classname="tests.test_4tsv_processing" name="test_incomplete_parser_direct" time="0.010" /><testcase classname="tests.test_4tsv_processing" name="test_main_analyzer" time="0.004" /><testcase classname="tests.test_adaptive_parser" name="test_file_parsing[data/input/gotofiles/2.tsv-Standard format (15 columns \u2192 448 relationships)]" time="0.005" /><testcase classname="tests.test_adaptive_parser" name="test_file_parsing[data/input/gotofiles/later/1.tsv-Extended format (37 columns \u2192 234 relationships)]" time="0.002" /><testcase classname="tests.test_adaptive_parser" name="test_file_parsing[data/input/gotofiles/later/3.tsv-Legacy format (14 columns \u2192 527 relationships)]" time="0.002" /><testcase classname="tests.test_adaptive_parser" name="test_file_parsing[data/input/gotofiles/later/4.tsv-Incomplete format (12 columns \u2192 695 relationships)]" time="0.004" /><testcase classname="tests.test_advanced_analysis_features.TestCharacterMention" name="test_character_mention_creation" time="0.002" /><testcase classname="tests.test_advanced_analysis_features.TestCharacterProfile" name="test_character_profile_creation" time="0.001" /><testcase classname="tests.test_advanced_analysis_features.TestNarrativeFlowSegment" name="test_narrative_flow_segment_creation" time="0.001" /><testcase classname="tests.test_advanced_analysis_features.TestCrossChapterTransition" name="test_cross_chapter_transition_creation" time="0.001" /><testcase classname="tests.test_advanced_analysis_features.TestPerformanceMetrics" name="test_performance_metrics_creation" time="0.001" /><testcase classname="tests.test_advanced_analysis_features.TestAdvancedAnalysisEngine" name="test_initialization" time="0.003" /><testcase classname="tests.test_advanced_analysis_features.TestAdvancedAnalysisEngine" name="test_initialization_with_logger" time="0.007"><failure message="AssertionError: expected call not found.&#10;Expected: getLogger('tests.test_advanced_analysis_features')&#10;  Actual: getLogger('src.multi_file.advanced_analysis_features')">self = &lt;tests.test_advanced_analysis_features.TestAdvancedAnalysisEngine object at 0x0000027F8AF7FED0&gt;
+mock_logging = &lt;MagicMock name='logging' id='2746819076720'&gt;
+
+    @patch('src.multi_file.advanced_analysis_features.logging')
+    def test_initialization_with_logger(self, mock_logging):
+        """Test initialization with logging setup."""
+        mock_logger = MagicMock()
+        mock_logging.getLogger.return_value = mock_logger
+
+        engine = AdvancedAnalysisEngine(self.temp_dir)
+
+&gt;       mock_logging.getLogger.assert_called_once_with(__name__)
+
+tests\test_advanced_analysis_features.py:206:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Python313\Lib\unittest\mock.py:991: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;MagicMock name='logging.getLogger' id='2746819082768'&gt;
+args = ('tests.test_advanced_analysis_features',), kwargs = {}
+expected = call('tests.test_advanced_analysis_features')
+actual = call('src.multi_file.advanced_analysis_features')
+_error_message = &lt;function NonCallableMock.assert_called_with.&lt;locals&gt;._error_message at 0x0000027F8B927F60&gt;
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\n  Actual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+&gt;           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: getLogger('tests.test_advanced_analysis_features')
+E             Actual: getLogger('src.multi_file.advanced_analysis_features')
+
+C:\Python313\Lib\unittest\mock.py:979: AssertionError</failure></testcase><testcase classname="tests.test_advanced_analysis_features.TestAdvancedAnalysisEngine" name="test_analyze_character_tracking_empty_relationships" time="0.005" /><testcase classname="tests.test_advanced_analysis_features.TestAdvancedAnalysisEngine" name="test_analyze_character_tracking_single_relationship" time="0.006"><failure message="assert 0 == 1&#10; +  where 0 = len({})">self = &lt;tests.test_advanced_analysis_features.TestAdvancedAnalysisEngine object at 0x0000027F8B0ADCD0&gt;
+
+    def test_analyze_character_tracking_single_relationship(self):
+        """Test character tracking with a single relationship."""
+        # Create mock relationship
+        mock_relationship = MagicMock()
+        mock_relationship.chapter_number = 1
+        mock_relationship.sentence_id = "sent_1"
+        mock_relationship.sentence_num = 1
+        mock_relationship.pronoun_coref_ids = ["chain_1"]
+        mock_relationship.pronoun = MagicMock()
+        mock_relationship.pronoun.text = "er"
+        mock_relationship.pronoun.grammatical_role = "SUBJ"
+        mock_relationship.pronoun.thematic_role = "AGENT"
+        mock_relationship.clause_mate = MagicMock()
+        mock_relationship.clause_mate.coreference_id = None
+
+        # Create mock chapter metadata
+        mock_chapter_meta = MagicMock()
+        mock_chapter_meta.chapter_number = 1
+        mock_chapter_meta.sentence_range = (1, 10)
+
+        result = self.engine.analyze_character_tracking(
+            [mock_relationship], [mock_chapter_meta], []
+        )
+
+        # Should have one character profile
+&gt;       assert len(result) == 1
+E       assert 0 == 1
+E        +  where 0 = len({})
+
+tests\test_advanced_analysis_features.py:239: AssertionError</failure></testcase><testcase classname="tests.test_advanced_analysis_features.TestAdvancedAnalysisEngine" name="test_analyze_narrative_flow_empty_relationships" time="0.002" /><testcase classname="tests.test_advanced_analysis_features.TestAdvancedAnalysisEngine" name="test_analyze_cross_chapter_transitions_empty_metadata" time="0.002" /><testcase classname="tests.test_advanced_analysis_features.TestAdvancedAnalysisEngine" name="test_analyze_cross_chapter_transitions_single_transition" time="0.003" /><testcase classname="tests.test_advanced_analysis_features.TestAdvancedAnalysisEngine" name="test_calculate_performance_metrics" time="0.292" /><testcase classname="tests.test_advanced_analysis_features.TestAdvancedAnalysisEngine" name="test_generate_coreference_visualization_data" time="0.010" /><testcase classname="tests.test_advanced_analysis_features.TestAdvancedAnalysisEngine" name="test_create_comprehensive_analysis_report" time="0.004"><failure message="TypeError: asdict() should be called on dataclass instances">self = &lt;tests.test_advanced_analysis_features.TestAdvancedAnalysisEngine object at 0x0000027F8AFAAD50&gt;
+
+    def test_create_comprehensive_analysis_report(self):
+        """Test comprehensive analysis report creation."""
+        # Create mock data
+        mock_profile = MagicMock()
+        mock_profile.primary_name = "Karl"
+        mock_profile.narrative_prominence = 0.9
+        mock_profile.cross_chapter_continuity = 0.8
+        mock_profile.chapters_present = [1, 2]
+
+        character_profiles = {"char_1": mock_profile}
+
+        mock_segment = MagicMock()
+        mock_segment.segment_type = "introduction"
+        mock_segment.narrative_tension = 0.6
+        mock_segment.character_density = 0.8
+
+        narrative_segments = [mock_segment]
+
+        mock_transition = MagicMock()
+        mock_transition.narrative_coherence = 0.75
+        mock_transition.character_continuity = 0.8
+
+        transitions = [mock_transition]
+
+        mock_metrics = MagicMock()
+        mock_metrics.total_processing_time = 30.0
+        mock_metrics.relationships_per_second = 50.0
+
+&gt;       result_path = self.engine.create_comprehensive_analysis_report(
+            character_profiles, narrative_segments, transitions, mock_metrics
+        )
+
+tests\test_advanced_analysis_features.py:381:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\multi_file\advanced_analysis_features.py:432: in create_comprehensive_analysis_report
+    char_id: asdict(profile)
+             ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+obj = &lt;MagicMock id='2746856495424'&gt;
+
+    def asdict(obj, *, dict_factory=dict):
+        """Return the fields of a dataclass instance as a new dictionary mapping
+        field names to field values.
+
+        Example usage::
+
+          @dataclass
+          class C:
+              x: int
+              y: int
+
+          c = C(1, 2)
+          assert asdict(c) == {'x': 1, 'y': 2}
+
+        If given, 'dict_factory' will be used instead of built-in dict.
+        The function applies recursively to field values that are
+        dataclass instances. This will also look into built-in containers:
+        tuples, lists, and dicts. Other objects are copied with 'copy.deepcopy()'.
+        """
+        if not _is_dataclass_instance(obj):
+&gt;           raise TypeError("asdict() should be called on dataclass instances")
+E           TypeError: asdict() should be called on dataclass instances
+
+C:\Python313\Lib\dataclasses.py:1358: TypeError</failure></testcase><testcase classname="tests.test_advanced_analysis_features.TestAdvancedAnalysisEngine" name="test_get_character_color" time="0.003" /><testcase classname="tests.test_advanced_analysis_features.TestAdvancedAnalysisEngine" name="test_calculate_character_statistics_empty_profiles" time="0.003" /><testcase classname="tests.test_advanced_analysis_features.TestAdvancedAnalysisEngine" name="test_calculate_character_statistics_with_profiles" time="0.003"><failure message="assert 0 == 1">self = &lt;tests.test_advanced_analysis_features.TestAdvancedAnalysisEngine object at 0x0000027F8B0CFA10&gt;
+
+    def test_calculate_character_statistics_with_profiles(self):
+        """Test character statistics calculation with profiles."""
+        mock_profile1 = MagicMock()
+        mock_profile1.narrative_prominence = 0.9
+        mock_profile1.cross_chapter_continuity = 0.8
+        mock_profile1.chapters_present = [1, 2]
+
+        mock_profile2 = MagicMock()
+        mock_profile2.narrative_prominence = 0.3
+        mock_profile2.cross_chapter_continuity = 0.5
+        mock_profile2.chapters_present = [1]
+
+        profiles = {"char_1": mock_profile1, "char_2": mock_profile2}
+
+        result = self.engine._calculate_character_statistics(profiles)
+
+        assert result["total_characters"] == 2
+        assert result["major_characters"] == 1
+&gt;       assert result["minor_characters"] == 1
+E       assert 0 == 1
+
+tests\test_advanced_analysis_features.py:451: AssertionError</failure></testcase><testcase classname="tests.test_advanced_analysis_features.TestAdvancedAnalysisEngine" name="test_calculate_narrative_statistics_empty_segments" time="0.002" /><testcase classname="tests.test_advanced_analysis_features.TestAdvancedAnalysisEngine" name="test_calculate_narrative_statistics_with_segments" time="0.003" /><testcase classname="tests.test_advanced_analysis_features.TestAdvancedAnalysisEngine" name="test_calculate_transition_statistics_empty_transitions" time="0.002" /><testcase classname="tests.test_advanced_analysis_features.TestAdvancedAnalysisEngine" name="test_calculate_transition_statistics_with_transitions" time="0.003"><failure message="assert 0.6000000000000001 == 0.6">self = &lt;tests.test_advanced_analysis_features.TestAdvancedAnalysisEngine object at 0x0000027F8B06F750&gt;
+
+    def test_calculate_transition_statistics_with_transitions(self):
+        """Test transition statistics calculation with transitions."""
+        mock_transition1 = MagicMock()
+        mock_transition1.character_continuity = 0.8
+        mock_transition1.narrative_coherence = 0.9
+
+        mock_transition2 = MagicMock()
+        mock_transition2.character_continuity = 0.4
+        mock_transition2.narrative_coherence = 0.2
+
+        transitions = [mock_transition1, mock_transition2]
+
+        result = self.engine._calculate_transition_statistics(transitions)
+
+        assert result["total_transitions"] == 2
+&gt;       assert result["average_character_continuity"] == 0.6
+E       assert 0.6000000000000001 == 0.6
+
+tests\test_advanced_analysis_features.py:503: AssertionError</failure></testcase><testcase classname="tests.test_advanced_analysis_features.TestAdvancedAnalysisEngine" name="test_generate_analysis_recommendations" time="0.003" /><testcase classname="tests.test_all_chapters" name="test_all_chapters" time="0.003" /><testcase classname="tests.test_analyzers.TestAnalyzerImports" name="test_base_analyzer_import" time="0.001" /><testcase classname="tests.test_analyzers.TestAnalyzerImports" name="test_statistical_analyzer_import" time="0.001" /><testcase classname="tests.test_analyzers.TestAnalyzerImports" name="test_coreference_analyzer_import" time="0.001" /><testcase classname="tests.test_analyzers.TestAnalyzerImports" name="test_pronoun_analyzer_import" time="0.001" /><testcase classname="tests.test_analyzers.TestAnalyzerImports" name="test_clause_mate_analyzer_import" time="0.001" /><testcase classname="tests.test_analyzers.TestAnalyzerImports" name="test_validation_analyzer_import" time="0.001" /><testcase classname="tests.test_analyzers.TestBaseAnalyzerInterface" name="test_abstract_methods" time="0.001" /><testcase classname="tests.test_analyzers.TestBaseAnalyzerInterface" name="test_is_abstract" time="0.002" /><testcase classname="tests.test_analyzers.TestStatisticalAnalyzerInterface" name="test_abstract_methods" time="0.001" /><testcase classname="tests.test_analyzers.TestStatisticalAnalyzerInterface" name="test_inheritance" time="0.001" /><testcase classname="tests.test_analyzers.TestCoreferenceAnalyzerInterface" name="test_abstract_methods" time="0.001" /><testcase classname="tests.test_analyzers.TestPronounAnalyzerInterface" name="test_abstract_methods" time="0.001" /><testcase classname="tests.test_analyzers.TestClauseMateAnalyzerInterface" name="test_abstract_methods" time="0.001" /><testcase classname="tests.test_analyzers.TestValidationAnalyzerInterface" name="test_abstract_methods" time="0.004" /><testcase classname="tests.test_analyzers.TestMockAnalyzer" name="test_mock_analyzer_creation" time="0.004" /><testcase classname="tests.test_analyzers.TestMockAnalyzer" name="test_mock_analyze" time="0.002" /><testcase classname="tests.test_analyzers.TestMockAnalyzer" name="test_mock_can_analyze" time="0.005" /><testcase classname="tests.test_benchmark.TestBenchmarkResult" name="test_benchmark_result_creation" time="0.001" /><testcase classname="tests.test_benchmark.TestPerformanceBenchmark" name="test_initialization_success" time="0.003" /><testcase classname="tests.test_benchmark.TestPerformanceBenchmark" name="test_initialization_without_psutil" time="0.002" /><testcase classname="tests.test_benchmark.TestPerformanceBenchmark" name="test_benchmark_function" time="0.005" /><testcase classname="tests.test_benchmark.TestPerformanceBenchmark" name="test_benchmark_function_no_output_file" time="0.007" /><testcase classname="tests.test_benchmark.TestPerformanceBenchmark" name="test_benchmark_function_zero_execution_time" time="0.007" /><testcase classname="tests.test_benchmark.TestPerformanceBenchmark" name="test_compare_phases" time="0.032"><failure message="AttributeError: module 'archive.phase1' has no attribute 'clause_mates_complete'">args = (&lt;tests.test_benchmark.TestPerformanceBenchmark object at 0x0000027F8B1B4270&gt;,)
+keywargs = {}
+
+    @wraps(func)
+    def patched(*args, **keywargs):
+&gt;       with self.decoration_helper(patched,
+                                    args,
+                                    keywargs) as (newargs, newkeywargs):
+
+C:\Python313\Lib\unittest\mock.py:1423:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Python313\Lib\contextlib.py:141: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+C:\Python313\Lib\unittest\mock.py:1405: in decoration_helper
+    arg = exit_stack.enter_context(patching)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\contextlib.py:530: in enter_context
+    result = _enter(cm)
+             ^^^^^^^^^^
+C:\Python313\Lib\unittest\mock.py:1481: in __enter__
+    self.target = self.getter()
+                  ^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'archive.phase1.clause_mates_complete'
+
+    def resolve_name(name):
+        """
+        Resolve a name to an object.
+
+        It is expected that `name` will be a string in one of the following
+        formats, where W is shorthand for a valid Python identifier and dot stands
+        for a literal period in these pseudo-regexes:
+
+        W(.W)*
+        W(.W)*:(W(.W)*)?
+
+        The first form is intended for backward compatibility only. It assumes that
+        some part of the dotted name is a package, and the rest is an object
+        somewhere within that package, possibly nested inside other objects.
+        Because the place where the package stops and the object hierarchy starts
+        can't be inferred by inspection, repeated attempts to import must be done
+        with this form.
+
+        In the second form, the caller makes the division point clear through the
+        provision of a single colon: the dotted name to the left of the colon is a
+        package to be imported, and the dotted name to the right is the object
+        hierarchy within that package. Only one import is needed in this form. If
+        it ends with the colon, then a module object is returned.
+
+        The function will return an object (which might be a module), or raise one
+        of the following exceptions:
+
+        ValueError - if `name` isn't in a recognised format
+        ImportError - if an import failed when it shouldn't have
+        AttributeError - if a failure occurred when traversing the object hierarchy
+                         within the imported package to get to the desired object.
+        """
+        global _NAME_PATTERN
+        if _NAME_PATTERN is None:
+            # Lazy import to speedup Python startup time
+            import re
+            dotted_words = r'(?!\d)(\w+)(\.(?!\d)(\w+))*'
+            _NAME_PATTERN = re.compile(f'^(?P&lt;pkg&gt;{dotted_words})'
+                                       f'(?P&lt;cln&gt;:(?P&lt;obj&gt;{dotted_words})?)?$',
+                                       re.UNICODE)
+
+        m = _NAME_PATTERN.match(name)
+        if not m:
+            raise ValueError(f'invalid format: {name!r}')
+        gd = m.groupdict()
+        if gd.get('cln'):
+            # there is a colon - a one-step import is all that's needed
+            mod = importlib.import_module(gd['pkg'])
+            parts = gd.get('obj')
+            parts = parts.split('.') if parts else []
+        else:
+            # no colon - have to iterate to find the package boundary
+            parts = name.split('.')
+            modname = parts.pop(0)
+            # first part *must* be a module/package.
+            mod = importlib.import_module(modname)
+            while parts:
+                p = parts[0]
+                s = f'{modname}.{p}'
+                try:
+                    mod = importlib.import_module(s)
+                    parts.pop(0)
+                    modname = s
+                except ImportError:
+                    break
+        # if we reach this point, mod is the module, already imported, and
+        # parts is the list of parts in the object hierarchy to be traversed, or
+        # an empty list if just the module is wanted.
+        result = mod
+        for p in parts:
+&gt;           result = getattr(result, p)
+                     ^^^^^^^^^^^^^^^^^^
+E           AttributeError: module 'archive.phase1' has no attribute 'clause_mates_complete'
+
+C:\Python313\Lib\pkgutil.py:528: AttributeError</failure></testcase><testcase classname="tests.test_benchmark.TestPerformanceBenchmark" name="test_compare_phases_missing_files" time="0.010"><failure message="ImportError: cannot import name 'extract_sentence_number' from 'utils' (c:\GitHub\clausemate\src\utils\__init__.py)">self = &lt;tests.test_benchmark.TestPerformanceBenchmark object at 0x0000027F8B1B4380&gt;
+
+    def test_compare_phases_missing_files(self):
+        """Test comparing phases when input files don't exist."""
+        with patch('src.benchmark.Path') as mock_path:
+            # Mock Path to return non-existent files
+            mock_input_file = MagicMock()
+            mock_input_file.exists.return_value = False
+            mock_path.return_value = mock_input_file
+
+&gt;           results = self.benchmark.compare_phases()
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_benchmark.py:202:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\benchmark.py:91: in compare_phases
+    from archive.phase1.clause_mates_complete import main as phase1_main
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    #!/usr/bin/env python3
+    """Complete clause mate extraction script with improved program style.
+    This script identifies critical pronouns and extracts their clause mates for analysis.
+
+    PHASE 1 IMPROVEMENTS APPLIED:
+    - ✅ Constants extracted to config.py
+    - ✅ Type hints added throughout
+    - ✅ Proper error handling with custom exceptions
+    - ✅ Functions broken down and modularized
+    - ✅ Utility functions separated
+
+    OUTPUT FILES:
+    - clause_mates_chap2_export.csv: Main data export with clause mate relationships
+    - clause_mates_data_documentation.md: Comprehensive documentation of data structure
+    - clause_mates_metadata.json: Technical metadata and specifications
+
+    DATA STRUCTURE:
+    Each row represents one clause mate relationship between a critical pronoun and
+    one clause mate in the same sentence. Includes:
+    - 37 columns total
+    - Pronoun linguistic features (dependent variables)
+    - Clause mate features (independent variables)
+    - Antecedent information (most recent + first in chain)
+    - Numeric versions of string variables for analysis
+
+    CRITICAL PRONOUNS:
+    - Third person personal: er, sie, es, ihm, ihr, ihn, ihnen
+    - D-pronouns (pronominal): der, die, das, dem, den, deren, dessen, derer
+    - Demonstrative: dieser, diese, dieses, diesem, diesen
+
+    For detailed documentation, see clause_mates_data_documentation.md
+    """
+
+    import logging
+    from typing import Any, Dict, List, Optional, Tuple
+
+    import pandas as pd
+
+    # Import our new modules
+    from config import Constants, FilePaths, TSVColumns
+    from exceptions import FileProcessingError, ParseError
+&gt;   from utils import (
+        determine_givenness,
+        extract_coref_base_and_occurrence,
+        extract_coref_link_numbers,
+        extract_coreference_id,
+        extract_full_coreference_id,
+        extract_sentence_number,
+        parse_token_info,
+        safe_get_column,
+        validate_file_path,
+    )
+E   ImportError: cannot import name 'extract_sentence_number' from 'utils' (c:\GitHub\clausemate\src\utils\__init__.py)
+
+archive\phase1\clause_mates_complete.py:42: ImportError</failure></testcase><testcase classname="tests.test_benchmark.TestPerformanceBenchmark" name="test_save_benchmark_results" time="0.104" /><testcase classname="tests.test_benchmark.TestPerformanceBenchmark" name="test_run_benchmarks" time="0.006"><failure message="TypeError: unsupported format string passed to MagicMock.__format__">self = &lt;tests.test_benchmark.TestPerformanceBenchmark object at 0x0000027F8B100950&gt;
+mock_path_class = &lt;MagicMock name='Path' id='2746826783920'&gt;
+mock_benchmark_class = &lt;MagicMock name='PerformanceBenchmark' id='2746826783584'&gt;
+
+    @patch('src.benchmark.PerformanceBenchmark')
+    @patch('src.benchmark.Path')
+    def test_run_benchmarks(self, mock_path_class, mock_benchmark_class):
+        """Test the run_benchmarks function."""
+        # Mock benchmark instance
+        mock_benchmark = MagicMock()
+        mock_benchmark_class.return_value = mock_benchmark
+
+        # Mock results
+        mock_results = {"phase1": MagicMock(), "phase2": MagicMock()}
+        mock_benchmark.compare_phases.return_value = mock_results
+
+        # Mock output file
+        mock_output_file = MagicMock()
+        mock_path_class.return_value = mock_output_file
+
+        # Mock print to capture output
+        with patch('builtins.print') as mock_print:
+&gt;           run_benchmarks()
+
+tests\test_benchmark.py:282:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def run_benchmarks():
+        """Run performance benchmarks."""
+        benchmark = PerformanceBenchmark()
+        results = benchmark.compare_phases()
+
+        output_file = Path("data/output/performance_benchmark.json")
+        benchmark.save_benchmark_results(results, output_file)
+
+        print("Performance Benchmark Results:")
+        print("=" * 50)
+
+        for phase, result in results.items():
+            print(f"{phase.upper()}:")
+&gt;           print(f"  Execution time: {result.execution_time:.2f}s")
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: unsupported format string passed to MagicMock.__format__
+
+src\benchmark.py:160: TypeError</failure></testcase><testcase classname="tests.test_benchmark.TestPerformanceBenchmark" name="test_system_info_collection" time="0.008" /><testcase classname="tests.test_benchmark.TestPerformanceBenchmark" name="test_system_info_collection_without_psutil" time="0.006" /><testcase classname="tests.test_cross_chapter_visualization" name="test_visualization" time="0.003" /><testcase classname="tests.test_cross_file_coreference_resolver.TestCrossFileCoreferenceResolver" name="test_initialization" time="0.001" /><testcase classname="tests.test_cross_file_coreference_resolver.TestCrossFileCoreferenceResolver" name="test_resolve_cross_chapter_chains_empty_input" time="0.002" /><testcase classname="tests.test_cross_file_coreference_resolver.TestCrossFileCoreferenceResolver" name="test_resolve_cross_chapter_chains_single_chapter" time="0.003" /><testcase classname="tests.test_cross_file_coreference_resolver.TestCrossFileCoreferenceResolver" name="test_resolve_cross_chapter_chains_multiple_chapters_same_chains" time="0.004" /><testcase classname="tests.test_cross_file_coreference_resolver.TestCrossFileCoreferenceResolver" name="test_resolve_cross_chapter_chains_no_cross_chapter_chains" time="0.002" /><testcase classname="tests.test_cross_file_coreference_resolver.TestCrossFileCoreferenceResolver" name="test_extract_chapter_chains_with_pronoun_coref_ids" time="0.003" /><testcase classname="tests.test_cross_file_coreference_resolver.TestCrossFileCoreferenceResolver" name="test_extract_chapter_chains_with_clause_mate_coref" time="0.003" /><testcase classname="tests.test_cross_file_coreference_resolver.TestCrossFileCoreferenceResolver" name="test_identify_cross_chapter_connections" time="0.002" /><testcase classname="tests.test_cross_file_coreference_resolver.TestCrossFileCoreferenceResolver" name="test_merge_connected_chains" time="0.002" /><testcase classname="tests.test_cross_file_coreference_resolver.TestCrossFileCoreferenceResolver" name="test_dfs_connected_chains" time="0.001" /><testcase classname="tests.test_cross_file_coreference_resolver.TestCrossFileCoreferenceResolver" name="test_normalize_text" time="0.003" /><testcase classname="tests.test_cross_file_coreference_resolver.TestCrossFileCoreferenceResolver" name="test_extract_chapter_number" time="0.002" /><testcase classname="tests.test_cross_file_coreference_resolver.TestCrossFileCoreferenceResolver" name="test_chains_are_connected_exact_match" time="0.001" /><testcase classname="tests.test_cross_file_coreference_resolver.TestCrossFileCoreferenceResolver" name="test_chains_are_connected_entity_overlap" time="0.002" /><testcase classname="tests.test_cross_file_coreference_resolver.TestCrossFileCoreferenceResolver" name="test_chains_are_connected_key_entity_overlap" time="0.026" /><testcase classname="tests.test_cross_file_coreference_resolver.TestCrossFileCoreferenceResolver" name="test_chains_are_connected_no_connection" time="0.009" /><testcase classname="tests.test_cross_file_coreference_resolver.TestCrossFileCoreferenceResolver" name="test_get_cross_chapter_summary" time="0.008" /><testcase classname="tests.test_cross_file_coreference_resolver.TestCrossFileCoreferenceResolver" name="test_logging_initialization" time="0.053" /><testcase classname="tests.test_cross_file_coreference_resolver.TestCrossFileCoreferenceResolver" name="test_resolve_cross_chapter_chains_with_complex_data" time="0.009" /><testcase classname="tests.test_enhanced_output_system.TestChapterMetadata" name="test_chapter_metadata_creation" time="0.060" /><testcase classname="tests.test_enhanced_output_system.TestCrossChapterConnection" name="test_cross_chapter_connection_creation" time="0.004" /><testcase classname="tests.test_enhanced_output_system.TestProcessingStatistics" name="test_processing_statistics_creation" time="0.005" /><testcase classname="tests.test_enhanced_output_system.TestEnhancedOutputSystem" name="test_initialization" time="0.011" /><testcase classname="tests.test_enhanced_output_system.TestEnhancedOutputSystem" name="test_initialization_with_logger" time="0.017"><failure message="AssertionError: expected call not found.&#10;Expected: getLogger('tests.test_enhanced_output_system')&#10;  Actual: getLogger('src.multi_file.enhanced_output_system')">self = &lt;tests.test_enhanced_output_system.TestEnhancedOutputSystem object at 0x0000027F8B13ED50&gt;
+mock_logging = &lt;MagicMock name='logging' id='2746826780224'&gt;
+
+    @patch('src.multi_file.enhanced_output_system.logging')
+    def test_initialization_with_logger(self, mock_logging):
+        """Test initialization with logging setup."""
+        mock_logger = MagicMock()
+        mock_logging.getLogger.return_value = mock_logger
+
+        system = EnhancedOutputSystem(self.temp_dir)
+
+&gt;       mock_logging.getLogger.assert_called_once_with(__name__)
+
+tests\test_enhanced_output_system.py:166:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Python313\Lib\unittest\mock.py:991: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;MagicMock name='logging.getLogger' id='2746826779552'&gt;
+args = ('tests.test_enhanced_output_system',), kwargs = {}
+expected = call('tests.test_enhanced_output_system')
+actual = call('src.multi_file.enhanced_output_system')
+_error_message = &lt;function NonCallableMock.assert_called_with.&lt;locals&gt;._error_message at 0x0000027F8B63EAC0&gt;
+cause = None
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\n  Actual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+&gt;           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: getLogger('tests.test_enhanced_output_system')
+E             Actual: getLogger('src.multi_file.enhanced_output_system')
+
+C:\Python313\Lib\unittest\mock.py:979: AssertionError</failure></testcase><testcase classname="tests.test_enhanced_output_system.TestEnhancedOutputSystem" name="test_create_enhanced_csv_output_empty_relationships" time="0.012" /><testcase classname="tests.test_enhanced_output_system.TestEnhancedOutputSystem" name="test_create_enhanced_csv_output_with_relationships" time="0.016"><failure message="TypeError: '&gt;' not supported between instances of 'MagicMock' and 'MagicMock'">self = &lt;tests.test_enhanced_output_system.TestEnhancedOutputSystem object at 0x0000027F8B0AF100&gt;
+
+    def test_create_enhanced_csv_output_with_relationships(self):
+        """Test enhanced CSV output with relationships."""
+        # Create mock relationship
+        mock_relationship = MagicMock()
+        mock_relationship.sentence_num = 5
+        mock_relationship.pronoun = MagicMock()
+        mock_relationship.pronoun.text = "er"
+        mock_relationship.pronoun.idx = 2
+        mock_relationship.clause_mate = MagicMock()
+        mock_relationship.clause_mate.text = "Karl"
+        mock_relationship.clause_mate.start_idx = 10
+        mock_relationship.clause_mate.end_idx = 14
+
+        # Set default attributes
+        mock_relationship.chapter_file = "test.tsv"
+        mock_relationship.chapter_number = 1
+        mock_relationship.source_file_path = "/path/to/test.tsv"
+        mock_relationship.global_sentence_id = "global_5"
+        mock_relationship.cross_chapter = False
+        mock_relationship.first_words = "Karl sagte"
+
+        # Create mock chapter metadata
+        mock_chapter_meta = MagicMock()
+        mock_chapter_meta.chapter_number = 1
+        mock_chapter_meta.file_format = "standard"
+        mock_chapter_meta.file_size_bytes = 1024
+
+&gt;       result_path = self.system.create_enhanced_csv_output(
+            [mock_relationship], [mock_chapter_meta], []
+        )
+
+tests\test_enhanced_output_system.py:208:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\multi_file\enhanced_output_system.py:204: in create_enhanced_csv_output
+    analysis_scores = self._calculate_analysis_scores(rel, chapter_meta)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;src.multi_file.enhanced_output_system.EnhancedOutputSystem object at 0x0000027F8B9D68B0&gt;
+relationship = &lt;MagicMock id='2746826773840'&gt;
+chapter_meta = &lt;MagicMock id='2746826772832'&gt;
+
+    def _calculate_analysis_scores(
+        self,
+        relationship: ClauseMateRelationship,
+        chapter_meta: ChapterMetadata | None,
+    ) -&gt; dict[str, float]:
+        """Calculate enhanced analysis scores for a relationship."""
+        # Narrative position (0.0 to 1.0 based on position in chapter)
+        narrative_position = 0.0
+        if (
+            chapter_meta
+&gt;           and chapter_meta.sentence_range[1] &gt; chapter_meta.sentence_range[0]
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ):
+E       TypeError: '&gt;' not supported between instances of 'MagicMock' and 'MagicMock'
+
+src\multi_file\enhanced_output_system.py:508: TypeError</failure></testcase><testcase classname="tests.test_enhanced_output_system.TestEnhancedOutputSystem" name="test_create_comprehensive_statistics_empty_data" time="0.010" /><testcase classname="tests.test_enhanced_output_system.TestEnhancedOutputSystem" name="test_create_comprehensive_statistics_with_data" time="0.024"><failure message="TypeError: Object of type MagicMock is not JSON serializable">self = &lt;tests.test_enhanced_output_system.TestEnhancedOutputSystem object at 0x0000027F8B1B4F30&gt;
+
+    def test_create_comprehensive_statistics_with_data(self):
+        """Test comprehensive statistics with actual data."""
+        # Create mock chapter metadata
+        mock_chapter_meta1 = MagicMock()
+        mock_chapter_meta1.chapter_number = 1
+        mock_chapter_meta1.total_sentences = 50
+        mock_chapter_meta1.coreference_chains = 5
+
+        mock_chapter_meta2 = MagicMock()
+        mock_chapter_meta2.chapter_number = 2
+        mock_chapter_meta2.total_sentences = 60
+        mock_chapter_meta2.coreference_chains = 6
+
+        chapter_metadata = [mock_chapter_meta1, mock_chapter_meta2]
+
+        # Create mock relationships
+        mock_relationships = [MagicMock() for _ in range(100)]
+        for i, rel in enumerate(mock_relationships):
+            rel.cross_chapter = i &lt; 10  # 10 cross-chapter relationships
+
+        # Create mock cross-chapter connections
+        cross_chapter_connections = [MagicMock() for _ in range(3)]
+
+&gt;       result_path = self.system.create_comprehensive_statistics(
+            mock_relationships, chapter_metadata, cross_chapter_connections, 5.0
+        )
+
+tests\test_enhanced_output_system.py:268:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\multi_file\enhanced_output_system.py:346: in create_comprehensive_statistics
+    json.dump(stats_dict, f, indent=2, ensure_ascii=False)
+C:\Python313\Lib\json\__init__.py:179: in dump
+    for chunk in iterable:
+                 ^^^^^^^^
+C:\Python313\Lib\json\encoder.py:433: in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+C:\Python313\Lib\json\encoder.py:407: in _iterencode_dict
+    yield from chunks
+C:\Python313\Lib\json\encoder.py:326: in _iterencode_list
+    yield from chunks
+C:\Python313\Lib\json\encoder.py:440: in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;json.encoder.JSONEncoder object at 0x0000027FF0686140&gt;
+o = &lt;MagicMock id='2746856907040'&gt;
+
+    def default(self, o):
+        """Implement this method in a subclass such that it returns
+        a serializable object for ``o``, or calls the base implementation
+        (to raise a ``TypeError``).
+
+        For example, to support arbitrary iterators, you could
+        implement default like this::
+
+            def default(self, o):
+                try:
+                    iterable = iter(o)
+                except TypeError:
+                    pass
+                else:
+                    return list(iterable)
+                # Let the base class default method raise the TypeError
+                return super().default(o)
+
+        """
+&gt;       raise TypeError(f'Object of type {o.__class__.__name__} '
+                        f'is not JSON serializable')
+E       TypeError: Object of type MagicMock is not JSON serializable
+
+C:\Python313\Lib\json\encoder.py:180: TypeError</failure></testcase><testcase classname="tests.test_enhanced_output_system.TestEnhancedOutputSystem" name="test_create_chapter_boundary_report_empty_data" time="0.012"><failure message="assert -1 == 0">self = &lt;tests.test_enhanced_output_system.TestEnhancedOutputSystem object at 0x0000027F8B1B5040&gt;
+
+    def test_create_chapter_boundary_report_empty_data(self):
+        """Test chapter boundary report with empty data."""
+        result_path = self.system.create_chapter_boundary_report([], [])
+        assert Path(result_path).exists()
+
+        # Check JSON content
+        with open(result_path) as f:
+            data = json.load(f)
+
+        assert "chapter_transitions" in data
+        assert "boundary_statistics" in data
+        assert "cross_chapter_patterns" in data
+        assert "metadata" in data
+        assert data["chapter_transitions"] == []
+&gt;       assert data["boundary_statistics"]["total_boundaries"] == 0
+E       assert -1 == 0
+
+tests\test_enhanced_output_system.py:302: AssertionError</failure></testcase><testcase classname="tests.test_enhanced_output_system.TestEnhancedOutputSystem" name="test_create_chapter_boundary_report_with_data" time="0.006" /><testcase classname="tests.test_enhanced_output_system.TestEnhancedOutputSystem" name="test_analyze_cross_chapter_relationship_no_connections" time="0.002" /><testcase classname="tests.test_enhanced_output_system.TestEnhancedOutputSystem" name="test_analyze_cross_chapter_relationship_with_connection" time="0.003" /><testcase classname="tests.test_enhanced_output_system.TestEnhancedOutputSystem" name="test_calculate_analysis_scores_basic_relationship" time="0.003" /><testcase classname="tests.test_enhanced_output_system.TestEnhancedOutputSystem" name="test_calculate_analysis_scores_no_chapter_meta" time="0.003" /><testcase classname="tests.test_enhanced_output_system.TestEnhancedOutputSystem" name="test_create_boundary_marker_chapter_beginning" time="0.004"><failure message="AssertionError: assert 'unknown' == 'chapter_beginning'&#10;  &#10;  - chapter_beginning&#10;  + unknown">self = &lt;tests.test_enhanced_output_system.TestEnhancedOutputSystem object at 0x0000027F8B126CF0&gt;
+
+    def test_create_boundary_marker_chapter_beginning(self):
+        """Test boundary marker creation for chapter beginning."""
+        mock_relationship = MagicMock()
+        mock_relationship.sentence_num = 3  # Near beginning
+
+        mock_chapter_meta = MagicMock()
+        mock_chapter_meta.chapter_number = 1
+        mock_chapter_meta.sentence_range = (1, 50)
+
+        result = self.system._create_boundary_marker(
+            mock_relationship, [mock_chapter_meta]
+        )
+
+&gt;       assert result == "chapter_beginning"
+E       AssertionError: assert 'unknown' == 'chapter_beginning'
+E
+E         - chapter_beginning
+E         + unknown
+
+tests\test_enhanced_output_system.py:441: AssertionError</failure></testcase><testcase classname="tests.test_enhanced_output_system.TestEnhancedOutputSystem" name="test_create_boundary_marker_chapter_end" time="0.003"><failure message="AssertionError: assert 'unknown' == 'chapter_end'&#10;  &#10;  - chapter_end&#10;  + unknown">self = &lt;tests.test_enhanced_output_system.TestEnhancedOutputSystem object at 0x0000027F8B13B6C0&gt;
+
+    def test_create_boundary_marker_chapter_end(self):
+        """Test boundary marker creation for chapter end."""
+        mock_relationship = MagicMock()
+        mock_relationship.sentence_num = 48  # Near end
+
+        mock_chapter_meta = MagicMock()
+        mock_chapter_meta.chapter_number = 1
+        mock_chapter_meta.sentence_range = (1, 50)
+
+        result = self.system._create_boundary_marker(
+            mock_relationship, [mock_chapter_meta]
+        )
+
+&gt;       assert result == "chapter_end"
+E       AssertionError: assert 'unknown' == 'chapter_end'
+E
+E         - chapter_end
+E         + unknown
+
+tests\test_enhanced_output_system.py:456: AssertionError</failure></testcase><testcase classname="tests.test_enhanced_output_system.TestEnhancedOutputSystem" name="test_create_boundary_marker_chapter_middle" time="0.004"><failure message="AssertionError: assert 'unknown' == 'chapter_middle'&#10;  &#10;  - chapter_middle&#10;  + unknown">self = &lt;tests.test_enhanced_output_system.TestEnhancedOutputSystem object at 0x0000027F8B0F93D0&gt;
+
+    def test_create_boundary_marker_chapter_middle(self):
+        """Test boundary marker creation for chapter middle."""
+        mock_relationship = MagicMock()
+        mock_relationship.sentence_num = 25  # Middle
+
+        mock_chapter_meta = MagicMock()
+        mock_chapter_meta.chapter_number = 1
+        mock_chapter_meta.sentence_range = (1, 50)
+
+        result = self.system._create_boundary_marker(
+            mock_relationship, [mock_chapter_meta]
+        )
+
+&gt;       assert result == "chapter_middle"
+E       AssertionError: assert 'unknown' == 'chapter_middle'
+E
+E         - chapter_middle
+E         + unknown
+
+tests\test_enhanced_output_system.py:471: AssertionError</failure></testcase><testcase classname="tests.test_enhanced_output_system.TestEnhancedOutputSystem" name="test_calculate_narrative_continuity_no_connections" time="0.003" /><testcase classname="tests.test_enhanced_output_system.TestEnhancedOutputSystem" name="test_calculate_narrative_continuity_with_connections" time="0.002" /><testcase classname="tests.test_env_loader.TestEnvLoader" name="test_load_env_vars_nonexistent_file" time="0.001" /><testcase classname="tests.test_env_loader.TestEnvLoader" name="test_load_env_vars_empty_file" time="0.003" /><testcase classname="tests.test_env_loader.TestEnvLoader" name="test_load_env_vars_with_variables" time="0.010" /><testcase classname="tests.test_env_loader.TestEnvLoader" name="test_load_env_vars_ignores_comments_and_empty_lines" time="0.007" /><testcase classname="tests.test_env_loader.TestEnvLoader" name="test_get_env_var_with_value" time="0.001" /><testcase classname="tests.test_env_loader.TestEnvLoader" name="test_get_env_var_without_value" time="0.001" /><testcase classname="tests.test_env_loader.TestEnvLoader" name="test_get_env_var_with_default" time="0.001" /><testcase classname="tests.test_env_loader.TestEnvLoader" name="test_get_env_var_with_existing_default" time="0.001" /><testcase classname="tests.test_env_loader.TestEnvLoader" name="test_ensure_env_loaded_no_keys" time="0.001" /><testcase classname="tests.test_env_loader.TestEnvLoader" name="test_ensure_env_loaded_with_keys" time="0.001" /><testcase classname="tests.test_env_loader.TestEnvLoader" name="test_load_env_vars_default_file" time="0.001" /><testcase classname="tests.test_env_loader.TestEnvLoader" name="test_load_env_vars_custom_file" time="0.008" /><testcase classname="tests.test_incomplete_format_parser.TestIncompleteFormatParser" name="test_initialization" time="0.001" /><testcase classname="tests.test_incomplete_format_parser.TestIncompleteFormatParser" name="test_initialization_with_limitations" time="0.001" /><testcase classname="tests.test_incomplete_format_parser.TestIncompleteFormatParser" name="test_setup_column_mapping_with_preamble" time="0.010" /><testcase classname="tests.test_incomplete_format_parser.TestIncompleteFormatParser" name="test_setup_column_mapping_without_preamble" time="0.007" /><testcase classname="tests.test_incomplete_format_parser.TestIncompleteFormatParser" name="test_setup_12_column_mapping" time="0.004" /><testcase classname="tests.test_incomplete_format_parser.TestIncompleteFormatParser" name="test_setup_13_column_mapping" time="0.003" /><testcase classname="tests.test_incomplete_format_parser.TestIncompleteFormatParser" name="test_setup_minimal_column_mapping" time="0.002" /><testcase classname="tests.test_incomplete_format_parser.TestIncompleteFormatParser" name="test_detect_available_features_from_schema" time="0.003" /><testcase classname="tests.test_incomplete_format_parser.TestIncompleteFormatParser" name="test_extract_first_words" time="0.001" /><testcase classname="tests.test_incomplete_format_parser.TestIncompleteFormatParser" name="test_create_token_from_row_basic" time="0.002" /><testcase classname="tests.test_incomplete_format_parser.TestIncompleteFormatParser" name="test_create_token_from_row_with_coreference" time="0.002" /><testcase classname="tests.test_incomplete_format_parser.TestIncompleteFormatParser" name="test_create_token_from_row_short_row" time="0.003" /><testcase classname="tests.test_incomplete_format_parser.TestIncompleteFormatParser" name="test_create_token_from_row_invalid_token_id" time="0.001" /><testcase classname="tests.test_incomplete_format_parser.TestIncompleteFormatParser" name="test_get_limitations" time="0.002" /><testcase classname="tests.test_incomplete_format_parser.TestIncompleteFormatParser" name="test_get_compatibility_info" time="0.002"><failure message="KeyError: 'morphological'">self = &lt;tests.test_incomplete_format_parser.TestIncompleteFormatParser object at 0x0000027F8B0F9550&gt;
+
+    def test_get_compatibility_info(self):
+        """Test compatibility info retrieval."""
+        self.parser.column_mapping = {"token_id": 0, "token_text": 2}
+        self.parser.available_features = {
+            "basic_tokens": True,
+            "coreference": False,
+        }
+
+&gt;       result = self.parser.get_compatibility_info()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_incomplete_format_parser.py:269:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\parsers\incomplete_format_parser.py:424: in get_compatibility_info
+    "limitations": self.get_limitations(),
+                   ^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;src.parsers.incomplete_format_parser.IncompleteFormatParser object at 0x0000027F8B6662B0&gt;
+
+    def get_limitations(self) -&gt; list:
+        """Get list of limitations for this format."""
+        limitations = []
+
+        if not self.available_features["coreference"]:
+            limitations.append("No coreference analysis available")
+
+&gt;       if not self.available_features["morphological"]:
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'morphological'
+
+src\parsers\incomplete_format_parser.py:414: KeyError</failure></testcase><testcase classname="tests.test_incomplete_format_parser.TestIncompleteFormatParser" name="test_parse_sentence_streaming_basic" time="0.004" /><testcase classname="tests.test_incomplete_format_parser.TestIncompleteFormatParser" name="test_parse_sentence_streaming_file_not_found" time="0.002" /><testcase classname="tests.test_incomplete_format_parser.TestIncompleteFormatParser" name="test_parse_sentence_streaming_permission_error" time="0.002" /><testcase classname="tests.test_incomplete_format_parser.TestIncompleteFormatParser" name="test_create_sentence_context" time="0.002" /><testcase classname="tests.test_integrated_system" name="test_format_detection" time="0.002" /><testcase classname="tests.test_integrated_system" name="test_adaptive_analyzer" time="0.001" /><testcase classname="tests.test_integrated_system" name="test_legacy_fallback" time="0.001" /><testcase classname="tests.test_integrated_system" name="test_command_line_interface" time="0.961" /><testcase classname="tests.test_multi_file_batch_processor.TestMultiFileBatchProcessor" name="test_initialization" time="0.001" /><testcase classname="tests.test_multi_file_batch_processor.TestMultiFileBatchProcessor" name="test_initialization_with_disabled_resolution" time="0.002" /><testcase classname="tests.test_multi_file_batch_processor.TestMultiFileBatchProcessor" name="test_discover_chapter_files_single_file" time="0.002" /><testcase classname="tests.test_multi_file_batch_processor.TestMultiFileBatchProcessor" name="test_discover_chapter_files_invalid_extension" time="0.002" /><testcase classname="tests.test_multi_file_batch_processor.TestMultiFileBatchProcessor" name="test_discover_chapter_files_directory_main_files" time="0.005" /><testcase classname="tests.test_multi_file_batch_processor.TestMultiFileBatchProcessor" name="test_discover_chapter_files_directory_with_later_subdirectory" time="0.006" /><testcase classname="tests.test_multi_file_batch_processor.TestMultiFileBatchProcessor" name="test_discover_chapter_files_nonexistent_path" time="0.002" /><testcase classname="tests.test_multi_file_batch_processor.TestMultiFileBatchProcessor" name="test_discover_chapter_files_empty_directory" time="0.003" /><testcase classname="tests.test_multi_file_batch_processor.TestMultiFileBatchProcessor" name="test_analyze_chapter_files" time="0.003" /><testcase classname="tests.test_multi_file_batch_processor.TestMultiFileBatchProcessor" name="test_analyze_chapter_files_with_different_formats" time="0.289" /><testcase classname="tests.test_multi_file_batch_processor.TestMultiFileBatchProcessor" name="test_process_files_success" time="0.011"><failure message="assert False is True&#10; +  where False = MultiFileProcessingResult(unified_relationships=[], chapter_info=[ChapterInfo(file_path='C:\\Users\\Job\\AppData\\Loca...ds()' id='2746861779136'&gt;, success=False, error_message=&quot;'&lt;' not supported between instances of 'MagicMock' and 'int'&quot;).success">self = &lt;tests.test_multi_file_batch_processor.TestMultiFileBatchProcessor object at 0x0000027F8B0E26C0&gt;
+mock_datetime = &lt;MagicMock name='datetime' id='2746861766368'&gt;
+mock_analyzer_class = &lt;MagicMock name='ClauseMateAnalyzer' id='2746861766704'&gt;
+
+    @patch('src.multi_file.multi_file_batch_processor.ClauseMateAnalyzer')
+    @patch('src.multi_file.multi_file_batch_processor.datetime')
+    def test_process_files_success(self, mock_datetime, mock_analyzer_class):
+        """Test successful multi-file processing."""
+        # Mock datetime
+        mock_datetime.now.return_value = MagicMock()
+        mock_datetime.now.return_value.total_seconds.return_value = 10.5
+
+        # Mock analyzer
+        mock_analyzer = MagicMock()
+        mock_relationships = [MagicMock() for _ in range(3)]
+        for i, rel in enumerate(mock_relationships):
+            rel.sentence_id = i + 1
+            rel.pronoun = MagicMock()
+            rel.pronoun.idx = i
+            # Add pronoun_coref_ids to avoid attribute errors
+            rel.pronoun_coref_ids = [f"chain_{i}"]
+        mock_analyzer.analyze_file.return_value = mock_relationships
+        mock_analyzer_class.return_value = mock_analyzer
+
+        # Mock cross-file resolver
+        mock_cross_file_resolver = MagicMock()
+        mock_cross_file_resolver.resolve_cross_chapter_chains.return_value = {
+            "unified_chain_1": ["Karl", "er"]
+        }
+        self.processor.cross_file_resolver = mock_cross_file_resolver
+
+        # Mock unified sentence manager
+        mock_unified_sentence_manager = MagicMock()
+        mock_unified_sentence_manager.get_global_sentence_id.return_value = 100
+        self.processor.unified_sentence_manager = mock_unified_sentence_manager
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            # Create test files
+            Path(temp_dir, '1.tsv').touch()
+            Path(temp_dir, '2.tsv').touch()
+
+            result = self.processor.process_files(temp_dir)
+
+            assert isinstance(result, MultiFileProcessingResult)
+&gt;           assert result.success is True
+E           assert False is True
+E            +  where False = MultiFileProcessingResult(unified_relationships=[], chapter_info=[ChapterInfo(file_path='C:\\Users\\Job\\AppData\\Loca...ds()' id='2746861779136'&gt;, success=False, error_message="'&lt;' not supported between instances of 'MagicMock' and 'int'").success
+
+tests\test_multi_file_batch_processor.py:206: AssertionError</failure></testcase><testcase classname="tests.test_multi_file_batch_processor.TestMultiFileBatchProcessor" name="test_process_files_with_error" time="0.005" /><testcase classname="tests.test_multi_file_batch_processor.TestMultiFileBatchProcessor" name="test_get_processing_summary" time="0.001" /><testcase classname="tests.test_multi_file_batch_processor.TestMultiFileBatchProcessor" name="test_build_cross_chapter_lookup" time="0.002" /><testcase classname="tests.test_multi_file_batch_processor.TestMultiFileBatchProcessor" name="test_normalize_entity_text" time="0.001" /><testcase classname="tests.test_multi_file_batch_processor.TestMultiFileBatchProcessor" name="test_chapter_info_dataclass" time="0.001" /><testcase classname="tests.test_multi_file_batch_processor.TestMultiFileBatchProcessor" name="test_multi_file_processing_result_dataclass" time="0.001" /><testcase classname="tests.test_multi_file_batch_processor.TestMultiFileBatchProcessor" name="test_process_files_without_cross_chapter_resolution" time="0.015"><failure message="assert False is True&#10; +  where False = MultiFileProcessingResult(unified_relationships=[], chapter_info=[ChapterInfo(file_path='C:\\Users\\Job\\AppData\\Loca... processing_time=0.006186, success=False, error_message=&quot;'&lt;' not supported between instances of 'MagicMock' and 'int'&quot;).success">self = &lt;tests.test_multi_file_batch_processor.TestMultiFileBatchProcessor object at 0x0000027F8B1571D0&gt;
+mock_analyzer_class = &lt;MagicMock name='ClauseMateAnalyzer' id='2746862192688'&gt;
+
+    @patch('src.multi_file.multi_file_batch_processor.ClauseMateAnalyzer')
+    def test_process_files_without_cross_chapter_resolution(self, mock_analyzer_class):
+        """Test processing files with cross-chapter resolution disabled."""
+        processor = MultiFileBatchProcessor(enable_cross_chapter_resolution=False)
+
+        # Mock analyzer
+        mock_analyzer = MagicMock()
+        mock_relationships = [MagicMock()]
+        mock_relationships[0].sentence_id = 1
+        mock_relationships[0].pronoun = MagicMock()
+        mock_relationships[0].pronoun.idx = 0
+        mock_relationships[0].pronoun_coref_ids = ["chain_0"]
+        mock_analyzer.analyze_file.return_value = mock_relationships
+        mock_analyzer_class.return_value = mock_analyzer
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            Path(temp_dir, '1.tsv').touch()
+
+            result = processor.process_files(temp_dir)
+
+&gt;           assert result.success is True
+E           assert False is True
+E            +  where False = MultiFileProcessingResult(unified_relationships=[], chapter_info=[ChapterInfo(file_path='C:\\Users\\Job\\AppData\\Loca... processing_time=0.006186, success=False, error_message="'&lt;' not supported between instances of 'MagicMock' and 'int'").success
+
+tests\test_multi_file_batch_processor.py:371: AssertionError</failure></testcase><testcase classname="tests.test_multi_file_batch_processor.TestMultiFileBatchProcessor" name="test_extract_chapter_number_from_filename" time="0.002" /><testcase classname="tests.test_multi_file_batch_processor.TestMultiFileBatchProcessor" name="test_chapter_files_sorting" time="0.005" /><testcase classname="tests.test_multi_file_processing" name="test_multi_file_processing" time="0.004" /><testcase classname="tests.test_phase2_components.TestModularComponents" name="test_analyzer_initialization" time="0.004" /><testcase classname="tests.test_phase2_components.TestModularComponents" name="test_analyzer_with_test_file" time="0.014" /><testcase classname="tests.test_phase2_components.TestModularComponents" name="test_coreference_id_extraction" time="0.002" /><testcase classname="tests.test_phase2_components.TestModularComponents" name="test_sentence_boundary_detection" time="0.003"><skipped type="pytest.skip" message="Test expects different boundary detection behavior - needs review">c:\GitHub\clausemate\tests\test_phase2_components.py:82: Test expects different boundary detection behavior - needs review</skipped></testcase><testcase classname="tests.test_phase2_components.TestModularComponents" name="test_streaming_parser_with_content" time="0.009" /><testcase classname="tests.test_phase2_components.TestModularComponents" name="test_token_creation" time="0.003" /><testcase classname="tests.test_phase2_components.TestModularComponents" name="test_token_validation" time="0.002" /><testcase classname="tests.test_phase2_components.TestDataModels" name="test_sentence_context_creation" time="0.003" /><testcase classname="tests.test_preamble_parser.TestAnnotationSchema" name="test_annotation_schema_creation" time="0.002" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_initialization" time="0.001" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_reset" time="0.001" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_parse_preamble_lines_span_annotations" time="0.003" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_parse_preamble_lines_chain_annotations" time="0.002" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_parse_preamble_lines_relation_annotations" time="0.002" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_parse_preamble_lines_mixed_annotations" time="0.002" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_parse_preamble_lines_empty_features" time="0.003" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_calculate_column_positions_simple_span" time="0.004" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_calculate_column_positions_span_with_features" time="0.003" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_calculate_column_positions_mixed_annotations" time="0.004" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_calculate_column_positions_empty_features" time="0.002" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_get_coreference_columns_no_schema" time="0.003" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_get_coreference_columns_with_schema" time="0.004" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_get_morphological_columns_no_schema" time="0.004" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_get_morphological_columns_with_schema" time="0.003" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_get_pronoun_type_column_no_schema" time="0.003" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_get_pronoun_type_column_found" time="0.003" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_get_pronoun_type_column_not_found" time="0.004" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_get_coreference_link_column_no_schema" time="0.003" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_get_coreference_link_column_found" time="0.003" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_get_coreference_type_column_no_schema" time="0.006" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_get_coreference_type_column_found" time="0.005" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_get_grammatical_role_column_no_schema" time="0.004" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_get_grammatical_role_column_found" time="0.004" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_get_thematic_role_column_no_schema" time="0.003" /><testcase classname="tests.test_preamble_parser.TestPreambleParser" name="test_get_thematic_role_column_found" time="0.003" /><testcase classname="tests.test_preamble_parser.TestExtractPreambleFromFile" name="test_extract_preamble_from_file_success" time="0.010" /><testcase classname="tests.test_preamble_parser.TestExtractPreambleFromFile" name="test_extract_preamble_from_file_no_preamble" time="0.010" /><testcase classname="tests.test_preamble_parser.TestExtractPreambleFromFile" name="test_extract_preamble_from_file_empty_file" time="0.005" /><testcase classname="tests.test_preamble_parser.TestExtractPreambleFromFile" name="test_extract_preamble_from_file_file_not_found" time="0.004" /><testcase classname="tests.test_preamble_parser.TestExtractPreambleFromFile" name="test_extract_preamble_from_file_encoding_error" time="0.004" /><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_initialization" time="0.004" /><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_extract_basic" time="0.005"><failure message="TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'">self = &lt;tests.test_pronoun_extractor.TestPronounExtractor object at 0x0000027F8B25CF50&gt;
+
+    def test_extract_basic(self):
+        """Test basic pronoun extraction."""
+        # Create mock tokens
+        token1 = Token(
+            idx=1,
+            text="Karl",
+            sentence_num=1,
+            grammatical_role="SUBJ",
+            thematic_role="AGENT",
+        )
+        token2 = Token(
+            idx=2,
+            text="er",
+            sentence_num=1,
+            grammatical_role="SUBJ",
+            thematic_role="AGENT",
+        )
+
+&gt;       context = SentenceContext(
+            sentence_id="1",
+            sentence_num=1,
+            tokens=[token1, token2],
+            first_words="Karl_sagte",
+        )
+E       TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+
+tests\test_pronoun_extractor.py:41: TypeError</failure></testcase><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_extract_no_pronouns" time="0.004" /><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_can_extract_with_tokens" time="0.002"><failure message="TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'">self = &lt;tests.test_pronoun_extractor.TestPronounExtractor object at 0x0000027F8B20C640&gt;
+
+    def test_can_extract_with_tokens(self):
+        """Test can_extract with tokens present."""
+&gt;       context = SentenceContext(
+            sentence_id="1",
+            sentence_num=1,
+            tokens=[MagicMock()],
+            first_words="Karl_sagte",
+        )
+E       TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+
+tests\test_pronoun_extractor.py:89: TypeError</failure></testcase><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_can_extract_empty_tokens" time="0.004"><failure message="TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'">self = &lt;tests.test_pronoun_extractor.TestPronounExtractor object at 0x0000027F8B220710&gt;
+
+    def test_can_extract_empty_tokens(self):
+        """Test can_extract with no tokens."""
+&gt;       context = SentenceContext(
+            sentence_id="1",
+            sentence_num=1,
+            tokens=[],
+            first_words="Karl_sagte",
+        )
+E       TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+
+tests\test_pronoun_extractor.py:100: TypeError</failure></testcase><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_extract_pronouns_mixed_tokens" time="0.002"><failure message="TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'">self = &lt;tests.test_pronoun_extractor.TestPronounExtractor object at 0x0000027F8B1B6CF0&gt;
+
+    def test_extract_pronouns_mixed_tokens(self):
+        """Test pronoun extraction from mixed tokens."""
+        token1 = Token(
+            idx=1,
+            text="Karl",
+            sentence_num=1,
+            grammatical_role="SUBJ",
+            thematic_role="AGENT",
+        )
+        token2 = Token(
+            idx=2,
+            text="er",
+            sentence_num=1,
+            grammatical_role="SUBJ",
+            thematic_role="AGENT",
+        )
+        token3 = Token(
+            idx=3,
+            text="sie",
+            sentence_num=1,
+            grammatical_role="OBJ",
+            thematic_role="PATIENT",
+        )
+        token4 = Token(
+            idx=4,
+            text="sagte",
+            sentence_num=1,
+            grammatical_role="VERB",
+            thematic_role="ACTION",
+        )
+
+&gt;       context = SentenceContext(
+            sentence_id="1",
+            sentence_num=1,
+            tokens=[token1, token2, token3, token4],
+            first_words="Karl_sagte",
+        )
+E       TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+
+tests\test_pronoun_extractor.py:140: TypeError</failure></testcase><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_classify_pronoun_personal_masculine" time="0.002"><failure message="TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'">self = &lt;tests.test_pronoun_extractor.TestPronounExtractor object at 0x0000027F8B1B6E00&gt;
+
+    def test_classify_pronoun_personal_masculine(self):
+        """Test pronoun classification for personal masculine pronoun."""
+        pronoun = Token(
+            idx=2,
+            text="er",
+            sentence_num=1,
+            grammatical_role="SUBJ",
+            thematic_role="AGENT",
+        )
+
+&gt;       context = SentenceContext(
+            sentence_id="1",
+            sentence_num=1,
+            tokens=[pronoun],
+            first_words="Karl_sagte",
+        )
+E       TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+
+tests\test_pronoun_extractor.py:165: TypeError</failure></testcase><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_classify_pronoun_personal_feminine" time="0.002"><failure message="TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'">self = &lt;tests.test_pronoun_extractor.TestPronounExtractor object at 0x0000027F8B102E50&gt;
+
+    def test_classify_pronoun_personal_feminine(self):
+        """Test pronoun classification for personal feminine pronoun."""
+        pronoun = Token(
+            idx=2,
+            text="sie",
+            sentence_num=1,
+            grammatical_role="SUBJ",
+            thematic_role="AGENT",
+        )
+
+&gt;       context = SentenceContext(
+            sentence_id="1",
+            sentence_num=1,
+            tokens=[pronoun],
+            first_words="Karl_sagte",
+        )
+E       TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+
+tests\test_pronoun_extractor.py:190: TypeError</failure></testcase><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_classify_pronoun_personal_neuter" time="0.002"><failure message="TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'">self = &lt;tests.test_pronoun_extractor.TestPronounExtractor object at 0x0000027F8B102F50&gt;
+
+    def test_classify_pronoun_personal_neuter(self):
+        """Test pronoun classification for personal neuter pronoun."""
+        pronoun = Token(
+            idx=2,
+            text="es",
+            sentence_num=1,
+            grammatical_role="SUBJ",
+            thematic_role="AGENT",
+        )
+
+&gt;       context = SentenceContext(
+            sentence_id="1",
+            sentence_num=1,
+            tokens=[pronoun],
+            first_words="Karl_sagte",
+        )
+E       TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+
+tests\test_pronoun_extractor.py:215: TypeError</failure></testcase><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_classify_pronoun_personal_plural" time="0.002"><failure message="TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'">self = &lt;tests.test_pronoun_extractor.TestPronounExtractor object at 0x0000027F8B0E35C0&gt;
+
+    def test_classify_pronoun_personal_plural(self):
+        """Test pronoun classification for personal plural pronoun."""
+        pronoun = Token(
+            idx=2,
+            text="ihnen",
+            sentence_num=1,
+            grammatical_role="OBJ",
+            thematic_role="PATIENT",
+        )
+
+&gt;       context = SentenceContext(
+            sentence_id="1",
+            sentence_num=1,
+            tokens=[pronoun],
+            first_words="Karl_sagte",
+        )
+E       TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+
+tests\test_pronoun_extractor.py:240: TypeError</failure></testcase><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_classify_pronoun_d_pronoun" time="0.002"><failure message="TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'">self = &lt;tests.test_pronoun_extractor.TestPronounExtractor object at 0x0000027F8B0E36B0&gt;
+
+    def test_classify_pronoun_d_pronoun(self):
+        """Test pronoun classification for D-pronoun."""
+        pronoun = Token(
+            idx=2,
+            text="der",
+            sentence_num=1,
+            grammatical_role="SUBJ",
+            thematic_role="AGENT",
+        )
+
+&gt;       context = SentenceContext(
+            sentence_id="1",
+            sentence_num=1,
+            tokens=[pronoun],
+            first_words="Karl_sagte",
+        )
+E       TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+
+tests\test_pronoun_extractor.py:265: TypeError</failure></testcase><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_classify_pronoun_demonstrative" time="0.002"><failure message="TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'">self = &lt;tests.test_pronoun_extractor.TestPronounExtractor object at 0x0000027F8B218BB0&gt;
+
+    def test_classify_pronoun_demonstrative(self):
+        """Test pronoun classification for demonstrative pronoun."""
+        pronoun = Token(
+            idx=2,
+            text="dieser",
+            sentence_num=1,
+            grammatical_role="SUBJ",
+            thematic_role="AGENT",
+        )
+
+&gt;       context = SentenceContext(
+            sentence_id="1",
+            sentence_num=1,
+            tokens=[pronoun],
+            first_words="Karl_sagte",
+        )
+E       TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+
+tests\test_pronoun_extractor.py:288: TypeError</failure></testcase><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_classify_pronoun_with_coreference_animate" time="0.002"><failure message="TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'">self = &lt;tests.test_pronoun_extractor.TestPronounExtractor object at 0x0000027F8B218E50&gt;
+
+    def test_classify_pronoun_with_coreference_animate(self):
+        """Test pronoun classification with animate coreference."""
+        pronoun = Token(
+            idx=2,
+            text="er",
+            sentence_num=1,
+            grammatical_role="SUBJ",
+            thematic_role="AGENT",
+            coreference_link="*-&gt;115-1",
+            coreference_type="PersPron[115]",
+        )
+
+&gt;       context = SentenceContext(
+            sentence_id="1",
+            sentence_num=1,
+            tokens=[pronoun],
+            first_words="Karl_sagte",
+        )
+E       TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+
+tests\test_pronoun_extractor.py:313: TypeError</failure></testcase><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_classify_pronoun_with_inanimate_coreference" time="0.002"><failure message="TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'">self = &lt;tests.test_pronoun_extractor.TestPronounExtractor object at 0x0000027F8B1A4050&gt;
+
+    def test_classify_pronoun_with_inanimate_coreference(self):
+        """Test pronoun classification with inanimate coreference."""
+        pronoun = Token(
+            idx=2,
+            text="es",
+            sentence_num=1,
+            grammatical_role="SUBJ",
+            thematic_role="AGENT",
+            inanimate_coreference_link="*-&gt;200-1",
+            inanimate_coreference_type="Inanim[200]",
+        )
+
+&gt;       context = SentenceContext(
+            sentence_id="1",
+            sentence_num=1,
+            tokens=[pronoun],
+            first_words="Karl_sagte",
+        )
+E       TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+
+tests\test_pronoun_extractor.py:336: TypeError</failure></testcase><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_classify_pronoun_unknown" time="0.002"><failure message="TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'">self = &lt;tests.test_pronoun_extractor.TestPronounExtractor object at 0x0000027F8B0FAD50&gt;
+
+    def test_classify_pronoun_unknown(self):
+        """Test pronoun classification for unknown pronoun."""
+        pronoun = Token(
+            idx=2,
+            text="unknown",
+            sentence_num=1,
+            grammatical_role="SUBJ",
+            thematic_role="AGENT",
+        )
+
+&gt;       context = SentenceContext(
+            sentence_id="1",
+            sentence_num=1,
+            tokens=[pronoun],
+            first_words="Karl_sagte",
+        )
+E       TypeError: SentenceContext.__init__() missing 2 required positional arguments: 'critical_pronouns' and 'coreference_phrases'
+
+tests\test_pronoun_extractor.py:357: TypeError</failure></testcase><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_is_pronoun_critical_pronoun" time="0.001" /><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_is_pronoun_non_pronoun" time="0.001" /><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_is_pronoun_with_coreference_annotation" time="0.001" /><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_is_pronoun_with_inanimate_coreference_annotation" time="0.001" /><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_is_critical_pronoun" time="0.001"><failure message="AssertionError: assert False is True&#10; +  where False = _is_critical_pronoun(Token(idx=2, text='er', sentence_num=1, grammatical_role='SUBJ', thematic_role='AGENT', coreference_link=None, corefer...ce_link=None, inanimate_coreference_type=None, is_critical_pronoun=False, entity_id=None, token_position=0, columns=[]))&#10; +    where _is_critical_pronoun = &lt;src.extractors.pronoun_extractor.PronounExtractor object at 0x0000027F8DC8B570&gt;._is_critical_pronoun&#10; +      where &lt;src.extractors.pronoun_extractor.PronounExtractor object at 0x0000027F8DC8B570&gt; = &lt;tests.test_pronoun_extractor.TestPronounExtractor object at 0x0000027F8B232490&gt;.extractor">self = &lt;tests.test_pronoun_extractor.TestPronounExtractor object at 0x0000027F8B232490&gt;
+
+    def test_is_critical_pronoun(self):
+        """Test _is_critical_pronoun method."""
+        token = Token(
+            idx=2,
+            text="er",
+            sentence_num=1,
+            grammatical_role="SUBJ",
+            thematic_role="AGENT",
+        )
+
+&gt;       assert self.extractor._is_critical_pronoun(token) is True
+E       AssertionError: assert False is True
+E        +  where False = _is_critical_pronoun(Token(idx=2, text='er', sentence_num=1, grammatical_role='SUBJ', thematic_role='AGENT', coreference_link=None, corefer...ce_link=None, inanimate_coreference_type=None, is_critical_pronoun=False, entity_id=None, token_position=0, columns=[]))
+E        +    where _is_critical_pronoun = &lt;src.extractors.pronoun_extractor.PronounExtractor object at 0x0000027F8DC8B570&gt;._is_critical_pronoun
+E        +      where &lt;src.extractors.pronoun_extractor.PronounExtractor object at 0x0000027F8DC8B570&gt; = &lt;tests.test_pronoun_extractor.TestPronounExtractor object at 0x0000027F8B232490&gt;.extractor
+
+tests\test_pronoun_extractor.py:433: AssertionError</failure></testcase><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_has_pronoun_coreference_annotation_personal" time="0.001" /><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_has_pronoun_coreference_annotation_d_pronoun" time="0.001" /><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_has_pronoun_coreference_annotation_demonstrative" time="0.001" /><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_has_pronoun_coreference_annotation_inanimate" time="0.001" /><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_has_pronoun_coreference_annotation_no_pronoun" time="0.001" /><testcase classname="tests.test_pronoun_extractor.TestPronounExtractor" name="test_has_pronoun_coreference_annotation_no_coreference" time="0.001" /><testcase classname="tests.test_run_phase2.TestRunPhase2EntryPoint" name="test_script_imports" time="0.003" /><testcase classname="tests.test_run_phase2.TestRunPhase2EntryPoint" name="test_main_function_import" time="0.001" /><testcase classname="tests.test_run_phase2.TestRunPhase2EntryPoint" name="test_script_structure" time="0.001" /><testcase classname="tests.test_run_phase2.TestRunPhase2EntryPoint" name="test_path_setup" time="0.001" /><testcase classname="tests.test_run_phase2.TestRunPhase2EntryPoint" name="test_script_execution_path" time="0.001" /><testcase classname="tests.test_schema_aware_parser" name="test_schema_aware_parsing" time="0.006" /><testcase classname="tests.test_unified_sentence_manager.TestUnifiedSentenceManager" name="test_initialization" time="0.001" /><testcase classname="tests.test_unified_sentence_manager.TestUnifiedSentenceManager" name="test_process_chapters_empty_list" time="0.001" /><testcase classname="tests.test_unified_sentence_manager.TestUnifiedSentenceManager" name="test_process_chapters_single_chapter" time="0.001" /><testcase classname="tests.test_unified_sentence_manager.TestUnifiedSentenceManager" name="test_process_chapters_multiple_chapters" time="0.001" /><testcase classname="tests.test_unified_sentence_manager.TestUnifiedSentenceManager" name="test_get_global_sentence_id_mapped" time="0.001" /><testcase classname="tests.test_unified_sentence_manager.TestUnifiedSentenceManager" name="test_get_global_sentence_id_unmapped" time="0.001" /><testcase classname="tests.test_unified_sentence_manager.TestUnifiedSentenceManager" name="test_get_global_sentence_id_unmapped_no_number" time="0.002" /><testcase classname="tests.test_unified_sentence_manager.TestUnifiedSentenceManager" name="test_get_chapter_sentence_range_existing" time="0.001" /><testcase classname="tests.test_unified_sentence_manager.TestUnifiedSentenceManager" name="test_get_chapter_sentence_range_nonexistent" time="0.001" /><testcase classname="tests.test_unified_sentence_manager.TestUnifiedSentenceManager" name="test_get_total_sentences" time="0.001" /><testcase classname="tests.test_unified_sentence_manager.TestUnifiedSentenceManager" name="test_get_chapter_summary_empty" time="0.001" /><testcase classname="tests.test_unified_sentence_manager.TestUnifiedSentenceManager" name="test_get_chapter_summary_with_chapters" time="0.001" /><testcase classname="tests.test_unified_sentence_manager.TestUnifiedSentenceManager" name="test_extract_chapter_number_with_number" time="0.001" /><testcase classname="tests.test_unified_sentence_manager.TestUnifiedSentenceManager" name="test_extract_chapter_number_without_number" time="0.001" /><testcase classname="tests.test_unified_sentence_manager.TestUnifiedSentenceManager" name="test_process_chapters_with_gaps_in_sentence_ranges" time="0.001" /><testcase classname="tests.test_unified_sentence_manager.TestUnifiedSentenceManager" name="test_process_chapters_resets_counter" time="0.001" /><testcase classname="tests.test_unified_sentence_manager.TestUnifiedSentenceManager" name="test_get_global_sentence_id_case_insensitive_fallback" time="0.001" /><testcase classname="tests.test_utils.TestExtractCoreferenceType" name="test_extract_coreference_type_valid_perspron" time="0.001" /><testcase classname="tests.test_utils.TestExtractCoreferenceType" name="test_extract_coreference_type_valid_dpron" time="0.001" /><testcase classname="tests.test_utils.TestExtractCoreferenceType" name="test_extract_coreference_type_invalid_format" time="0.001" /><testcase classname="tests.test_utils.TestExtractCoreferenceType" name="test_extract_coreference_type_empty_string" time="0.001" /><testcase classname="tests.test_utils.TestExtractCoreferenceType" name="test_extract_coreference_type_missing_value" time="0.001" /><testcase classname="tests.test_utils.TestExtractCoreferenceId" name="test_extract_coreference_id_full_format" time="0.001" /><testcase classname="tests.test_utils.TestExtractCoreferenceId" name="test_extract_coreference_id_base_only" time="0.001" /><testcase classname="tests.test_utils.TestExtractCoreferenceId" name="test_extract_coreference_id_invalid_format" time="0.001" /><testcase classname="tests.test_utils.TestExtractCoreferenceId" name="test_extract_coreference_id_empty_string" time="0.001" /><testcase classname="tests.test_utils.TestExtractCoreferenceId" name="test_extract_coreference_id_missing_value" time="0.001" /><testcase classname="tests.test_utils.TestExtractFullCoreferenceId" name="test_extract_full_coreference_id_valid_link" time="0.001" /><testcase classname="tests.test_utils.TestExtractFullCoreferenceId" name="test_extract_full_coreference_id_base_only_link" time="0.002" /><testcase classname="tests.test_utils.TestExtractFullCoreferenceId" name="test_extract_full_coreference_id_invalid_format" time="0.001" /><testcase classname="tests.test_utils.TestExtractFullCoreferenceId" name="test_extract_full_coreference_id_no_arrow" time="0.001" /><testcase classname="tests.test_utils.TestExtractFullCoreferenceId" name="test_extract_full_coreference_id_empty_string" time="0.001" /><testcase classname="tests.test_utils.TestExtractFullCoreferenceId" name="test_extract_full_coreference_id_missing_value" time="0.001" /><testcase classname="tests.test_utils.TestDetermineGivenness" name="test_determine_givenness_first_mention" time="0.001" /><testcase classname="tests.test_utils.TestDetermineGivenness" name="test_determine_givenness_subsequent_mention" time="0.001" /><testcase classname="tests.test_utils.TestDetermineGivenness" name="test_determine_givenness_base_only" time="0.001" /><testcase classname="tests.test_utils.TestDetermineGivenness" name="test_determine_givenness_invalid_format" time="0.001" /><testcase classname="tests.test_utils.TestDetermineGivenness" name="test_determine_givenness_empty_string" time="0.001" /><testcase classname="tests.test_utils.TestDetermineGivenness" name="test_determine_givenness_missing_value" time="0.001" /><testcase classname="tests.test_utils.TestExtractCorefBaseAndOccurrence" name="test_extract_coref_base_and_occurrence_full_format" time="0.001" /><testcase classname="tests.test_utils.TestExtractCorefBaseAndOccurrence" name="test_extract_coref_base_and_occurrence_base_only" time="0.001" /><testcase classname="tests.test_utils.TestExtractCorefBaseAndOccurrence" name="test_extract_coref_base_and_occurrence_invalid_format" time="0.001" /><testcase classname="tests.test_utils.TestExtractCorefBaseAndOccurrence" name="test_extract_coref_base_and_occurrence_empty_string" time="0.001" /><testcase classname="tests.test_utils.TestExtractCorefBaseAndOccurrence" name="test_extract_coref_base_and_occurrence_missing_value" time="0.001" /><testcase classname="tests.test_utils.TestExtractCorefLinkNumbers" name="test_extract_coref_link_numbers_valid_link" time="0.001" /><testcase classname="tests.test_utils.TestExtractCorefLinkNumbers" name="test_extract_coref_link_numbers_base_only_link" time="0.001" /><testcase classname="tests.test_utils.TestExtractCorefLinkNumbers" name="test_extract_coref_link_numbers_no_arrow" time="0.002" /><testcase classname="tests.test_utils.TestExtractCorefLinkNumbers" name="test_extract_coref_link_numbers_invalid_format" time="0.001" /><testcase classname="tests.test_utils.TestExtractCorefLinkNumbers" name="test_extract_coref_link_numbers_empty_string" time="0.002" /><testcase classname="tests.test_utils.TestExtractCorefLinkNumbers" name="test_extract_coref_link_numbers_missing_value" time="0.001" /><testcase classname="tests.test_verify_phase2" name="test_analyzer_initialization" time="0.002" /><testcase classname="tests.test_verify_phase2" name="test_coreference_extractor" time="0.001" /><testcase classname="tests.test_verify_phase2" name="test_end_to_end_with_sample" time="0.006" /><testcase classname="tests.test_verify_phase2" name="test_imports" time="0.001" /><testcase classname="tests.test_verify_phase2" name="test_parser_basic" time="0.001" /><testcase classname="tests.test_verify_phase2" name="test_token_creation" time="0.001" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_import_module" time="0.001" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_import_module_nonexistent" time="0.002" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_test_imports_success" time="0.003" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_test_imports_failure" time="0.003"><failure message="assert True is False">self = &lt;tests.test_verify_phase2.TestVerifyPhase2 object at 0x0000027F8B20E780&gt;
+mock_print = &lt;MagicMock name='print' id='2746861778800'&gt;
+
+    @patch('builtins.print')
+    def test_test_imports_failure(self, mock_print):
+        """Test failed imports test."""
+        with patch('src.verify_phase2.import_module', side_effect=ImportError("Test error")):
+            result = test_imports()
+&gt;           assert result is False
+E           assert True is False
+
+tests\test_verify_phase2.py:50: AssertionError</failure></testcase><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_test_token_creation_success" time="0.001" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_test_token_creation_failure" time="0.002" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_test_parser_basic_success" time="0.003" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_test_parser_basic_failure" time="0.002" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_test_coreference_extractor_success" time="0.002" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_test_coreference_extractor_failure" time="0.002" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_test_analyzer_initialization_success" time="0.003" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_test_analyzer_initialization_failure" time="0.002" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_test_end_to_end_with_sample_success" time="0.005" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_test_end_to_end_with_sample_failure" time="0.004" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_main_all_tests_pass" time="0.004" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_main_some_tests_fail" time="0.005" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_main_all_tests_fail" time="0.005" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_main_test_list_structure" time="0.004" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_script_execution_success" time="0.002" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_script_execution_failure" time="0.002" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_end_to_end_creates_temp_file" time="0.006" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_parser_boundary_detection" time="0.001" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_token_with_coreference_extraction" time="0.001" /><testcase classname="tests.test_verify_phase2.TestVerifyPhase2" name="test_analyzer_statistics_initialization" time="0.001" /><testcase classname="tests.test_versioning.TestVersioningFunctions" name="test_get_version" time="0.001" /><testcase classname="tests.test_versioning.TestVersioningFunctions" name="test_create_processing_config" time="0.002" /><testcase classname="tests.test_versioning.TestDataVersionManager" name="test_initialization" time="0.003" /><testcase classname="tests.test_versioning.TestDataVersionManager" name="test_initialization_default_path" time="0.002" /><testcase classname="tests.test_versioning.TestDataVersionManager" name="test_compute_file_hash" time="0.004" /><testcase classname="tests.test_versioning.TestDataVersionManager" name="test_compute_file_hash_nonexistent_file" time="0.003" /><testcase classname="tests.test_versioning.TestDataVersionManager" name="test_create_metadata_basic" time="0.018" /><testcase classname="tests.test_versioning.TestDataVersionManager" name="test_create_metadata_nonexistent_output" time="0.005" /><testcase classname="tests.test_versioning.TestDataVersionManager" name="test_create_metadata_with_csv_statistics" time="0.006"><failure message="AssertionError: assert 'statistics' in {'file': 'C:\\Users\\Job\\AppData\\Local\\Temp\\tmpsojq8qb2\\output.csv', 'hash': None, 'size_bytes': None}">self = &lt;tests.test_versioning.TestDataVersionManager object at 0x0000027F8B1B7DF0&gt;
+mock_read_csv = &lt;MagicMock name='read_csv' id='2746854488592'&gt;
+
+    @patch('src.data.versioning.pd.read_csv')
+    def test_create_metadata_with_csv_statistics(self, mock_read_csv):
+        """Test metadata creation with CSV statistics."""
+        # Create test files
+        input_file = self.temp_dir / "input.txt"
+        output_file = self.temp_dir / "output.csv"
+        input_file.write_text("input content")
+
+        # Mock DataFrame
+        mock_df = mock_read_csv.return_value
+        mock_df.__len__ = lambda: 100
+        mock_df.columns = ["col1", "col2", "sentence_id", "pronoun_text"]
+        mock_df.__getitem__ = lambda self, key: mock_df
+        mock_df.nunique = lambda: 50
+
+        processing_config = {"test": "config"}
+
+        metadata = self.manager.create_metadata(
+            input_file=input_file,
+            output_file=output_file,
+            processing_config=processing_config
+        )
+
+&gt;       assert "statistics" in metadata["output"]
+E       AssertionError: assert 'statistics' in {'file': 'C:\\Users\\Job\\AppData\\Local\\Temp\\tmpsojq8qb2\\output.csv', 'hash': None, 'size_bytes': None}
+
+tests\test_versioning.py:157: AssertionError</failure></testcase><testcase classname="tests.test_versioning.TestDataVersionManager" name="test_save_metadata_new_file" time="0.008" /><testcase classname="tests.test_versioning.TestDataVersionManager" name="test_save_metadata_existing_file" time="0.011" /><testcase classname="tests.test_versioning.TestDataVersionManager" name="test_validate_reproducibility_matching" time="0.004" /><testcase classname="tests.test_versioning.TestDataVersionManager" name="test_validate_reproducibility_different" time="0.005" /><testcase classname="tests.test_versioning.TestDataVersionManager" name="test_get_latest_metadata_no_file" time="0.004" /><testcase classname="tests.test_versioning.TestDataVersionManager" name="test_get_latest_metadata_empty_file" time="0.003" /><testcase classname="tests.test_versioning.TestDataVersionManager" name="test_get_latest_metadata_with_data" time="0.005" /><testcase classname="tests.test_versioning.TestDataVersionManager" name="test_get_latest_metadata_with_phase_filter" time="0.005" /><testcase classname="tests.test_versioning.TestDataVersionManager" name="test_get_latest_metadata_phase_not_found" time="0.007" /><testcase classname="tests.test_visualization.TestVisualizationImports" name="test_interactive_visualizer_import" time="0.001" /><testcase classname="tests.test_visualization.TestVisualizationImports" name="test_interactive_visualizer_instantiation" time="0.002" /><testcase classname="tests.test_visualization.TestVisualizationImports" name="test_interactive_visualizer_has_expected_methods" time="0.002" /><testcase classname="tests.test_visualization.TestVisualizationImports" name="test_module_docstring" time="0.001" /><testcase classname="tests.test_visualization.TestVisualizationImports" name="test_module_all_exports" time="0.001" /><testcase classname="tests.test_visualization.TestVisualizationImports" name="test_visualizer_logger" time="0.003" /><testcase classname="tests.unit.test_data_models.TestToken" name="test_token_creation_valid" time="0.001" /><testcase classname="tests.unit.test_data_models.TestToken" name="test_token_validation_invalid_idx" time="0.001" /><testcase classname="tests.unit.test_data_models.TestToken" name="test_token_validation_negative_sentence_num" time="0.001" /><testcase classname="tests.unit.test_data_models.TestToken" name="test_token_validation_empty_text" time="0.001" /><testcase classname="tests.unit.test_data_models.TestToken" name="test_token_columns_initialization" time="0.001" /><testcase classname="tests.unit.test_data_models.TestPhrase" name="test_phrase_creation_valid" time="0.001" /><testcase classname="tests.unit.test_data_models.TestPhrase" name="test_phrase_validation_invalid_indices" time="0.001" /><testcase classname="tests.unit.test_data_models.TestPhrase" name="test_phrase_validation_zero_indices" time="0.001" /><testcase classname="tests.unit.test_data_models.TestPhrase" name="test_phrase_validation_empty_text" time="0.002" /><testcase classname="tests.unit.test_data_models.TestPhrase" name="test_phrase_validation_empty_coref_id" time="0.001" /><testcase classname="tests.unit.test_data_models.TestAntecedentInfo" name="test_antecedent_info_creation_valid" time="0.001" /><testcase classname="tests.unit.test_data_models.TestAntecedentInfo" name="test_antecedent_info_validation_negative_choice_count" time="0.001" /><testcase classname="tests.unit.test_data_models.TestSentenceContext" name="test_sentence_context_creation_valid" time="0.002" /><testcase classname="tests.unit.test_data_models.TestSentenceContext" name="test_sentence_context_validation_invalid_sentence_num" time="0.001" /><testcase classname="tests.unit.test_data_models.TestSentenceContext" name="test_sentence_context_validation_empty_sentence_id" time="0.001" /><testcase classname="tests.unit.test_data_models.TestSentenceContext" name="test_sentence_context_validation_no_tokens" time="0.002" /><testcase classname="tests.unit.test_data_models.TestClauseMateRelationship" name="test_relationship_creation_valid" time="0.001" /><testcase classname="tests.unit.test_data_models.TestClauseMateRelationship" name="test_relationship_validation_invalid_sentence_num" time="0.001" /><testcase classname="tests.unit.test_data_models.TestClauseMateRelationship" name="test_relationship_validation_invalid_clause_mates_count" time="0.001" /><testcase classname="tests.unit.test_data_models.TestClauseMateRelationship" name="test_relationship_validation_empty_sentence_id" time="0.001" /><testcase classname="tests.unit.test_data_models.TestClauseMateRelationship" name="test_relationship_to_dict_conversion" time="0.001" /><testcase classname="tests.unit.test_data_models.TestMockDataFactory" name="test_factory_creates_consistent_objects" time="0.001" /><testcase classname="tests.unit.test_data_models.TestMockDataFactory" name="test_factory_accepts_custom_parameters" time="0.001" /><testcase classname="tests.unit.test_data_models.TestMockDataFactory" name="test_factory_creates_valid_relationships" time="0.001" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_analyzer_initialization_default" time="0.001" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_analyzer_initialization_custom" time="0.001" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_analyze_file_success" time="0.006" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_analyze_file_streaming" time="0.005" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_analyze_file_exception_handling" time="0.006" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_analyze_complete_success" time="0.007" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_extract_sentence_number_valid" time="0.001" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_extract_sentence_number_no_match" time="0.001" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_export_results_success" time="0.011" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_export_results_empty_relationships" time="0.006" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_export_results_exception_handling" time="0.007" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_get_statistics" time="0.001" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_detect_and_configure_format_success" time="0.009" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_detect_and_configure_format_low_compatibility" time="0.007" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_detect_and_configure_format_incomplete" time="0.009" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_detect_and_configure_format_exception" time="0.016" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_ensure_timestamped_output_path_new" time="0.008" /><testcase classname="tests.unit.test_main_analyzer.TestClauseMateAnalyzer" name="test_ensure_timestamped_output_path_existing" time="0.002" /><testcase classname="tests.unit.test_main_analyzer.TestAnalyzerIntegration" name="test_analyzer_with_mock_data" time="0.002" /><testcase classname="tests.unit.test_main_analyzer.TestAnalyzerIntegration" name="test_analyzer_statistics_tracking" time="0.003" /></testsuite></testsuites>

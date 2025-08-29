@@ -1,9 +1,3 @@
-"""TSV parser implementation for clause mates data.
-
-This module provides a concrete implementation of the BaseParser interface
-specifically for parsing TSV files with linguistic annotations.
-"""
-
 import csv
 import sys
 from collections.abc import Iterator
@@ -13,6 +7,12 @@ from src.data.models import SentenceContext, Token
 from src.parsers.base import BaseParser, BaseTokenProcessor
 
 from ..exceptions import FileProcessingError, ParseError
+
+"""TSV parser implementation for clause mates data.
+
+This module provides a concrete implementation of the BaseParser interface
+specifically for parsing TSV files with linguistic annotations.
+"""
 
 # Add the parent directory to the path to import from root
 sys.path.append(str(Path(__file__).parent.parent.parent))
@@ -52,7 +52,7 @@ class TSVParser(BaseParser):
             FileProcessingError: If file cannot be read
             ParseError: If file format is invalid
         """
-        sentences = {}
+        sentences: dict[str, list[Token]] = {}
 
         try:
             for sentence_context in self.parse_sentence_streaming(file_path):
@@ -81,12 +81,12 @@ class TSVParser(BaseParser):
             FileProcessingError: If file cannot be processed
             ParseError: If file format is invalid
         """
-        current_tokens = []
+        current_tokens: list[Token] = []
         current_first_words = None
         current_sentence_num = None
         current_sentence_id = None
         pending_first_words = None
-        first_token_texts = []  # Collect first three token texts if needed
+        first_token_texts: list[str] = []  # Collect first three token texts if needed
 
         try:
             with open(file_path, encoding="utf-8") as file:
@@ -373,7 +373,7 @@ class TSVParser(BaseParser):
         )
 
         # Enrich tokens with context
-        enriched_tokens = []
+        enriched_tokens: list[Token] = []
         for token in tokens:
             enriched_token = self.processor.enrich_token(token, context)
             enriched_tokens.append(enriched_token)

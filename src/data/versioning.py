@@ -1,5 +1,3 @@
-"""Data management and versioning utilities for clause mate project."""
-
 import hashlib
 import json
 from datetime import datetime
@@ -7,6 +5,8 @@ from pathlib import Path
 from typing import Any
 
 import pandas as pd
+
+"""Data management and versioning utilities for clause mate project."""
 
 # Version constants
 VERSION = "1.0.0"
@@ -46,7 +46,7 @@ class DataVersionManager:
         phase: str = "phase2",
     ) -> dict[str, Any]:
         """Create metadata for a processing run."""
-        metadata = {
+        metadata: dict[str, Any] = {
             "timestamp": datetime.now().isoformat(),
             "phase": phase,
             "input": {
@@ -74,7 +74,7 @@ class DataVersionManager:
 
         if output_file.exists():
             # Add output statistics
-            df = pd.read_csv(output_file)
+            df = pd.read_csv(output_file)  # type: ignore
             metadata["output"]["statistics"] = {
                 "rows": len(df),
                 "columns": len(df.columns),
@@ -93,7 +93,7 @@ class DataVersionManager:
     def save_metadata(self, metadata: dict[str, Any]):
         """Save metadata to file."""
         # Load existing metadata
-        existing_metadata = []
+        existing_metadata: list[dict[str, Any]] = []
         if self.metadata_file.exists():
             with open(self.metadata_file) as f:
                 existing_metadata = json.load(f)

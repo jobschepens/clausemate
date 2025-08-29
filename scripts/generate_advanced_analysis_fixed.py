@@ -31,15 +31,22 @@ except ImportError:
     from enum import Enum
 
     class Animacy(Enum):
+        """Animacy enumeration for referent type."""
+
         ANIM = "anim"
         INANIM = "inanim"
 
     class Givenness(Enum):
+        """Givenness enumeration for referent status."""
+
         BEKANNT = "bekannt"
         NEU = "neu"
 
     class Pronoun:
+        """Represents a pronoun with linguistic features."""
+
         def __init__(self, text, grammatical_role, thematic_role, animacy, givenness):
+            """Initialize Pronoun object."""
             self.text = text
             self.grammatical_role = grammatical_role
             self.thematic_role = thematic_role
@@ -47,7 +54,10 @@ except ImportError:
             self.givenness = givenness
 
     class ClauseMate:
+        """Represents a clause mate with linguistic features."""
+
         def __init__(self, text, grammatical_role, thematic_role, animacy, givenness):
+            """Initialize ClauseMate object."""
             self.text = text
             self.grammatical_role = grammatical_role
             self.thematic_role = thematic_role
@@ -55,7 +65,10 @@ except ImportError:
             self.givenness = givenness
 
     class ClauseMateRelationship:
+        """Represents a clause mate relationship in a sentence."""
+
         def __init__(self, sentence_id, sentence_num, pronoun, clause_mate):
+            """Initialize ClauseMateRelationship object."""
             self.sentence_id = sentence_id
             self.sentence_num = sentence_num
             self.pronoun = pronoun
@@ -116,7 +129,7 @@ def load_existing_data():
                     coref_str = row["pronoun_coref_ids"].strip("[]'\"")
                     if coref_str:
                         pronoun_coref_ids = [coref_str]
-                except:
+                except Exception:
                     pass
 
             relationship = ClauseMateRelationship(

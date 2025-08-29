@@ -14,13 +14,26 @@ from pathlib import Path
 # Add src to path
 sys.path.append("src")
 
-from data.models import Animacy, ClauseMate, ClauseMateRelationship, Givenness, Pronoun
-from multi_file.advanced_analysis_features import AdvancedAnalysisEngine
-from multi_file.enhanced_output_system import ChapterMetadata, CrossChapterConnection
+from src.data.models import (
+    AntecedentInfo,
+    AnimacyType,
+    ClauseMateRelationship,
+    Phrase,
+    Token,
+)
+from src.multi_file.advanced_analysis_features import AdvancedAnalysisEngine
+from src.multi_file.enhanced_output_system import (
+    ChapterMetadata,
+    CrossChapterConnection,
+)
 
 
 def load_existing_data():
-    """Load existing analysis data from the unified output directory."""
+    """Load existing analysis data from the unified output directory.
+
+    Returns:
+        Tuple containing processing statistics, cross-chapter chains, and relationships.
+    """
     output_dir = "data/output/unified_analysis_20250728_231555"
 
     # Load processing statistics
@@ -41,28 +54,31 @@ def load_existing_data():
         reader = csv.DictReader(f)
         for row in reader:
             # Create ClauseMateRelationship objects from CSV data
-            pronoun = Pronoun(
+            pronoun = Token(
+                idx=int(row.get("pronoun_token_idx", 1)),
                 text=row["pronoun_text"],
+                sentence_num=int(row["sentence_num"]),
                 grammatical_role=row["pronoun_grammatical_role"],
                 thematic_role=row["pronoun_thematic_role"],
-                animacy=Animacy.ANIM
-                if row.get("pronoun_animacy") == "anim"
-                else Animacy.INANIM,
-                givenness=Givenness.BEKANNT
-                if row.get("pronoun_givenness") == "bekannt"
-                else Givenness.NEU,
+                coreference_link=row.get("pronoun_coreference_link"),
+                coreference_type=row.get("pronoun_coreference_type"),
+                inanimate_coreference_link=row.get("pronoun_inanimate_coreference_link"),
+                inanimate_coreference_type=row.get("pronoun_inanimate_coreference_type"),
+                is_critical_pronoun=True,
             )
 
-            clause_mate = ClauseMate(
+            clause_mate = Phrase(
                 text=row["clause_mate_text"],
+                coreference_id=row.get("clause_mate_coref_id", ""),
+                start_idx=int(row.get("clause_mate_start_idx", 1)),
+                end_idx=int(row.get("clause_mate_end_idx", 1)),
                 grammatical_role=row["clause_mate_grammatical_role"],
                 thematic_role=row["clause_mate_thematic_role"],
-                animacy=Animacy.ANIM
+                coreference_type=row.get("clause_mate_coreference_type", ""),
+                animacy=AnimacyType.ANIMATE
                 if row.get("clause_mate_animacy") == "anim"
-                else Animacy.INANIM,
-                givenness=Givenness.BEKANNT
-                if row.get("clause_mate_givenness") == "bekannt"
-                else Givenness.NEU,
+                else AnimacyType.INANIMATE,
+                givenness=row.get("clause_mate_givenness", ""),
             )
 
             # Parse coreference IDs
@@ -73,29 +89,51 @@ def load_existing_data():
                     coref_str = row["pronoun_coref_ids"].strip("[]'\"")
                     if coref_str:
                         pronoun_coref_ids = [coref_str]
-                except:
+                except Exception:
                     pass
 
+            # Fill required fields for ClauseMateRelationship
             relationship = ClauseMateRelationship(
                 sentence_id=row["sentence_id"],
                 sentence_num=int(row["sentence_num"]),
                 pronoun=pronoun,
                 clause_mate=clause_mate,
+                num_clause_mates=int(row.get("num_clause_mates", 1)),
+                antecedent_info=AntecedentInfo(
+                    most_recent_text=row.get("pronoun_most_recent_antecedent_text", ""),
+                    most_recent_distance=row.get(
+                        "pronoun_most_recent_antecedent_distance", ""
+                    ),
+                    first_text=row.get("pronoun_first_antecedent_text", ""),
+                    first_distance=row.get("pronoun_first_antecedent_distance", ""),
+                    sentence_id=row["sentence_id"],
+                    choice_count=int(row.get("pronoun_antecedent_choice", 0)),
+                ),
+                first_words=row.get("first_words", ""),
+                pronoun_coref_ids=pronoun_coref_ids,
+                pronoun_coref_base_num=None,
+                pronoun_coref_occurrence_num=None,
+                clause_mate_coref_base_num=None,
+                clause_mate_coref_occurrence_num=None,
+                pronoun_coref_link_base_num=None,
+                pronoun_coref_link_occurrence_num=None,
+                pronoun_inanimate_coref_link_base_num=None,
+                pronoun_inanimate_coref_link_occurrence_num=None,
             )
-
-            # Add additional attributes
-            relationship.chapter_number = int(row["chapter_number"])
-            relationship.global_sentence_id = row["global_sentence_id"]
-            relationship.pronoun_coref_ids = pronoun_coref_ids
-            relationship.is_cross_chapter = row["is_cross_chapter"] == "True"
-
             relationships.append(relationship)
 
     return processing_stats, cross_chapter_chains, relationships
 
 
 def create_chapter_metadata(relationships):
-    """Create chapter metadata from relationships."""
+    """Create chapter metadata from relationships.
+
+    Args:
+        relationships: List of ClauseMateRelationship objects.
+
+    Returns:
+        List of ChapterMetadata objects.
+    """
     chapters = {}
 
     for rel in relationships:
@@ -119,14 +157,19 @@ def create_chapter_metadata(relationships):
 
         meta = ChapterMetadata(
             chapter_number=chapter_num,
-            file_path=f"data/input/gotofiles/{'later/' if chapter_num != 2 else ''}{chapter_num}.tsv",
-            sentence_range=(sentences[0], sentences[-1]) if sentences else (0, 0),
-            total_sentences=len(sentences),
+            chapter_id=f"chapter_{chapter_num}",
+            source_file=f"data/input/gotofiles/{'later/' if chapter_num != 2 else ''}{chapter_num}.tsv",
+            file_format="tsv",
             total_relationships=data["relationships"],
-            cross_chapter_relationships=data["cross_chapter_relationships"],
+            total_sentences=len(sentences),
+            sentence_range=(sentences[0], sentences[-1]) if sentences else (0, 0),
+            global_sentence_range=(sentences[0], sentences[-1])
+            if sentences
+            else (0, 0),
+            coreference_chains=0,  # Placeholder
             processing_time=1.0,  # Placeholder
-            unique_characters=set(),  # Will be filled by analysis
-            narrative_complexity=0.5,  # Placeholder
+            file_size_bytes=0,  # Placeholder
+            encoding="utf-8",
         )
         metadata.append(meta)
 
@@ -134,7 +177,14 @@ def create_chapter_metadata(relationships):
 
 
 def create_cross_chapter_connections(cross_chapter_chains):
-    """Create cross-chapter connections from chains data."""
+    """Create cross-chapter connections from chains data.
+
+    Args:
+        cross_chapter_chains: Dictionary of cross-chapter chains.
+
+    Returns:
+        List of CrossChapterConnection objects.
+    """
     connections = []
 
     for chain_name, terms in cross_chapter_chains.items():
@@ -142,13 +192,13 @@ def create_cross_chapter_connections(cross_chapter_chains):
             # Create connections between consecutive chapters
             for i in range(len(terms) - 1):
                 connection = CrossChapterConnection(
-                    from_chapter=i + 1,  # Assuming sequential chapters
-                    to_chapter=i + 2,
                     chain_id=chain_name,
+                    from_chapter=i + 1,
+                    to_chapter=i + 2,
                     connection_type="coreference",
-                    strength=0.8,  # Default strength
-                    evidence_count=1,
-                    shared_entities=[terms[i], terms[i + 1]],
+                    strength=0.8,
+                    mentions_count=2,
+                    sentence_span=(0, 0),
                 )
                 connections.append(connection)
 
@@ -156,7 +206,10 @@ def create_cross_chapter_connections(cross_chapter_chains):
 
 
 def main():
-    """Main function to generate advanced analysis files."""
+    """Main function to generate advanced analysis files.
+
+    Loads existing data, creates metadata, runs advanced analysis, and prints summary.
+    """
     print("🔍 Loading existing analysis data...")
     processing_stats, cross_chapter_chains, relationships = load_existing_data()
 

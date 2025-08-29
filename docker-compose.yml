@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  # Development container with bash access
+  clausemate-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: clausemate-dev
+    volumes:
+      - .:/workspace
+      - jupyter-data:/workspace/.jupyter
+    ports:
+      - "8888:8888"
+    working_dir: /workspace
+    command: bash
+    tty: true
+    stdin_open: true
+
+  # Jupyter container that auto-starts Jupyter Lab
+  clausemate-jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: clausemate-jupyter
+    volumes:
+      - .:/workspace
+      - jupyter-data:/workspace/.jupyter
+    ports:
+      - "8889:8888"
+    working_dir: /workspace
+    command: >
+      bash -c "
+        pip install --no-cache-dir jupyter jupyterlab nbformat &&
+        jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token=''
+      "
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - JUPYTER_RUNTIME_DIR=/tmp/jupyter
+      - JUPYTER_DATA_DIR=/home/clausemate/.jupyter
+      - JUPYTER_CONFIG_DIR=/home/clausemate/.jupyter
+      - PYTHONPATH=/workspace
+
+  # Production container for running analysis
+  clausemate-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: clausemate-prod
+    volumes:
+      - ./data:/app/data
+    working_dir: /app
+    command: python -m src.main
+
+volumes:
+  jupyter-data:

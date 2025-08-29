@@ -39,7 +39,7 @@ def load_existing_data():
                     coref_str = row["pronoun_coref_ids"].strip("[]'\"")
                     if coref_str:
                         pronoun_coref_ids = [coref_str]
-                except:
+                except Exception:
                     pass
 
             # Create simple relationship dict

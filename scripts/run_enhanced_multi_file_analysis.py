@@ -59,7 +59,7 @@ def convert_chapter_info_to_metadata(chapter_info_list) -> list:
         # Calculate file size (simplified)
         try:
             file_size = Path(info.file_path).stat().st_size
-        except:
+        except Exception:
             file_size = 0
 
         metadata = ChapterMetadata(
@@ -93,7 +93,7 @@ def convert_cross_chapter_chains_to_connections(cross_chapter_chains) -> list:
                 try:
                     chapter_num = int(str(entity).split("Chapter")[1].split("_")[0])
                     chapters.add(chapter_num)
-                except:
+                except Exception:
                     pass
 
         # Create connections between consecutive chapters

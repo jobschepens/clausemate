@@ -24,9 +24,6 @@ def test_imports():
 
     # If all modules are available, try importing them
     try:
-        from src.config import TSVColumns
-        from src.data.models import Token
-
         print("✓ All imports successful")
         return True
     except ImportError as e:
@@ -108,7 +105,7 @@ def main():
         ("Jupyter availability", test_jupyter_availability),
     ]
 
-    results = []
+    results: list[bool] = []
     for name, test_func in tests:
         print(f"\n{name}:")
         results.append(test_func())

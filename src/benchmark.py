@@ -1,5 +1,6 @@
 """Performance benchmarking for clause mate extraction."""
 
+import platform
 import time
 from collections.abc import Callable
 from dataclasses import dataclass

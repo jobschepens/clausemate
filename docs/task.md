@@ -63,18 +63,18 @@ Column Name Description Example
 
 34-1 2590-2593 Und ____ ___[302] __ __ _
 34-2 2594-2602 billiger_ __ __ __[302]___ __
-34-3 2603-2606 und__ ____ _[302] __ __ _
-34-4 2607-2618 effizienter_ __ __ __[302]_ ____
+34-3 2603-2606 und______ _[302] __ __ _
+34-4 2607-2618 effizienter_ ____ __[302]_ ____
 34-5 2619-2622 und ____ ___[302] __ __ _
 34-6 2623-2632 überhaupt_ __ __ __[302]___ __
 34-7 2632-2633 ,__ ____ _[302] __ __ _
-34-8 2634-2638 wenn_ __ __ __[303]_ ____
+34-8 2634-2638 wenn_ ____ __[303]_ ____
 34-9 2639-2642 sie _Subj Proto-Ag_ ___[303]_->115-4 PersPron[115]__ _
 34-10 2643-2646 ein_ dirObj[30] Proto-Pat[30] ___*[303]_ _*->213-1 indefNP[213]_
-34-11 2647-2655 hiesiges _dirObj[30] Proto-Pat[30]___ _[303] ___->213-1 indefNP[213] _
+34-11 2647-2655 hiesiges _dirObj[30] Proto-Pat[30]____[303] ___->213-1 indefNP[213] _
 34-12 2656-2668 Detektivbüro_ dirObj[30] Proto-Pat[30] ___*[303]_ _*->213-1 indefNP[213]_
 34-13 2669-2680 beauftragen__ ____ _[303] __ __ _
-34-14 2680-2681 ._ __ __ __[303]_ ____
+34-14 2680-2681 .___ ____[303]_ ____
 
 Every row in the data frame should contain the following information in its columns:
 

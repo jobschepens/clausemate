@@ -1,0 +1,64 @@
+# Development Dockerfile for ClauseMate
+FROM python:3.11-slim
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    vim \
+    nano \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create a non-root user with proper home directory and permissions
+RUN groupadd -r clausemate && \
+    useradd -r -g clausemate -m -d /home/clausemate clausemate && \
+    mkdir -p /home/clausemate/.jupyter /home/clausemate/.local/share/jupyter /home/clausemate/.local && \
+    chown -R clausemate:clausemate /home/clausemate && \
+    chmod -R 755 /home/clausemate
+
+# Set working directory
+WORKDIR /workspace
+
+# Copy dependency files first for better caching
+COPY requirements.txt pyproject.toml ./
+
+# Install Python dependencies including Jupyter (Linux-compatible only)
+RUN pip install --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir \
+        jupyter \
+        jupyterlab \
+        pytest \
+        pytest-cov \
+        mypy \
+        ruff \
+        pre-commit \
+        bandit \
+        safety \
+        nox \
+        nbformat
+
+# Copy source code
+COPY . .
+
+# Install ClauseMate in development mode
+RUN pip install -e .
+
+# Create Jupyter runtime directories and set permissions
+RUN mkdir -p /workspace/.jupyter /tmp/jupyter /home/clausemate/.cache && \
+    chown -R clausemate:clausemate /workspace /tmp/jupyter /home/clausemate/.cache && \
+    chmod -R 755 /home/clausemate
+
+# Switch to non-root user
+USER clausemate
+
+# Expose port for Jupyter
+EXPOSE 8888
+
+# Default command
+CMD ["bash"]
